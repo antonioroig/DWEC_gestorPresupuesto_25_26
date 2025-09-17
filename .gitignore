@@ -3,3 +3,9 @@ node_modules/
 *.tmp
 enun_restantes.txt
 
+*.env
+
+*.jpg
+*.jpeg
+*.png
+*.webp
