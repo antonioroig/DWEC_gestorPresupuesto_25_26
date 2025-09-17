@@ -1,2 +1,1 @@
-let nombre = prompt("Inserta tu nombre y apellido");
-alert(nombre);
+alert("Juan León Medina");
