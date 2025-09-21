@@ -4,9 +4,3 @@ node_modules/
 enun_restantes.txt
 
 *.env
-
-*.jpg
-*.jpeg
-*.png
-*.webp
-*.gif

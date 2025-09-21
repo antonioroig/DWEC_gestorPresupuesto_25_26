@@ -19,9 +19,6 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion, valor) {
-    this.descripcion = descripcion;
-    this.valor = this.actualizarValor(valor);
-
     this.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     }
@@ -33,13 +30,48 @@ function CrearGasto(descripcion, valor) {
     this.actualizarValor = function(value) {
         const num = Number(value);
         if (isNaN(num) || num < 0) {
+            return;
+        }
+        this.valor = num;
+    }
+
+    //codigo duplicado, esto se debería de refactorizar
+    this.validarValor = function(value) {
+        const num = Number(value);
+        if (isNaN(num) || num < 0) {
             return 0;
         }
         return num;
     }
 
+    this.descripcion = descripcion;
+    this.valor = this.validarValor(valor);
+
     return this;
 }
+
+
+        var valor = 20.33;
+        var descripcion = "Ejemplo de gasto 1";
+        var gasto1 = new CrearGasto(descripcion, valor);
+        console.log(gasto1.valor, valor);
+
+        var nuevovalor = 100.58;
+        gasto1.actualizarValor(nuevovalor);
+        console.log(gasto1.valor, nuevovalor);
+
+        var valornovalido = "novalido";
+        gasto1.actualizarValor(valornovalido);
+        console.log(gasto1.valor, nuevovalor);
+
+        valornovalido = -38.45;
+        gasto1.actualizarValor(valornovalido);
+        console.log(gasto1.valor, nuevovalor);
+
+        nuevovalor = 39.22;
+        gasto1.actualizarValor(nuevovalor);
+        console.log(gasto1.valor, nuevovalor);
+
 
 // CrearGasto.prototype.mostrarGasto = function() {
 //     return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
