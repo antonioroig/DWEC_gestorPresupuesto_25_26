@@ -1,16 +1,11 @@
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
 let presupuesto = 0;
 
 function actualizarPresupuesto(nuevoPresupuesto) {
-    // TODO
-    if(isNaN(nuevoPresupuesto) && nuevoPresupuesto > 0)
-    {
+    if (!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0) {
         presupuesto = nuevoPresupuesto;
-    }
-    else
-    {
-        console.log("Error, el valor introducido no es numero mayor que 0.")
+        return presupuesto;
+    } else {
+        console.log("Error: el valor introducido no es un número válido o es negativo.");
         return -1;
     }
 }
@@ -19,9 +14,29 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de X €";
 }
 
-function CrearGasto() {
-    // TODO
+function CrearGasto(descripcion, valor) {
+    if (isNaN(valor) || valor < 0) {
+        valor = 0;
+    }
+
+    this.descripcion = descripcion;
+    this.valor = valor;
+
+    this.mostrarGasto = function() {
+        console.log(`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
+    };
+
+    this.actualizarDescripcion = function(nuevaDescripcion) {
+        this.descripcion = nuevaDescripcion;
+    };
+
+    this.actualizarValor = function(nuevoValor) {
+        if (!isNaN(nuevoValor) && nuevoValor >= 0) {
+            this.valor = nuevoValor;
+        }
+    };
 }
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
