@@ -3,7 +3,7 @@
   El objetivo de esta práctica es conocer la historia y los fundamentos de JavaScript, así como instalar las herramientas necesarias para comenzar a trabajar con dicho lenguaje.
   
 ** Repositorio de la práctica
-   El *repositorio base* de la práctica está disponible en: https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26, que es privado.
+   El *repositorio base* de la práctica está disponible en: https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26.
 
    Dicho repositorio se utilizará para sucesivas prácticas. El profesor irá añadiendo nuevas tareas. En cada nueva práctica se darán las instrucciones de cómo proceder para incorporar las nuevas tareas a realizar.
 
