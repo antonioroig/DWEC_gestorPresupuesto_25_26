@@ -23,7 +23,8 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion, valor) {
     // TODO
-    
+    this.descripcion = descripcion
+    this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
