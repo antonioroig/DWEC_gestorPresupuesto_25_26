@@ -4,22 +4,25 @@ let presupuesto = 0;
 
 
 function actualizarPresupuesto(nuevoValor) {
-    if (nuevoValor < 0) {
-        alert("Error: El valor introducido no es válido.");
-        return -1;
-    } else {
+    if (nuevoValor > 0 ) {
         presupuesto = nuevoValor;
         console.log("Presupuesto actualizado correctamente:", presupuesto);
         return presupuesto;
+    } else {
+        
+        console.error("Error: El valor introducido no es válido.");
+        return -1;
     }
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
 function CrearGasto() {
-    // TODO
+    
+    
+    
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
