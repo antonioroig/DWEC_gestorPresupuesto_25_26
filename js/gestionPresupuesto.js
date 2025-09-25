@@ -6,10 +6,8 @@ let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
-
-
 function listarGastos() {
-    // TODO
+    return gastos;
 }
 
 function anyadirGasto() {
