@@ -23,9 +23,30 @@ function mostrarPresupuesto() {
     return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
-function CrearGasto() {
+function CrearGasto(descPre, val) {
     // TODO
+    this.descripcion = descPre;
 
+    if(val >= 0 && !isNaN(val)){
+        this.valor = val;
+    }
+    else{
+        this.valor = 0;
+    }
+
+    this.mostrarGasto = function(){
+        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
+    }
+
+    this.actualizarDescripcion = function(descripcion){
+        this.descripcion = descripcion;
+    }
+
+    this.actualizarValor = function(valor){
+        if(valor >= 0 && !isNaN(valor)){
+        this.valor = valor;
+        }
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
