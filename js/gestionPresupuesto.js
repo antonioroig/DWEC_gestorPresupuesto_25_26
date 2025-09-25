@@ -6,11 +6,15 @@ let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
+// MOVER ESTO A LA FUNCION CONSTRUCTORA
+let gasto = {
+    
+}
 function listarGastos() {
     return gastos;
 }
 
-function anyadirGasto() {
+function anyadirGasto(gasto) {
     // TODO
 }
 
@@ -25,6 +29,7 @@ function calcularTotalGastos() {
 function calcularBalance() {
     // TODO
 }
+
 
 
 
@@ -43,7 +48,7 @@ function mostrarPresupuesto() {
     return text;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     }
@@ -69,10 +74,37 @@ function CrearGasto(descripcion, valor) {
         return num;
     }
 
+    this.mostrarGastoCompleto = function() {
+        return `
+            Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+            Fecha: ${this.fecha.toLocaleString()}
+            Etiquetas: ${this.etiquetas.map()}
+            - etiqueta 1
+            - etiqueta 2....` // Esto funciona?
+    }
+
+    this.actualizarFecha = function(fecha) {
+        if (!fecha || isNaN(Date.parse(fecha))) {
+            this.fecha = Date.now();
+        } else {
+            this.fecha = Date.parse(fecha);
+        }
+    }
+    
+    this.anyadirEtiquetas = function(...values) {
+        
+    }
+
+    this.borrarEtiquetas = function(...values) {
+        // Comprobar que existen y borrarlas
+    }
+
+    
+
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor);
-
-    return this;
+    this.fecha = this.actualizarFecha(fecha);
+    this.etiquetas = this.anyadirEtiquetas(...etiquetas);
 }
 
 
@@ -81,7 +113,7 @@ function CrearGasto(descripcion, valor) {
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
-export   {
+export {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
