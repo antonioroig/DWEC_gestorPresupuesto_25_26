@@ -26,19 +26,15 @@ function CrearGasto(descripcion, valor) {
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0
 
     this.mostrarGasto = function(){
+    // console.log(`Gasto correspondiente a ${descripcion} con valor ${valor} €`)
     return `Gasto correspondiente a ${descripcion} con valor ${valor} €`
     }
     this.actualizarDescripcion = function(descripcionNueva){
         this.descripcion = descripcionNueva
-        return descripcion
     }
     this.actualizarValor = function(valorNuevo){
         if(!isNaN(valorNuevo) && valorNuevo >= 0){
             this.valor = valorNuevo
-            return valor
-        }
-        else{
-            return valor
         }
     }
 }
