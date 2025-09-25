@@ -8,17 +8,16 @@ function actualizarPresupuesto(valor) {
         presupuesto = valor;
         return presupuesto;
     } else {
-        console.error("Error: el valor debe ser un número no negativo.");
+        console.error("Error: el valor debe de ser positivo o 0.");
         return -1;
-    }
+    }git 
 }
-
 function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
 function CrearGasto(descripcion, valor) {
-    this.descripcion = String(descripcion);
+    this.descripcion = descripcion;
 
     if (typeof valor === "number" && valor >= 0) {
         this.valor = valor;
