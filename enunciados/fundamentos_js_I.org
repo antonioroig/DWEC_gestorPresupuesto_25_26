@@ -77,7 +77,7 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      - ~descripcion~ - Almacenará la descripción del gasto en formato *cadena*
      - ~valor~ - Almacenará el valor del gasto en formato *numérico*
 **** Métodos
-     - ~mostrarGasto~ - Función sin parámetros que muestre el texto: ~Gasto correspondiente a DESCRIPCION con valor VALOR €~, siendo ~VALOR~ y ~DESCRIPCION~ las propiedades del objeto correspondientes.
+     - ~mostrarGasto~ - Función sin parámetros que devolverá el texto: ~Gasto correspondiente a DESCRIPCION con valor VALOR €~, siendo ~VALOR~ y ~DESCRIPCION~ las propiedades del objeto correspondientes.
      - ~actualizarDescripcion~ - Función de *1 parámetro* que actualizará la descripción del objeto.
      - ~actualizarValor~ - Función de *1 parámetro* que actualizará el valor del objeto. Se encargará de *comprobar que el valor introducido sea un número no negativo*; en caso contrario, dejará el valor como estaba.
 
