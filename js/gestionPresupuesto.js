@@ -18,7 +18,7 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion, valor) {
     this.descripcion = descripcion;
     
-    if (typeof valor === 'number' && valor >= 0 && !isNaN(valor)) {
+    if (typeof valor === 'number' && valor >= 0 && !null(valor)) {
         this.valor = valor;
     } else {
         this.valor = 0;
