@@ -1,4 +1,6 @@
 let presupuesto = 0;
+let gastos = [];
+let idGasto = 0;
 
 function actualizarPresupuesto(nuevoPresupuesto) {
     if (!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0) {
@@ -45,5 +47,10 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
