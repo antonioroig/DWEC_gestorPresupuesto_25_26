@@ -13,7 +13,7 @@ function mostrarPresupuesto() {
     console.log("Tu presupuesto actual es de " + presupuesto + " €");
 }
 
-function CrearGasto(value) {
+function CrearGasto(desc, value, date) {
     if (value < 0)
     {
         console.log("Introduzca un gasto válido");
@@ -29,7 +29,14 @@ function CrearGasto(value) {
     }
     let gasto = {
         valor: value,
-        descripcion: "cliente 1",
+        descripcion: desc,
+        gastos: [],
+        idGasto: 0,
+        fecha: date,
+        if (date = null || comprobarFormatoFecha(date) == false){
+            fecha: new Date();
+        },
+        
 
         mostrarGasto: function(){
             console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €");
@@ -42,9 +49,49 @@ function CrearGasto(value) {
         actualizarValor: function(value){
             if (value >= 0)
                 this.valor = value;
+        },
+
+        anyadirGasto: function(){
+            
+        },
+
+        borrarGasto: function(idGasto){
+            if (idGasto != this.idGasto)
+                return;
+            this.gastos = [],
+            this.valor = 0;
+            this.fecha = null;
+            this.descripcion = null;
         }
     }
     return gasto;
+}
+
+function comprobarFormatoFecha(fecha){
+    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+
+    if (!regex.test(fecha)) {
+        return false;
+    }
+
+    const date = new Date(fecha);
+    return !isNaN(date.getTime());
+}
+
+function listarGastos(){
+    return this.gastos;
+} 
+
+
+
+
+
+function calcularTotalGastos(){
+
+}
+
+function calcularBalance(){
+
 }
 
 actualizarPresupuesto(1000);
@@ -61,5 +108,10 @@ gasto1.mostrarGasto();
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto, 
+    listarGastos, 
+    anyadirGasto, 
+    borrarGasto, 
+    calcularTotalGastos, 
+    calcularBalance
 }
