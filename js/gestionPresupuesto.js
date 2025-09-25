@@ -69,9 +69,12 @@ function CrearGasto() {
         descripcion: "el gasto le pertenece a anónimo 321",
         valor: 200,
         etiquetas: [],
-        fecha: new Date(),
-        mostrarGasto: function(descripcion, valor) {
-            console.log("Gasto correspondiente a " + descripcion + " con valor " + valor + " €");        
+        fecha: new Date(Date.parse()),
+        mostrarGastoCompleto: function() {
+            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + ` €
+                Fecha: ` + this.fecha + `
+                Etiquetas:
+                ` );        
         },
         actualizarDescripcion: function(descripcion, descripcionNueva) {
             descripcion = descripcionNueva;
@@ -80,10 +83,34 @@ function CrearGasto() {
             if (valorNuevo < 0)
                 return;
             valor = valorNuevo;
+        },
+        actualizarFecha: function(date){
+            if (Date.parse(date) == undefined)
+                return;
+            this.fecha = date;
+        },
+        anyadirEtiquetas: function(...etiquetas){
+            for(let i = 0; i < etiquetas.length; i++)
+                if (this.etiquetas.includes(etiquetas[i]))
+                {
+                    i++;
+                    continue;
+                }
+                this.etiquetas.push(etiquetas[i]);
+        },
+        borrarEtiquetas: function(...etiquetas){
+            for(let i = 0; i < etiquetas.length; i++){
+                if (this.etiquetas.includes(etiquetas[i])){
+                    let index = this.etiquetas.indexOf(etiquetas[i]);
+                    delete this.etiquetas[index];
+                }
+            }
         }
     }
     return gasto;
 }
+
+
 
 function listarGastos()
 {
