@@ -27,13 +27,11 @@ function CrearGasto() {
         },
         actualizarDescripcion: function(descripcion, descripcionNueva) {
             descripcion = descripcionNueva;
-            return descripcion;
         },
         actualizarValor: function(valor, valorNuevo){
             if (valorNuevo < 0)
                 return;
             valor = valorNuevo;
-            return valor;
         }
     }
     return gasto;
@@ -42,13 +40,81 @@ function CrearGasto() {
 actualizarPresupuesto(10000);
 console.log(presupuesto);
 console.log(mostrarPresupuesto());
-let gastos = CrearGasto();
+let gast = CrearGasto();
 console.log(gastos.descripcion);
 console.log(gastos.valor);
 console.log(gastos.mostrarGasto(gastos.descripcion, gastos.valor));
 console.log(gastos.actualizarDescripcion(gastos.descripcion, "Buenas tarde"));
-console.log(gastos.actualizarValor(gastos.valor, 200))
+console.log(gastos.actualizarValor(gastos.valor, 200));
 
+let ciudadano = {
+    nombre: "David",
+    saludarConRetardo: function(){
+        setTimeout(() => {
+            console.log(this.nombre);
+        }, 1000);
+    }
+}
+
+ciudadano.saludarConRetardo();
+
+
+//FUNDAMENTOS JAVASCRIPT II
+
+let gastos = [];
+let idGasto = 0;
+
+function CrearGasto() {
+    let gasto = {
+        descripcion: "el gasto le pertenece a anónimo 321",
+        valor: 200,
+        etiquetas: [],
+        fecha: new Date(),
+        mostrarGasto: function(descripcion, valor) {
+            console.log("Gasto correspondiente a " + descripcion + " con valor " + valor + " €");        
+        },
+        actualizarDescripcion: function(descripcion, descripcionNueva) {
+            descripcion = descripcionNueva;
+        },
+        actualizarValor: function(valor, valorNuevo){
+            if (valorNuevo < 0)
+                return;
+            valor = valorNuevo;
+        }
+    }
+    return gasto;
+}
+
+function listarGastos()
+{
+    return gastos;
+}
+
+function anyadirGasto(gasto)
+{
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(gasto)
+{
+    delete gastos[gasto.id];
+}
+
+function calcularTotalGastos()
+{
+    let sumaTotal = 0;
+    for(let i = 0; i < gastos.length; i++)
+        sumaTotal += gastos[i];
+    return sumaTotal;
+}
+
+function calcularBalance()
+{
+    let gastosTotales = calcularTotalGastos();
+    return presupuesto - gastosTotales;
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -56,5 +122,10 @@ console.log(gastos.actualizarValor(gastos.valor, 200))
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
