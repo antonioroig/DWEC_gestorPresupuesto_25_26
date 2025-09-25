@@ -11,6 +11,7 @@ function actualizarPresupuesto(nuevoPresupuesto) {
         return presupuesto
     }
     else{
+        console.log("El valor introducido no es valido")
         return -1
     }
 }
