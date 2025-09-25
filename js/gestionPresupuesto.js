@@ -18,7 +18,7 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto() {
+/*function CrearGasto() {
     let gasto = {
         descripcion: "el gasto le pertenece a anónimo 321",
         valor: 324,
@@ -41,11 +41,11 @@ actualizarPresupuesto(10000);
 console.log(presupuesto);
 console.log(mostrarPresupuesto());
 let gast = CrearGasto();
-console.log(gastos.descripcion);
-console.log(gastos.valor);
-console.log(gastos.mostrarGasto(gastos.descripcion, gastos.valor));
-console.log(gastos.actualizarDescripcion(gastos.descripcion, "Buenas tarde"));
-console.log(gastos.actualizarValor(gastos.valor, 200));
+console.log(gast.descripcion);
+console.log(gast.valor);
+console.log(gast.mostrarGasto());
+console.log(gast.actualizarDescripcion(gast.descripcion, "Buenas tarde"));
+console.log(gast.actualizarValor(gast.valor, 200));
 
 let ciudadano = {
     nombre: "David",
@@ -57,7 +57,7 @@ let ciudadano = {
 }
 
 ciudadano.saludarConRetardo();
-
+*/
 
 //FUNDAMENTOS JAVASCRIPT II
 
