@@ -93,7 +93,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     
     this.anyadirEtiquetas = function(...values) {
         for (let tag in values) {
-            if (estaEnEtiquetas(tag)) {
+            if (this.estaEnEtiquetas(tag)) {
                 continue;
             }
             etiquetas.push(tag);
@@ -101,7 +101,12 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.borrarEtiquetas = function(...values) {
-        // Comprobar que existen y borrarlas
+        for (let tag in values) {
+            if (this.estaEnEtiquetas(tag)) {
+                let i = this.etiquetas.IndexOf(tag);
+                this.etiquetas.splice(i, 1)
+            }
+        }
     }
 
     // Función personalizada.
