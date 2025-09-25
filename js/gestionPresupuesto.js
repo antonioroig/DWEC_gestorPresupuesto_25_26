@@ -92,15 +92,28 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
     
     this.anyadirEtiquetas = function(...values) {
-        
+        for (let tag in values) {
+            if (estaEnEtiquetas(tag)) {
+                continue;
+            }
+            etiquetas.push(tag);
+        }
     }
 
     this.borrarEtiquetas = function(...values) {
         // Comprobar que existen y borrarlas
     }
 
-    
-
+    // Función personalizada.
+    // Busca en las etiquetas si existe o no la etiqueta.
+    // Return boolean
+    this.estaEnEtiquetas = function(value) {
+        for (let tag in etiquetas) {
+            if (tag == value)
+                return true;
+        }
+        return false;
+    }
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor);
     this.fecha = this.actualizarFecha(fecha);
