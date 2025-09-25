@@ -30,6 +30,9 @@ function CrearGasto(descripcion, valor) {
     this.actualizarDescripcion = function(descripcion) {
         this.descripcion = descripcion;
     }
+    this.actualizarValor = function(valor){
+        this.valor = (!isNaN(valor) && valor >= 0) ? valor : this.valor;
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
