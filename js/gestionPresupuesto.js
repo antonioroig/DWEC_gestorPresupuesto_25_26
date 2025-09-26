@@ -40,20 +40,25 @@ function borrarGasto(id) {
 }
 
 function calcularTotalGastos() {
-    // TODO
+    let total = 0;
+    if (gastos.length > 0) {
+        for (let gasto in gastos) {
+            total += gasto.valor;
+        }
+    }
+    return total;
 }
 
 function calcularBalance() {
-    // TODO
+    let totalGasto = calcularTotalGastos();
+    return totalGasto - presupuesto;
 }
-
 
 
 
 function actualizarPresupuesto(value) {
     const num = Number(value);
     if (isNaN(num) || num < '') {
-        console.log(`Error en el valor del presupuesto`);
         return -1;
     }
     presupuesto = value;
@@ -91,6 +96,8 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         return num;
     }
 
+
+
     this.mostrarGastoCompleto = function() {
         return `
             Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
@@ -101,19 +108,16 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.actualizarFecha = function(fecha) {
-        console.log(fecha);
         if (!fecha || isNaN(Date.parse(fecha))) {
-            console.log("No hay fecha");
             return Date.now();
         } else {
-            console.log("La fecha existe, debería guardarse bien parseada");
             return Date.parse(fecha);
         }
     }
     
     this.anyadirEtiquetas = function(...values) {
-        if (values == null && this.etiquetas == null) {
-            this.etiquetas = [];
+        if (values == null || this.etiquetas == null) {
+            return [];
         }
 
         for (let tag in values) {
@@ -145,17 +149,87 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.descripcion = descripcion;
-    this.valor = this.validarValor(valor);
+    this.valor = this.validarValor(valor); // DEBERIA SER ACTUALIZAR VALOR NO VALIDARLO
     this.fecha = this.actualizarFecha(fecha);
     this.etiquetas = this.anyadirEtiquetas(...etiquetas);
 }
 
-let gasto1 = new CrearGasto("Gasto 1");
-let gasto2 = new CrearGasto("Gasto 2", 23.55);
-let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10");
-let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa");
-let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado");
-let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida");
+
+        let now = new Date();
+
+        let descr = "Ejemplo de gasto";
+        // let gasto1 = new CrearGasto(descr);
+        // console.log(gasto1.descripcion, descr);
+        
+        // console.log(gasto1.valor, 0);
+        // console.log(new Date(gasto1.fecha).getMonth(), now.getMonth());
+        // console.log(new Date(gasto1.fecha).getDate(), now.getDate());
+        // console.log(gasto1.etiquetas, "Si el gasto se crea sin etiquetas, la propiedad 'etiquetas' debe inicializarse a un array vacío");
+        // console.log(gasto1);
+
+        // let gasto2 = new CrearGasto(descr, 23.55);
+        // console.log(gasto2.descripcion, descr);
+        // console.log(gasto2.valor, 23.55);
+        // console.log(new Date(gasto2.fecha).getMonth(), now.getMonth());
+        // console.log(new Date(gasto2.fecha).getDate(), now.getDate());
+        // console.log(gasto2.etiquetas);
+
+        // let gasto3 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z" );
+        // console.log(gasto3.descripcion, descr);
+        // console.log(gasto3.valor, 23.55);
+        // console.log(gasto3.fecha, Date.parse("2021-10-06T13:10Z"));
+        // console.log(gasto3.etiquetas);
+
+        let gasto4 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa" );
+        console.log(gasto4.descripcion, descr);
+        console.log(gasto4.valor, 23.55);
+        console.log(gasto4.fecha, Date.parse("2021-10-06T13:10Z"));
+        console.log(gasto4.etiquetas.length,1);
+        console.log(gasto4.etiquetas[0], "casa");
+
+        // let gasto5 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa", "supermercado" );
+        // assert.equal(gasto5.descripcion, descr);
+        // assert.equal(gasto5.valor, 23.55);
+        // assert.equal(gasto5.fecha, Date.parse("2021-10-06T13:10Z"));
+        // assert.lengthOf(gasto5.etiquetas,2);
+        // assert.equal(gasto5.etiquetas[0], "casa");
+        // assert.equal(gasto5.etiquetas[1], "supermercado");
+
+        // let gasto6 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa", "supermercado", "comida" );
+        // assert.equal(gasto6.descripcion, descr);
+        // assert.equal(gasto6.valor, 23.55);
+        // assert.equal(gasto6.fecha, Date.parse("2021-10-06T13:10Z"));
+        // assert.lengthOf(gasto6.etiquetas,3);
+        // assert.equal(gasto6.etiquetas[0], "casa");
+        // assert.equal(gasto6.etiquetas[1], "supermercado");
+        // assert.equal(gasto6.etiquetas[2], "comida");
+
+
+
+
+
+
+// let gasto1 = new CrearGasto("Gasto 1");
+// let gasto2 = new CrearGasto("Gasto 2", 23.55);
+// let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10");
+// let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa");
+// let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado");
+// let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida");
+
+// console.log("Gasto 1");
+// console.log(gasto1);
+// console.log("Gasto 2");
+// console.log(gasto2);
+// console.log("Gasto 3");
+// console.log(gasto3);
+// console.log("Gasto 4");
+// console.log(gasto4);
+// console.log("Gasto 5");
+// console.log(gasto5);
+// console.log("Gasto 6");
+// console.log(gasto6);
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
