@@ -105,8 +105,10 @@ Etiquetas:`)
             }
         }
     }
-    if (value < 0)
+    if (value < 0 || value == undefined)
         gasto.valor = 0;
+    if (etiquets.length == 0)
+        etiquetas = [];
     return gasto;
 }
 
@@ -115,11 +117,11 @@ function listarGastos()
     return gastos;
 }
 
-function anyadirGasto(gasto)
+function anyadirGasto(...gasto)
 {
     gasto.id = idGasto;
     idGasto++;
-    gastos.push(gasto);
+    gastos.push(...gasto);
 }
 
 function borrarGasto(gasto)
