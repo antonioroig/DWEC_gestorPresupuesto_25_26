@@ -1,5 +1,7 @@
 let presupuesto = 0;
 let valor = 0;
+let gastos = [];
+let idGastoCount = 0;
 
 function actualizarPresupuesto(num) {
     if (num < 0){
@@ -14,6 +16,11 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(desc, value, date) {
+    let fechaValida;
+    if (date == null || comprobarFormatoFecha(date) == false)
+        fechaValida = new Date();
+    else
+        fechaValida = date;
     if (value < 0)
     {
         console.log("Introduzca un gasto válido");
@@ -30,16 +37,11 @@ function CrearGasto(desc, value, date) {
     let gasto = {
         valor: value,
         descripcion: desc,
-        gastos: [],
-        idGasto: 0,
-        fecha: date,
-        if (date = null || comprobarFormatoFecha(date) == false){
-            fecha: new Date();
-        },
-        
+        idGasto: idGastoCount,
+        fecha: fechaValida,
 
         mostrarGasto: function(){
-            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €");
+            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " € el día " + date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear());
         },
 
         actualizarDescripcion: function(des){
@@ -49,28 +51,17 @@ function CrearGasto(desc, value, date) {
         actualizarValor: function(value){
             if (value >= 0)
                 this.valor = value;
-        },
-
-        anyadirGasto: function(){
-            
-        },
-
-        borrarGasto: function(idGasto){
-            if (idGasto != this.idGasto)
-                return;
-            this.gastos = [],
-            this.valor = 0;
-            this.fecha = null;
-            this.descripcion = null;
         }
     }
+    gastos[idGastoCount] = gasto;
+    idGastoCount++;
     return gasto;
 }
 
 function comprobarFormatoFecha(fecha){
-    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+    const formato = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
 
-    if (!regex.test(fecha)) {
+    if (!formato.test(fecha)) {
         return false;
     }
 
@@ -79,12 +70,20 @@ function comprobarFormatoFecha(fecha){
 }
 
 function listarGastos(){
-    return this.gastos;
-} 
+    if (gastos.length == 0){
+        console.log("No hay gastos registrados.");
+        return [];
+    }
+    return gastos;
+}
 
+function anyadirGasto(){
+            
+}
 
+function borrarGasto(){
 
-
+}
 
 function calcularTotalGastos(){
 
@@ -93,14 +92,6 @@ function calcularTotalGastos(){
 function calcularBalance(){
 
 }
-
-actualizarPresupuesto(1000);
-mostrarPresupuesto();
-let gasto1 = CrearGasto(400);
-gasto1.mostrarGasto();
-gasto1.actualizarDescripcion("Adrián");
-gasto1.actualizarValor(500);
-gasto1.mostrarGasto();
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
