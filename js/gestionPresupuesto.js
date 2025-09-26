@@ -7,19 +7,36 @@ let gastos = [];
 let idGasto = 0;
 
 // MOVER ESTO A LA FUNCION CONSTRUCTORA
-let gasto = {
-    
-}
 function listarGastos() {
     return gastos;
 }
 
-function anyadirGasto(gasto) {
-    // TODO
+function anyadirGasto(obj) {
+    if (obj == null)
+        return;
+    if (obj == undefined)
+        return;
+
+    let newGasto = {
+        ...obj,
+        idGasto: idGasto,
+    }
+    
+    idGasto++;
+
+    // Hay algo estilo if obj Is gasto?
+    gastos.push(newGasto);
 }
 
-function borrarGasto() {
-    // TODO
+function borrarGasto(obj) {
+    if (obj == null)
+        return;
+    if (obj == undefined)
+        return;
+
+    let index = IndexOf(obj)
+    if (index != -1)
+        gastos.splice(index, 1)
 }
 
 function calcularTotalGastos() {
@@ -84,14 +101,21 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.actualizarFecha = function(fecha) {
+        console.log(fecha);
         if (!fecha || isNaN(Date.parse(fecha))) {
-            this.fecha = Date.now();
+            console.log("No hay fecha");
+            return Date.now();
         } else {
-            this.fecha = Date.parse(fecha);
+            console.log("La fecha existe, debería guardarse bien parseada");
+            return Date.parse(fecha);
         }
     }
     
     this.anyadirEtiquetas = function(...values) {
+        if (values == null && this.etiquetas == null) {
+            this.etiquetas = [];
+        }
+
         for (let tag in values) {
             if (this.estaEnEtiquetas(tag)) {
                 continue;
@@ -119,14 +143,19 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         }
         return false;
     }
+
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor);
     this.fecha = this.actualizarFecha(fecha);
     this.etiquetas = this.anyadirEtiquetas(...etiquetas);
 }
 
-
-
+let gasto1 = new CrearGasto("Gasto 1");
+let gasto2 = new CrearGasto("Gasto 2", 23.55);
+let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10");
+let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa");
+let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado");
+let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida");
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
