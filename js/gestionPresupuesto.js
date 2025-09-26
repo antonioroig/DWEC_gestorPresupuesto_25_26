@@ -21,22 +21,22 @@ function anyadirGasto(obj) {
         ...obj,
         idGasto: idGasto,
     }
-    
+
     idGasto++;
 
     // Hay algo estilo if obj Is gasto?
     gastos.push(newGasto);
 }
 
-function borrarGasto(obj) {
-    if (obj == null)
+function borrarGasto(id) {
+    if (isNaN(id))
         return;
-    if (obj == undefined)
-        return;
-
-    let index = IndexOf(obj)
-    if (index != -1)
-        gastos.splice(index, 1)
+    
+    for (let i = 0; i < gastos.length; i++) {
+        if (gasto.id == id) {
+            gastos.splice(i, 1);
+        }
+    }
 }
 
 function calcularTotalGastos() {
