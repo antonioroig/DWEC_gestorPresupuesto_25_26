@@ -16,28 +16,65 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
 
     this.descripcion = descripcion;
     this.valor = valor;
+    this.etiquetas = [];
 
-    this.mostrarGasto = function() {
+    if (fecha && !isNaN(Date.parse(fecha))) {
+        this.fecha = Date.parse(fecha);
+    } else {
+        this.fecha = Date.now();
+    }
+
+    this.mostrarGasto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     };
 
-    this.actualizarDescripcion = function(nuevaDescripcion) {
+    this.mostrarGastoCompleto = function () {
+        let fechaStr = new Date(this.fecha).toLocaleString();
+        let etiquetasStr = this.etiquetas.map(e => `- ${e}`).join("\n");
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaStr}\nEtiquetas:\n${etiquetasStr ? etiquetasStr + "\n" : ""}`;
+    };
+
+    this.actualizarDescripcion = function (nuevaDescripcion) {
         this.descripcion = nuevaDescripcion;
     };
 
-    this.actualizarValor = function(nuevoValor) {
+    this.actualizarValor = function (nuevoValor) {
         if (!isNaN(nuevoValor) && nuevoValor >= 0) {
             this.valor = nuevoValor;
         }
     };
+
+    this.actualizarFecha = function (nuevaFecha) {
+        if (nuevaFecha && !isNaN(Date.parse(nuevaFecha))) {
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    };
+
+    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+        nuevasEtiquetas.forEach(et => {
+            if (!this.etiquetas.includes(et)) {
+                this.etiquetas.push(et);
+            }
+        });
+    };
+
+    this.borrarEtiquetas = function (...etiquetasABorrar) {
+        this.etiquetas = this.etiquetas.filter(e => !etiquetasABorrar.includes(e));
+    };
+
+    if (etiquetas.length > 0) {
+        this.anyadirEtiquetas(...etiquetas);
+    }
 }
+
+
 function listarGastos(){
     return gastos;
 }
