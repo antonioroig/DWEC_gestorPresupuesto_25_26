@@ -6,11 +6,13 @@ let idGasto = 0;
 // TODO: Variable global
 
 
+                // CONSTRUCTOR
 
 function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) {
-    //descripcion
+    
+    this.id = idGasto;
     this.descripcion = nuevaDescripcion;
-    //valor
+
     if (nuevoValor < 0 || nuevoValor == undefined || isNaN(nuevoValor)){
         this.valor = 0;
     }
@@ -18,20 +20,24 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
         this.valor = nuevoValor;
     }
 
-    if (nuevaFecha == undefined || nuevaFecha == null)
+    if (nuevaFecha == undefined || nuevaFecha == null || isNaN(Date.parse(nuevaFecha)))
     {
         this.fecha = Date.now();
     }
+
     else {
         this.fecha = Date.parse(nuevaFecha);
     }
+
     if (nuevaEtiqueta == null || nuevaEtiqueta == undefined){
         this.etiquetas = [];
     }
     else
         this.etiquetas = [...nuevaEtiqueta];
         
-    //MÉTODOS
+
+
+                    //MÉTODOS
 
     this.mostrarGasto = function() {
         return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`);
@@ -45,9 +51,9 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
         if (newValue < 0 || newValue == undefined || isNaN(newValue)){
             return;
             }
-            else {
-                this.valor = newValue;
-            }
+        else {
+            this.valor = newValue;
+        }
     }
 
     this.anyadirEtiquetas = function (...nuevasEtiquetas){
@@ -60,20 +66,45 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
             }   
         }
         
-    
-
     this.actualizarFecha = function(fechaActualizada){
-        if(fechaActualizada == null || fechaActualizada == undefined || !isFinite(fechaActualizada))
+        if(fechaActualizada == null || fechaActualizada == undefined || isNaN(Date.parse(fechaActualizada)))
+        {
             return;
-        this.fecha = fechaActualizada; 
+        }
+        else
+        {
+            this.fecha = Date.parse(fechaActualizada); 
+        }
+    }
+
+    this.borrarEtiquetas = function(...etiquetasBorrado){
+
+        for(let i = 0; i < etiquetasBorrado.length; i++)
+        {
+            for(let j = 0; j < this.etiquetas.length; j++)
+            {
+                if(this.etiquetas[j] == etiquetasBorrado[i])
+                    this.etiquetas.splice(j, 1);
+            }
+        }
+    }
+
+    this.mostrarGastoCompleto = function(){
+        let desplegable;
+        for (let i = 0; i < this.etiquetas.length; i++)
+        {   
+            desplegable += `- ${this.etiquetas[i]} \n`
+        }
+        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €
+        Fecha: ${this.fecha}
+        Etiquetas:${desplegable}`)
     }
 
     return this;
     }
 
+                    //FUNCIONES
 
-
-    //FUNCIONES
     function actualizarPresupuesto(nuevoPresupuesto) 
     {
         if (nuevoPresupuesto < 0 || nuevoPresupuesto == undefined || isNaN(nuevoPresupuesto))
@@ -101,18 +132,20 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
     function anyadirGasto(gasto)
     {
         gasto.id = idGasto;
+        gastos.push[gasto.id];
         idGasto++;
-        gastos.push[gasto];
     }
 
     function borrarGasto(gasto)
     {
+        let id = gasto.id
         for(let i = 0; i < gastos.length; i++)
         {
-            if (gastos[i] == gasto.id)
+            if (gastos[i] == id)
                 gastos.splice(i, 1)
         }
     }
+
     function calcularTotalGastos()
     {
 
