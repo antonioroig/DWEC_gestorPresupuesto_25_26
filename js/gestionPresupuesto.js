@@ -27,7 +27,7 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     // TODO
     this.descripcion = descripcion
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0
-    this.fecha = (fecha !== undefined && Date.parse(fecha) !== NaN) ? fecha : Date.now()
+    this.fecha = (fecha !== undefined && Date.parse(fecha) !== NaN) ? Date.parse(fecha) : Date.now()
     this.etiquetas = (etiquetas !== undefined) ? etiquetas : []
 
     this.mostrarGasto = function(){
