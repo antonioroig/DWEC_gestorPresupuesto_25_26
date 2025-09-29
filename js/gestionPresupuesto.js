@@ -83,5 +83,5 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance  
+    calcularBalance
 }
