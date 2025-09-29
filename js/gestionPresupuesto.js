@@ -90,14 +90,22 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
     }
 
     this.mostrarGastoCompleto = function(){
-        let desplegable;
-        for (let i = 0; i < this.etiquetas.length; i++)
+        
+        let nuevaFecha = new Date (this.fecha);
+        let horaFormateada = nuevaFecha.toLocaleTimeString();
+        let diaFormateado = nuevaFecha.getDay();
+        let mesFormateado = nuevaFecha.getMonth();
+        let añoFormateado = nuevaFecha.getFullYear();
+
+        let desplegable = `- ${this.etiquetas[0]} \n`;
+
+        for (let i = 1; i < this.etiquetas.length; i++)
         {   
-            desplegable += `- ${this.etiquetas[i]} \n`
-        }
-        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €
-        Fecha: ${this.fecha}
-        Etiquetas:${desplegable}`)
+            desplegable +=`- ${this.etiquetas[i]} \n`
+        };
+        return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+            Fecha: ${diaFormateado}/${mesFormateado}/${añoFormateado}, ${horaFormateada}
+            Etiquetas: \n ${desplegable}`)
     }
 
     return this;
