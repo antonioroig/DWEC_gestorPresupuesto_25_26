@@ -61,15 +61,15 @@ function borrarGasto(id){
 
 
 function calcularTotalGastos(){
-    let total = 0;
+    let gastosTotales = 0;
     for(let gasto of gastos){
-        total += gasto.valor;
+        gastosTotales += gasto.valor;
     }
-    return total;
+    return gastosTotales;
 }
 
 function calcularBalance(){
-    
+    return presupuesto - calcularTotalGastos();
 }
 
 
