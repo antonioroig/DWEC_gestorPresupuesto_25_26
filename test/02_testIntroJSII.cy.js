@@ -69,7 +69,7 @@ describe("Función CrearGasto y funcionamiento de objeto gasto", function() {
         let fechalocale = new Date("2021-10-06T13:10Z").toLocaleString();
         let gasto1 = new CrearGasto("descripción del gasto", valor, "2021-10-06T13:10Z", "casa", "supermercado", "comida" );
         assert.equal(gasto1.mostrarGastoCompleto(),
-         `Gasto correspondiente a descripción del gasto con valor ${valor} €.
+         `Gasto correspondiente a ${descripcion} del gasto con valor ${valor} €.
 Fecha: ${fechalocale}
 Etiquetas:
 - casa
