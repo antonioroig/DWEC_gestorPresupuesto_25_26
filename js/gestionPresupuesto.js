@@ -62,5 +62,5 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
-    
+
 }
