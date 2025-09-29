@@ -4,58 +4,42 @@ let gastos = [];
 let idGastoCount = 0;
 
 function actualizarPresupuesto(num) {
-    if (num < 0){
+    if (typeof num != "number" || num < 0){
         console.log("Introduzca un presupuesto válido");
-        return -1;
+        presupuesto = -1;
+        return presupuesto;
     }
     presupuesto = num;
+    return presupuesto;
 }
 
 function mostrarPresupuesto() {
-    console.log("Tu presupuesto actual es de " + presupuesto + " €");
+    return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
 function CrearGasto(desc, value, date) {
-    let fechaValida;
-    if (date == null || comprobarFormatoFecha(date) == false)
-        fechaValida = new Date();
-    else
-        fechaValida = date;
     if (value < 0)
     {
-        console.log("Introduzca un gasto válido");
-        return {
-            valor: -1,
-            descripcion: "No válido",
-            mostrarGasto: function() {
-                console.log("Gasto no válido");
-            },
-            actualizarDescripcion: function() {},
-            actualizarValor: function() {}
-        }
+        this.valor = 0;
+        this.descripcion = "No válido";
+    } 
+    else {
+        this.valor = value;
+        this.descripcion = desc;
     }
-    let gasto = {
-        valor: value,
-        descripcion: desc,
-        idGasto: idGastoCount,
-        fecha: fechaValida,
 
-        mostrarGasto: function(){
-            console.log("Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " € el día " + date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear());
-        },
+    this.mostrarGasto = function(){
+        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
+    };
 
-        actualizarDescripcion: function(des){
-            this.descripcion = des;
-        },
+    this.actualizarDescripcion = function(des){
+        this.descripcion = des;
+    };
 
-        actualizarValor: function(value){
-            if (value >= 0)
-                this.valor = value;
-        }
-    }
-    gastos[idGastoCount] = gasto;
-    idGastoCount++;
-    return gasto;
+    this.actualizarValor = function(value){
+        if (value >= 0)
+            this.valor = value;
+    };
 }
 
 function comprobarFormatoFecha(fecha){
