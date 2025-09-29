@@ -33,12 +33,12 @@ function CrearGasto(descripcion, valor) {
     this.mostrarGasto = function () 
     {
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
-    };
+    }
 
     this.actualizarDescripcion = function (nuevaDescripcion) 
     {
         this.descripcion = nuevaDescripcion;
-    };
+    }
 
     this.actualizarValor = function (nuevoValor) 
     {
@@ -46,7 +46,7 @@ function CrearGasto(descripcion, valor) {
             this.valor = nuevoValor;            
         } 
         
-    };
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
