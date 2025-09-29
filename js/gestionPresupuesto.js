@@ -1,9 +1,11 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
+
+
+        // Variables globales
 let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
-// TODO: Variable global
 
 
                 // CONSTRUCTOR
@@ -11,6 +13,7 @@ let idGasto = 0;
 function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) {
     
     this.descripcion = nuevaDescripcion;
+    this.id = 0;
 
     if (nuevoValor < 0 || nuevoValor == undefined || isNaN(nuevoValor)){
         this.valor = 0;
@@ -91,17 +94,14 @@ function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) 
     this.mostrarGastoCompleto = function(){
         
         let nuevaFecha = new Date (this.fecha);
-        let horaFormateada = nuevaFecha.toLocaleTimeString();
-        let diaFormateado = nuevaFecha.getDay();
-        let mesFormateado = nuevaFecha.getMonth();
-        let añoFormateado = nuevaFecha.getFullYear();
+        let fechaFormateada = nuevaFecha.toLocaleString();
         let desplegable = "";
         for (let i = 0; i < this.etiquetas.length; i++)
         {   
             desplegable +=`- ${this.etiquetas[i]} \n`
         };
         return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-Fecha: ${diaFormateado}/${mesFormateado}/${añoFormateado}, ${horaFormateada}
+Fecha: ${fechaFormateada}
 Etiquetas: \n${desplegable}`)
     }
     }
@@ -132,19 +132,19 @@ Etiquetas: \n${desplegable}`)
         return gastos;
     }
 
-    function anyadirGasto(gasto)
+    function anyadirGasto(nuevoGasto)
     {
-        gasto.id = idGasto;
-        gastos.push[gasto.id];
-        idGasto++;
+        nuevoGasto.id = idGasto;
+        gastos.push(nuevoGasto);
+        ++idGasto;
     }
 
-    function borrarGasto(gasto)
+    function borrarGasto(gastoBorrado)
     {
-        let id = gasto.id
+        let idBorrada = gastoBorrado.id
         for(let i = 0; i < gastos.length; i++)
         {
-            if (gastos[i] == id)
+            if (gastos[i] == idBorrada)
                 gastos.splice(i, 1)
         }
     }
