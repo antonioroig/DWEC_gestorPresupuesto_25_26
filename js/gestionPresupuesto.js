@@ -51,8 +51,12 @@ function anyadirGasto(gasto){
     gastos.push(gasto);
 }
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    for (let index = 0; index < gastos.length; index++) {
+        if(gastos[index].id == id)
+            delete gastos[index];
+        
+    }
 }
 
 
