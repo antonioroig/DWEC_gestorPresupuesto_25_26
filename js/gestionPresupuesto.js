@@ -1,7 +1,8 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 let presupuesto = 0;
 // TODO: Variable global
-
+let gastos = [];
+let idGasto = 0;
 
 function actualizarPresupuesto(nuevoValor) {
     if (nuevoValor > 0 ) {
@@ -55,5 +56,11 @@ function CrearGasto(descripcion, valor) {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance,
+    
 }
