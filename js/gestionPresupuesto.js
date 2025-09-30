@@ -104,7 +104,27 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
         this.etiquetas = resultado;
     };
 }
+function listarGastos(){
+    return gastos;
+}
 
+function anyadirGasto(gasto){
+    gasto.id = idGasto;
+    idGasto ++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(id){
+    let resultado = [];
+    for(let i=0; i < gastos.length; i++){
+        let gastoActual = gastos[i];
+
+        if(gastoActual.id != id){
+            resultado.push(gastoActual);
+        }
+    }
+    gastos = resultado;
+}
 
 function calcularTotalGastos(){
 
