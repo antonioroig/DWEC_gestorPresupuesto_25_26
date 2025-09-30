@@ -139,19 +139,28 @@ Etiquetas: \n${desplegable}`)
         ++idGasto;
     }
 
-    function borrarGasto(gastoBorrado)
+    function borrarGasto(idGastoBorrado)
     {
-        let idBorrada = gastoBorrado.id
+        if (idGastoBorrado < 0 || idGastoBorrado > idGasto)
+            return;
         for(let i = 0; i < gastos.length; i++)
         {
-            if (gastos[i] == idBorrada)
-                gastos.splice(i, 1)
+            if (gastos[i].id == idGastoBorrado)
+                {
+                    gastos.splice(i, 1);
+                    break;
+                }
         }
     }
 
     function calcularTotalGastos()
     {
-
+        let valorTotal = 0;
+        for (let i = 0; i < gastos.length; i++)
+        {
+            valorTotal += gastos[i].valor
+        }
+        return valorTotal;
     }
     function calcularBalance()
     {
