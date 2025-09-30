@@ -164,7 +164,7 @@ Etiquetas: \n${desplegable}`)
     }
     function calcularBalance()
     {
-
+        return (presupuesto - calcularTotalGastos())
     }
 
 
