@@ -37,6 +37,9 @@ function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
     this.actualizarValor = function(valor){
         this.valor = (!isNaN(valor) && valor >= 0) ? valor : this.valor;
     }
+    this.anyadirEtiqueta = function(etiqueta){
+        
+    }
 }
 
 function listarGastos(){
