@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
     return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
-function CrearGasto(descPre, val) {
+function CrearGasto(descPre, val, fecha, ... etiqueta) {
     // TODO
     this.descripcion = descPre;
 
@@ -39,6 +39,19 @@ function CrearGasto(descPre, val) {
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
     }
+
+    if (fecha !== undefined) {
+    let timestamp = Date.parse(fecha);
+        if (isNaN(timestamp)) {
+            this.fecha = Date.now();
+        } 
+        else {
+            this.fecha = timestamp;
+        }
+    } else {
+        this.fecha = Date.now();
+    }
+    
 
     this.actualizarDescripcion = function(descripcion){
         this.descripcion = descripcion;
