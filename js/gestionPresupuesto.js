@@ -84,14 +84,15 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
         }
     }
     
-    this.ayadirEtiquetas = function ( ... nuevasEtiquetas){
-        for(let i = 0; this.etiquetas.length; i ++){
-            let etiquetaActual = this.etiquetas[i];
-            if(!this.etiquetas.includes(etiqueta)){
-                this.etiquetas.push(etiqueta);
+    
+    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+            for (let i = 0; i < nuevasEtiquetas.length; i++) {
+                let etiqueta = nuevasEtiquetas[i];
+                if (!this.etiquetas.includes(etiqueta)) {
+                    this.etiquetas.push(etiqueta);
+                }
             }
-        }
-    }
+    };
 
     this.borrarEtiquetas = function (...etiquetasABorrar) {
         let resultado = [];
@@ -126,8 +127,16 @@ function borrarGasto(id){
     gastos = resultado;
 }
 
-function calcularTotalGastos(){
-    return presupuesto - calcularTotalGastos();
+function calcularTotalGastos() {
+    let total = 0; 
+
+    for (let i = 0; i < gastos.length; i++) {
+        let gastoActual = gastos[i];       
+        total = total + gastoActual.valor; 
+    }
+
+    return total; 
+
 }
 
 function calcularBalance(){
