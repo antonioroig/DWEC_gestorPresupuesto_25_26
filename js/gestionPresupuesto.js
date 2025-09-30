@@ -52,7 +52,7 @@ function CrearGasto(descPre, val) {
 }
 
 function listarGastos(){
-
+    return gastos;
 }
 
 function anyadirGasto(){
