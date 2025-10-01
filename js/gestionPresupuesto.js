@@ -10,7 +10,7 @@ function actualizarPresupuesto(valor) {
     } else {
         console.error("Error: el valor debe de ser positivo o 0.");
         return -1;
-    }git 
+    }
 }
 function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
