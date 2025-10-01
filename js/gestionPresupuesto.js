@@ -90,7 +90,7 @@ function calcularTotalGastos(){
     return gastos.reduce((total, gasto) => total + gasto.valor, 0);
 }
 function calcularBalance(){
-    
+    return presupuesto - calcularTotalGastos();
 }
 
 
