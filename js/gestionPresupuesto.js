@@ -46,6 +46,12 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`
     }
 
+    this.mostrarGastoCompleto = function(){
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+Fecha: ${(new Date(this.fecha)).toLocaleString()}
+Etiquetas:
+- ${this.etiquetas.join("\n- ")}
+`}
     
 }
 function listarGastos(){
