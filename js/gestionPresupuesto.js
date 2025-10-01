@@ -29,8 +29,9 @@ function borrarGasto(id) {
         return;
     
     for (let i = 0; i < gastos.length; i++) {
-        if (gasto.id == id) {
+        if (gastos[i].id == id) {
             gastos.splice(i, 1);
+            return;
         }
     }
 }
@@ -38,7 +39,7 @@ function borrarGasto(id) {
 function calcularTotalGastos() {
     let total = 0;
     if (gastos.length > 0) {
-        for (let gasto in gastos) {
+        for (let gasto of gastos) {
             total += gasto.valor;
         }
     }
@@ -57,7 +58,7 @@ function actualizarPresupuesto(value) {
     if (isNaN(num) || num < '') {
         return -1;
     }
-    presupuesto = value;
+    presupuesto += value;
     return value;
 }
 
@@ -175,6 +176,11 @@ Etiquetas:${this.formatearGastos()}`
 
 
 
+
+
+
+
+
 // TODO
 // let valor = 23.55;
 // let fechalocale = new Date("2021-10-06T13:10Z").toLocaleString();
@@ -190,13 +196,6 @@ Etiquetas:${this.formatearGastos()}`
 // console.log("-----------------");
 // console.log("objeto");
 // console.log("funcion gasto1", gasto1.mostrarGastoCompleto());
-
-
-
-
-
-
-
 
 
 
