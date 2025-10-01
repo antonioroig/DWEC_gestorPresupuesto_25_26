@@ -41,18 +41,32 @@ function CrearGasto(descPre, val, fecha, ... etiqueta) {
     }
 
     if (fecha !== undefined) {
-    let timestamp = Date.parse(fecha);
-        if (isNaN(timestamp)) {
+    let marcaDeTiempo  = Date.parse(fecha);
+        if (isNaN(marcaDeTiempo )) {
             this.fecha = Date.now();
         } 
         else {
-            this.fecha = timestamp;
+            this.fecha = marcaDeTiempo ;
         }
     } else {
         this.fecha = Date.now();
     }
-    
 
+    this.etiqueta = [];
+
+    this.anyadirEtiquetas = function(...nuevasEtiquetas) {
+        this.etiqueta.push(...nuevasEtiquetas);
+    }
+
+    if (etiqueta.length > 0) {
+        for (let i = 0; i < nuevasEtiquetas.length; i++) {
+            let etiqueta = nuevasEtiquetas[i];
+            if (!this.etiqueta.includes(etiqueta)) {  
+                this.etiqueta.push(etiqueta);
+            }
+        }     
+    }
+    
     this.actualizarDescripcion = function(descripcion){
         this.descripcion = descripcion;
     }
