@@ -134,7 +134,7 @@ Etiquetas: \n${desplegable}`)
 
     function anyadirGasto(nuevoGasto)
     {
-        nuevoGasto.id = idGasto;
+        nuevoGasto = idGasto;
         gastos.push(nuevoGasto);
         ++idGasto;
     }
