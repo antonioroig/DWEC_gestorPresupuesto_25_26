@@ -42,6 +42,11 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
             this.valor = valorNuevo
         }
     }
+    this.mostrarGasto = function(){
+        return `Gasto correspondiente a ${descripcion} con valor ${valor} €`
+    }
+
+    
 }
 function listarGastos(){
     return gastos
