@@ -52,6 +52,9 @@ Fecha: ${(new Date(this.fecha)).toLocaleString()}
 Etiquetas:
 - ${this.etiquetas.join("\n- ")}
 `}
+    this.actualizarFecha = function(fechaNueva){
+        this.fecha = (fechaNueva !== undefined && !isNaN(Date.parse(fechaNueva))) ? Date.parse(fechaNueva) : this.fecha
+    }
     
 }
 function listarGastos(){
