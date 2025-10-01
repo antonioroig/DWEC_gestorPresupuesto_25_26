@@ -55,6 +55,14 @@ Etiquetas:
     this.actualizarFecha = function(fechaNueva){
         this.fecha = (fechaNueva !== undefined && !isNaN(Date.parse(fechaNueva))) ? Date.parse(fechaNueva) : this.fecha
     }
+    this.anyadirEtiquetas = function(...etiquetas){
+
+        etiquetas.forEach(nueva =>{
+            if(!this.etiquetas.includes(nueva)){
+                this.etiquetas.push(nueva)
+            }
+        })
+    }
     
 }
 function listarGastos(){
