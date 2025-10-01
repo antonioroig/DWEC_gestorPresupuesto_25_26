@@ -53,7 +53,25 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
         }
     }
 
+    this.anyadirEtiquetas = function () {
+    for (let i = 0; i < arguments.length; i++) {
+        let existe = false
 
+        for (let j = 0; j < this.etiquetas.length && existe == false; j++) {
+            if (this.etiquetas[j] === arguments[i]) {
+                existe = true
+                
+            }
+        }
+
+        if (!existe) {
+            this.etiquetas[this.etiquetas.length] = arguments[i]
+        }
+    }
+    }
+
+
+    
     
     this.mostrarGasto = function () 
     {
