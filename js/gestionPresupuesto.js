@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
     return 'Tu presupuesto actual es de ' + presupuesto + ' €';
 }
 
-function CrearGasto(descPre, val, fecha, ... etiqueta) {
+function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
     // TODO
     this.descripcion = descPre;
 
@@ -40,8 +40,8 @@ function CrearGasto(descPre, val, fecha, ... etiqueta) {
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
     }
 
-    if (fecha !== undefined) {
     let marcaDeTiempo  = Date.parse(fecha);
+    if (fecha !== undefined) {
         if (isNaN(marcaDeTiempo )) {
             this.fecha = Date.now();
         } 
@@ -52,23 +52,22 @@ function CrearGasto(descPre, val, fecha, ... etiqueta) {
         this.fecha = Date.now();
     }
 
-    this.etiqueta = [];
-
-    this.anyadirEtiquetas = function(...nuevasEtiquetas) {
-        this.etiqueta.push(...nuevasEtiquetas);
-    }
-
-    if (etiqueta.length > 0) {
-        for (let i = 0; i < nuevasEtiquetas.length; i++) {
-            let etiqueta = nuevasEtiquetas[i];
-            if (!this.etiqueta.includes(etiqueta)) {  
-                this.etiqueta.push(etiqueta);
-            }
-        }     
-    }
+    this.etiquetas = [];
     
-    this.actualizarDescripcion = function(descripcion){
-        this.descripcion = descripcion;
+    for (let i = 0; i < etiquetasObtenidas.length; i++) {
+            let etiqueta = etiquetasObtenidas[i];
+            if (!this.etiquetas.includes(etiqueta)) {  
+                this.etiquetas.push(etiqueta);
+            }
+        }
+
+    this.anyadirEtiquetas = function(...etiquetasObtenidas) {
+        for (let i = 0; i < etiquetasObtenidas.length; i++) {
+            let etiqueta = etiquetasObtenidas[i];
+            if (!this.etiquetas.includes(etiqueta)) {  
+                this.etiquetas.push(etiqueta);
+            }
+        }
     }
 
     this.actualizarValor = function(valor){
