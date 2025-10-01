@@ -2,13 +2,21 @@
 
 // TODO: Variable global
 let presupuesto = 0;
+function actualizarPresupuesto(valor) {
+    if(!isNaN(valor) && valor >= 0)
+    {
+        presupuesto = valor;
+        return presupuesto;
 
-function actualizarPresupuesto() {
-    // TODO
+    }
+    else{
+        console.log("Debes introducir un número positivo")
+        return -1;
+    }
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    
 }
 
 function CrearGasto() {
