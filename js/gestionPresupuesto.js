@@ -63,7 +63,14 @@ Etiquetas:
             }
         })
     }
-    
+    this.borrarEtiquetas = function(...etiquetas){
+        etiquetas.forEach(eliminar =>{
+            let indice = this.etiquetas.indexOf(eliminar)
+            if(indice !== -1){
+                this.etiquetas.splice(indice,1)
+            }
+        })
+    }
 }
 function listarGastos(){
     return gastos
