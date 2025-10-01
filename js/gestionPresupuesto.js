@@ -83,8 +83,8 @@ function anyadirGasto(gasto) {
     idGasto++;
     gastos.push(gasto);
 }
-function borrarGasto(){
-
+function borrarGasto(id){
+    gastos = gastos.filter(gasto => gasto.id != id);
 }
 function calcularTotalGastos(){
 
