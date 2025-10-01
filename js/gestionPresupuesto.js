@@ -27,7 +27,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     // TODO
     this.descripcion = descripcion
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0
-    this.fecha = (fecha !== undefined && Date.parse(fecha) !== NaN) ? Date.parse(fecha) : Date.now()
+    this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now()
     this.etiquetas = (etiquetas !== undefined) ? etiquetas : []
 
     this.mostrarGasto = function(){
@@ -67,7 +67,8 @@ function calcularTotalGastos(){
     return suma
 }
 function calcularBalance(){
-    
+    let gastosTotales = calcularTotalGastos()
+    return presupuesto - gastosTotales
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
