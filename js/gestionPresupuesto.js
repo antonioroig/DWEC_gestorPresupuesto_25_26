@@ -46,6 +46,12 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
         this.etiquetas[this.etiquetas.length] = arguments[i]
     }
 
+    this.actualizarFecha = function (nuevaFecha) {
+        const nueva = Date.parse(nuevaFecha)
+        if (!isNaN(nueva)) {
+            this.fecha = nueva
+        }
+    }
 
 
     
