@@ -24,6 +24,9 @@ function CrearGasto(descripcion,valor) {
     
     this.descripcion = descripcion
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0;
+    this.mostraGasto = function(){
+        return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €"
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
