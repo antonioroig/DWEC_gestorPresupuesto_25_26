@@ -6,8 +6,7 @@ let idGastoCount = 0;
 function actualizarPresupuesto(num) {
     if (typeof num != "number" || num < 0){
         console.log("Introduzca un presupuesto válido");
-        presupuesto = -1;
-        return presupuesto;
+        return -1   ;
     }
     presupuesto = num;
     return presupuesto;
@@ -18,10 +17,10 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(desc, value, date) {
-    if (value < 0)
+    if (typeof value != "number" || value < 0)
     {
         this.valor = 0;
-        this.descripcion = "No válido";
+        this.descripcion = desc;
     } 
     else {
         this.valor = value;
@@ -37,7 +36,7 @@ function CrearGasto(desc, value, date) {
     };
 
     this.actualizarValor = function(value){
-        if (value >= 0)
+        if (typeof value == "number" && value >= 0)
             this.valor = value;
     };
 }
