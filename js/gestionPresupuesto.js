@@ -39,13 +39,13 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
         this.fecha = timestamp;
     }
 
-    
     this.etiquetas = []
-
     for (let i = 3; i < arguments.length; i++) {
-        this.etiquetas[this.etiquetas.length] = arguments[i]
+    this.etiquetas[this.etiquetas.length] = arguments[i]
     }
 
+
+    
     this.actualizarFecha = function (nuevaFecha) {
         const nueva = Date.parse(nuevaFecha)
         if (!isNaN(nueva)) {
@@ -58,7 +58,7 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
         let existe = false
 
         for (let j = 0; j < this.etiquetas.length && existe == false; j++) {
-            if (this.etiquetas[j] === arguments[i]) {
+            if (this.etiquetas[j] == arguments[i]) {
                 existe = true
                 
             }
@@ -70,7 +70,15 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     }
     }
 
-
+    this.mostrarGastoCompleto = function () {
+        let gastoCompleto = "Gasto correspondiente a " + this.descripcion +" con valor " + this.valor + " €." + "\n"
+        gastoCompleto += "Fecha: " + new Date(this.fecha).toLocaleString() + "\n"
+        gastoCompleto += "Etiquetas:"  + "\n"
+        for (let i = 0; i < this.etiquetas.length; i++) {
+            gastoCompleto += "- " + this.etiquetas[i] + "\n"
+        }
+        return gastoCompleto
+    }
     
     
     this.mostrarGasto = function () 
