@@ -98,11 +98,11 @@
                 let desplegable = "";
                 for (let i = 0; i < this.etiquetas.length; i++)
                 {   
-                    desplegable +=`- ${this.etiquetas[i]} \n`
+                    desplegable +=`- ${this.etiquetas[i]}\n`
                 };
                 return (`Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-        Fecha: ${fechaFormateada}
-        Etiquetas: \n${desplegable}`)
+Fecha: ${fechaFormateada}
+Etiquetas:\n${desplegable}`)
             }
             }
         
