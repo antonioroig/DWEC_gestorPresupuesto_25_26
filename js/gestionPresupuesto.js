@@ -96,18 +96,33 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         return num;
     }
 
-
-
-    this.mostrarGastoCompleto = function() {
-        return `
-            Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
-            Fecha: ${this.fecha.toLocaleString()}
-            Etiquetas: ${this.etiquetas.map()}
-            - etiqueta 1
-            - etiqueta 2....` // Esto funciona?
+    // Función personalizada. Formatea y devuelve el texto en el formato indicado
+    this.formatearGastos = function() {
+        return this.etiquetas.map(tag => `\n- ${tag}`);
     }
 
+
+    // Función personalizada. Formatea la fecha en el formato indicado.
+    this.formatearFecha = function() {
+        return new Date(this.fecha).toLocaleString();
+    }
+
+    this.mostrarGastoCompleto = function() {
+    return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+Fecha: ${this.formatearFecha()}
+Etiquetas:${this.formatearGastos()}`
+    }
+
+
     this.actualizarFecha = function(fecha) {
+        if (!fecha || isNaN(Date.parse(fecha))) {
+            return;
+        } else {
+            this.fecha = Date.parse(fecha);
+        }
+    }
+
+    this.validarFecha = function(fecha) {
         if (!fecha || isNaN(Date.parse(fecha))) {
             return Date.now();
         } else {
@@ -116,118 +131,79 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
     
     this.anyadirEtiquetas = function(...values) {
-        if (values == null || this.etiquetas == null) {
-            return [];
-        }
+        console.log(values);
+        if (values == null || values == undefined)
+            return;
 
-        for (let tag in values) {
-            if (this.estaEnEtiquetas(tag)) {
-                continue;
+        for (let tag of values) {
+            if (this.etiquetas.indexOf(tag) == -1) {
+                this.etiquetas.push(tag);
             }
-            etiquetas.push(tag);
         }
     }
+
+    this.validarEtiquetas = function(...values) {
+        let arr = [];
+        if (values == null || values == undefined) {
+            return arr;
+        } else {
+            for (let tag of values) {
+                arr.push(tag);
+            }
+            return arr;
+        }
+    }
+
 
     this.borrarEtiquetas = function(...values) {
-        for (let tag in values) {
-            if (this.estaEnEtiquetas(tag)) {
-                let i = this.etiquetas.IndexOf(tag);
-                this.etiquetas.splice(i, 1)
+        if (values == null || values == undefined || values.length == 0)
+            return;
+
+        for (let tag of values) {
+            let index = this.etiquetas.indexOf(tag);
+            if (index != -1) {
+                this.etiquetas.splice(index, 1);
             }
         }
     }
 
-    // Función personalizada.
-    // Busca en las etiquetas si existe o no la etiqueta.
-    // Return boolean
-    this.estaEnEtiquetas = function(value) {
-        for (let tag in etiquetas) {
-            if (tag == value)
-                return true;
-        }
-        return false;
-    }
+
+
 
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor); // DEBERIA SER ACTUALIZAR VALOR NO VALIDARLO
-    this.fecha = this.actualizarFecha(fecha);
-    this.etiquetas = this.anyadirEtiquetas(...etiquetas);
+    this.fecha = this.validarFecha(fecha);
+    this.etiquetas = this.validarEtiquetas(...etiquetas);
 }
 
 
-        let now = new Date();
 
-        let descr = "Ejemplo de gasto";
-        // let gasto1 = new CrearGasto(descr);
-        // console.log(gasto1.descripcion, descr);
-        
-        // console.log(gasto1.valor, 0);
-        // console.log(new Date(gasto1.fecha).getMonth(), now.getMonth());
-        // console.log(new Date(gasto1.fecha).getDate(), now.getDate());
-        // console.log(gasto1.etiquetas, "Si el gasto se crea sin etiquetas, la propiedad 'etiquetas' debe inicializarse a un array vacío");
-        // console.log(gasto1);
 
-        // let gasto2 = new CrearGasto(descr, 23.55);
-        // console.log(gasto2.descripcion, descr);
-        // console.log(gasto2.valor, 23.55);
-        // console.log(new Date(gasto2.fecha).getMonth(), now.getMonth());
-        // console.log(new Date(gasto2.fecha).getDate(), now.getDate());
-        // console.log(gasto2.etiquetas);
 
-        // let gasto3 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z" );
-        // console.log(gasto3.descripcion, descr);
-        // console.log(gasto3.valor, 23.55);
-        // console.log(gasto3.fecha, Date.parse("2021-10-06T13:10Z"));
-        // console.log(gasto3.etiquetas);
-
-        let gasto4 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa" );
-        console.log(gasto4.descripcion, descr);
-        console.log(gasto4.valor, 23.55);
-        console.log(gasto4.fecha, Date.parse("2021-10-06T13:10Z"));
-        console.log(gasto4.etiquetas.length,1);
-        console.log(gasto4.etiquetas[0], "casa");
-
-        // let gasto5 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa", "supermercado" );
-        // assert.equal(gasto5.descripcion, descr);
-        // assert.equal(gasto5.valor, 23.55);
-        // assert.equal(gasto5.fecha, Date.parse("2021-10-06T13:10Z"));
-        // assert.lengthOf(gasto5.etiquetas,2);
-        // assert.equal(gasto5.etiquetas[0], "casa");
-        // assert.equal(gasto5.etiquetas[1], "supermercado");
-
-        // let gasto6 = new CrearGasto(descr, 23.55, "2021-10-06T13:10Z", "casa", "supermercado", "comida" );
-        // assert.equal(gasto6.descripcion, descr);
-        // assert.equal(gasto6.valor, 23.55);
-        // assert.equal(gasto6.fecha, Date.parse("2021-10-06T13:10Z"));
-        // assert.lengthOf(gasto6.etiquetas,3);
-        // assert.equal(gasto6.etiquetas[0], "casa");
-        // assert.equal(gasto6.etiquetas[1], "supermercado");
-        // assert.equal(gasto6.etiquetas[2], "comida");
+// TODO
+// let valor = 23.55;
+// let fechalocale = new Date("2021-10-06T13:10Z").toLocaleString();
+// let gasto1 = new CrearGasto("pasteles", valor, "2021-10-06T13:10Z", "casa", "supermercado", "comida" );
+// console.log("Esperado");
+// console.log(`Gasto correspondiente ${gasto1.descripcion} con valor ${gasto1.valor} €.
+// Fecha: ${fechalocale}
+// Etiquetas:
+// - casa
+// - supermercado
+// - comida`    
+// );
+// console.log("-----------------");
+// console.log("objeto");
+// console.log("funcion gasto1", gasto1.mostrarGastoCompleto());
 
 
 
 
 
 
-// let gasto1 = new CrearGasto("Gasto 1");
-// let gasto2 = new CrearGasto("Gasto 2", 23.55);
-// let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10");
-// let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa");
-// let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado");
-// let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida");
 
-// console.log("Gasto 1");
-// console.log(gasto1);
-// console.log("Gasto 2");
-// console.log(gasto2);
-// console.log("Gasto 3");
-// console.log(gasto3);
-// console.log("Gasto 4");
-// console.log(gasto4);
-// console.log("Gasto 5");
-// console.log(gasto5);
-// console.log("Gasto 6");
-// console.log(gasto6);
+
+
 
 
 
