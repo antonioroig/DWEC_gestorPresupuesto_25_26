@@ -46,8 +46,10 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 function listarGastos(){
     return gastos
 }
-function anyadirGasto(){
-
+function anyadirGasto(Gasto){
+    Object.assign(Gasto, {id : idGasto})
+    idGasto++
+    gastos.push(Gasto)
 }
 function borrarGasto(){
     
