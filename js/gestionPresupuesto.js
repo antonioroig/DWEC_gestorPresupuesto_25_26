@@ -12,19 +12,15 @@ function listarGastos() {
 }
 
 function anyadirGasto(obj) {
-    if (obj == null)
-        return;
-    if (obj == undefined)
+    if (obj == null || obj == undefined)
         return;
 
     let newGasto = {
         ...obj,
-        idGasto: idGasto,
+        id: idGasto,
     }
-
     idGasto++;
 
-    // Hay algo estilo if obj Is gasto?
     gastos.push(newGasto);
 }
 
@@ -131,7 +127,6 @@ Etiquetas:${this.formatearGastos()}`
     }
     
     this.anyadirEtiquetas = function(...values) {
-        console.log(values);
         if (values == null || values == undefined)
             return;
 
@@ -195,8 +190,6 @@ Etiquetas:${this.formatearGastos()}`
 // console.log("-----------------");
 // console.log("objeto");
 // console.log("funcion gasto1", gasto1.mostrarGastoCompleto());
-
-
 
 
 
