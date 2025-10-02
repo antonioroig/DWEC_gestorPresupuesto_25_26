@@ -101,6 +101,10 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
         }
     }
 
+     this.actualizarDescripcion = function(descripcion){
+        this.descripcion = descripcion;
+    }
+
     this.actualizarValor = function(valor){
         if(valor >= 0 && !isNaN(valor)){
         this.valor = valor;
