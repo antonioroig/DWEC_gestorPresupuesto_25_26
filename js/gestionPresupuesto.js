@@ -153,6 +153,12 @@ function borrarGasto(idGasto){
 }
 
 function calcularTotalGastos(){
+    let total = 0
+    for (let i = 0; i < gastos.length; i++) {
+        total = total + gastos[i].valor
+    }
+    return total
+
 
 }
 
