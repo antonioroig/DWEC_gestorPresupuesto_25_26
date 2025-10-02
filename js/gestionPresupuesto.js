@@ -80,6 +80,19 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
         return gastoCompleto
     }
     
+    this.borrarEtiquetas = function () {
+    for (let i = 0; i < arguments.length; i++) {
+        let nuevaLista = []
+        for (let j = 0; j < this.etiquetas.length; j++) {
+            if (this.etiquetas[j] !== arguments[i]) {
+                nuevaLista[nuevaLista.length] = this.etiquetas[j]
+            }
+        }
+        this.etiquetas = nuevaLista
+    }
+    }
+
+
     
     this.mostrarGasto = function () 
     {
