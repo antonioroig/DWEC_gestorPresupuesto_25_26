@@ -64,9 +64,12 @@ function anyadirGasto(gasto) {
     idGasto++;                     
     gastos.push(gasto);           
 }
-function borrarGasto(){
-
+function borrarGasto(id) {
+    // Eliminar el gasto cuyo id coincide con el pasado como parámetro
+    gastos = gastos.filter(g => g.id !== id);
 }
+
+
 function calcularTotalGastos(){
 
 }
