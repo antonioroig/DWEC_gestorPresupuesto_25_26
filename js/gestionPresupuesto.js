@@ -37,7 +37,20 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
     this.actualizarValor = function(valor){
         this.valor = (!isNaN(valor) && valor >= 0) ? valor : this.valor;
-    }
+    }    
+    this.mostrarGastoCompleto = function(){
+        let lEtiquetas = "";
+
+        for(let i = 0; i < this.etiquetas.length; i++){
+            lEtiquetas += `- ${this.etiquetas[i]}\n`
+        }
+
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+Fecha: ${new Date(this.fecha).toLocaleString()}
+Etiquetas:
+${lEtiquetas}`
+
+    } 
     this.anyadirEtiqueta = function(etiqueta){
         
     }
