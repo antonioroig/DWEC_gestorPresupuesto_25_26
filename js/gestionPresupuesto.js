@@ -40,6 +40,20 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
     }
 
+    this.mostrarGastoCompleto = function() {
+    
+        let fechaLocal = new Date(this.fecha).toLocaleString();
+        let resultado = "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\n";
+        resultado += "Fecha: " + fechaLocal + "\n";
+        resultado += "Etiquetas:\n";
+
+        for (let i = 0; i < this.etiquetas.length; i++) {
+            resultado += "- " + this.etiquetas[i] + "\n";
+        }
+
+        return resultado;
+    }
+
     let marcaDeTiempo  = Date.parse(fecha);
     if (fecha !== undefined) {
         if (isNaN(marcaDeTiempo )) {
