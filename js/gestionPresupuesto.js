@@ -47,7 +47,7 @@ function listarGastos(){
 }
 
 function anyadirGasto(gasto){
-    Object.assign(gasto, {id: idGasto++});
+    gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
