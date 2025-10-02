@@ -84,6 +84,13 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
         }
     }
 
+    this.actualizarFecha = function(nuevaFecha) {
+        let marcaDeTiempo = Date.parse(nuevaFecha);
+        if (!isNaN(marcaDeTiempo)) {
+            this.fecha = marcaDeTiempo;
+        }
+    }
+
     this.actualizarValor = function(valor){
         if(valor >= 0 && !isNaN(valor)){
         this.valor = valor;
