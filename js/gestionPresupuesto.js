@@ -27,7 +27,8 @@ function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
     this.descripcion = descripcion;
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0;
     this.etiqueta = (etiqueta !== undefined) ? etiqueta : [];
-    this.fecha = (fecha !== undefined && fecha !== NaN) ? Date.parse(fecha) : Date.now();
+    this.fecha = (fecha !== undefined && !isNaN) ? Date.parse(fecha) : Date.now();
+
     this.mostrarGasto = function(){
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`;
     }
