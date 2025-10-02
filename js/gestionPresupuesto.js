@@ -124,13 +124,17 @@ function listarGastos() {
 }
 
 
-function anyadirGasto(){
+function anyadirGasto(gasto){
+
+    gasto.id = idGasto
+    idGasto = idGasto + 1
+    gastos[gastos.length] = gasto
 
 
 }
 
 function borrarGasto(){
-
+    
 
 }
 
