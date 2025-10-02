@@ -17,31 +17,53 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor) {
-    this.descripcion = descripcion;
+function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
+    this.id = idGasto++;
+    this.descripcion = String(descripcion);
 
-    if (typeof valor === "number" && valor >= 0) {
-        this.valor = valor;
+    // Valor válido
+    this.valor = (typeof valor === "number" && valor >= 0) ? valor : 0;
+
+    // Fecha válida
+    if (fecha && !isNaN(Date.parse(fecha))) {
+        this.fecha = Date.parse(fecha);
     } else {
-        this.valor = 0;
+        this.fecha = Date.now();
     }
 
+    // Inicializamos etiquetas
     this.etiquetas = [];
-    
+    if (etiquetas.length > 0) {
+        this.anyadirEtiquetas(...etiquetas);
+    }
+
+    // Métodos usados en los tests
     this.mostrarGasto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     };
 
-    this.actualizarDescripcion = function (nuevaDescripcion) {
-        this.descripcion = String(nuevaDescripcion);
+    this.mostrarGastoCompleto = function () {
+        let fechaLocal = new Date(this.fecha).toLocaleString();
+        let etiquetasTexto = this.etiquetas.map(e => `- ${e}`).join("\n");
+        if (etiquetasTexto) etiquetasTexto = "\n" + etiquetasTexto;
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal}\nEtiquetas:${etiquetasTexto}\n`;
     };
 
-    this.actualizarValor = function (nuevoValor) {
-        if (typeof nuevoValor === "number" && nuevoValor >= 0) {
-            this.valor = nuevoValor;
+    this.actualizarFecha = function (nuevaFecha) {
+        if (nuevaFecha && !isNaN(Date.parse(nuevaFecha))) {
+            this.fecha = Date.parse(nuevaFecha);
         }
     };
-    this.
+
+    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+        nuevasEtiquetas.forEach(et => {
+            if (!this.etiquetas.includes(et)) this.etiquetas.push(et);
+        });
+    };
+
+    this.borrarEtiquetas = function (...etiquetasABorrar) {
+        this.etiquetas = this.etiquetas.filter(et => !etiquetasABorrar.includes(et));
+    };
 }
 function listarGastos(){
     return gasto
