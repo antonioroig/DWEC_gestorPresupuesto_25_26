@@ -2,7 +2,7 @@
 
 // TODO: Variable global
 let presupuesto = 0;
-let gasto = [];
+let gastos = [];
 let idGasto = 0;
 function actualizarPresupuesto(valor) {
     if (typeof valor === "number" && valor >= 0) {
@@ -18,58 +18,51 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
-    this.id = idGasto++;
+    this.id = null; 
     this.descripcion = String(descripcion);
-
-    // Valor válido
     this.valor = (typeof valor === "number" && valor >= 0) ? valor : 0;
-
-    // Fecha válida
-    if (fecha && !isNaN(Date.parse(fecha))) {
-        this.fecha = Date.parse(fecha);
-    } else {
-        this.fecha = Date.now();
-    }
-
-    // Inicializamos etiquetas
+    this.fecha = (fecha && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now();
     this.etiquetas = [];
-    if (etiquetas.length > 0) {
-        this.anyadirEtiquetas(...etiquetas);
-    }
 
-    // Métodos usados en los tests
-    this.mostrarGasto = function () {
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-    };
-
-    this.mostrarGastoCompleto = function () {
-        let fechaLocal = new Date(this.fecha).toLocaleString();
-        let etiquetasTexto = this.etiquetas.map(e => `- ${e}`).join("\n");
-        if (etiquetasTexto) etiquetasTexto = "\n" + etiquetasTexto;
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaLocal}\nEtiquetas:${etiquetasTexto}\n`;
-    };
-
-    this.actualizarFecha = function (nuevaFecha) {
-        if (nuevaFecha && !isNaN(Date.parse(nuevaFecha))) {
-            this.fecha = Date.parse(nuevaFecha);
-        }
-    };
-
-    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+    this.anyadirEtiquetas = function(...nuevasEtiquetas) {
         nuevasEtiquetas.forEach(et => {
             if (!this.etiquetas.includes(et)) this.etiquetas.push(et);
         });
     };
 
-    this.borrarEtiquetas = function (...etiquetasABorrar) {
+    if (etiquetas.length > 0) this.anyadirEtiquetas(...etiquetas);
+
+    this.mostrarGastoCompleto = function() {
+        const fechaLocal = new Date(this.fecha).toLocaleString();
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
+        texto += `Fecha: ${fechaLocal}\n`;
+        texto += `Etiquetas:\n`;
+        if (this.etiquetas.length > 0) {
+            texto += this.etiquetas.map(e => `- ${e}`).join("\n") + "\n";
+        }
+        return texto;
+    };
+
+    this.actualizarFecha = function(nuevaFecha) {
+        if (nuevaFecha && !isNaN(Date.parse(nuevaFecha))) {
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    };
+
+    this.borrarEtiquetas = function(...etiquetasABorrar) {
         this.etiquetas = this.etiquetas.filter(et => !etiquetasABorrar.includes(et));
     };
 }
 function listarGastos(){
-    return gasto
+    return gastos
 }
-function anyadirGasto (){
-
+function anyadirGasto(gasto) {
+    if (!gasto){
+        return;
+    }        
+    gasto.id = idGasto;           
+    idGasto++;                     
+    gastos.push(gasto);           
 }
 function borrarGasto(){
 
