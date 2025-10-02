@@ -91,6 +91,16 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
         }
     }
 
+    this.borrarEtiquetas = function(...etiquetasAEliminar) {
+    for (let i = 0; i < etiquetasAEliminar.length; i++) {
+        let etiqueta = etiquetasAEliminar[i];
+        let index = this.etiquetas.indexOf(etiqueta);
+        if (index !== -1) {
+                this.etiquetas.splice(index, 1);
+            }
+        }
+    }
+
     this.actualizarValor = function(valor){
         if(valor >= 0 && !isNaN(valor)){
         this.valor = valor;
