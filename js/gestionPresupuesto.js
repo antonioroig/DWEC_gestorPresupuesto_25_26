@@ -94,7 +94,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
     // Función personalizada. Formatea y devuelve el texto en el formato indicado
     this.formatearGastos = function() {
-        return this.etiquetas.map(tag => `\n- ${tag}`);
+        return "\n" + this.etiquetas.map(tag => `- ${tag}`).join("\n") + "\n";
     }
 
 
