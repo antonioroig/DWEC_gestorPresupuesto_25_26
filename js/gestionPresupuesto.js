@@ -15,13 +15,9 @@ function anyadirGasto(obj) {
     if (obj == null || obj == undefined)
         return;
 
-    let newGasto = {
-        ...obj,
-        id: idGasto,
-    }
-    idGasto++;
+    obj.id = idGasto++;
 
-    gastos.push(newGasto);
+    gastos.push(obj);
 }
 
 function borrarGasto(id) {
@@ -48,17 +44,19 @@ function calcularTotalGastos() {
 
 function calcularBalance() {
     let totalGasto = calcularTotalGastos();
-    return totalGasto - presupuesto;
+    return presupuesto - totalGasto;
 }
 
 
 
 function actualizarPresupuesto(value) {
+    console.log("Presupuesto: ", presupuesto);
     const num = Number(value);
-    if (isNaN(num) || num < '') {
+    console.log("valor en numerico: ", num);
+    if (isNaN(num) || num < 0) {
         return -1;
     }
-    presupuesto += value;
+    presupuesto = value;
     return value;
 }
 
@@ -83,6 +81,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         }
         this.valor = num;
     }
+
 
     //codigo duplicado, esto se debería de refactorizar
     this.validarValor = function(value) {
@@ -163,19 +162,12 @@ Etiquetas:${this.formatearGastos()}`
         }
     }
 
-
-
-
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor); // DEBERIA SER ACTUALIZAR VALOR NO VALIDARLO
     this.fecha = this.validarFecha(fecha);
     this.etiquetas = this.validarEtiquetas(...etiquetas);
+    this.id = null;
 }
-
-
-
-
-
 
 
 
