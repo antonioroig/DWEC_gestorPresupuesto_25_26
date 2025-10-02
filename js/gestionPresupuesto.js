@@ -52,8 +52,14 @@ function anyadirGasto(gasto){
     gastos.push(gasto);
 }
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    let pararBucle = false;
+    for (let i = 0; i < gastos.length && pararBucle !== true; i++){
+        if(gastos[i].id === id){
+            gastos.splice(i, 1);
+            pararBucle = true
+        }
+    }
 }
 
 function calcularTotalGastos(){
