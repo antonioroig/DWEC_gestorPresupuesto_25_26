@@ -133,8 +133,22 @@ function anyadirGasto(gasto){
 
 }
 
-function borrarGasto(){
-    
+function borrarGasto(idGasto){
+    let encontrado = false
+    let id = idGasto
+    for (let i = 0; i < gastos.length; i++) {
+        if (!encontrado && gastos[i].id === id) {
+            encontrado = true
+        }
+        if (encontrado && i < gastos.length - 1) {
+            gastos[i] = gastos[i + 1]
+        }
+    }
+
+    if (encontrado) {
+        gastos.length = gastos.length - 1
+    }
+
 
 }
 
