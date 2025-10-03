@@ -16,33 +16,6 @@ function actualizarPresupuesto(valor) {
 function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
-    
-/*
-function CrearGasto(des, value) {
-
-    this.descripcion = des;
-    if (value > 0)
-        this.valor = value;
-    else
-        this.valor = 0;
-
-    this.mostrarGasto = function(){
-        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €"
-    }
-
-    this.actualizarValor = function(value){
-        if (value > 0)
-            this.valor = value;
-    }
-
-    this.actualizarDescripcion = function(description){
-        this.descripcion = description;
-    }
-}
-*/
-
-
-
 
 //FUNDAMENTOS JAVASCRIPT II
 
@@ -64,6 +37,10 @@ function CrearGasto(description, value, date, ...tags) {
         this.etiquetas = [];
     else
         this.etiquetas = tags;
+
+    this.mostrarGasto = function(){
+        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €"
+    }
 
     this.mostrarGastoCompleto = function(){
         let allTags = "";
