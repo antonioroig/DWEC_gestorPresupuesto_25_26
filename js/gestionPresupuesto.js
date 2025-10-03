@@ -6,7 +6,7 @@ let gastos = [];
 let idGasto = 0;
 
 function actualizarPresupuesto(valor) {
-    if (typeof valor !== "number" || valor <= 0) {
+  if (typeof valor !== "number" || valor <= 0) {
     return -1;
   }
   presupuesto = valor;
@@ -14,7 +14,7 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    return `Tu presupuesto actual es de ${presupuesto} €`;
+  return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
 function CrearGasto(descripcion, valor = 0, fecha = null, ...etiquetas) {
@@ -38,11 +38,12 @@ CrearGasto.prototype.mostrarGastoCompleto = function () {
   if (this.etiquetas.length > 0) {
     texto += "Etiquetas:\n";
     this.etiquetas.forEach(e => {
-      texto += ` - ${e}\n`;
+      texto += `- ${e}\n`;
     });
   }
   return texto;
 };
+
 
 CrearGasto.prototype.actualizarFecha = function (nuevaFecha) {
   let fechaParseada = Date.parse(nuevaFecha);
@@ -63,39 +64,43 @@ CrearGasto.prototype.borrarEtiquetas = function (...etiquetasABorrar) {
   this.etiquetas = this.etiquetas.filter(e => !etiquetasABorrar.includes(e));
 };
 
-  this.mostrarGasto = function () {
-    return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-  };
+CrearGasto.prototype.mostrarGasto = function () {
+  return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+};
 
-  this.actualizarDescripcion = function (nuevaDescripcion) {
-    this.descripcion = nuevaDescripcion;
-    return this.descripcion;
-  };
+CrearGasto.prototype.actualizarDescripcion = function (nuevaDescripcion) {
+  this.descripcion = nuevaDescripcion;
+  return this.descripcion;
+};
 
-  this.actualizarValor = function (nuevoValor) {
-    if (typeof nuevoValor === "number" && nuevoValor >= 0) {
-      this.valor = nuevoValor;
-    }
-    return this.valor; 
-  };
-  function listarGastos() {
-      return gastos;
+CrearGasto.prototype.actualizarValor = function (nuevoValor) {
+  if (typeof nuevoValor === "number" && nuevoValor >= 0) {
+    this.valor = nuevoValor;
   }
-  function anyadirGasto() {
-      gasto.id = idGasto;
-      idGasto++;
-      gastos.push(gasto);
-  }
-  function borrarGasto() {
-      gastos = gastos.filter(g => g.id !== id);
-  }
-  function calcularTotalGastos() {
-      return gastos.reduce((total, g) => total + g.valor, 0);
-  }
-  function calcularBalance() {
-      return presupuesto - calcularTotalGastos();
-  }
+  return this.valor; 
+};
 
+function listarGastos() {
+  return gastos;
+}
+
+function anyadirGasto(gasto) {
+  gasto.id = idGasto;
+  idGasto++;
+  gastos.push(gasto);
+}
+
+function borrarGasto(id) {
+  gastos = gastos.filter(g => g.id !== id);
+}
+
+function calcularTotalGastos() {
+  return gastos.reduce((total, g) => total + g.valor, 0);
+}
+
+function calcularBalance() {
+  return presupuesto - calcularTotalGastos();
+}
 
 
 
