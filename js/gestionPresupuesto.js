@@ -60,6 +60,19 @@ Etiquetas:
         if(!isNaN(check))
             this.fecha = Date.parse(fecha);
     }
+    this.anyadirEtiquetas = function(...etiquetas){
+        if(this.etiquetas.length == 0)
+            this.etiquetas.push(etiquetas[0])
+        for (let i = 0; i < etiquetas.length; i++) {
+            for (let j = 0; j < this.etiquetas.length; j++) {
+                if(etiquetas[i] != this.etiquetas[j] && j == this.etiquetas.length - 1)
+                    this.etiquetas.push(etiquetas[i]);
+                if(etiquetas[i] == this.etiquetas[j])
+                    break;
+            }
+        }
+    }
+    
 }
 
 function listarGastos(){
