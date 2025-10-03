@@ -1,5 +1,5 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
+"use strict"
 // TODO: Variable global
 let presupuesto = 0;
 let gastos = [];
@@ -62,14 +62,14 @@ function borrarGasto(id){
 
 function calcularTotalGastos(){
     let suma = 0;
-    for (let i = 0 ; i <gastos.lenght ; i++){
+    for (let i = 0 ; i <gastos.length ; i++){
         suma += gastos[i].valor;
     }
     return suma;
 }
 
 function calcularBalance(){
-
+    return presupuesto - calcularTotalGastos();
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
