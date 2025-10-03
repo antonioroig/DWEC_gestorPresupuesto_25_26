@@ -17,10 +17,13 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion, value, fecha, ...etiquetas) {
-    if (typeof fecha === "string" && !isNaN(Date.parse(fecha))) 
-        this.fecha = Date.parse(fecha);
-    else 
-        this.fecha = Date.now(); // timestamp actual
+    if (fecha instanceof Date && !isNaN(fecha)) {
+        this.fecha = fecha;
+    } else if (typeof fecha === "string" && !isNaN(Date.parse(fecha))) {
+        this.fecha = new Date(fecha);
+    } else {
+        this.fecha = new Date();
+    }
     if (typeof value != "number" || value < 0)
     {
         this.valor = 0;
@@ -30,7 +33,7 @@ function CrearGasto(descripcion, value, fecha, ...etiquetas) {
         this.valor = value;
         this.descripcion = descripcion;
     }
-    this.etiquetas = [];
+    this.etiquetas = etiquetas;
     this.mostrarGasto = function(){
         return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €";
     };
@@ -43,6 +46,37 @@ function CrearGasto(descripcion, value, fecha, ...etiquetas) {
         if (typeof value == "number" && value >= 0)
             this.valor = value;
     };
+
+    this.mostrarGastoCompleto = function(){
+        let fecha = this.fecha.getDate() + "/" + (this.fecha.getMonth() + 1) + "/" + this.fecha.getFullYear() + ", " + this.fecha.getHours() + ":" + this.fecha.getMinutes() + ":" + this.fecha.getMilliseconds() + "0";
+        let texto = "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\n";
+        texto += "Fecha: " + fecha + "\n";
+        texto += "Etiquetas:\n";
+        for (let i = 0; i < this.etiquetas.length; i++)
+            texto += "- " + this.etiquetas[i] + "\n";
+        return texto;
+    }
+
+    this.actualizarFecha = function(date){ // NO ENTIENDO PORQUE NO VA
+        if (typeof date === "string" && !isNaN(Date.parse(date))) 
+            this.fecha = Date.parse(date); 
+    }
+
+    this.anyadirEtiquetas = function(...nuevas){
+        for (let i = 0; i < nuevas.length; i++){
+            if (!existeEtiqueta(nuevas[i], this.etiquetas))
+                this.etiquetas.push(nuevas[i]);
+        }
+    }
+
+    this.borrarEtiquetas = function(...borrar){
+        for (let i = 0; i < borrar.length; i++){
+            if(existeEtiqueta(borrar[i], this.etiquetas)){
+                this.etiquetas.splice(this.etiquetas.indexOf(borrar[i]), 1);
+                i--;
+            }
+        }
+    }
 }
 
 function listarGastos(){
@@ -78,6 +112,10 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
+function existeEtiqueta(e, etiquetas){
+    return etiquetas.includes(e);
+}
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -89,5 +127,6 @@ export   {
     anyadirGasto, 
     borrarGasto, 
     calcularTotalGastos, 
-    calcularBalance
+    calcularBalance,
+    existeEtiqueta
 }
