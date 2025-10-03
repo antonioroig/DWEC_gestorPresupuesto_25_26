@@ -72,7 +72,14 @@ Etiquetas:
             }
         }
     }
-    
+    this.borrarEtiquetas = function(...etiquetas){
+        for (let i = 0; i < etiquetas.length; i++) {
+            for (let j = 0; j < this.etiquetas.length; j++) {
+                if(etiquetas[i] === this.etiquetas[j])
+                    this.etiquetas.splice(j,1);
+            }
+        }
+    }
 }
 
 function listarGastos(){
