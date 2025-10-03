@@ -17,10 +17,8 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion, value, fecha, ...etiquetas) {
-    if (fecha instanceof Date && !isNaN(fecha)) {
-        this.fecha = fecha;
-    } else if (typeof fecha === "string" && !isNaN(Date.parse(fecha))) {
-        this.fecha = new Date(fecha);
+    if (!isNaN(Date.parse(fecha))) {
+        this.fecha = Date.parse(fecha);
     } else {
         this.fecha = new Date();
     }
@@ -48,7 +46,8 @@ function CrearGasto(descripcion, value, fecha, ...etiquetas) {
     };
 
     this.mostrarGastoCompleto = function(){
-        let fecha = this.fecha.getDate() + "/" + (this.fecha.getMonth() + 1) + "/" + this.fecha.getFullYear() + ", " + this.fecha.getHours() + ":" + this.fecha.getMinutes() + ":" + this.fecha.getMilliseconds() + "0";
+        let fechaFormateada = new Date(this.fecha);
+        let fecha = fechaFormateada.toLocaleString();
         let texto = "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\n";
         texto += "Fecha: " + fecha + "\n";
         texto += "Etiquetas:\n";
@@ -57,8 +56,8 @@ function CrearGasto(descripcion, value, fecha, ...etiquetas) {
         return texto;
     }
 
-    this.actualizarFecha = function(date){ // NO ENTIENDO PORQUE NO VA
-        if (typeof date === "string" && !isNaN(Date.parse(date))) 
+    this.actualizarFecha = function(date){ 
+        if (!isNaN(Date.parse(date))) 
             this.fecha = Date.parse(date); 
     }
 
