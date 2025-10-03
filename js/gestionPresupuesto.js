@@ -32,6 +32,36 @@ function CrearGasto(descripcion, valor = 0, fecha = null, ...etiquetas) {
   }
 }
 
+CrearGasto.prototype.mostrarGastoCompleto = function () {
+  let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
+  texto += `Fecha: ${new Date(this.fecha).toLocaleString()}\n`;
+  if (this.etiquetas.length > 0) {
+    texto += "Etiquetas:\n";
+    this.etiquetas.forEach(e => {
+      texto += ` - ${e}\n`;
+    });
+  }
+  return texto;
+};
+
+CrearGasto.prototype.actualizarFecha = function (nuevaFecha) {
+  let fechaParseada = Date.parse(nuevaFecha);
+  if (!isNaN(fechaParseada)) {
+    this.fecha = fechaParseada;
+  }
+};
+
+CrearGasto.prototype.anyadirEtiquetas = function (...nuevasEtiquetas) {
+  nuevasEtiquetas.forEach(etiqueta => {
+    if (!this.etiquetas.includes(etiqueta)) {
+      this.etiquetas.push(etiqueta);
+    }
+  });
+};
+
+CrearGasto.prototype.borrarEtiquetas = function (...etiquetasABorrar) {
+  this.etiquetas = this.etiquetas.filter(e => !etiquetasABorrar.includes(e));
+};
 
   this.mostrarGasto = function () {
     return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -54,7 +84,7 @@ function CrearGasto(descripcion, valor = 0, fecha = null, ...etiquetas) {
   function calcularTotalGastos() {}
   function calcularBalance() {}
 
-}
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
