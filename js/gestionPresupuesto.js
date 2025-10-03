@@ -51,12 +51,21 @@ function anyadirGasto(nuevoGasto){
 
 }
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    for(let i= 0; i < gastos.length ; i++){
+        if (gastos[i].id === id){
+            gastos.splice(i,1);
+            break;
+        }
+    }
 }
 
 function calcularTotalGastos(){
-
+    let suma = 0;
+    for (let i = 0 ; i <gastos.lenght ; i++){
+        suma += gastos[i].valor;
+    }
+    return suma;
 }
 
 function calcularBalance(){
