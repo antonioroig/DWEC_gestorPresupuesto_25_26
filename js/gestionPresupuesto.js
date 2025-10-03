@@ -36,6 +36,12 @@ function CrearGasto(descripcion, valor) {
     }
     return this.valor; 
   };
+  function listarGastos() {}
+  function anyadirGasto() {}
+  function borrarGasto() {}
+  function calcularTotalGastos() {}
+  function calcularBalance() {}
+
 }
 
 
@@ -45,5 +51,10 @@ function CrearGasto(descripcion, valor) {
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
