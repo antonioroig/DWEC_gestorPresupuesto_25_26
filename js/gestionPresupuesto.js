@@ -38,7 +38,15 @@ function CrearGasto(descripcion,valor,fecha,...etiquetas) {
         this.valor = (!isNaN(valor) && valor >= 0) ? valor : this.valor;
        
             }
+    this.mostrarGastoCompleto = function() {
+        let etiqueta = "";
+        for (let i = 0; i < this.etiquetas.length; i++) {
+            etiqueta += "- " + this.etiquetas[i] + "\n";
+        }
+        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\nFecha: " + new Date(this.fecha).toLocaleString() + "\nEtiquetas:\n" + etiqueta;
+    }
 }
+
 
 function listarGastos(){
     return gastos
