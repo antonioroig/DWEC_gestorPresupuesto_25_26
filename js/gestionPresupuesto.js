@@ -56,6 +56,16 @@ ${etiqueta}`;
         }
     }
 
+    this.anyadirEtiquetas = function(...arrayEtiquetas){
+
+        let aux
+        for (let i = 0 ; i < arrayEtiquetas.length ; i++){
+            aux = arrayEtiquetas[i]
+            if (!this.etiquetas.includes(aux)){
+                this.etiquetas.push(aux)
+            }
+        }
+    }
  }
 
 function listarGastos(){
@@ -76,6 +86,8 @@ function borrarGasto(id){
             break;
         }
     }
+
+
 }
 
 function calcularTotalGastos(){
