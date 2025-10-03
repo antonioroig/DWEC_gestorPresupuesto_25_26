@@ -52,7 +52,14 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
     this.borrarEtiquetas = function(...etiquetasABorrar) {
         this.etiquetas = this.etiquetas.filter(et => !etiquetasABorrar.includes(et));
     };
+
+    this.actualizarValor = function(nuevoValor) {
+        if (typeof nuevoValor === "number" && nuevoValor >= 0) {
+            this.valor = nuevoValor;
+        }
+    };
 }
+
 function listarGastos(){
     return gastos
 }
@@ -65,17 +72,25 @@ function anyadirGasto(gasto) {
     gastos.push(gasto);           
 }
 function borrarGasto(id) {
-    // Eliminar el gasto cuyo id coincide con el pasado como parámetro
     gastos = gastos.filter(g => g.id !== id);
 }
 
 
-function calcularTotalGastos(){
-
+function calcularTotalGastos() {
+    let total = 0;
+    for (let i = 0; i < gastos.length; i++) {
+        total += gastos[i].valor;
+    }
+    return total;
 }
-function calcularBalance(){
 
+function calcularBalance() {
 }
+
+
+
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
