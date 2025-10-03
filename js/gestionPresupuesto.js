@@ -72,7 +72,12 @@ function anyadirGasto(gasto) {
     gastos.push(gasto);           
 }
 function borrarGasto(id) {
-    gastos = gastos.filter(g => g.id !== id);
+       for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+            gastos.splice(i, 1);
+            break; 
+        }
+    }
 }
 
 
@@ -85,6 +90,7 @@ function calcularTotalGastos() {
 }
 
 function calcularBalance() {
+    return presupuesto - calcularTotalGastos();
 }
 
 
