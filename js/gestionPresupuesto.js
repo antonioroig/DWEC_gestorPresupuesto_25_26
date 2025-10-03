@@ -22,7 +22,7 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + presupuesto + " €"
 }
 
-function CrearGasto(descripcion,valor,fecha,etiquetas) {
+function CrearGasto(descripcion,valor,fecha,...etiquetas) {
    
     this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now(); 
     this.etiquetas = (etiquetas !== undefined) ? etiquetas : [];
