@@ -49,8 +49,12 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 Fecha: ${new Date(this.fecha).toLocaleString()}
 Etiquetas:
 ${lEtiquetas}`
-
     } 
+    this.actualizarFecha  = function(fecha){
+        if (fecha !== undefined && !isNaN(Date.parse(fecha))){
+            this.fecha = Date.parse(fecha);
+        }
+    }
     this.anyadirEtiqueta = function(etiqueta){
         
     }
