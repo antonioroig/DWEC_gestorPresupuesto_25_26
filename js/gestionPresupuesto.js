@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion,valor,fecha,...etiquetas) {
    
     this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now(); 
-    this.etiquetas = (etiquetas.lenght >0) ? etiquetas : [];
+    this.etiquetas = (etiquetas.length >0) ? etiquetas : [];
     this.descripcion = descripcion
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0;
     this.mostrarGasto = function(){
@@ -50,8 +50,13 @@ Etiquetas:
 ${etiqueta}`;
     
     }
-
+    this.actualizarFecha  = function(fecha){
+        if (fecha !== undefined && !isNaN(Date.parse(fecha))){
+            this.fecha = Date.parse(fecha);
         }
+    }
+
+ }
 
 function listarGastos(){
     return gastos
