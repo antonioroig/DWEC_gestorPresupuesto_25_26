@@ -55,8 +55,15 @@ ${lEtiquetas}`
             this.fecha = Date.parse(fecha);
         }
     }
-    this.anyadirEtiqueta = function(etiqueta){
-        
+    this.anyadirEtiquetas = function(...nuevasEtiquetas){
+        let etiqueta;
+        for(let i = 0; i < nuevasEtiquetas.length; i++){
+            etiqueta = nuevasEtiquetas[i];
+
+            if(!this.etiquetas.includes(etiqueta)){
+                this.etiquetas.push(etiqueta);
+            }
+        }
     }
 }
 
