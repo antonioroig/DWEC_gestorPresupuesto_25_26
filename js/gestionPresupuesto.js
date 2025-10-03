@@ -65,6 +65,18 @@ ${lEtiquetas}`
             }
         }
     }
+    this.borrarEtiquetas = function(...etiquetasEliminar){
+        for(let i = 0; i < etiquetasEliminar.length; i++){
+            
+            for (let j = 0; j < this.etiquetas.length; j++){
+
+                if(this.etiquetas[j] === etiquetasEliminar[i]){
+                    this.etiquetas.splice[j, 1];
+                    j--;
+                }
+            }
+        }
+    }
 }
 
 function listarGastos(){
