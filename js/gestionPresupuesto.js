@@ -78,11 +78,23 @@ CrearGasto.prototype.borrarEtiquetas = function (...etiquetasABorrar) {
     }
     return this.valor; 
   };
-  function listarGastos() {}
-  function anyadirGasto() {}
-  function borrarGasto() {}
-  function calcularTotalGastos() {}
-  function calcularBalance() {}
+  function listarGastos() {
+      return gastos;
+  }
+  function anyadirGasto() {
+      gasto.id = idGasto;
+      idGasto++;
+      gastos.push(gasto);
+  }
+  function borrarGasto() {
+      gastos = gastos.filter(g => g.id !== id);
+  }
+  function calcularTotalGastos() {
+      return gastos.reduce((total, g) => total + g.valor, 0);
+  }
+  function calcularBalance() {
+      return presupuesto - calcularTotalGastos();
+  }
 
 
 
