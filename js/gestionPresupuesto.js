@@ -68,6 +68,9 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
     this.borrarEtiquetas = function (...etiquetasABorrar) {
         this.etiquetas = this.etiquetas.filter(e => !etiquetasABorrar.includes(e));
     };
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        gastos.groupBy(periodo, gastos => gastos.periodo);
+    }
 
     if (etiquetas.length > 0) {
         this.anyadirEtiquetas(...etiquetas);
@@ -96,7 +99,7 @@ function filtrarGastos(){
 
 }
 function agruparGastos(){
-    
+
 }
 
 
