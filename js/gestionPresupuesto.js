@@ -32,11 +32,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
     
     this.etiquetas = [];
-
-    
-    if (etiquetas.length > 0) {
-        this.anyadirEtiquetas(...etiquetas);
-    }
     
     this.mostrarGasto = function() {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
@@ -80,6 +75,10 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         this.etiquetas = this.etiquetas.filter(etiqueta => !etiquetasABorrar.includes(etiqueta));
     };
     
+    
+    if (etiquetas.length > 0) {
+        this.anyadirEtiquetas(...etiquetas);
+    }
 }
 
 function listarGastos() {
