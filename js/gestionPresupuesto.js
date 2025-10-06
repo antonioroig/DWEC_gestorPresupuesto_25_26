@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion,valor,fecha,...etiquetas) {
    
     this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now(); 
-    this.etiquetas = (etiquetas.lenght >0) ? etiquetas : [];
+    this.etiquetas = (etiquetas.length >0) ? etiquetas : [];
     this.descripcion = descripcion
     this.valor = (!isNaN(valor) && valor >= 0) ? valor : 0;
     this.mostrarGasto = function(){
@@ -38,15 +38,49 @@ function CrearGasto(descripcion,valor,fecha,...etiquetas) {
         this.valor = (!isNaN(valor) && valor >= 0) ? valor : this.valor;
        
             }
-    this.mostrarGastoCompleto = function() {
+  this.mostrarGastoCompleto = function() {
         let etiqueta = "";
         for (let i = 0; i < this.etiquetas.length; i++) {
-            etiqueta += "- " + this.etiquetas[i] + "\n";
+            etiqueta += `- ${this.etiquetas[i]}\n`;
         }
-        return "Gasto correspondiente a " + this.descripcion + " con valor " + this.valor + " €.\nFecha: " + new Date(this.fecha).toLocaleString() + "\nEtiquetas:\n" + etiqueta;
-    }
-}
 
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
+Fecha: ${new Date(this.fecha).toLocaleString()}
+Etiquetas:
+${etiqueta}`;
+    
+    }
+    this.actualizarFecha  = function(fecha){
+        if (fecha !== undefined && !isNaN(Date.parse(fecha))){
+            this.fecha = Date.parse(fecha);
+        }
+    }
+
+    this.anyadirEtiquetas = function(...arrayEtiquetas){
+
+        let aux
+        for (let i = 0 ; i < arrayEtiquetas.length ; i++){
+            aux = arrayEtiquetas[i]
+            if (!this.etiquetas.includes(aux)){
+                this.etiquetas.push(aux)
+            }
+        }
+    }
+
+    this.borrarEtiquetas = function (...etiquetasPasadas){
+         
+
+        for(let i = 0 ; i < etiquetasPasadas.length ; i++){
+           for (let j = 0; j < this.etiquetas.length; j++){
+
+                if(this.etiquetas[j] === etiquetasPasadas[i]){
+                    this.etiquetas.splice(j, 1);
+                    j--;
+                }
+            }
+        }
+    }
+ }
 
 function listarGastos(){
     return gastos
@@ -66,6 +100,8 @@ function borrarGasto(id){
             break;
         }
     }
+
+
 }
 
 function calcularTotalGastos(){
