@@ -84,6 +84,35 @@ function CrearGasto(description, value, date, ...tags) {
             }
         }
     }
+
+    this.obtenerPeriodoAgrupacion = function(periodo){
+
+        let fechaFormateada = new Date(this.fecha);
+
+        let year = fechaFormateada.getFullYear();
+        let month = fechaFormateada.getMonth();
+        let day = fechaFormateada.getDate();
+        month += 1;
+
+        if (month < 10)
+            month = "0" + month;
+        if (day < 10)
+            day = "0" + day;
+
+        date = year + "-" + month + "-" + day;
+
+        let año = date.slice(0, 4);
+        let mes = date.slice(5, 7);
+   
+
+        if (periodo === "anyo")
+            return año;
+        else if(periodo === "mes")
+            return año + "-" + mes;
+        else if(periodo === "dia")
+            return date;
+
+    }
 }
 
 function listarGastos()
@@ -123,12 +152,41 @@ function calcularBalance()
     return presupuesto - gastosTotales;
 }
 
+function filtrarGastos()
+{
+
+}
+
+function agruparGastos()
+{
+
+}
+
+/*
 let gasto1 = new CrearGasto("Gasto 1");
 let gasto2 = new CrearGasto("Gasto 2", 23.55);
 let gasto3 = new CrearGasto("Gasto 3", 23.55, "2021-10-06T13:10" );
 let gasto4 = new CrearGasto("Gasto 4", 23.55, "2021-10-06T13:10", "casa" );
 let gasto5 = new CrearGasto("Gasto 5", 23.55, "2021-10-06T13:10", "casa", "supermercado" );
 let gasto6 = new CrearGasto("Gasto 6", 23.55, "2021-10-06T13:10", "casa", "supermercado", "comida" );
+*/
+
+let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
+let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
+
+gasto1.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-09"
+gasto1.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto1.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-09-06"
+
+gasto2.obtenerPeriodoAgrupacion("mes");
+// Resultado: "2021-11"
+gasto2.obtenerPeriodoAgrupacion("anyo");
+// Resultado: "2021"
+gasto2.obtenerPeriodoAgrupacion("dia");
+// Resultado: "2021-11-24"
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -142,5 +200,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
