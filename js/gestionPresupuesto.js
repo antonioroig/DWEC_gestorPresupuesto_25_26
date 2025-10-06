@@ -47,6 +47,13 @@ function calcularBalance() {
     return presupuesto - totalGasto;
 }
 
+function agruparGastos() {
+
+}
+
+function filtrarGastos() {
+
+}
 
 
 function actualizarPresupuesto(value) {
@@ -162,6 +169,30 @@ Etiquetas:${this.formatearGastos()}`
         }
     }
 
+    this.obtenerPeriodoAgrupacion = function(filter) {
+        let fecha = new Date(this.fecha)
+        let year = fecha.getFullYear();
+        let month = fecha.getMonth() + 1
+        let day = fecha.getDate();
+
+        if (month < 10) {
+            month = `0${month}`
+        }
+        if (day < 10) {
+            day = `0${day}`
+        }
+        
+        if (filter == "dia") {
+            return year + "-" + month + "-" + day
+        }
+        if (filter == "mes") {
+            return year + "-" + month
+        }
+        if (filter == "anyo") {
+            return year
+        }
+    }
+
     this.descripcion = descripcion;
     this.valor = this.validarValor(valor); // DEBERIA SER ACTUALIZAR VALOR NO VALIDARLO
     this.fecha = this.validarFecha(fecha);
@@ -171,25 +202,16 @@ Etiquetas:${this.formatearGastos()}`
 
 
 
+        // let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
+        // let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
 
+        // console.log(gasto1.obtenerPeriodoAgrupacion("mes"), "2021-09");
+        // console.log(gasto1.obtenerPeriodoAgrupacion("anyo"), "2021");
+        // console.log(gasto1.obtenerPeriodoAgrupacion("dia"), "2021-09-06");
 
-// TODO
-// let valor = 23.55;
-// let fechalocale = new Date("2021-10-06T13:10Z").toLocaleString();
-// let gasto1 = new CrearGasto("pasteles", valor, "2021-10-06T13:10Z", "casa", "supermercado", "comida" );
-// console.log("Esperado");
-// console.log(`Gasto correspondiente ${gasto1.descripcion} con valor ${gasto1.valor} €.
-// Fecha: ${fechalocale}
-// Etiquetas:
-// - casa
-// - supermercado
-// - comida`    
-// );
-// console.log("-----------------");
-// console.log("objeto");
-// console.log("funcion gasto1", gasto1.mostrarGastoCompleto());
-
-
+        // console.log(gasto2.obtenerPeriodoAgrupacion("mes"), "2021-11");
+        // console.log(gasto2.obtenerPeriodoAgrupacion("anyo"), "2021");
+        // console.log(gasto2.obtenerPeriodoAgrupacion("dia"), "2021-11-24");
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -201,6 +223,8 @@ export {
     listarGastos,
     anyadirGasto,
     borrarGasto,
-    calcularTotalGastos,
-    calcularBalance 
+    calcularTotalGastos,    
+    calcularBalance,
+    agruparGastos,
+    filtrarGastos
 }
