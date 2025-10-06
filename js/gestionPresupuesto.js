@@ -110,6 +110,28 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
         this.valor = valor;
         }
     }
+
+    this.obtenerPeriodoAgrupacion = function(periodo) {
+    // Convertimos la marca de tiempo a un objeto Date
+    let fechaObj = new Date(this.fecha);
+    
+    // Obtenemos año mes y dia
+    let anyo = fechaObj.getFullYear();
+    let mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0');
+    let dia = fechaObj.getDate().toString().padStart(2, '0');
+
+    // Devolvemos segun el tipo de agrupacion
+    switch(periodo.toLowerCase()) {
+        case "dia":
+            return (anyo + "-" + mes + "-" + dia);//`${anyo}-${mes}-${dia}`;
+        case "mes":
+            return (anyo + "-" + mes);//`${anyo}-${mes}`;
+        case "anyo":
+            return anyo;//`${anyo}`;
+        default:
+            return "Período no válido. Usa 'dia', 'mes' o 'anyo'.";
+    }
+}
 }
 
 function listarGastos(){
@@ -143,7 +165,7 @@ function calcularBalance(){
 }
 
 function filtrarGastos(){
-    
+
 }
 
 function agruparGastos(){
