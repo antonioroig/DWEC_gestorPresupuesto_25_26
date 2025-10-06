@@ -38,14 +38,14 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     };
     
     this.mostrarGastoCompleto = function() {
-        let fechaFormateada = new Date(this.fecha).toLocaleString();
-        let etiquetasTexto = "";
-        
-        if (this.etiquetas.length > 0) {
-            etiquetasTexto = "\nEtiquetas:\n" + this.etiquetas.map(etiqueta => ` - ${etiqueta}`).join('\n');
-        }
-        
-        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaFormateada}${etiquetasTexto}`;
+    let fechaFormateada = new Date(this.fecha).toLocaleString();
+    let etiquetasTexto = "";
+    
+    if (this.etiquetas.length > 0) {
+        etiquetasTexto = "\nEtiquetas:\n" + this.etiquetas.map(etiqueta => `- ${etiqueta}`).join('\n');
+    }
+    
+    return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaFormateada}${etiquetasTexto}\n`;
     };
     this.actualizarDescripcion = function(nuevaDescripcion) {
         this.descripcion = nuevaDescripcion;
