@@ -106,6 +106,13 @@ function calcularTotalGastos() {
 function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
+function filtrarGastos() {
+    
+}
+function agruparGastos(){
+
+}
+
 
 
 
@@ -123,5 +130,7 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
+    filtrarGastos,
+    agruparGastos,
     CrearGasto
 }
