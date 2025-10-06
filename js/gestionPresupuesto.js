@@ -77,6 +77,9 @@ ${lEtiquetas}`
             }
         }
     }
+    this.obtenerPeriodoAgrupacion = function(){
+        
+    }
 }
 
 function listarGastos(){
