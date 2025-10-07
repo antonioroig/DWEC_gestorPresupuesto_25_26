@@ -105,6 +105,17 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
         this.etiquetas = resultado;
     };
 
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        const fechaObj = new Date(this.fecha);
+        const year = fechaObj.getFullYear();
+        const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
+        const day = String(fechaObj.getDate()).padStart(2, '0');
+
+        if (periodo === "dia") return `${year}-${month}-${day}`;
+        if (periodo === "mes") return `${year}-${month}`;
+        if (periodo === "anyo") return `${year}`;
+        return "";
+    };
 }
 function listarGastos(){
     return gastos;
