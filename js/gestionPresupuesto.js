@@ -155,8 +155,72 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(){
+function filtrarGastos(filtros = {}) {
+    return gastos.filter(gasto => {
+        const fecha = gasto.fecha;
+        const valor = gasto.valor;
+        const descripcion = gasto.descripcion.toLowerCase();
+        // const etiquetas = gasto.etiquetas.map(e => e.toLowerCase());
+        const etiquetas = gasto.etiquetas.map(function(e){
+                                                return e.toLowerCase();
+        })
 
+        let desde = null;
+        let hasta = null;
+
+        if (filtros.fechaDesde) {
+            desde = Date.parse(filtros.fechaDesde);
+        }
+
+        if (filtros.fechaHasta) {
+            hasta = Date.parse(filtros.fechaHasta);
+        }
+
+        let cumpleFecha = true;
+        if (desde !== null && fecha < desde) {
+            cumpleFecha = false;
+        }
+        if (hasta !== null && fecha > hasta) {
+            cumpleFecha = false;
+        }
+
+        let cumpleValor = true;
+        if (filtros.valorMinimo != null && valor < filtros.valorMinimo) {
+            cumpleValor = false;
+        }
+        if (filtros.valorMaximo != null && valor > filtros.valorMaximo) {
+            cumpleValor = false;
+        }
+
+        let cumpleDescripcion = true;
+        if (filtros.descripcionContiene) {
+            const textoBuscado = filtros.descripcionContiene.toLowerCase();
+            if (!descripcion.includes(textoBuscado)) {
+                cumpleDescripcion = false;
+            }
+        }
+
+        let cumpleEtiquetas = true;
+        if (filtros.etiquetasTiene && filtros.etiquetasTiene.length > 0) {
+            const etiquetasFiltro = filtros.etiquetasTiene.map(e => e.toLowerCase());
+            let coincide = false;
+            for (let i = 0; i < etiquetasFiltro.length; i++) {
+                if (etiquetas.includes(etiquetasFiltro[i])) {
+                    coincide = true;
+                    break;
+                }
+            }
+            if (!coincide) {
+                cumpleEtiquetas = false;
+            }
+        }
+
+        if (cumpleFecha && cumpleValor && cumpleDescripcion && cumpleEtiquetas) {
+            return true;
+        } else {
+            return false;
+        }
+    });
 }
 
 function agruparGastos(){
