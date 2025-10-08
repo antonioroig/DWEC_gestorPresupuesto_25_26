@@ -81,8 +81,23 @@ ${etiqueta}`;
         }
     }
 
-    this.obtenerPeriodoAgrupacion = function (){
+    this.obtenerPeriodoAgrupacion = function (periodo){
+        if (periodo === "mes"){
+            console.log ("HOOOLA",this.fecha.toString().slice(0-6))
+            return this.fecha.toString().slice(0-6)
+
+        }
+        else if (periodo === "anyo"){
+
+           return this.fecha.toString().slice(0-3)
+  
+
+        }
+        else if (periodo === "dia"){
         
+          return this.fecha.toString().slice(0-9)
+
+        }
     }
  }
 
