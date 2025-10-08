@@ -142,9 +142,20 @@ function filtrarGastos(filtro){
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
-    let gastosFiltrados = filtrarGastos(etiquetas, fechaDesde, fechaHasta);
-    
-
+    let gastosFiltrados = filtrarGastos({
+        etiquetasTiene: etiquetas, 
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta
+    });
+    let result = gastosFiltrados.reduce((acumulador, gasto) => {
+        let clave = gasto.obtenerPeriodoAgrupacion(periodo);
+        if(acumulador[clave] != null)
+            acumulador[clave] += gasto.valor;
+        else
+            acumulador[clave] = gasto.valor;
+        return acumulador
+    }, {});
+    return result;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
