@@ -137,12 +137,23 @@ function existeEtiqueta(e, etiquetas){
     return etiquetas.includes(e);
 }
 
-function filtrarGastos(element){
-    return gastos.filter(element);
+function filtrarGastos(objeto){ 
+    let count = 0;
+    if (Object.keys(objeto).length == 0 || !objeto)
+        return gastos;
+    else {
+        for (let i = 0; Object.keys(objeto).length > i; i++){ 
+            // console.log(Object.keys(objeto)[i] + ": " + Object.values(objeto)[i]); // PROBAR
+            gastos.filter();
+        }
+    }
+
+    return gastos;
 }
 
-function agruparGastos(){
-
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
+    let conjuntoGastos = filtrarGastos(["fechaDesde: " + fechaDesde, "fechaHasta: " + fechaHasta]);
+    // FALTA
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
