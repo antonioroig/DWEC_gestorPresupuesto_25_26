@@ -69,9 +69,22 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
         this.etiquetas = this.etiquetas.filter(e => !etiquetasABorrar.includes(e));
     };
     this.obtenerPeriodoAgrupacion = function (periodo) {
-        gastos.groupBy(periodo, gastos => gastos.periodo);
-    }
+        const fechaObj = new Date(this.fecha);
+        const anyo = fechaObj.getFullYear();
+        const mes = String(fechaObj.getMonth() + 1).padStart(2, "0");
+        const dia = String(fechaObj.getDate()).padStart(2, "0");
 
+        switch (periodo) {
+            case "dia":
+                return `${anyo}-${mes}-${dia}`;
+            case "mes":
+                return `${anyo}-${mes}`;
+            case "anyo":
+                return `${anyo}`;
+            default:
+                return null;
+        }
+    }
     if (etiquetas.length > 0) {
         this.anyadirEtiquetas(...etiquetas);
     }
