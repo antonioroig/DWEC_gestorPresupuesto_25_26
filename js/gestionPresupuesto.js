@@ -152,12 +152,68 @@ function calcularBalance()
     return presupuesto - gastosTotales;
 }
 
-function filtrarGastos()
+function filtrarGastos(objeto)
 {
+    if(Object.keys(objeto).length === 0)
+        return gastos;
 
+    let arrayCopia=gastos;
+
+    if (objeto.fechaDesde != undefined && !isNaN(Date.parse(objeto.fechaDesde)))
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            return gasto.fecha >= Date.parse(objeto.fechaDesde);
+        });
+    }
+    if (objeto.fechaHasta != undefined && !isNaN(Date.parse(objeto.fechaHasta)))
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            return gasto.fecha <= Date.parse(objeto.fechaHasta);
+        })
+    }
+    if (objeto.valorMinimo != undefined)
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            return gasto.valor >= objeto.valorMinimo;
+        })
+    }
+    if (objeto.valorMaximo != undefined)
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            return gasto.valor <= objeto.valorMaximo;
+        })
+    }
+    if (objeto.descripcionContiene != undefined)
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            let arrayDescripcion = gasto.descripcion.split(" ");
+            for (let i = 0; i < arrayDescripcion.length; i++)
+                return arrayDescripcion[i].toLowerCase() == objeto.descripcionContiene.toLowerCase();
+        })
+    }
+    if (objeto.etiquetasTiene != undefined)
+    {
+        arrayCopia = arrayCopia.filter(function(gasto){
+            for (let i = 0; i < objeto.etiquetasTiene.length; i++)
+                if(gasto.etiquetas != undefined && gasto.etiquetas.length > 0)
+                {
+                    let j = 0;
+                    while (j < gasto.etiquetas.length)
+                    {
+                        if(objeto.etiquetas[i].toLowerCase() == gastos.etiquetas[j].toLowerCase())
+                            return true; 
+                        else
+                            j++;
+                    }
+                }
+                return false;
+        })
+    }
+
+    return arrayCopia;
 }
 
-function agruparGastos()
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
 {
 
 }
