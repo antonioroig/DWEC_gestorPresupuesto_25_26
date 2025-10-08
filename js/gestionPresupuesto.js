@@ -71,6 +71,21 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
             this.valor = nuevoValor;
         }
     };
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        const fecha = new Date(this.fecha)
+
+        const año = fecha.getFullYear();
+        let mes = fecha.getMonth() + 1;
+        let dia = fecha.getDate();
+
+        if(mes < 10){
+            mes = "0" + mes;
+        }
+        if(dia < 10){
+            dia = "0" + dia
+        }
+        if (periodo === )
+    }
 }
 
 
@@ -107,7 +122,8 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 function filtrarGastos() {
-    
+    let cumple = true;
+
 }
 function agruparGastos(){
 
