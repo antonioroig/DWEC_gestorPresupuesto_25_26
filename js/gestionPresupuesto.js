@@ -195,21 +195,22 @@ function filtrarGastos(objeto)
     {
         arrayCopia = arrayCopia.filter(function(gasto){
             for (let i = 0; i < objeto.etiquetasTiene.length; i++)
+            {
                 if(gasto.etiquetas != undefined && gasto.etiquetas.length > 0)
                 {
                     let j = 0;
                     while (j < gasto.etiquetas.length)
                     {
-                        if(objeto.etiquetas[i].toLowerCase() == gastos.etiquetas[j].toLowerCase())
+                        if(objeto.etiquetasTiene[i].toLowerCase() == gasto.etiquetas[j].toLowerCase())
                             return true; 
                         else
                             j++;
                     }
                 }
-                return false;
+            }
+            return false;
         })
     }
-
     return arrayCopia;
 }
 
