@@ -6,8 +6,7 @@
         let presupuesto = 0;
         let gastos = [];
         let idGasto = 0;
-        
-        
+
                         // CONSTRUCTOR
         
         function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) {
@@ -104,6 +103,32 @@
 Fecha: ${fechaFormateada}
 Etiquetas:\n${desplegable}`)
             }
+
+            this.obtenerPeriodoAgrupacion = function(parametro){
+                let fechaFormateada = new Date(this.fecha);
+                let anyo = fechaFormateada.getFullYear();
+                let mes = fechaFormateada.getMonth()+1;
+                if (mes < 10)
+                {
+                    mes = "0" + mes;
+                }
+                let dia = fechaFormateada.getDate();
+                if (dia < 10)
+                {
+                    dia = "0" + dia
+                }
+                if(parametro == "anyo")
+                    return anyo;
+                if(parametro == "mes")
+                {
+                    return `${anyo}-${mes}`
+                }
+                if(parametro == "dia")
+                {
+                    return `${anyo}-${mes}-${dia}`
+                }
+            }
+                            //FIN DEL CONSTRUCTOR
             }
         
                             //FUNCIONES
@@ -166,9 +191,61 @@ Etiquetas:\n${desplegable}`)
             {
                 return (presupuesto - calcularTotalGastos())
             }
+            
+            function filtrarGastos(filtro)
+            {
+                if(Object.keys(filtro).length == 0)
+                    return gastos;
+
+                let resultados = [...gastos];
+
+                let fechaDesdeFiltro = new Date(filtro.fechaDesde);
+                let fechaHastaFiltro = new Date(filtro.fechaHasta); 
+                fechaDesdeFiltro = Date.parse(fechaDesdeFiltro);
+                fechaHastaFiltro = Date.parse(fechaHastaFiltro);
+                let minValue = filtro.valorMinimo;
+                let maxValue = filtro.valorMaximo;
+                let description = filtro.descripcionContiene;
+
+                if('fechaDesde' in filtro)
+                {
+                    resultados = resultados.filter(item => item.fecha >= fechaDesdeFiltro)
+                }
+                if(('fechaHasta' in filtro))
+                {
+                    resultados = resultados.filter(item => item.fecha <= fechaHastaFiltro)
+                }
+                if('valorMinimo' in filtro)
+                {
+                    resultados = resultados.filter(item => item.valor >= minValue)
+                }
+                if('valorMaximo' in filtro)
+                {
+                    resultados = resultados.filter(item => item.valor <= maxValue)
+
+                }
+                if('descripcionContiene' in filtro)
+                {
+                    for(let i = 0; i < resultados.length; i++)
+                    {
+                        if(resultados[i].descripcion != undefined)
+                            resultados[i].descripcion = resultados[i].descripcion.toLowerCase();
+                    }
+                    description = description.toLowerCase();
+                    resultados.filter(item => item.descripcion.includes(description))
+                }
+                if('etiquetasTiene' in filtro)
+                {
+                    resultados.filter(item => item.etiquetas.includes(etiquetasTiene))
+                }
+                return resultados;
+            }
+            function agruparGastos()
+            {
+
+            }
+
         
-        
-         
         // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
         // Las funciones y objetos deben tener los nombres que se indican en el enunciado
         // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -181,6 +258,7 @@ Etiquetas:\n${desplegable}`)
             anyadirGasto,
             borrarGasto,
             calcularTotalGastos,
-            calcularBalance
+            calcularBalance,
+            filtrarGastos,
+            agruparGastos
         }
-        
