@@ -77,8 +77,20 @@ ${lEtiquetas}`
             }
         }
     }
-    this.obtenerPeriodoAgrupacion = function(){
-        
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        switch(periodo){
+            case "mes":
+                return (new Date(this.fecha).getYear() + "-" + new Date(this.fecha).getMonth())
+                break;
+                        
+            case "anyo":
+                return (new Date(this.fecha).getYear().toString())
+                break;
+
+           case "dia":
+                return (new Date(this.fecha).getDate().toString())
+                break;
+        }        
     }
 }
 
