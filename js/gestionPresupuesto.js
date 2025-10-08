@@ -48,11 +48,58 @@ function calcularBalance() {
 }
 
 function agruparGastos() {
-
+    
+    // periodo ("dia","mes","anyo")
+    // etiquetas ["tag", "tag"]
+    // fechaDesde
+    // fechaHasta
+    return {};
 }
 
-function filtrarGastos() {
+function filtrarGastos(values = {}) {
+    const fechaDesde = values.fechaDesde ? new Date(values.fechaDesde) : null;
+    const fechaHasta = values.fechaHasta ? new Date(values.fechaHasta) : null;
+    const valorMaximo = values.valorMaximo ?? null;
+    const valorMinimo = values.valorMinimo ?? null;
+    const descripcionContiene = values.descripcionContiene?.toLowerCase() ?? null;
+    const etiquetasTiene = values.etiquetasTiene ?? null;
 
+    if (!values || Object.keys(values).length === 0) {
+        return gastos;
+    }
+
+    let response = [...gastos];
+
+    if (fechaDesde) {
+        response = response.filter(gasto => new Date(gasto.fecha) >= fechaDesde)
+    }
+    if (fechaHasta) {
+        response = response.filter(gasto => new Date(gasto.fecha) <= fechaHasta)
+    }
+    if (valorMinimo) {
+        response = response.filter(gasto => gasto.valor >= valorMinimo)
+    }
+    if (valorMaximo) {
+        response = response.filter(gasto => gasto.valor <= valorMaximo)
+    }
+    if (descripcionContiene) {
+        response = response.filter(gasto =>
+            gasto.descripcion?.toLowerCase().includes(descripcionContiene)
+        );
+    }
+
+    // Some devuelve true o false si se cumple la condición
+    // Primero filtro los gastos, y accedo a etiquetas, aplicando "some" para ver si cumplen la condición
+    // Dentro de some, cada etiqueta (tag) confirmo que tenga incluida la lista de etiquetasTiene
+    if (etiquetasTiene && etiquetasTiene.length > 0) {
+        response = response.filter(gasto =>
+            gasto.etiquetas.some(tag =>
+                etiquetasTiene.some(etiqueta => etiqueta.toLowerCase() === tag.toLowerCase())
+            )
+        );
+    }
+
+    return response;
 }
 
 
