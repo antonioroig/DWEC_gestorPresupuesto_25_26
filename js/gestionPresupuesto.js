@@ -108,11 +108,11 @@ Etiquetas:\n${desplegable}`)
                 let fechaFormateada = new Date(this.fecha);
                 let anyo = fechaFormateada.getFullYear();
                 let mes = fechaFormateada.getMonth()+1;
+                let dia = fechaFormateada.getDate();
                 if (mes < 10)
                 {
                     mes = "0" + mes;
                 }
-                let dia = fechaFormateada.getDate();
                 if (dia < 10)
                 {
                     dia = "0" + dia
@@ -206,7 +206,8 @@ Etiquetas:\n${desplegable}`)
                 let minValue = filtro.valorMinimo;
                 let maxValue = filtro.valorMaximo;
                 let description = filtro.descripcionContiene;
-
+                let tags = [];
+                
                 if('fechaDesde' in filtro)
                 {
                     resultados = resultados.filter(item => item.fecha >= fechaDesdeFiltro)
@@ -220,29 +221,41 @@ Etiquetas:\n${desplegable}`)
                     resultados = resultados.filter(item => item.valor >= minValue)
                 }
                 if('valorMaximo' in filtro)
-                {
+                    {
                     resultados = resultados.filter(item => item.valor <= maxValue)
 
                 }
                 if('descripcionContiene' in filtro)
-                {
-                    for(let i = 0; i < resultados.length; i++)
                     {
-                        if(resultados[i].descripcion != undefined)
+                    for(let i = 0; i < resultados.length; i++)
+                        {
+                            if(resultados[i].descripcion != undefined)
                             resultados[i].descripcion = resultados[i].descripcion.toLowerCase();
                     }
                     description = description.toLowerCase();
-                    resultados.filter(item => item.descripcion.includes(description))
+                    resultados = resultados.filter(item => item.descripcion.includes(description))
                 }
                 if('etiquetasTiene' in filtro)
-                {
-                    resultados.filter(item => item.etiquetas.includes(etiquetasTiene))
-                }
-                return resultados;
-            }
+                    {
+                    for(let i = 0; i < filtro.etiquetasTiene.length; i++)
+                    {
+                        tags.push(filtro.etiquetasTiene[i].toLowerCase());
+                    }
+                    for(let i = 0; i < resultados.length; i++)
+                        {
+                            if(resultados[i].etiquetas != undefined && resultados[i].etiquetas != [])
+                                for(let j = 0; j < resultados[i].etiquetas.length; j++)
+                                {
+                                    resultados[i].etiquetas[j] = resultados[i].etiquetas[j].toLowerCase();
+                                }
+                            }
+                            resultados = resultados.filter(item => item.etiquetas.some(tags));
+                        }
+                        return resultados;
+                    }
             function agruparGastos()
             {
-
+                
             }
 
         
