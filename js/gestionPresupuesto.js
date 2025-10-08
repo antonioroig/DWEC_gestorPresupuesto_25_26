@@ -126,11 +126,24 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(){
-
+function filtrarGastos(filtro){
+    return gastos.filter(gasto => (
+        (!filtro.fechaDesde || gasto.fecha >= Date.parse(filtro.fechaDesde)) &&
+        (!filtro.fechaHasta || gasto.fecha <=  Date.parse(filtro.fechaHasta)) &&
+        (!filtro.valorMinimo || gasto.valor >= filtro.valorMinimo) &&
+        (!filtro.valorMaximo || gasto.valor <= filtro.valorMaximo) &&
+        (!filtro.descripcionContiene || gasto.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase())) &&
+        (!filtro.etiquetasTiene || gasto.etiquetas.some(etiquetaGasto =>
+            filtro.etiquetasTiene.some(etiquetaFiltro =>
+                etiquetaGasto.toLowerCase() === etiquetaFiltro.toLowerCase()
+            )
+        ))
+    ));
 }
 
-function agruparGastos(){
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
+    let gastosFiltrados = filtrarGastos(etiquetas, fechaDesde, fechaHasta);
+    
 
 }
 
