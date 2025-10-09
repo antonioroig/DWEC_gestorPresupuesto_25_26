@@ -2,7 +2,6 @@
 
 // TODO: Variable global
 let presupuesto = 0;
-//Actividad 2
 let gastos = [];
 let idGasto = 0;
 
@@ -14,9 +13,7 @@ function listarGastos() {
 function anyadirGasto(obj) {
     if (obj == null || obj == undefined)
         return;
-
     obj.id = idGasto++;
-
     gastos.push(obj);
 }
 
@@ -47,14 +44,48 @@ function calcularBalance() {
     return presupuesto - totalGasto;
 }
 
-function agruparGastos() {
-    
-    // periodo ("dia","mes","anyo")
-    // etiquetas ["tag", "tag"]
-    // fechaDesde
-    // fechaHasta
-    return {};
+function agruparGastos(...values) {
+    console.log("values...");
+    console.log(values);
+    if (values[0])
+        values[0].toLowerCase();
+
+    let copyGastos;
+    if (!values[1]) {
+        copyGastos = [...gastos]
+    } else {
+        copyGastos = filtrarGastos({etiquetasTiene: values[1]})
+    }
+
+    if (values[2]) {
+        copyGastos = filtrarGastos({etiquetasTiene: values[1], fechaDesde: values[2]})
+    }
+
+    if (values[3]) {
+        copyGastos = filtrarGastos({etiquetasTiene: values[1], fechaDesde: values[2], fechaHasta: values[3]})
+    }
+
+    let fechas = {}
+    if (values[0] == 'dia' || values[0] == 'mes' || values[0] == 'anyo') {
+        for (let gasto of copyGastos) {
+            let agr = gasto.obtenerPeriodoAgrupacion(values[0]);
+            // Como "gasto" ya está declarado, declaro "expense" para el siguiente punto
+            // Una vez obtengo el periodo de agrupación, asigno una variable al reduce.
+            // Reduce tiene acumulador y el gasto, y dentro devuelvo un "if"
+            // El cual, si coincide con el periodo obtenido previamente, le meta el acumulador
+            const total = copyGastos.reduce((acum, expense) => {
+                if (expense.obtenerPeriodoAgrupacion(values[0]) === agr) {
+                    acum += expense.valor;
+                }
+                return acum;
+                }, 0);
+            fechas = {...fechas, [agr]: total}
+            
+        }
+    }
+    return fechas;
 }
+
 
 function filtrarGastos(values = {}) {
     const fechaDesde = values.fechaDesde ? new Date(values.fechaDesde) : null;
@@ -219,7 +250,7 @@ Etiquetas:${this.formatearGastos()}`
     this.obtenerPeriodoAgrupacion = function(filter) {
         let fecha = new Date(this.fecha)
         let year = fecha.getFullYear();
-        let month = fecha.getMonth() + 1
+        let month = fecha.getMonth() + 1;
         let day = fecha.getDate();
 
         if (month < 10) {
