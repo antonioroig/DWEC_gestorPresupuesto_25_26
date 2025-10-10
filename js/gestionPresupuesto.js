@@ -71,7 +71,7 @@ ${lEtiquetas}`
             for (let j = 0; j < this.etiquetas.length; j++){
 
                 if(this.etiquetas[j] === etiquetasEliminar[i]){
-                    this.etiquetas.splice[j, 1];
+                    this.etiquetas.splice(j, 1);
                     j--;
                 }
             }
