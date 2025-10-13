@@ -1,11 +1,7 @@
-// TODO: Crear las funciones, objetos y variables indicadas en el enunciado
-
-// TODO: Variable global
 let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
-// MOVER ESTO A LA FUNCION CONSTRUCTORA
 function listarGastos() {
     return gastos;
 }
@@ -45,8 +41,6 @@ function calcularBalance() {
 }
 
 function agruparGastos(...values) {
-    console.log("values...");
-    console.log(values);
     if (values[0])
         values[0].toLowerCase();
 
@@ -66,6 +60,7 @@ function agruparGastos(...values) {
     }
 
     let fechas = {}
+
     if (values[0] == 'dia' || values[0] == 'mes' || values[0] == 'anyo') {
         for (let gasto of copyGastos) {
             let agr = gasto.obtenerPeriodoAgrupacion(values[0]);
@@ -135,9 +130,7 @@ function filtrarGastos(values = {}) {
 
 
 function actualizarPresupuesto(value) {
-    console.log("Presupuesto: ", presupuesto);
     const num = Number(value);
-    console.log("valor en numerico: ", num);
     if (isNaN(num) || num < 0) {
         return -1;
     }
@@ -264,7 +257,7 @@ Etiquetas:${this.formatearGastos()}`
             return `${year}-${month}-${day}`
         }
         if (filter == "mes") {
-            return`${year}-${month}`
+            return `${year}-${month}`
         }
         if (filter == "anyo") {
             return `${year}`
