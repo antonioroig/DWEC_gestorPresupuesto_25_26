@@ -74,7 +74,7 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
     this.obtenerPeriodoAgrupacion = function(periodo){
         const fecha = new Date(this.fecha)
 
-        const año = fecha.getFullYear();
+        const anyo = fecha.getFullYear();
         let mes = fecha.getMonth() + 1;
         let dia = fecha.getDate();
 
@@ -84,7 +84,15 @@ function CrearGasto(descripcion, valor = 0, fecha, ...etiquetas) {
         if(dia < 10){
             dia = "0" + dia
         }
-        if (periodo === )
+    if (periodo === "dia") {
+        return `${anyo}-${mes}-${dia}`;
+    } else if (periodo === "mes") {
+        return `${anyo}-${mes}`;
+    } else if (periodo === "anyo") {
+        return `${anyo}`;
+    } 
+        return;
+    
     }
 }
 
@@ -122,7 +130,7 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 function filtrarGastos() {
-    let cumple = true;
+
 
 }
 function agruparGastos(){
