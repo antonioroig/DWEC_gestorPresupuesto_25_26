@@ -261,13 +261,13 @@ Etiquetas:${this.formatearGastos()}`
         }
         
         if (filter == "dia") {
-            return year + "-" + month + "-" + day
+            return `${year}-${month}-${day}`
         }
         if (filter == "mes") {
-            return year + "-" + month
+            return`${year}-${month}`
         }
         if (filter == "anyo") {
-            return year
+            return `${year}`
         }
     }
 
@@ -278,18 +278,6 @@ Etiquetas:${this.formatearGastos()}`
     this.id = null;
 }
 
-
-
-        // let gasto1 = new CrearGasto("Gasto 1", 23.55, "2021-09-06", "casa", "supermercado" );
-        // let gasto2 = new CrearGasto("Gasto 2", 27.55, "2021-11-24", "casa", "supermercado", "comida" );
-
-        // console.log(gasto1.obtenerPeriodoAgrupacion("mes"), "2021-09");
-        // console.log(gasto1.obtenerPeriodoAgrupacion("anyo"), "2021");
-        // console.log(gasto1.obtenerPeriodoAgrupacion("dia"), "2021-09-06");
-
-        // console.log(gasto2.obtenerPeriodoAgrupacion("mes"), "2021-11");
-        // console.log(gasto2.obtenerPeriodoAgrupacion("anyo"), "2021");
-        // console.log(gasto2.obtenerPeriodoAgrupacion("dia"), "2021-11-24");
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
