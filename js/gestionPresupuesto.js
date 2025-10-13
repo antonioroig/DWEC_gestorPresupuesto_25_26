@@ -82,24 +82,35 @@ ${etiqueta}`;
     }
 
     this.obtenerPeriodoAgrupacion = function (periodo){
-        if (periodo === "mes"){
-            console.log ("HOOOLA",this.fecha.toString().slice(0-6))
-            return this.fecha.toString().slice(0-6)
+     const fecha = new Date(this.fecha);
+  const anyo = fecha.getFullYear();
+  let mes = fecha.getMonth() + 1;
+  let dia = fecha.getDate();
 
-        }
-        else if (periodo === "anyo"){
+   if (dia < 10){
+    dia = "0" + dia
+   }
+   
+     if (mes < 10){
+    mes = "0" + mes
+   }  
 
-           return this.fecha.toString().slice(0-3)
-  
+  if (periodo === "dia"){
+        return anyo + "-" + mes + "-"+ dia;
+  } 
+  else if (periodo === "mes"){
+       return anyo + "-" + mes;
+        ;
+  } 
+  else if (periodo === "anyo"){
+        return anyo;
+  } 
 
-        }
-        else if (periodo === "dia"){
+  return;
         
-          return this.fecha.toString().slice(0-9)
-
-        }
     }
  }
+ 
 
 function listarGastos(){
     return gastos
