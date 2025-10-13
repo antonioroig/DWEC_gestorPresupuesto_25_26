@@ -252,10 +252,38 @@ Etiquetas:\n${desplegable}`)
                             resultados = resultados.filter(item => item.etiquetas.some(etiqueta => tags.includes(etiqueta)));
                         }
                         return resultados;
+
                     }
-            function agruparGastos()
+
+            function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
             {
-                
+                if(periodo == undefined || periodo == null || periodo == "")
+                    periodo = "mes";
+                let filtro = {};
+                if (etiquetas && etiquetas.length > 0)
+                {
+                    filtro.etiquetasTiene = etiquetas;
+                }
+                if (fechaDesde) 
+                {
+                    filtro.fechaDesde = fechaDesde;
+                }
+                if (fechaHasta) 
+                {
+                    filtro.fechaHasta = fechaHasta;
+                }
+                let conjuntoGastos = filtrarGastos(filtro);
+                let value = conjuntoGastos.reduce(function(acumulador, gastosFiltrados)
+                {
+                    let clave = gastosFiltrados.obtenerPeriodoAgrupacion(periodo)  
+                    if (!acumulador[clave])
+                    {
+                        acumulador[clave] = 0;
+                    }
+                    acumulador[clave] += gastosFiltrados.valor;
+                    return acumulador;
+                } , {})
+                return value;
             }
 
         
