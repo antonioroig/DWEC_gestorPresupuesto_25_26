@@ -249,7 +249,7 @@ Etiquetas:\n${desplegable}`)
                                     resultados[i].etiquetas[j] = resultados[i].etiquetas[j].toLowerCase();
                                 }
                             }
-                            resultados = resultados.filter(item => item.etiquetas.some(tags));
+                            resultados = resultados.filter(item => item.etiquetas.some(etiqueta => tags.includes(etiqueta)));
                         }
                         return resultados;
                     }
