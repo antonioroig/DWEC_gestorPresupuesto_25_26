@@ -157,7 +157,7 @@ function filtrarGastos(objeto)
     if(Object.keys(objeto).length === 0)
         return gastos;
 
-    let arrayCopia=gastos;
+    let arrayCopia = gastos;
 
     if (objeto.fechaDesde != undefined && !isNaN(Date.parse(objeto.fechaDesde)))
     {
@@ -214,9 +214,23 @@ function filtrarGastos(objeto)
     return arrayCopia;
 }
 
-function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
+function agruparGastos(periodo, etiquetas, fechadesde, fechahasta)
 {
-
+    if(periodo == undefined)
+        periodo = "mes";
+    if(fechahasta == undefined || isNaN(Date.parse(fechahasta)))
+        fechahasta = new Date();
+    let objetoVacio = new Object();
+    let gastosFiltrados = filtrarGastos({fechaDesde: fechadesde, fechaHasta: fechahasta, etiquetasTiene: etiquetas})
+    gastosFiltrados.reduce(function(sum, gasto){
+        let gastoPeriodo = gasto.obtenerPeriodoAgrupacion(periodo);
+        if(gastoPeriodo in objetoVacio){
+            return objetoVacio[gastoPeriodo] += gasto.valor;
+        }
+        else
+            return objetoVacio[gastoPeriodo] = gasto.valor;
+    }, objetoVacio);
+    return objetoVacio;
 }
 
 /*
