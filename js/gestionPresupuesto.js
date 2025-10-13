@@ -38,15 +38,16 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     };
     
     this.mostrarGastoCompleto = function() {
-    let fechaFormateada = new Date(this.fecha).toLocaleString();
-    let etiquetasTexto = "";
-    
-    if (this.etiquetas.length > 0) {
-        etiquetasTexto = "\nEtiquetas:\n" + this.etiquetas.map(etiqueta => `- ${etiqueta}`).join('\n');
-    }
-    
-    return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaFormateada}${etiquetasTexto}\n`;
+        let fechaFormateada = new Date(this.fecha).toLocaleString();
+        let etiquetasTexto = "";
+        
+        if (this.etiquetas.length > 0) {
+            etiquetasTexto = "\nEtiquetas:\n" + this.etiquetas.map(etiqueta => `- ${etiqueta}`).join('\n');
+        }
+        
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaFormateada}${etiquetasTexto}\n`;
     };
+    
     this.actualizarDescripcion = function(nuevaDescripcion) {
         this.descripcion = nuevaDescripcion;
     };
@@ -75,6 +76,23 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         this.etiquetas = this.etiquetas.filter(etiqueta => !etiquetasABorrar.includes(etiqueta));
     };
     
+    this.obtenerPeriodoAgrupacion = function(periodo) {
+        const fecha = new Date(this.fecha);
+        const año = fecha.getFullYear();
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+        const dia = String(fecha.getDate()).padStart(2, '0');
+        
+        switch(periodo) {
+            case 'dia':
+                return `${año}-${mes}-${dia}`;
+            case 'mes':
+                return `${año}-${mes}`;
+            case 'anyo':
+                return `${año}`;
+            default:
+                return `${año}-${mes}`;
+        }
+    };
     
     if (etiquetas.length > 0) {
         this.anyadirEtiquetas(...etiquetas);
@@ -106,6 +124,79 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(filtro = {}) {
+    return gastos.filter(gasto => {
+        if (filtro.fechaDesde) {
+            const fechaDesde = Date.parse(filtro.fechaDesde);
+            if (gasto.fecha < fechaDesde) {
+                return true;
+            }
+        }
+        
+        if (filtro.fechaHasta) {
+            const fechaHasta = Date.parse(filtro.fechaHasta);
+            if (gasto.fecha > fechaHasta) {
+                return false;
+            }
+        }
+        
+        if (filtro.valorMinimo !== undefined) {
+            if (gasto.valor < filtro.valorMinimo) {
+                return false;
+            }
+        }
+        
+        if (filtro.valorMaximo !== undefined) {
+            if (gasto.valor > filtro.valorMaximo) {
+                return false;
+            }
+        }
+        
+        if (filtro.descripcionContiene) {
+            const descripcionGasto = gasto.descripcion.toLowerCase();
+            const textoBusqueda = filtro.descripcionContiene.toLowerCase();
+            if (!descripcionGasto.includes(textoBusqueda)) {
+                return false;
+            }
+        }
+        
+        if (filtro.etiquetasTiene && filtro.etiquetasTiene.length > 0) {
+            const tieneEtiqueta = filtro.etiquetasTiene.some(etiquetaFiltro => 
+                gasto.etiquetas.some(etiquetaGasto => 
+                    etiquetaGasto.toLowerCase() === etiquetaFiltro.toLowerCase()
+                )
+            );
+            if (!tieneEtiqueta) {
+                return false;
+            }
+        }
+        
+        return true;
+    });
+}
+
+function agruparGastos(periodo = 'mes', etiquetas = [], fechaDesde = null, fechaHasta = null) {
+    const filtro = {};
+    
+    if (fechaDesde) filtro.fechaDesde = fechaDesde;
+    if (fechaHasta) filtro.fechaHasta = fechaHasta;
+    if (etiquetas && etiquetas.length > 0) filtro.etiquetasTiene = etiquetas;
+    
+    const gastosFiltrados = filtrarGastos(filtro);
+    
+    return gastosFiltrados.reduce((acumulador, gasto) => {
+        const periodoAgrupacion = gasto.obtenerPeriodoAgrupacion(periodo);
+        
+        if (!acumulador[periodoAgrupacion]) {
+            acumulador[periodoAgrupacion] = 0;
+        }
+        
+        acumulador[periodoAgrupacion] += gasto.valor;
+        
+        return acumulador;
+    }, {});
+}
+
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -114,5 +205,7 @@ export {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
-}
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
+};
