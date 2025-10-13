@@ -138,14 +138,24 @@ function existeEtiqueta(e, etiquetas){
 }
 
 function filtrarGastos(objeto){ 
-    let count = 0;
+    // objeto = {fechaDesde: "2021-10-10", fechaHasta: "2021-10-15"}
+    let filtros = ["fechaDesde", "fechaHasta", "valorMinimo", "valorMaximo", "descripcionContiene", "etiquetasTiene"];
     if (Object.keys(objeto).length == 0 || !objeto)
         return gastos;
     else {
-        for (let i = 0; Object.keys(objeto).length > i; i++){ 
-            // console.log(Object.keys(objeto)[i] + ": " + Object.values(objeto)[i]); // PROBAR
-            gastos.filter();
-        }
+        // console.log(Object.keys(objeto)[i] + ": " + Object.values(objeto)[i]); // PROBAR
+        return gastos.filter(function(gasto){
+            let fechaGasto = Date.parse(gasto.fecha);
+            if (objeto.fechaDesde && fechaGasto < Date.parse(objeto.fechaDesde)) {
+                return false;
+            }
+
+            // --- Fecha máxima ---
+            if (objeto.fechaHasta && fechaGasto > Date.parse(objeto.fechaHasta)) {
+                return false;
+            }
+            return true;
+            })
     }
 
     return gastos;
