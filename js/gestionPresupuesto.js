@@ -67,6 +67,19 @@ Etiquetas:
             }
         })
     }
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        switch(periodo){
+            case "dia":
+                return (new Date(this.fecha)).toISOString().slice(0, 10)
+                break
+            case "mes":
+                return (new Date(this.fecha)).toISOString().slice(0, 7)
+                break
+            case "anyo":
+                return (new Date(this.fecha)).toISOString().slice(0, 4)
+                break
+        }
+    }
 }
 function listarGastos(){
     return gastos
@@ -95,6 +108,22 @@ function calcularBalance(){
     let gastosTotales = calcularTotalGastos()
     return presupuesto - gastosTotales
 }
+function filtrarGastos(filtros){
+    let filtrado = gastos.filter(param =>
+    (!filtros.fechaDesde || (!isNaN(Date.parse(filtros.fechaDesde)) && param.fecha >= (Date.parse(filtros.fechaDesde)))) &&
+    (!filtros.fechaHasta || (!isNaN(Date.parse(filtros.fechaHasta)) && param.fecha <= (Date.parse(filtros.fechaHasta)))) &&
+    (!filtros.valorMinimo || (!isNaN(filtros.valorMinimo) && param.valor > filtros.valorMinimo)) &&
+    (!filtros.valorMaximo || (!isNaN(filtros.valorMaximo) && param.valor < filtros.valorMaximo)) &&
+    (!filtros.descripcionContiene || param.descripcion.toLowerCase().includes(filtros.descripcionContiene.toLowerCase())) &&
+    (!filtros.etiquetasTiene || 
+        (filtros.etiquetasTiene.some(etiquetaFiltro => 
+            param.etiquetas.some(etiquetaGasto => 
+                etiquetaGasto.toLowerCase() === etiquetaFiltro.toLowerCase()
+                )))))
+
+    return filtrado
+}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -107,5 +136,7 @@ export   {
     anyadirGasto, 
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
