@@ -138,32 +138,58 @@ function existeEtiqueta(e, etiquetas){
 }
 
 function filtrarGastos(objeto){ 
-    // objeto = {fechaDesde: "2021-10-10", fechaHasta: "2021-10-15"}
-    let filtros = ["fechaDesde", "fechaHasta", "valorMinimo", "valorMaximo", "descripcionContiene", "etiquetasTiene"];
-    if (Object.keys(objeto).length == 0 || !objeto)
+    if (Object.keys(objeto).length == 0)
         return gastos;
-    else {
-        // console.log(Object.keys(objeto)[i] + ": " + Object.values(objeto)[i]); // PROBAR
-        return gastos.filter(function(gasto){
-            let fechaGasto = Date.parse(gasto.fecha);
-            if (objeto.fechaDesde && fechaGasto < Date.parse(objeto.fechaDesde)) {
-                return false;
-            }
-
-            // --- Fecha máxima ---
-            if (objeto.fechaHasta && fechaGasto > Date.parse(objeto.fechaHasta)) {
-                return false;
-            }
-            return true;
-            })
+    let copiaGastos = copiarArray(gastos);
+    if (objeto.fechaDesde != undefined && !isNaN(Date.parse(objeto.fechaDesde))){
+        copiaGastos = copiaGastos.filter(function(gasto){
+            return gasto.fecha >= Date.parse(objeto.fechaDesde);
+        })
     }
-
-    return gastos;
+    if (objeto.fechaHasta != undefined && !isNaN(Date.parse(objeto.fechaHasta))){
+        copiaGastos = copiaGastos.filter(function(gasto){
+            return gasto.fecha <= Date.parse(objeto.fechaHasta);
+        })
+    }
+    if (objeto.valorMinimo != undefined){
+        copiaGastos = copiaGastos.filter(function(gasto){
+            return gasto.valor >= objeto.valorMinimo;
+        })
+    }
+    if (objeto.valorMaximo != undefined){
+        copiaGastos = copiaGastos.filter(function(gasto){
+            return gasto.valor <= objeto.valorMaximo;
+        })
+    }
+    if (objeto.descripcionContiene != undefined){
+        let buscar = String(objeto.descripcionContiene).toLowerCase();
+        copiaGastos = copiaGastos.filter(function(gasto){
+            return gasto.descripcion.toLowerCase().includes(buscar);
+        })
+    }
+    if (objeto.etiquetasTiene != undefined){
+        copiaGastos = copiaGastos.filter(function(gasto){
+            for (let i = 0; i < objeto.etiquetasTiene.length; i++){
+                for (let j = 0; j < gasto.etiquetas.length; j++){
+                    if (objeto.etiquetasTiene[i].toLowerCase() == gasto.etiquetas[j].toLowerCase())
+                        return true;
+                }
+            }
+        })
+    }
+    return copiaGastos;
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     let conjuntoGastos = filtrarGastos(["fechaDesde: " + fechaDesde, "fechaHasta: " + fechaHasta]);
     // FALTA
+}
+
+function copiarArray(array){
+    let resultado = [];
+    for (let i = 0; i < array.length; i++)
+        resultado.push(array[i]);
+    return resultado;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
