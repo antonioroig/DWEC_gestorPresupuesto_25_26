@@ -129,10 +129,24 @@ function calcularTotalGastos() {
 function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
-function filtrarGastos(filtros) {
+function filtrarGastos(filtros = {}) {
+    return gastos.filter(g => {
 
+        if (filtros.fechaDesde && g.fecha < Date.parse(filtros.fechaDesde)) {
+            return false;
+        }
 
+        if (filtros.fechaHasta && g.fecha > Date.parse(filtros.fechaHasta)) {
+            return false;
+        }
+
+        if()
+
+        
+        return true;
+    });
 }
+
 function agruparGastos(){
 
 }
