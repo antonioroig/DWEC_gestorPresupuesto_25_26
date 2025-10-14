@@ -163,33 +163,59 @@ function calcularBalance(){
 }
 
 function filtrarGastos(filtro){
-    if (filtro.fechaDesde) {
+    console.log('filtro recibido:', filtro);
+    if (!filtro || Object.keys(filtro).length === 0) {
+        console.log('Devolviendo todos los gastos:', gastos);
+        return gastos;
+    }
+
+    return gastos.filter(gasto => {
+        if (filtro.fechaDesde) {
             const fechaDesde = Date.parse(filtro.fechaDesde);
             if (isNaN(fechaDesde) || gasto.fecha < fechaDesde) {
                 return false;
             }
         }
-    
-    if (filtro.fechaHasta) {
+
+        if (filtro.fechaHasta) {
             const fechaHasta = Date.parse(filtro.fechaHasta);
             if (isNaN(fechaHasta) || gasto.fecha > fechaHasta) {
                 return false;
             }
         }
 
-    if (filtro.valorMinimo !== undefined) {
+        if (filtro.valorMinimo !== undefined) {
             if (gasto.valor < filtro.valorMinimo) {
                 return false;
             }
         }
 
-    if (filtro.valorMaximo !== undefined) {
+        if (filtro.valorMaximo !== undefined) {
             if (gasto.valor > filtro.valorMaximo) {
                 return false;
             }
         }
 
+        if (filtro.descripcionContiene) {
+            const descripcionFiltro = filtro.descripcionContiene.toLowerCase();
+            const descripcionGasto = gasto.descripcion.toLowerCase();
+            if (!descripcionGasto.includes(descripcionFiltro)) {
+                return false;
+            }
+        }
 
+        if (filtro.etiquetasTiene && Array.isArray(filtro.etiquetasTiene)) {
+            const etiquetasFiltro = filtro.etiquetasTiene.map(e => e.toLowerCase());
+            const etiquetasGasto = gasto.etiquetas.map(e => e.toLowerCase());
+            const coincideAlguna = etiquetasFiltro.some(etiqueta => etiquetasGasto.includes(etiqueta));
+            if (!coincideAlguna) {
+                return false;
+            }
+        }
+    
+        return true;//si pasa todos los filtros
+    });
+    
 }
 
 function agruparGastos(){
