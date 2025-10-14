@@ -112,22 +112,20 @@ function CrearGasto(descPre, val, fecha, ... etiquetasObtenidas) {
     }
 
     this.obtenerPeriodoAgrupacion = function(periodo) {
-    // Convertimos la marca de tiempo a un objeto Date
+
     let fechaObj = new Date(this.fecha);
     
-    // Obtenemos año mes y dia
     let anyo = fechaObj.getFullYear();
     let mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0');
     let dia = fechaObj.getDate().toString().padStart(2, '0');
 
-    // Devolvemos segun el tipo de agrupacion
     switch(periodo.toLowerCase()) {
         case "dia":
-            return (anyo + "-" + mes + "-" + dia);//`${anyo}-${mes}-${dia}`;
+            return (anyo + "-" + mes + "-" + dia);
         case "mes":
-            return (anyo + "-" + mes);//`${anyo}-${mes}`;
+            return (anyo + "-" + mes);
         case "anyo":
-            return anyo;//`${anyo}`;
+            return anyo;
         default:
             return "Período no válido. Usa 'dia', 'mes' o 'anyo'.";
     }
@@ -164,7 +162,33 @@ function calcularBalance(){
     return presupuesto - totalGastos;
 }
 
-function filtrarGastos(){
+function filtrarGastos(filtro){
+    if (filtro.fechaDesde) {
+            const fechaDesde = Date.parse(filtro.fechaDesde);
+            if (isNaN(fechaDesde) || gasto.fecha < fechaDesde) {
+                return false;
+            }
+        }
+    
+    if (filtro.fechaHasta) {
+            const fechaHasta = Date.parse(filtro.fechaHasta);
+            if (isNaN(fechaHasta) || gasto.fecha > fechaHasta) {
+                return false;
+            }
+        }
+
+    if (filtro.valorMinimo !== undefined) {
+            if (gasto.valor < filtro.valorMinimo) {
+                return false;
+            }
+        }
+
+    if (filtro.valorMaximo !== undefined) {
+            if (gasto.valor > filtro.valorMaximo) {
+                return false;
+            }
+        }
+
 
 }
 
