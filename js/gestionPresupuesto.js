@@ -1,6 +1,6 @@
 "use strict"
 
-import { useLayoutEffect } from "react";
+
 
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
@@ -82,11 +82,27 @@ ${lEtiquetas}`
     }
     this.obtenerPeriodoAgrupacion = function(periodo){
         let fecha = new Date(this.fecha);
-        let dia = getDate();
-        let mes = getMonth();
-        let anyo = getYear();
+        let dia = fecha.getDate();
+        let mes = fecha.getMonth();
+        let anyo = fecha.getFullYear();
+
+        if(dia < 10){
+            dia = "0"+ dia;
+        }
+        mes++;
+        if(mes < 10){
+            mes = "0"+ mes;
+        }
+        
+
         if(periodo === "mes"){
-            return `${}`
+            return `${anyo}-${mes}`
+        }
+        else if(periodo === "anyo"){
+            return anyo
+        }
+        else if(periodo === "dia"){
+            return `${anyo}-${mes}-${dia}`
         }
     }
 }
