@@ -182,9 +182,24 @@ function filtrarGastos(filtros = {}) {
     });
 }
 
-function agruparGastos(){
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) {
+    let filtros = {};
+
+    if (etiquetas && etiquetas.length > 0) {
+        filtros.etiquetasTiene = etiquetas;
+    }
+
+    if (fechaDesde) {
+        filtros.fechaDesde = fechaDesde;
+    }
+
+    if (fechaHasta) {
+        filtros.fechaHasta = fechaHasta;
+    }
+
 
 }
+
 
 
 
