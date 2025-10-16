@@ -82,25 +82,24 @@ ${lEtiquetas}`
     }
     this.obtenerPeriodoAgrupacion = function(periodo){
         let fecha = new Date(this.fecha);
-        let dia = fecha.getDate();
-        let mes = fecha.getMonth();
+        let dia =  fecha.getDate();
+        let mes =  fecha.getMonth();
         let anyo = fecha.getFullYear();
-
-        if(dia < 10){
-            dia = "0"+ dia;
-        }
-        mes++;
-        if(mes < 10){
-            mes = "0"+ mes;
-        }
         
+        if (periodo === "dia" && dia < 10){
+            dia = "0" + dia;
+        }
+            mes++;  
+        if (mes < 10){
+            mes = "0" + mes;
+        }
 
         if(periodo === "mes"){
             return `${anyo}-${mes}`
-        }
+        }        
         else if(periodo === "anyo"){
             return anyo
-        }
+        }        
         else if(periodo === "dia"){
             return `${anyo}-${mes}-${dia}`
         }
