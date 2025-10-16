@@ -200,9 +200,60 @@ function calcularBalance(){
 
 }
 
-function filtrarGastos(){
+function filtrarGastos(filtros = {}) {
+    return gastos.filter(g => {
 
+        if (filtros.fechaDesde && g.fecha < Date.parse(filtros.fechaDesde)) {
+            return false;
+        }
+
+        if (filtros.fechaHasta && g.fecha > Date.parse(filtros.fechaHasta)) {
+            return false;
+        }
+
+        if (filtros.valorMinimo !== undefined && g.valor < filtros.valorMinimo) {
+            return false;
+        }
+
+        if (filtros.valorMaximo !== undefined && g.valor > filtros.valorMaximo) {
+            return false;
+        }
+
+        if (filtros.descripcionContiene) {
+            let texto = filtros.descripcionContiene.toLowerCase();
+            let descripcion = g.descripcion.toLowerCase();
+            let encontrado = false;
+            for (let i = 0; i <= descripcion.length - texto.length; i++) {
+                if (descripcion.substring(i, i + texto.length) === texto) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) return false;
+        }
+
+        if (filtros.etiquetasTiene && filtros.etiquetasTiene.length > 0) {
+            let etiquetasFiltro = filtros.etiquetasTiene.map(e => e.toLowerCase());
+            let etiquetasGasto = g.etiquetas.map(e => e.toLowerCase());
+            let coincidencias = [];
+
+            for (let i = 0; i < etiquetasFiltro.length; i++) {
+                for (let j = 0; j < etiquetasGasto.length; j++) {
+                    if (etiquetasGasto[j] === etiquetasFiltro[i]) {
+                        coincidencias.push(etiquetasGasto[j]);
+                    }
+                }
+            }
+
+            if (coincidencias.length === 0) return false;
+        }
+
+       
+        return true;
+    });
 }
+
+
 
 function agruparGastos(){
 
