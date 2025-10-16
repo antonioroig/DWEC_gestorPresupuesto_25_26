@@ -78,6 +78,8 @@ Etiquetas:
             case "anyo":
                 return (new Date(this.fecha)).toISOString().slice(0, 4)
                 break
+            default:
+                return (new Date(this.fecha)).toISOString().slice(0, 7)
         }
     }
 }
