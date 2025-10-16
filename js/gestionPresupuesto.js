@@ -175,14 +175,31 @@ function filtrarGastos(objeto){
                         return true;
                 }
             }
+            return false;
         })
     }
     return copiaGastos;
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
-    let conjuntoGastos = filtrarGastos(["fechaDesde: " + fechaDesde, "fechaHasta: " + fechaHasta]);
-    // FALTA
+    let objeto = {};
+    if (fechaDesde != undefined) // sino todos los gastos
+        objeto.fechaDesde = fechaDesde;
+    if (fechaHasta == undefined) // fecha actual
+        fechaHasta = (new Date().toISOString().split("T")[0]);
+    objeto.fechaHasta = fechaHasta;
+    if (periodo == undefined) // por defecto mes
+        periodo = "mes";
+    if (etiquetas != undefined && etiquetas.length > 0) // sino todos los gastso
+        objeto.etiquetasTiene = etiquetas;
+    let gastosFiltrados = filtrarGastos(objeto);
+    let resultado = gastosFiltrados.reduce(function(acu, gasto){
+        let peri = gasto.obtenerPeriodoAgrupacion(periodo);
+        if (fechaDesde == undefined || (gasto.fecha >= Date.parse(fechaDesde) && gasto.fecha <= Date.parse(fechaHasta)))
+            acu[peri] = (acu[peri] || 0) + gasto.valor;
+        return acu;
+    }, {});
+    return resultado;
 }
 
 function copiarArray(array){
@@ -206,5 +223,6 @@ export   {
     calcularBalance,
     existeEtiqueta,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    copiarArray
 }
