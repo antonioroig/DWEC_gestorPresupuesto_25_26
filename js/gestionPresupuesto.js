@@ -148,33 +148,33 @@ function calcularBalance(){
 
 
 
-function filtrarGastos(filtros) {
+function filtrarGastos(param) {
   return gastos.filter(function(g) {
     let fecha = new Date(g.fecha).getTime();
 
-    if (filtros.fechaDesde && fecha < new Date(filtros.fechaDesde).getTime()){
+    if (param.fechaDesde && fecha < new Date(param.fechaDesde).getTime()){
         return false;
     } 
-    if (filtros.fechaHasta && fecha > new Date(filtros.fechaHasta).getTime()){
-        return false;
-    } 
-
-    if (filtros.valorMinimo != null && g.valor < filtros.valorMinimo){
-        return false;
-    } 
-    if (filtros.valorMaximo != null && g.valor > filtros.valorMaximo){
+    if (param.fechaHasta && fecha > new Date(param.fechaHasta).getTime()){
         return false;
     } 
 
-    if (filtros.descripcionContiene &&
-        g.descripcion.toLowerCase().indexOf(filtros.descripcionContiene.toLowerCase()) === -1){
+    if (param.valorMinimo != null && g.valor < param.valorMinimo){
+        return false;
+    } 
+    if (param.valorMaximo != null && g.valor > param.valorMaximo){
+        return false;
+    } 
+
+    if (param.descripcionContiene &&
+        g.descripcion.toLowerCase().indexOf(param.descripcionContiene.toLowerCase()) === -1){
         return false;
     }
       
 
-    if (filtros.etiquetasTiene && filtros.etiquetasTiene.length > 0) {
+    if (param.etiquetasTiene && param.etiquetasTiene.length > 0) {
       let etiquetasGasto = g.etiquetas.map(function(e) { return e.toLowerCase(); });
-      let etiquetasFiltro = filtros.etiquetasTiene.map(function(e) { return e.toLowerCase(); });
+      let etiquetasFiltro = param.etiquetasTiene.map(function(e) { return e.toLowerCase(); });
       let coincide = etiquetasFiltro.some(function(e) {
         return etiquetasGasto.indexOf(e) !== -1;
       });
