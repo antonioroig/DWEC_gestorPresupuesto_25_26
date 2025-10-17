@@ -109,10 +109,72 @@ function calcularBalance() {
   return presupuesto - calcularTotalGastos();
 }
 
-/* --- STUB temporal: por implementar --- */
-function filtrarGastos() {
-  return "";
+function filtrarGastos(filtros = {}) {
+  const {
+    fechaDesde,
+    fechaHasta,
+    valorMinimo,
+    valorMaximo,
+    descripcionContiene,
+    etiquetasTiene
+  } = filtros;
+
+  const parseMs = (v) => {
+    if (v === undefined || v === null) return NaN;
+    if (typeof v === "number") return v;
+    if (v instanceof Date) return v.getTime();
+    const t = Date.parse(v);
+    return isNaN(t) ? NaN : t;
+  };
+
+  const isISODateOnly = (s) =>
+    typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+
+  const desdeMs = parseMs(fechaDesde);
+  let hastaMs = parseMs(fechaHasta);
+  if (!isNaN(hastaMs) && isISODateOnly(fechaHasta)) {
+    hastaMs += (24 * 60 * 60 * 1000) - 1;
+  }
+
+  const hayNumero = (v) =>
+    (typeof v === "number" && !isNaN(v)) ||
+    (typeof v === "string" && v.trim() !== "" && !isNaN(Number(v)));
+
+  const min = hayNumero(valorMinimo) ? Number(valorMinimo) : null;
+  const max = hayNumero(valorMaximo) ? Number(valorMaximo) : null;
+
+  const needle = typeof descripcionContiene === "string"
+    ? descripcionContiene.trim().toLowerCase()
+    : "";
+
+  const etiquetasQuery = Array.isArray(etiquetasTiene)
+    ? etiquetasTiene.map(e => String(e).trim().toLowerCase()).filter(Boolean)
+    : [];
+
+  return gastos.filter(g => {
+    const gMs = typeof g.fecha === "number" ? g.fecha : parseMs(g.fecha);
+
+    if (!isNaN(desdeMs) && gMs < desdeMs) return false;
+    if (!isNaN(hastaMs) && gMs > hastaMs) return false;
+    if (min !== null && g.valor < min) return false;
+    if (max !== null && g.valor > max) return false;
+
+    if (needle) {
+      const dsc = String(g.descripcion ?? "").toLowerCase();
+      if (!dsc.includes(needle)) return false;
+    }
+
+    if (etiquetasQuery.length > 0) {
+      const etiquetasGasto = (Array.isArray(g.etiquetas) ? g.etiquetas : [])
+        .map(e => String(e).trim().toLowerCase());
+      const coincide = etiquetasQuery.some(tag => etiquetasGasto.includes(tag));
+      if (!coincide) return false;
+    }
+
+    return true;
+  });
 }
+
 
 CrearGasto.prototype.obtenerPeriodoAgrupacion = function (periodo = "mes") {
   const d = new Date(this.fecha);
