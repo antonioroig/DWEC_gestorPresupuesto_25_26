@@ -109,6 +109,19 @@ function calcularBalance() {
   return presupuesto - calcularTotalGastos();
 }
 
+/* --- STUB temporal: por implementar --- */
+function filtrarGastos() {
+  return "";
+}
+/* --- STUB temporal: por implementar --- */
+CrearGasto.prototype.obtenerPeriodoAgrupacion = function (periodo) {
+  return "";
+};
+
+/* --- STUB temporal: por implementar --- */
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) {
+  return {};
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -122,5 +135,7 @@ export {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos 
 }
