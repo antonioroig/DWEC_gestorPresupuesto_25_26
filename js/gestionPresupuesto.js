@@ -113,9 +113,22 @@ function calcularBalance() {
 function filtrarGastos() {
   return "";
 }
-/* --- STUB temporal: por implementar --- */
-CrearGasto.prototype.obtenerPeriodoAgrupacion = function (periodo) {
-  return "";
+
+CrearGasto.prototype.obtenerPeriodoAgrupacion = function (periodo = "mes") {
+  const d = new Date(this.fecha);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+
+  switch (periodo) {
+    case "dia":
+      return `${y}-${m}-${day}`;
+    case "anyo":
+      return `${y}`;
+    case "mes":
+    default:
+      return `${y}-${m}`;
+  }
 };
 
 /* --- STUB temporal: por implementar --- */
