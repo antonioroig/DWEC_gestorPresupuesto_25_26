@@ -193,10 +193,48 @@ CrearGasto.prototype.obtenerPeriodoAgrupacion = function (periodo = "mes") {
   }
 };
 
-/* --- STUB temporal: por implementar --- */
 function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) {
-  return {};
+  const hoyLocalISO = (() => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  })();
+
+  const filtros = {};
+  if (fechaDesde !== undefined) filtros.fechaDesde = fechaDesde;
+  filtros.fechaHasta = fechaHasta ?? hoyLocalISO;
+  if (Array.isArray(etiquetas) && etiquetas.length > 0) {
+    filtros.etiquetasTiene = etiquetas;
+  }
+
+  const gastosFiltrados = filtrarGastos(filtros);
+
+  const keyFrom = (g) => {
+    if (typeof g.obtenerPeriodoAgrupacion === "function") {
+      return g.obtenerPeriodoAgrupacion(periodo);
+    }
+    const d = new Date(g.fecha);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    switch (periodo) {
+      case "dia": return `${y}-${m}-${day}`;
+      case "anyo": return `${y}`;
+      case "mes":
+      default: return `${y}-${m}`;
+    }
+  };
+
+  return gastosFiltrados.reduce((acc, g) => {
+    const clave = keyFrom(g);
+    const valor = (typeof g.valor === "number") ? g.valor : Number(g.valor) || 0;
+    acc[clave] = (acc[clave] ?? 0) + valor;
+    return acc;
+  }, {});
 }
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
