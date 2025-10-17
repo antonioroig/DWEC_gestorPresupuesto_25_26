@@ -14,7 +14,7 @@ describe("Inicialización de la variable global presupuesto", function() {
 // Función actualizarPresupuesto
 describe("Función actualizarPresupuesto", function() {
     it("Actualiza presupuesto con valor válido", function() {
-        assert.equal(actualizarPresupuesto(1000), 1000);
+        assert.equal(actualizarPresupuesto(1000), 1000);   
         assert.equal(actualizarPresupuesto(2050.25), 2050.25);
     });
 
