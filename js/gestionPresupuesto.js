@@ -197,7 +197,21 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) 
         filtros.fechaHasta = fechaHasta;
     }
 
+    let gastosFiltrados = filtrarGastos(filtros);
 
+    let agrupado = gastosFiltrados.reduce((acc, gasto) => {
+        let clave = gasto.obtenerPeriodoAgrupacion(periodo);
+
+        if (!acc[clave]) {
+            acc[clave] = 0;
+        }
+
+        acc[clave] += gasto.valor;
+
+        return acc;
+    }, {});
+
+    return agrupado;
 }
 
 
