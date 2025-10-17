@@ -129,7 +129,7 @@ function filtrarGastos(filtro = {}) {
         if (filtro.fechaDesde) {
             const fechaDesde = Date.parse(filtro.fechaDesde);
             if (gasto.fecha < fechaDesde) {
-                return true;
+                return false;
             }
         }
         
