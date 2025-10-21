@@ -171,7 +171,7 @@ function filtrarGastos(filtro = {}) {
             }
         }
         
-        return true;
+        return true;bmn
     });
 }
 
