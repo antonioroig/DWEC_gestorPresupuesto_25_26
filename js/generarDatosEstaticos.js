@@ -4,7 +4,6 @@ import * as gpw from './gestionPresupuestoWeb.js'
 // Parte 1 (Test 1)
 gp.actualizarPresupuesto(1500);
 let presupuesto = gp.mostrarPresupuesto();
-console.log(presupuesto);
 gpw.mostrarDatoEnId("presupuesto", presupuesto)
 
 // Parte 2 (Test 1)
@@ -28,3 +27,8 @@ let balance = gp.calcularBalance()
 gpw.mostrarDatoEnId("balance-total", balance)
 
 // Parte 3 (Test 2)
+let completo = gp.listarGastos();
+gpw.mostrarGastoWeb("listado-gastos-completo", completo);
+
+// let sept01 = gp.filtrarGastos("2001-09")
+// gpw.mostrarGastoWeb(sept01)

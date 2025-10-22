@@ -5,36 +5,41 @@ function mostrarDatoEnId(id, valor) {
 
 function mostrarGastoWeb(id, gasto) {
     let idElement = document.getElementById(id);
-    
-
     let body = document.body;
-    let mainDiv = document.createElement("div");
-    mainDiv.setAttribute("gasto")
-    body.append(mainDiv);
 
-    let desc = mainDiv.createElement("div")
-    desc.setAttribute("gasto-descripcion")
-    desc.textContent = gasto.descripcion;
-    mainDiv.append(desc)
+    for (let obj of gasto) {
+        let mainDiv = document.createElement("div");
+        mainDiv.setAttribute("class", "gasto")
+        idElement.append(mainDiv);
 
-    let fecha = mainDiv.createElement("div")
-    fecha.setAttribute("gasto-fecha")
-    fecha.textContent = gasto.fecha;
-    mainDiv.append(fecha)
+        let desc = document.createElement("div")
+        desc.setAttribute("class", "gasto-descripcion")
+        desc.textContent = obj.descripcion;
+        mainDiv.append(desc)
 
-    let valor = mainDiv.createElement("div")
-    valor.setAttribute("gasto-valor")
-    valor.textContent = gasto.valor;
+        let fecha = document.createElement("div")
+        fecha.setAttribute("class", "gasto-fecha")
+        fecha.textContent = obj.fecha;
+        mainDiv.append(fecha)
 
-    let etiqueta = mainDiv.createElement("div");
-    etiqueta.setAttribute("gasto-etiquetas")
-    mainDiv.append(etiqueta);
-    for (let tag in gasto.etiqueta) {
-        let element = body.createElement("span")
-        element.setAttribute("gasto-etiquetas-etiqueta")
-        element.textContent = tag;
-        etiqueta.append(element);
+        let valor = document.createElement("div")
+        valor.setAttribute("class", "gasto-valor")
+        valor.textContent = obj.valor;
+        mainDiv.append(valor)
+
+        let etiqueta = document.createElement("div");
+        etiqueta.setAttribute("class", "gasto-etiquetas")
+        mainDiv.append(etiqueta);
+        for (let tag of obj.etiquetas) {
+            let element = document.createElement("span")
+            element.setAttribute("class", "gasto-etiquetas-etiqueta")
+            element.textContent = tag;
+            etiqueta.append(element);
+        }
+
+        idElement.append(mainDiv)
     }
+    
 
 }
 
