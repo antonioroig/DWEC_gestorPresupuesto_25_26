@@ -276,7 +276,7 @@ Etiquetas:\n${desplegable}`)
                 let value = conjuntoGastos.reduce(function(acumulador, gastosFiltrados)
                 {
                     let clave = gastosFiltrados.obtenerPeriodoAgrupacion(periodo); 
-                    if (!acumulador[clave])
+                    if (!(clave in acumulador))
                     {
                         acumulador[clave] = 0;
                     }
