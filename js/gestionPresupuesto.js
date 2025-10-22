@@ -272,7 +272,9 @@ Etiquetas:\n${desplegable}`)
                 {
                     filtro.fechaHasta = fechaHasta;
                 }
+
                 let conjuntoGastos = filtrarGastos(filtro);
+                
                 let value = conjuntoGastos.reduce(function(acumulador, gastosFiltrados)
                 {
                     let clave = gastosFiltrados.obtenerPeriodoAgrupacion(periodo); 
