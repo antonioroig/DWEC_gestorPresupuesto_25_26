@@ -8,7 +8,7 @@ function mostrarGastoWeb(id, gasto) {
     let body = document.body;
 
     for (let obj of gasto) {
-        let mainDiv = document.createElement("div");
+        let mainDiv = document.createElement("div")
         mainDiv.setAttribute("class", "gasto")
         idElement.append(mainDiv);
 
@@ -27,7 +27,7 @@ function mostrarGastoWeb(id, gasto) {
         valor.textContent = obj.valor;
         mainDiv.append(valor)
 
-        let etiqueta = document.createElement("div");
+        let etiqueta = document.createElement("div")
         etiqueta.setAttribute("class", "gasto-etiquetas")
         mainDiv.append(etiqueta);
         for (let tag of obj.etiquetas) {
@@ -41,13 +41,45 @@ function mostrarGastoWeb(id, gasto) {
 
         idElement.append(mainDiv)
     }
-    
-
 }
 
 
-function mostrarGastosAgrupadosWeb() {
+function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
+    let element;
+    if (periodo == "anyo") {
+        element = document.getElementById("agrupacion-anyo")
+    } else if (periodo == "mes") {
+        element = document.getElementById("agrupacion-mes")
+    } else {
+        element = document.getElementById("agrupacion-dia")
+        periodo = "día"
+    }
 
+
+    let h1 = document.createElement("h1");
+    h1.textContent = `Gastos agrupados por ${periodo}`
+    let div = document.createElement("div");
+    div.setAttribute("class", "agrupacion")
+    element.append(div)
+    div.append(h1);
+
+    console.log(agrup);
+
+    for (let [key, value] of Object.entries(agrup)) {
+        console.log(`${key}: ${value}`);
+        let agrupDiv = document.createElement("div")
+        agrupDiv.setAttribute("class", "agrupacion-dato")
+        let clave = document.createElement("span")
+        clave.setAttribute("class", "agrupacion-dato-clave")
+        clave.textContent = key;
+        
+        let valor = document.createElement("span")
+        valor.setAttribute("class", "agrupacion-dato-valor")
+        valor.textContent = value;
+        agrupDiv.append(clave);
+        agrupDiv.append(valor);
+        div.append(agrupDiv);
+    }
 }
 
 

@@ -42,3 +42,7 @@ gpw.mostrarGastoWeb("listado-gastos-filtrado-3", mas200)
 let conTags = gp.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]})
 gpw.mostrarGastoWeb("listado-gastos-filtrado-4", conTags)
 
+
+let agrup1 = gp.agruparGastos("dia")
+console.log(agrup1);
+gpw.mostrarGastosAgrupadosWeb("dia", agrup1, "dia")
