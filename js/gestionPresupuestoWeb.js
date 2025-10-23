@@ -32,12 +32,38 @@ function mostrarGastoWeb(idElemento, gastos){
             span.setAttribute("class", "gasto-etiquetas-etiqueta")
             span.textContent = eti
             divEti.append(span)
-            let bre = document.createElement("br")
-            divEti.append(bre)
+            let br = document.createElement("br")
+            divEti.append(br)
         }
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    
+    let elem = document.getElementById(idElemento)
+    let divAgrup = document.createElement("div")
+    divAgrup.setAttribute("class", "agrupacion")
+    elem.append(divAgrup)
+    let titulo = document.createElement("h1")
+    titulo.textContent = `Gastos agrupados por ${periodo}`
+    divAgrup.append(titulo)
+
+    for(const [clave, valor] of Object.entries(agrup))
+    {
+        let divAgrupGasto = document.createElement("div")
+        divAgrupGasto.setAttribute("class", "agrupacion-dato")
+
+        let spanClave = document.createElement("span")
+        spanClave.setAttribute("class", "agrupacion-dato-clave")
+        divAgrupGasto.append(spanClave)
+        spanClave.textContent = clave
+
+        let spanValor = document.createElement("span")
+        spanValor.setAttribute("class", "agrupacion-dato-valor")
+        divAgrupGasto.append(spanValor)
+        spanValor.textContent = valor
+
+        divAgrup.append(divAgrupGasto)
+    }
 
 }
 export{

@@ -19,7 +19,6 @@ gestionPresupuesto.actualizarPresupuesto(1500)
 let string = gestionPresupuesto.mostrarPresupuesto()
 gestionPresupuestoWeb.mostrarDatoEnId("presupuesto", string)
 
-
 let totalGastos = gestionPresupuesto.calcularTotalGastos()
 gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", totalGastos)
 
@@ -29,7 +28,24 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balance)
 let gastosCompletos = gestionPresupuesto.listarGastos()
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gastosCompletos)
 
-let filtroFecha = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-31"}
+let filtroFecha = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}
 let gastosFiltradosFecha = gestionPresupuesto.filtrarGastos(filtroFecha)
-console.log(gastosFiltradosFecha)
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltradosFecha)
+
+let gastosFiltradosPrecioMinimo = gestionPresupuesto.filtrarGastos({valorMinimo: 50})
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastosFiltradosPrecioMinimo)
+
+let gastosFiltradosPrecioMinimoEtiqueta = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]})
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltradosPrecioMinimoEtiqueta)
+
+let gastosFiltradosPrecioMaximoEtiquetas = gestionPresupuesto.filtrarGastos({valorMaximo : 50, etiquetasTiene: ["comida", "transporte"]})
+gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltradosPrecioMaximoEtiquetas)
+
+let gastosAgrupadosDia = gestionPresupuesto.agruparGastos("dia")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupadosDia, "día")
+
+let gastosAgrupadoMes = gestionPresupuesto.agruparGastos("mes")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupadoMes, "mes")
+
+let gastosAgrupadosAnyo = gestionPresupuesto.agruparGastos("anyo")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupadosAnyo, "año")
