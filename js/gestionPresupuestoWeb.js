@@ -35,6 +35,8 @@ function mostrarGastoWeb(id, gasto) {
             element.setAttribute("class", "gasto-etiquetas-etiqueta")
             element.textContent = tag;
             etiqueta.append(element);
+            let br = document.createElement("br");
+            etiqueta.append(br)
         }
 
         idElement.append(mainDiv)

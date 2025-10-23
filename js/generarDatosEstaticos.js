@@ -30,5 +30,15 @@ gpw.mostrarDatoEnId("balance-total", balance)
 let completo = gp.listarGastos();
 gpw.mostrarGastoWeb("listado-gastos-completo", completo);
 
-// let sept01 = gp.filtrarGastos("2001-09")
-// gpw.mostrarGastoWeb(sept01)
+let sept21 = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
+gpw.mostrarGastoWeb("listado-gastos-filtrado-1", sept21)
+
+let mas50 = gp.filtrarGastos({valorMinimo: 50})
+gpw.mostrarGastoWeb("listado-gastos-filtrado-2", mas50)
+
+let mas200 = gp.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]})
+gpw.mostrarGastoWeb("listado-gastos-filtrado-3", mas200)
+
+let conTags = gp.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]})
+gpw.mostrarGastoWeb("listado-gastos-filtrado-4", conTags)
+
