@@ -45,16 +45,7 @@ function mostrarGastoWeb(id, gasto) {
 
 
 function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
-    let element;
-    if (periodo == "anyo") {
-        element = document.getElementById("agrupacion-anyo")
-    } else if (periodo == "mes") {
-        element = document.getElementById("agrupacion-mes")
-    } else {
-        element = document.getElementById("agrupacion-dia")
-        periodo = "día"
-    }
-
+    let element = document.getElementById(id)
 
     let h1 = document.createElement("h1");
     h1.textContent = `Gastos agrupados por ${periodo}`
@@ -63,10 +54,8 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
     element.append(div)
     div.append(h1);
 
-    console.log(agrup);
 
     for (let [key, value] of Object.entries(agrup)) {
-        console.log(`${key}: ${value}`);
         let agrupDiv = document.createElement("div")
         agrupDiv.setAttribute("class", "agrupacion-dato")
         let clave = document.createElement("span")

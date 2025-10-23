@@ -44,5 +44,10 @@ gpw.mostrarGastoWeb("listado-gastos-filtrado-4", conTags)
 
 
 let agrup1 = gp.agruparGastos("dia")
-console.log(agrup1);
-gpw.mostrarGastosAgrupadosWeb("dia", agrup1, "dia")
+gpw.mostrarGastosAgrupadosWeb("agrupacion-dia", agrup1, "día")
+
+let agrup2 = gp.agruparGastos("mes")
+gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", agrup2, "mes")
+
+let agrup3 = gp.agruparGastos("anyo")
+gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrup3, "año")
