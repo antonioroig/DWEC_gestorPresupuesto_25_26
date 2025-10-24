@@ -19,7 +19,8 @@ function mostrarGastoWeb(id, gasto) {
 
         let fecha = document.createElement("div")
         fecha.setAttribute("class", "gasto-fecha")
-        fecha.textContent = obj.fecha;
+        let fechaFinal = new Date(obj.fecha).toLocaleDateString();
+        fecha.textContent = fechaFinal;
         mainDiv.append(fecha)
 
         let valor = document.createElement("div")
