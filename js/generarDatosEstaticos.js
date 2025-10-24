@@ -21,3 +21,32 @@ gP.anyadirGasto(gasto6);
 gPw.mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
 
 gPw.mostrarDatoEnId("balance-total", gP.calcularBalance());
+
+gPw.mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+
+let objfiltrado1 = {
+    fechaDesde: "2021-09-01",
+    fechaHasta: "2021-09-30"
+}
+
+let objfiltrado2 = {
+    valorMinimo: 50
+}
+
+let objfiltrado3 = {
+    valorMinimo: 200,
+    etiquetasTiene: ["seguros"]
+}
+
+let objfiltrado4 = {
+    etiquetasTiene: ["comida", "transporte"],
+    valorMaximo: 50
+}
+
+gPw.mostrarGastoWeb("listado-gastos-filtrado-1", gP.filtrarGastos(objfiltrado1));
+
+gPw.mostrarGastoWeb("listado-gastos-filtrado-2", gP.filtrarGastos(objfiltrado2));
+
+gPw.mostrarGastoWeb("listado-gastos-filtrado-3", gP.filtrarGastos(objfiltrado3));
+
+gPw.mostrarGastoWeb("listado-gastos-filtrado-4", gP.filtrarGastos(objfiltrado4));
