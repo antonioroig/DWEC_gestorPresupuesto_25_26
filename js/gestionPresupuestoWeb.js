@@ -17,7 +17,8 @@ function mostrarGastoWeb(idElemento, gastos){
         divGasto.append(divDes)
         let divFec = document.createElement("div")
         divFec.setAttribute("class", "gasto-fecha")
-        divFec.textContent = gasto.fecha
+        let fechaFormateada = new Date(gasto.fecha).toLocaleDateString()
+        divFec.textContent = fechaFormateada
         divGasto.append(divFec)
         let divVal = document.createElement("div")
         divVal.setAttribute("class", "gasto-valor")
