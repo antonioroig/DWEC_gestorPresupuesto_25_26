@@ -5,40 +5,77 @@ function mostrarDatoEnId(idElemento, valor){
     elemento.append(parrafo);
 }
 
-function mostrarGastoWeb(idElemento, ...gasto){
+function mostrarGastoWeb(idElemento, ...gastos){
     let elemento = document.getElementById(idElemento);
-    let box0 = document.createElement("div");
-    box0.classList.add("gasto");
-    let box1 = document.createElement("div");
-    box1.classList.add("gasto-descripcion");
-    box1.innerHTML = gasto.descripcion;
-    box0.append(box1);
-    let box2 = document.createElement("div");
-    box2.classList.add("gasto-fecha");
-    box2.innerHTML = gasto.fecha;
-    box0.append(box2);
-    let box3 = document.createElement("div");
-    box3.classList.add("gasto-valor");
-    box3.innerHTML = gasto.valor;
-    box0.append(box3);
-    let box4 = document.createElement("div");
-    box4.classList.add("gasto-etiquetas");
-    let etiquetas = gasto.etiquetas;
-    for(let i = 0; i < etiquetas.length; i++)
-    {
-        let etiqueta = etiquetas[i];
-        let span = document.createElement("span");
-        span.classList.add("gasto-etiquetas-etiqueta");
-        span.innerHTML = etiqueta;
-        box4.append(span);
-    }
-    box0.append(box4);
-    elemento.append(box0);
+    for(let i = 0; i < gastos.length; i++){
+        let gasto = gastos[i];
+        let cajaGrande = document.createElement("div");
+        cajaGrande.classList.add("gasto");
+
+        let cajaDescripcion = document.createElement("div");
+        cajaDescripcion.classList.add("gasto-descripcion");
+        cajaDescripcion.innerHTML = gasto.descripcion;
+        cajaGrande.append(cajaDescripcion);
+
+        let cajaFecha = document.createElement("div");
+        cajaFecha.classList.add("gasto-fecha");
+        cajaFecha.innerHTML = gasto.fecha;
+        cajaGrande.append(cajaFecha);
+
+        let cajaValor = document.createElement("div");
+        cajaValor.classList.add("gasto-valor");
+        cajaValor.innerHTML = gasto.valor;
+        cajaGrande.append(cajaValor);
+
+        let cajaEtiqueta = document.createElement("div");
+        cajaEtiqueta.classList.add("gasto-etiquetas");
+
+        for (let j = 0; j < gasto.etiquetas.length; j++){
+            let etiqueta = gasto.etiquetas[j];
+            let span = document.createElement("span");
+            span.classList.add("gasto-etiquetas-etiqueta");
+            span.innerHTML = etiqueta;
+            cajaEtiqueta.append(span);
+        }
+
+        cajaGrande.append(cajaEtiqueta);
+        elemento.append(cajaGrande);
+   }
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
+    let elemento = document.getElementById(idElemento);
+
+    for (let i = 0; i < agrup.length; i++){
+        let cajaGrande = document.createElement("div");
+        cajaGrande.classList.add("agrupacion");
+
+        let encabezado = document.createElement("h1");
+        encabezado.innerHTML = "Gastos agrupados por " + periodo;
+        cajaGrande.append(encabezado);
+
+        for (let j = 0; j < Object.keys(agrup).length; j++){
+            let cajaDato = document.createElement("div");
+            cajaDato.classList.add("agrupacion-dato");
+
+            let spanClave = document.createElement("span");
+            spanClave.classList.add("agrupacion-dato-clave");
+
+            cajaDato.append(spanClave);
+
+            let spanValor = document.createElement("span");
+            spanValor.classList.add("agrupacion-dato-valor");
+
+            cajaDato.append(spanValor);
+
+            cajaGrande.append(cajaDato);
+        }
+        elemento.append(cajaGrande);
+    }
 }
+
+
 
 export{
     mostrarDatoEnId,

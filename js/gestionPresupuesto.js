@@ -154,10 +154,10 @@ function calcularBalance()
 
 function filtrarGastos(objeto)
 {
-    if(Object.keys(objeto).length === 0)
+    if(objeto == undefined || Object.keys(objeto).length === 0)
         return gastos;
 
-    let arrayCopia = gastos;
+    let arrayCopia = [...gastos];
 
     if (objeto.fechaDesde != undefined && !isNaN(Date.parse(objeto.fechaDesde)))
     {
