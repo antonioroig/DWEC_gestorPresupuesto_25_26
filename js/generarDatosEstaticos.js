@@ -20,3 +20,7 @@ gestionPresupuesto.anyadirGasto(gasto6);
 
 gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", Math.floor(gestionPresupuesto.calcularTotalGastos()));
 gestionPresupuestoWeb.mostrarDatoEnId("balance-total", Math.floor(gestionPresupuesto.calcularBalance()));
+
+gestionPresupuesto.listarGastos().forEach(gasto => {
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gasto);
+})
