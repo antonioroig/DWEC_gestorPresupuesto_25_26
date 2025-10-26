@@ -22,3 +22,4 @@ gestionPresupuesto.anyadirGasto(gasto5);
 gestionPresupuesto.anyadirGasto(gasto6);
 
 gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales", Math.floor(gestionPresupuesto.calcularTotalGastos()));
+gestionPresupuestoWeb.mostrarDatoEnId("balance-total", Math.floor(gestionPresupuesto.calcularBalance()));
