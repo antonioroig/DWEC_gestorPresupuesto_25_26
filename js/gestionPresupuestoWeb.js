@@ -46,8 +46,50 @@ if (gasto.etiquetas && gasto.etiquetas.length > 0){
 divGasto.appendChild(divEtiquetas);
 contenedor.appendChild(divGasto);
 }
-function mostrarGastosAgrupadosWeb(){
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    let contenedor = document.getElementById(idElemento);
+    if (!contenedor){
+        return;
+    }
 
+    let divAgrupacion = document.createElement("div");
+    divAgrupacion.classList.add("agrupacion");
+
+    let nombrePeriodo = "";
+
+    switch (periodo){
+        case "dia":
+            nombrePeriodo = "día";
+            break;
+        case "mes":
+            nombrePeriodo = "mes";
+            break;
+        case "anyo":
+            nombrePeriodo = "año";
+            break;
+    }
+
+    let h1 = document.createElement("h1");
+    h1.textContent = `Gastos agrupados por ${nombrePeriodo}`;
+    divAgrupacion.appendChild(h1);
+
+    for (let [clave, valor] of Object.entries(agrup)){
+        let divDato = document.createElement("div");
+        divDato.classList.add("agrupacion-dato");
+
+        let spanClave = document.createElement("span");
+        spanClave.classList.add("agrupacion-dato-clave");
+        spanClave.textContent = clave;
+
+        let spanValor = document.createElement("span");
+        spanClave.classList.add("agrupacion-dato-valor");
+        spanClave.textContent = valor;
+
+        divDato.appendChild(spanClave);
+        divDato.appendChild(spanValor);
+        divAgrupacion.appendChild(divDato);
+    }
+    contenedor.appendChild(divAgrupacion);
 }
 export{
     mostrarDatoEnId,
