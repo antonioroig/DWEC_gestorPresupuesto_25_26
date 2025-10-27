@@ -50,3 +50,9 @@ gPw.mostrarGastoWeb("listado-gastos-filtrado-2", gP.filtrarGastos(objfiltrado2))
 gPw.mostrarGastoWeb("listado-gastos-filtrado-3", gP.filtrarGastos(objfiltrado3));
 
 gPw.mostrarGastoWeb("listado-gastos-filtrado-4", gP.filtrarGastos(objfiltrado4));
+
+gPw.mostrarGastosAgrupadosWeb("agrupacion-dia", gP.agruparGastos("dia"), "día");
+
+gPw.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
+
+gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año");

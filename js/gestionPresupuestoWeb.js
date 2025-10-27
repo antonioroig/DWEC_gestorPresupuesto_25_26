@@ -1,8 +1,8 @@
 function mostrarDatoEnId(idElemento, valor){
     let presupuesto = document.getElementById(idElemento);
     let parrafo = document.createElement('p');
-    presupuesto.appendChild(parrafo);
     parrafo.innerHTML = valor;
+    presupuesto.appendChild(parrafo);
 }
 
 function mostrarGastoWeb(idElemento, gasto){
@@ -35,7 +35,25 @@ function mostrarGastoWeb(idElemento, gasto){
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    
+    let divagrupacion = document.createElement("div");
+    divagrupacion.className = "agrupacion";
+    let h1 = document.createElement("h1");
+    h1.innerHTML = ("Gastos agrupados por " + periodo);
+    divagrupacion.appendChild(h1);
+    for (let i = 0; i < Object.keys(agrup).length; i++){
+        let divagrupaciondato = document.createElement("div");
+        divagrupaciondato.className = "agrupacion-dato";
+        let spanagrupaciondatoclave = document.createElement("span");
+        spanagrupaciondatoclave.className = "agrupacion-dato-clave";
+        spanagrupaciondatoclave.innerHTML = Object.keys(agrup)[i];
+        divagrupaciondato.appendChild(spanagrupaciondatoclave);
+        let spanagrupaciondatovalor = document.createElement("span");
+        spanagrupaciondatovalor.className = "agrupacion-dato-valor";
+        spanagrupaciondatovalor.innerHTML = Object.values(agrup)[i];
+        divagrupaciondato.appendChild(spanagrupaciondatovalor);
+        divagrupacion.appendChild(divagrupaciondato);
+    }
+    document.getElementById(idElemento).appendChild(divagrupacion);
 }
 
 export{
