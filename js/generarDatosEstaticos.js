@@ -1,17 +1,2 @@
-function mostrarDatoEnId(){
-
-}
-
-function mostrarGasto(){
-
-}
-
-function mostrarGastosAgrupadosWeb(){
-
-}
-
-export{
-    mostrarDatoEnId,
-    mostrarGasto,
-    mostrarGastosAgrupadosWeb
-}
+import * as gP from './gestionPresupuesto.js';
+import * as gW from './gestionPresupuestoWeb.js';
