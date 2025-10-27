@@ -1,4 +1,4 @@
-function mostrarDatoEnId(){
+function mostrarDatoEnId(idElemento, valor){
 
     const elemento = document.getElementById(idElemento);
 
