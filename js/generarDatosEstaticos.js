@@ -50,3 +50,12 @@ let valorMaximo = "valorMaximo";
 objeto4[valorMaximo] = 50;
 objeto4[etiquetasTiene] = ["comida", "transporte"];
 gPw.mostrarGastoWeb("listado-gastos-filtrado-4", ...gP.filtrarGastos(objeto4));
+
+//TOTAL DE GASTOS AGRUPADOS POR DÍA
+gPw.mostrarGastosAgrupadosWeb("agrupacion-dia", gP.agruparGastos("dia"), "día");
+
+//TOTAL DE GASTOS AGRUPADOS POR MES
+gPw.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
+
+//TOTAL DE GASTOS AGRUPADOS POR AÑO
+gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año");
