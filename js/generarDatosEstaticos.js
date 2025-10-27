@@ -1,2 +1,2 @@
-import * as gp from './gestionPresupuesto'
-import * as gW from './gestionPresupuestoWeb'
+import * as gp from './gestionPresupuesto.js'
+import * as gW from './gestionPresupuestoWeb.js'
