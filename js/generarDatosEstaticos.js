@@ -24,3 +24,12 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total", Math.floor(gestionPresupu
 gestionPresupuesto.listarGastos().forEach(gasto => {
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gasto);
 })
+
+let agrupDia = gestionPresupuesto.agruparGastos("dia");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "dia");
+
+let agrupMes = gestionPresupuesto.agruparGastos("mes");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupMes, "mes");
+
+let agrupAnyo = gestionPresupuesto.agruparGastos("anyo");
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupAnyo, "anyo");
