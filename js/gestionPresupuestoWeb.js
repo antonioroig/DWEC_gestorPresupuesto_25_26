@@ -1,7 +1,8 @@
-function mostrarDatoEnId(idElemento, valor){
-    let elemento = document.getElementById(idElemento)
-        elemento.textContent = valor;
-    
+function mostrarDatoEnId(idElemento, valor) {
+  const elemento = document.getElementById(idElemento);
+  if (elemento) {
+    elemento.textContent = valor;
+  }
 }
 
 function mostrarGastoWeb(){
