@@ -82,8 +82,8 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
         spanClave.textContent = clave;
 
         let spanValor = document.createElement("span");
-        spanClave.classList.add("agrupacion-dato-valor");
-        spanClave.textContent = valor;
+        spanValor.classList.add("agrupacion-dato-valor");
+        spanValor.textContent = valor;
 
         divDato.appendChild(spanClave);
         divDato.appendChild(spanValor);
