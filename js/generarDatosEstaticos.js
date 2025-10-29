@@ -1,0 +1,23 @@
+import * as Js1 from './gestionPresupuestoWeb.js';
+import * as Js2 from './gestionPresupuesto.js';
+
+Js2.actualizarPresupuesto(1500);
+let texto = Js2.mostrarPresupuesto();
+Js1.mostrarDatoEnId(texto, "presupuesto");
+
+let g1 = new Js2.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
+let g2 = new Js2.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
+let g3 = new Js2.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
+let g4 = new Js2.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+let g5 = new Js2.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+let g6 = new Js2.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+
+Js2.anyadirGasto(g1);
+Js2.anyadirGasto(g2);
+Js2.anyadirGasto(g3);
+Js2.anyadirGasto(g4);
+Js2.anyadirGasto(g5);
+Js2.anyadirGasto(g6);
+
+Js1.mostrarDatoEnId(Js2.calcularTotalGastos(), "gastos-totales");
+Js1.mostrarDatoEnId(Js2.calcularBalance(), "balance-total");
