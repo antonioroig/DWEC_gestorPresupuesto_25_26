@@ -1,3 +1,6 @@
 
-import * as gP from './gestionPresupuesto'
-import * as gW from './gestionPresupuestoWeb'
+import * as gP from './gestionPresupuesto.js'
+import * as gW from './gestionPresupuestoWeb.js'
+
+gP.actualizarPresupuesto(1500);
+
