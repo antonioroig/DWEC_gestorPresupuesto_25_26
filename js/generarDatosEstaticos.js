@@ -34,3 +34,23 @@ let lista = gp.listarGastos();
 for(let i = 0; i < lista.length; i++){
     gpw.mostrarGastoWeb("listado-gastos-completo", lista[i]);
 }
+
+let filtro = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"});
+for(let i = 0; i < filtro.length; i++){
+    gpw.mostrarGastoWeb("listado-gastos-filtrado-1", filtro[i]);
+}
+
+let filtro2 = gp.filtrarGastos({ valorMinimo: 50 });
+for (let i = 0; i < filtro2.length; i++) {
+    gpw.mostrarGastoWeb("listado-gastos-filtrado-2", filtro2[i]);
+}
+
+let filtro3 = gp.filtrarGastos({ valorMinimo: 200, etiqueta: "seguros" });
+for (let i = 0; i < filtro3.length; i++) {
+    gpw.mostrarGastoWeb("listado-gastos-filtrado-3", filtro3[i]);
+}
+
+let filtro4 = gp.filtrarGastos({ etiquetas: ["comida", "transporte"], valorMaximo: 50 });
+for (let i = 0; i < filtro4.length; i++) {
+    gpw.mostrarGastoWeb("listado-gastos-filtrado-4", filtro4[i]);
+}
