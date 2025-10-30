@@ -37,52 +37,18 @@ export function mostrarGastoWeb(idElemento, gasto) {
   contenedor.appendChild(divGasto);
 }
 
-export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
-  const contenedor = document.getElementById(idElemento);
-  if (!contenedor) return;
+export function mostrarGastosAgrupadosWeb(idElemento, agrup = [], periodo) {
+  const cont = document.getElementById(idElemento);
+  if (!cont) return;
 
-  let titulo = "";
-  switch (periodo.toLowerCase()) {
-    case "dia":
-    case "día":
-      titulo = "Gastos agrupados por día";
-      break;
-    case "mes":
-      titulo = "Gastos agrupados por mes";
-      break;
-    case "anyo":
-    case "año":
-      titulo = "Gastos agrupados por año";
-      break;
-    default:
-      titulo = `Gastos agrupados por ${periodo}`;
-      break;
-  }
+  const titulos = { dia: "Gastos agrupados por día", día: "Gastos agrupados por día", mes: "Gastos agrupados por mes", anyo: "Gastos agrupados por año", año: "Gastos agrupados por año" };
+  const titulo = titulos[periodo.toLowerCase()] || `Gastos agrupados por ${periodo}`;
 
-  contenedor.innerHTML = "";
-
-  const divAgrup = document.createElement("div");
-  divAgrup.className = "agrupacion";
-
-  const h1 = document.createElement("h1");
-  h1.textContent = titulo;
-  divAgrup.appendChild(h1);
-
-  for (const [clave, valor] of Object.entries(agrup || {})) {
-    const divDato = document.createElement("div");
-    divDato.className = "agrupacion-dato";
-
-    const spanClave = document.createElement("span");
-    spanClave.className = "agrupacion-dato-clave";
-    spanClave.textContent = clave;
-
-    const spanValor = document.createElement("span");
-    spanValor.className = "agrupacion-dato-valor";
-    spanValor.textContent = valor;
-
-    divDato.append(spanClave, spanValor);
-    divAgrup.appendChild(divDato);
-  }
-
-  contenedor.appendChild(divAgrup);
+  cont.innerHTML = `
+    <div class="agrupacion">
+      <h1>${titulo}</h1>
+      ${agrup.map(([clave, valor]) => `<div class="agrupacion-dato"><span class="agrupacion-dato-clave">${clave}</span><span class="agrupacion-dato-valor">${valor}</span></div>`).join("")}
+    </div>
+  `;
 }
+
