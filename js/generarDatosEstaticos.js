@@ -3,7 +3,7 @@ import * as gW from './gestionPresupuestoWeb.js'
 
 gp.actualizarPresupuesto(1500);
 
-const preActual = gp.mostrarPresupuesto();
+let preActual = gp.mostrarPresupuesto();
 gW.mostrarDatoEnId("presupuesto", preActual);
 
 let gasto1 = new gp.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
@@ -20,23 +20,32 @@ gp.anyadirGasto(gasto4);
 gp.anyadirGasto(gasto5);
 gp.anyadirGasto(gasto6);
 
-const calcTotGasto = gp.calcularTotalGastos();
+let calcTotGasto = gp.calcularTotalGastos();
 gW.mostrarDatoEnId("gastos-totales", calcTotGasto);
 
-const balance = gp.calcularBalance();
+let balance = gp.calcularBalance();
 gW.mostrarDatoEnId("balance-total", balance);
 
-const lGasto = gp.listarGastos();
+let lGasto = gp.listarGastos();
 for (let i = 0; i < lGasto.length; i++) {
-  const gasto = lGasto[i];
+  let gasto = lGasto[i];
 
   const fecha = new Date(gasto.fecha);
   if (!isNaN(fecha)) {
-    const dia = fecha.getDate();
-    const mes = fecha.getMonth() + 1;
-    const anyo = fecha.getFullYear();
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1;
+    let anyo = fecha.getFullYear();
     gasto.fecha = `${dia}/${mes}/${anyo}`;
   }
 
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
+}
+
+let fFecha = gp.filtrarGastos({
+  fechaDesde: "2021-09-01",
+  fechaHasta: "2021-09-30"
+})
+
+for (let i = 0; i < fFecha.length; i++) {
+  gW.mostrarGastoWeb("listado-gastos-filtrado-1", fFecha[i]);
 }
