@@ -11,41 +11,48 @@ function mostrarDatoEnId(idElemento, valor){
 
 function mostrarGastoWeb(idElemento , gasto){
     let elemento = document.getElementById(idElemento);
-    if (elemento) {
-        let divGasto = document.createElement("div");
-        divGasto.classList.add("gasto");
+    
+    if (!elemento) {
+        return;
     }
+
+    let divGasto = document.createElement("div");
+    divGasto.classList.add("gasto");
+
     let divDescripcion = document.createElement("div");
     divDescripcion.classList.add("gasto-descripcion");
-    divDescripcion.textContent = "DESCRIPCIÓN DEL GASTO";
+    divDescripcion.textContent = gasto.descripcion;
     divGasto.appendChild(divDescripcion);
 
     let divFecha = document.createElement("div");
     divFecha.classList.add("gasto-fecha");
-    // let fechaLocal = new Date(gasto.fecha).toLocaleString();
-    divFecha.textContent = "FECHA DEL GASTO";
+    divFecha.textContent = gasto.fecha;
     divGasto.appendChild(divFecha);
 
     let divValor = document.createElement("div");
     divValor.classList.add("gasto-valor");
-    divValor.textContent = "VALOR DEL GASTO";
+    divValor.textContent = gasto.valor;
     divGasto.appendChild(divValor);
 
     let divEtiquetas = document.createElement("div");
     divEtiquetas.classList.add("gasto-etiquetas");
+    if (Array.isArray(gasto.etiquetas)) {
+    for (let i = 0; i < gasto.etiquetas.length; i++) {
+        let spanEtiqueta = document.createElement("span");
+        spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
+        spanEtiqueta.textContent = gasto.etiquetas[i];
+        divEtiquetas.appendChild(spanEtiqueta);
+        }
+    }
     divGasto.appendChild(divEtiquetas);
-    
-
-
-
-    
+    elemento.appendChild(divGasto);
 }
 
 function mostrarGastosAgrupadosWeb(){
 
 }
 export{
-    mostrarDatoEnId
-    // mostrarGastoWeb,
-    // mostrarGastosAgrupadosWeb
+    mostrarDatoEnId,
+    mostrarGastoWeb,
+    mostrarGastosAgrupadosWeb
 }
