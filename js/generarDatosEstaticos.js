@@ -54,3 +54,16 @@ let filtro4 = gp.filtrarGastos({ etiquetas: ["comida", "transporte"], valorMaxim
 for (let i = 0; i < filtro4.length; i++) {
     gpw.mostrarGastoWeb("listado-gastos-filtrado-4", filtro4[i]);
 }
+
+
+
+let agrupacionDia = gp.agruparGastos("dia");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupacionDia, "día");
+
+let agrupacionMes = gp.agruparGastos("mes");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupacionMes, "mes");
+
+let agrupacionAnyo = gp.agruparGastos("anyo");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupacionAnyo, "año");
+
+
