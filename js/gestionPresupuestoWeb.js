@@ -7,7 +7,7 @@ function mostrarGastoWeb(idElemento, gasto){
     if(elem){
         let etiquetasHTML = "";
         if(Array.isArray(gasto.etiquetas)){
-            for(let i = 0; i < gasto.etiquetas.lenght; i++){
+            for(let i = 0; i < gasto.etiquetas.length; i++){
                 etiquetasHTML += `<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span>`;
             }
         } 
