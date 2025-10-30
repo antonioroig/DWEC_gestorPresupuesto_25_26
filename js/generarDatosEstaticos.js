@@ -19,3 +19,7 @@ gp.anyadirGasto(gasto3);
 gp.anyadirGasto(gasto4);
 gp.anyadirGasto(gasto5);
 gp.anyadirGasto(gasto6);
+
+const calcTotGasto = gp.calcularTotalGastos();
+gW.mostrarDatoEnId(gastos-totales, calcTotGasto);
+
