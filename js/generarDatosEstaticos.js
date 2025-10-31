@@ -83,3 +83,10 @@ let fGastos4= gp.filtrarGastos({
 for(let i = 0; i < fGastos4.length; i++){
   gW.mostrarGastoWeb("listado-gastos-filtrado-4", fGastos4[i]);
 }
+
+
+let aGastosDia = gp.agruparGastos({
+  periodo: "dia"
+})
+
+gW.mostrarGastosAgrupadosWeb("agrupacion-dia", aGastosDia, "día")

@@ -139,6 +139,7 @@ function calcularTotalGastos(){
 function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
+
 function filtrarGastos(filtro){
     let filtrado = gastos.filter(i =>
     (!filtro.fechaDesde || (!isNaN(Date.parse(filtro.fechaDesde)) && i.fecha >= (Date.parse(filtro.fechaDesde)))) &&
@@ -152,6 +153,7 @@ function filtrarGastos(filtro){
         )))))    
     return filtrado;
 }
+
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 
     let filtro = {};
