@@ -24,4 +24,7 @@ function main() {
 
     gp.filtrarGastos({ valorMinimo: 50 })
     .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-2", g));
+
+    gp.filtrarGastos({ valorMinimo: 200, etiquetasTiene: ["seguros"] })
+    .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-3", g));
 }
