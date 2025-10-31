@@ -56,6 +56,7 @@ let titulo4 = "<h2>Gastos Filtrados 4</h2>"
 presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-4", titulo4)
 presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", listadoGastosFiltrados4)
 
-
+let datosAgrupadosDia = presupuesto.agruparGastos("dia")
+presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", datosAgrupadosDia , "día")
 
 
