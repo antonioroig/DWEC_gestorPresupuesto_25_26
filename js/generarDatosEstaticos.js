@@ -30,6 +30,7 @@ function main() {
 
      gp.filtrarGastos({ valorMaximo: 50, etiquetasTiene: ["comida", "transporte"] })
     .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-4", g));
-
-    
+    web.mostrarGastosAgrupadosWeb("agrupacion-dia",  gp.agruparGastos("dia"),  "dia");
+    web.mostrarGastosAgrupadosWeb("agrupacion-mes",  gp.agruparGastos("mes"),  "mes");
+    web.mostrarGastosAgrupadosWeb("agrupacion-anyo", gp.agruparGastos("anyo"), "anyo");
 }
