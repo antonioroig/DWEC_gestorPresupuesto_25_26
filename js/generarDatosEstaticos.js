@@ -42,14 +42,8 @@ for (let i = 0; i < lGasto.length; i++) {
 }
 
 
-let fFecha = gp.filtrarGastos({
-  fechaDesde: "2021-09-01",
-  fechaHasta: "2021-09-30"
-})
-
-for (let i = 0; i < fFecha.length; i++) {
-  gW.mostrarGastoWeb("listado-gastos-filtrado-1", fFecha[i]);
-}
+let fFecha = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
+  gW.mostrarGastoWeb("listado-gastos-filtrado-1", fFecha);
 
 
 let fGastosMas50 = gp.filtrarGastos({
@@ -61,7 +55,7 @@ for(let i = 0; i < fGastosMas50.length; i++){
 }
 
 
-let fGastos3= gp.filtrarGastos({
+let fGastos3 = gp.filtrarGastos({
   valorMinimo: 200,
   etiquetas: "seguros"
 });
@@ -71,7 +65,7 @@ for(let i = 0; i < fGastos3.length; i++){
 }
 
 
-let fGastos4= gp.filtrarGastos({
+let fGastos4 = gp.filtrarGastos({
   valorMaximo: 50,
   etiquetas: "comida" || "transporte"
 });
@@ -83,3 +77,7 @@ for(let i = 0; i < fGastos4.length; i++){
 
 let aGastosDia = gp.agruparGastos("dia")
 gW.mostrarGastosAgrupadosWeb("agrupacion-dia", aGastosDia, "día")
+
+let aGastosMes = gp.agruparGastos("mes")
+gW.mostrarGastosAgrupadosWeb("agrupacion-mes", aGastosMes, "mes")
+

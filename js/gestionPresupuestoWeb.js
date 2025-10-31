@@ -36,14 +36,14 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>`
 
-    let claves = Object.keys(agrup)
-    for (let i = 0; i <= claves.length; i++) {
-        agrupacionHTML += 
-        `<div class="agrupacion-dato">
-          <span class="agrupacion-dato-clave">${claves[i]}</span>
-          <span class="agrupacion-dato-valor">${agrup[claves[i]]}</span>
-        </div>`
-    }
+        let claves = Object.keys(agrup)
+        for (let i = 0; i < claves.length; i++) {
+            agrupacionHTML += 
+            `<div class="agrupacion-dato">
+            <span class="agrupacion-dato-clave">${claves[i]}</span>
+            <span class="agrupacion-dato-valor">${agrup[claves[i]]}</span>
+            </div>`
+        }
         agrupacionHTML += "</div>"
         elem.innerHTML = agrupacionHTML;
     }
