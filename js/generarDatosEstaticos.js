@@ -59,4 +59,6 @@ presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", listadoGastosFiltrad
 let datosAgrupadosDia = presupuesto.agruparGastos("dia")
 presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", datosAgrupadosDia , "día")
 
+let datosAgrupadosMes = presupuesto.agruparGastos("mes")
+presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", datosAgrupadosMes, "mes")
 
