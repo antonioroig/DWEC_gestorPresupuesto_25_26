@@ -22,4 +22,6 @@ function main() {
     gp.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" })
     .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-1", g));
 
+    gp.filtrarGastos({ valorMinimo: 50 })
+    .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-2", g));
 }
