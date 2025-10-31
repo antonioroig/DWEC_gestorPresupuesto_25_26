@@ -30,7 +30,7 @@ let lGasto = gp.listarGastos();
 for (let i = 0; i < lGasto.length; i++) {
   let gasto = lGasto[i];
 
-  const fecha = new Date(gasto.fecha);
+  let fecha = new Date(gasto.fecha);
   if (!isNaN(fecha)) {
     let dia = fecha.getDate();
     let mes = fecha.getMonth() + 1;
@@ -48,4 +48,12 @@ let fFecha = gp.filtrarGastos({
 
 for (let i = 0; i < fFecha.length; i++) {
   gW.mostrarGastoWeb("listado-gastos-filtrado-1", fFecha[i]);
+}
+
+let fGastosMas50 = gp.filtrarGastos({
+  valorMinimo: 50
+});
+
+for(let i = 0; i < fGastosMas50.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-2", fGastosMas50[i]);
 }
