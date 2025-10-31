@@ -34,10 +34,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     if (elem){
         let agrupacionHTML = 
         `<div class="agrupacion">
-  <h1>Gastos agrupados por ${periodo}</h1>`
+        <h1>Gastos agrupados por ${periodo}</h1>`
 
     let claves = Object.keys(agrup)
-    for (let i = 0; i < claves.length; i++) {
+    for (let i = 0; i <= claves.length; i++) {
         agrupacionHTML += 
         `<div class="agrupacion-dato">
           <span class="agrupacion-dato-clave">${claves[i]}</span>
@@ -46,7 +46,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     }
         agrupacionHTML += "</div>"
         elem.innerHTML = agrupacionHTML;
-
     }
     else{
         alert(`El elemento ${idElemento} no existe`);
