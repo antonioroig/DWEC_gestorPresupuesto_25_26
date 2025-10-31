@@ -18,4 +18,8 @@ function main() {
     web.mostrarDatoEnId("balance-total", gp.calcularBalance());
 
     gp.listarGastos().forEach(g => web.mostrarGastoWeb("listado-gastos-completo", g));
+
+    gp.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" })
+    .forEach(g => web.mostrarGastoWeb("listado-gastos-filtrado-1", g));
+
 }
