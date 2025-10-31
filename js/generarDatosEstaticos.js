@@ -38,7 +38,10 @@ presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-1", titulo)
 presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",listadoGastosFiltrados1)
 
 
-
+let listadoGastosFiltrados2 = presupuesto.filtrarGastos({valorMinimo : 50})
+let titulo2 = "<h2>Gastos Filtrados 2</h2>"
+presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-2", titulo2)
+presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", listadoGastosFiltrados2)
 
 
 
