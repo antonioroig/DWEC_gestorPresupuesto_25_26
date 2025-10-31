@@ -29,3 +29,21 @@ let balanceTotal = presupuesto.calcularBalance()
 presupuestoWeb.mostrarDatoEnId("balance-total", balanceTotal)
 
 
+let listadoCompletoGastos = presupuesto.listarGastos()
+presupuestoWeb.mostrarGastoWeb("listado-gastos-completo",listadoCompletoGastos)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
