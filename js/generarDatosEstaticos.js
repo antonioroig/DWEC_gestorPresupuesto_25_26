@@ -62,3 +62,5 @@ presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", datosAgrupadosDia , "
 let datosAgrupadosMes = presupuesto.agruparGastos("mes")
 presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", datosAgrupadosMes, "mes")
 
+let datosAgrupadosAnyo = presupuesto.agruparGastos("anyo")
+presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", datosAgrupadosAnyo, "año")
