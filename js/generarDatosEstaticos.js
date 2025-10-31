@@ -21,3 +21,7 @@ presupuesto.anyadirGasto(gasto3)
 presupuesto.anyadirGasto(gasto4)
 presupuesto.anyadirGasto(gasto5)
 presupuesto.anyadirGasto(gasto6)
+
+let totalGastos = presupuesto.calcularTotalGastos()
+presupuestoWeb.mostrarDatoEnId("gastos-totales", totalGastos)
+
