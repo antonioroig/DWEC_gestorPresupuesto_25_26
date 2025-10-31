@@ -25,3 +25,7 @@ presupuesto.anyadirGasto(gasto6)
 let totalGastos = presupuesto.calcularTotalGastos()
 presupuestoWeb.mostrarDatoEnId("gastos-totales", totalGastos)
 
+let balanceTotal = presupuesto.calcularBalance()
+presupuestoWeb.mostrarDatoEnId("balance-total", balanceTotal)
+
+
