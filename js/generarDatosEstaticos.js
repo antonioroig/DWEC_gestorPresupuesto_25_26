@@ -11,5 +11,6 @@ function main() {
     const g4 = new gp.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
     const g5 = new gp.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
     const g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
-    
+
+    [g1, g2, g3, g4, g5, g6].forEach(gp.anyadirGasto);
 }
