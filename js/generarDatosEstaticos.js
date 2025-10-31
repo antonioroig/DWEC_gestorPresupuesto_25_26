@@ -51,7 +51,10 @@ presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-3", titulo3)
 presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", listadoGastosFiltrados3)
 
 
-
+let listadoGastosFiltrados4 = presupuesto.filtrarGastos({valorMaximo : 50, etiquetasTiene: ["comida","transporte"]})
+let titulo4 = "<h2>Gastos Filtrados 4</h2>"
+presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-4", titulo4)
+presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", listadoGastosFiltrados4)
 
 
 
