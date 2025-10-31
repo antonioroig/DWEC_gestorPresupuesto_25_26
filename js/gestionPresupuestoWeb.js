@@ -30,7 +30,8 @@ export function mostrarGastoWeb(idElemento, gasto) {
 
   const etq = document.createElement("div");
   etq.className = "gasto-etiquetas";
-  (Array.isArray(gasto.etiquetas) ? gasto.etiquetas : []).forEach(tag => {
+  (Array.isArray(gasto.etiquetas) ? gasto.etiquetas : []).forEach((tag, i) => {
+    if (i > 0) etq.appendChild(document.createTextNode(" "));
     const span = document.createElement("span");
     span.className = "gasto-etiquetas-etiqueta";
     span.textContent = String(tag);
@@ -61,7 +62,7 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
     sClave.className = "agrupacion-dato-clave";
     sClave.textContent = String(clave);
     fila.appendChild(sClave);
-
+    fila.appendChild(document.createTextNode(" "));
     const sValor = document.createElement("span");
     sValor.className = "agrupacion-dato-valor";
     sValor.textContent = String(valor);
