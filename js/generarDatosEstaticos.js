@@ -73,3 +73,13 @@ let fGastos3= gp.filtrarGastos({
 for(let i = 0; i < fGastos3.length; i++){
   gW.mostrarGastoWeb("listado-gastos-filtrado-3", fGastos3[i]);
 }
+
+
+let fGastos4= gp.filtrarGastos({
+  valorMaximo: 50,
+  etiquetas: "comida" || "transporte"
+});
+
+for(let i = 0; i < fGastos4.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-4", fGastos4[i]);
+}
