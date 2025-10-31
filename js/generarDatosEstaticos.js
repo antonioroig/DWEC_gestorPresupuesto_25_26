@@ -81,3 +81,5 @@ gW.mostrarGastosAgrupadosWeb("agrupacion-dia", aGastosDia, "día")
 let aGastosMes = gp.agruparGastos("mes")
 gW.mostrarGastosAgrupadosWeb("agrupacion-mes", aGastosMes, "mes")
 
+let aGastosAnyo = gp.agruparGastos("anyo")
+gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", aGastosAnyo, "año")
