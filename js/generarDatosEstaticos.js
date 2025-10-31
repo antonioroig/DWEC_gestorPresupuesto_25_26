@@ -13,4 +13,7 @@ function main() {
     const g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
 
     [g1, g2, g3, g4, g5, g6].forEach(gp.anyadirGasto);
+
+    web.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
+    web.mostrarDatoEnId("balance-total", gp.calcularBalance());
 }
