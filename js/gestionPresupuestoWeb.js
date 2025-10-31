@@ -9,7 +9,7 @@ function mostrarGastoWeb(idElemento, gasto){
         let etiquetasHTML = "";
         if(Array.isArray(gasto.etiquetas)){
             for(let i = 0; i < gasto.etiquetas.length; i++){
-                etiquetasHTML += `<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span>`;
+                etiquetasHTML += `<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span><br>`;
             }
         } 
      let gastoHTML = 
@@ -20,7 +20,7 @@ function mostrarGastoWeb(idElemento, gasto){
       <div class="gasto-etiquetas">
         ${etiquetasHTML}
       </div>
-    </div>`;
+    </div><br>`;
         elem.innerHTML += gastoHTML;
     }
     else{
@@ -35,13 +35,13 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         let agrupacionHTML = 
         `<div class="agrupacion">
         <h1>Gastos agrupados por ${periodo}</h1>`
-
-        let claves = Object.keys(agrup)
-        for (let i = 0; i < claves.length; i++) {
+        
+        for (let claves in agrup) {
+            
             agrupacionHTML += 
             `<div class="agrupacion-dato">
-            <span class="agrupacion-dato-clave">${claves[i]}</span>
-            <span class="agrupacion-dato-valor">${agrup[claves[i]]}</span>
+            <span class="agrupacion-dato-clave">${claves}</span>
+            <span class="agrupacion-dato-valor">${agrup[claves]}</span>
             </div>`
         }
         agrupacionHTML += "</div>"

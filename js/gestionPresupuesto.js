@@ -32,6 +32,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.etiquetas = (etiquetas.length > 0) ? etiquetas : [];
     this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now();
 
+
     this.mostrarGasto = function(){
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`;
     }
@@ -82,6 +83,7 @@ ${lEtiquetas}`
     }
     this.obtenerPeriodoAgrupacion = function(periodo){
         let fecha = new Date(this.fecha);
+
         let dia =  fecha.getDate();
         let mes =  fecha.getMonth();
         let anyo = fecha.getFullYear();
@@ -158,20 +160,26 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 
     let filtro = {};
 
-    if(etiquetas !== undefined && etiquetas.length > 0){
+    if(periodo){
+        filtro.periodo = periodo
+    }
+    if(etiquetas){
         filtro.etiquetasTiene = etiquetas;
     }
-    if (fechaDesde !== undefined && !isNaN(Date.parse(fechaDesde))){
+    if (fechaDesde){
         filtro.fechaDesde = fechaDesde;
     }
-    if (fechaHasta !== undefined && !isNaN(Date.parse(fechaHasta))){
+    if (fechaHasta){
         filtro.fechaHasta = fechaHasta;
     }
 
-    let gastosFiltrados = filtrarGastos(filtro);
 
+    let gastosFiltrados = filtrarGastos(filtro);
+  
     let resultado = gastosFiltrados.reduce((acc, gasto) => {
+        console.log(gasto)
         let clave = gasto.obtenerPeriodoAgrupacion(periodo);
+        console.log(clave)
 
         if (!acc[clave]) {
             acc[clave] = gasto.valor;
@@ -179,10 +187,10 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
         else {
             acc[clave] += gasto.valor;
         }
-
+        
         return acc;
     }, {});
-
+  
     return resultado;
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

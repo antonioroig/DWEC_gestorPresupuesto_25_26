@@ -30,44 +30,39 @@ const lGasto = gp.listarGastos();
 for (let i = 0; i < lGasto.length; i++) {
   const gasto = lGasto[i];
 
-  const fecha = new Date(gasto.fecha);
+  const fecha = new Date(gasto.fecha).toISOString().slice(0,10);
   if (!isNaN(fecha)) {
     const dia = fecha.getDate();
     const mes = fecha.getMonth() + 1;
     const anyo = fecha.getFullYear();
-    gasto.fecha = `${dia}/${mes}/${anyo}`;
   }
 
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
-
-let fFecha = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
-  gW.mostrarGastoWeb("listado-gastos-filtrado-1", fFecha);
-
-
-let fGastosMas50 = gp.filtrarGastos({
-  valorMinimo: 50
-});
-
-for(let i = 0; i < fGastosMas50.length; i++){
-  gW.mostrarGastoWeb("listado-gastos-filtrado-2", fGastosMas50[i]);
+let fGastos1 = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
+for (let i = 0; i < fGastos1.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-1", fGastos1[i]);
 }
 
 
-let fGastos3 = gp.filtrarGastos({
-  valorMinimo: 200,
-  etiquetas: "seguros"
+let fGastos2 = gp.filtrarGastos({
+  valorMinimo: 50
 });
+
+for(let i = 0; i < fGastos2.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-2", fGastos2[i]);
+}
+
+
+let fGastos3 = gp.filtrarGastos({valorMinimo: 200, etiquetas: "seguros"});
 
 for(let i = 0; i < fGastos3.length; i++){
   gW.mostrarGastoWeb("listado-gastos-filtrado-3", fGastos3[i]);
 }
 
 
-let fGastos4 = gp.filtrarGastos({
-  valorMaximo: 50,
-  etiquetas: "comida" || "transporte"
+let fGastos4 = gp.filtrarGastos({valorMaximo: 50, etiquetas: "comida" || "transporte"
 });
 
 for(let i = 0; i < fGastos4.length; i++){
@@ -75,11 +70,11 @@ for(let i = 0; i < fGastos4.length; i++){
 }
 
 
-let aGastosDia = gp.agruparGastos("dia")
-gW.mostrarGastosAgrupadosWeb("agrupacion-dia", aGastosDia, "día")
+let aGastosDia = gp.agruparGastos("dia");
+gW.mostrarGastosAgrupadosWeb("agrupacion-dia", aGastosDia, "día");
 
-let aGastosMes = gp.agruparGastos("mes")
-gW.mostrarGastosAgrupadosWeb("agrupacion-mes", aGastosMes, "mes")
+let aGastosMes = gp.agruparGastos("mes");
+gW.mostrarGastosAgrupadosWeb("agrupacion-mes", aGastosMes, "mes");
 
 let aGastosAnyo = gp.agruparGastos("anyo")
-gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", aGastosAnyo, "año")
+gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", aGastosAnyo, "año");
