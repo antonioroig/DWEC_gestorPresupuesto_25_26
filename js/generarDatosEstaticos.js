@@ -16,4 +16,6 @@ function main() {
 
     web.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
     web.mostrarDatoEnId("balance-total", gp.calcularBalance());
+
+    gp.listarGastos().forEach(g => web.mostrarGastoWeb("listado-gastos-completo", g));
 }
