@@ -32,7 +32,10 @@ presupuestoWeb.mostrarDatoEnId("balance-total", balanceTotal)
 let listadoCompletoGastos = presupuesto.listarGastos()
 presupuestoWeb.mostrarGastoWeb("listado-gastos-completo",listadoCompletoGastos)
 
-
+let listadoGastosFiltrados1 = presupuesto.filtrarGastos({fechaDesde:"2021-09-01", fechaHasta: "2021-09-30"})
+let titulo = "<h2>Gastos Filtrados 1</h2>"
+presupuestoWeb.mostrarDatoEnId("listado-gastos-filtrado-1", titulo)
+presupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",listadoGastosFiltrados1)
 
 
 
