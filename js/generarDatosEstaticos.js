@@ -28,3 +28,7 @@ gp.filtrarGastos({ valorMinimo: 200, etiquetasTiene: ["seguros"] })
 
 gp.filtrarGastos({ etiquetasTiene: ["comida", "transporte"], valorMaximo: 50 })
   .forEach(g => gpw.mostrarGastoWeb("listado-gastos-filtrado-4", g));
+  
+  gpw.mostrarGastosAgrupadosWeb("agrupacion-dia", gp.agruparGastos("dia"), "día");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", gp.agruparGastos("mes"), "mes");
+gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gp.agruparGastos("anyo"), "año");
