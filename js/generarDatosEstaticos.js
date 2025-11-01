@@ -25,5 +25,26 @@ gW.mostrarDatoEnId("balance-total", Math.floor(gP.calcularBalance()));
 
 gP.listarGastos().forEach(g => gW.mostrarGastoWeb("listado-gastos-completo", g));
 
+let listadoCompleto = document.getElementById("listado-gastos-completo");
+let lista = gP.listarGastos();
+for (let i = 0; i < lista.length; i++)
+    gW.mostrarGastoWeb("listado-gastos-completo", lista[i]);
+
+let filtro1 = gP.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" });
+for (let i = 0; i < filtro1.length; i++) 
+    gW.mostrarGastoWeb("listado-gastos-filtrado-1", filtro1[i]);
+
+let filtro2 = gP.filtrarGastos({ valorMinimo: 50 });
+for (let i = 0; i < filtro2.length; i++) 
+    gW.mostrarGastoWeb("listado-gastos-filtrado-2", filtro2[i]);
+
+let filtro3 = gP.filtrarGastos({ valorMinimo: 200, etiquetasTiene: ["seguros"] });
+for (let i = 0; i < filtro3.length; i++) 
+    gW.mostrarGastoWeb("listado-gastos-filtrado-3", filtro3[i]);
+
+let filtro4 = gP.filtrarGastos({ etiquetasTiene: ["comida", "transporte"], valorMaximo: 50 });
+for (let i = 0; i < filtro4.length; i++) 
+    gW.mostrarGastoWeb("listado-gastos-filtrado-4", filtro4[i]);
+
 
 
