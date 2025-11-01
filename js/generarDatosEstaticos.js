@@ -16,3 +16,15 @@ const g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte",
 gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
 gpw.mostrarDatoEnId("balance-total", gp.calcularBalance());
 gp.listarGastos().forEach(g => gpw.mostrarGastoWeb("listado-gastos-completo", g));
+
+gp.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" })
+  .forEach(g => gpw.mostrarGastoWeb("listado-gastos-filtrado-1", g));
+
+gp.filtrarGastos({ valorMinimo: 50 })
+  .forEach(g => gpw.mostrarGastoWeb("listado-gastos-filtrado-2", g));
+
+gp.filtrarGastos({ valorMinimo: 200, etiquetasTiene: ["seguros"] })
+  .forEach(g => gpw.mostrarGastoWeb("listado-gastos-filtrado-3", g));
+
+gp.filtrarGastos({ etiquetasTiene: ["comida", "transporte"], valorMaximo: 50 })
+  .forEach(g => gpw.mostrarGastoWeb("listado-gastos-filtrado-4", g));
