@@ -1,25 +1,57 @@
-function mostrarDatoEnId(idElemento, valor){
+function mostrarDatoEnId(idElemento, valor) {
+  const elemento = document.getElementById(idElemento);
+  if (elemento) {
+    elemento.textContent = valor;
+  }
+}
 
-    const elemento = document.getElementById(idElemento);
+function mostrarGastoWeb(idContenedor, datosGasto) {
+    let contenedor = document.getElementById(idContenedor);
 
-    if (elemento) {
-        elemento.textContent = valor;
-    } else {
-        console.warn(`No existe un elemento con id: ${idElemento}`);
+    let bloqueGasto = document.createElement('div');
+    bloqueGasto.classList.add('gasto');
+    contenedor.appendChild(bloqueGasto);
+
+    let descripcion = document.createElement('div');
+    descripcion.classList.add('gasto-descripcion');
+    descripcion.textContent = datosGasto.descripcion;
+    bloqueGasto.appendChild(descripcion);
+
+    let fecha = document.createElement('div');
+    fecha.classList.add('gasto-fecha');
+    fecha.textContent = datosGasto.fecha;
+    bloqueGasto.appendChild(fecha);
+
+    let valor = document.createElement('div');
+    valor.classList.add('gasto-valor');
+    valor.textContent = datosGasto.valor + ' €';
+    bloqueGasto.appendChild(valor);
+
+    let etiquetas = document.createElement('div');
+    etiquetas.classList.add('gasto-etiquetas');
+    bloqueGasto.appendChild(etiquetas);
+
+    if (datosGasto.etiquetas && datosGasto.etiquetas.length > 0) {
+        for (let etiqueta of datosGasto.etiquetas) {
+            let etiquetaSpan = document.createElement('span');
+            etiquetaSpan.classList.add('gasto-etiquetas-etiqueta');
+            etiquetaSpan.textContent = etiqueta;
+            etiquetas.appendChild(etiquetaSpan);
+        }
     }
+}
+
+
+
+
+
+function mostrarGastosAgrupadosWeb() {
 
 }
 
-function mostrarGasto(){
-
-}
-
-function mostrarGastosAgrupadosWeb(){
-
-}
 
 export{
     mostrarDatoEnId,
-    mostrarGasto,
+    mostrarGastoWeb,
     mostrarGastosAgrupadosWeb
 }
