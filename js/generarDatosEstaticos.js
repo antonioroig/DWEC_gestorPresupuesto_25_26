@@ -1,4 +1,17 @@
-import * as gP from './gestionPresupuesto.js';
-import * as gW from './gestionPresupuestoWeb.js';
-gP.actualizarPresupuesto(1500);
+import * as gp from './gestionPresupuesto.js';
+import * as gpw from './gestionPresupuestoWeb.js';
 
+gp.actualizarPresupuesto(1500);
+gpw.mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
+
+const g1 = new gp.CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida");
+const g2 = new gp.CrearGasto("Compra fruta y verdura", 14.25, "2021-09-06", "supermercado", "comida");
+const g3 = new gp.CrearGasto("Bonobús", 18.60, "2020-05-26", "transporte");
+const g4 = new gp.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasolina");
+const g5 = new gp.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros");
+const g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros");
+
+[g1, g2, g3, g4, g5, g6].forEach(g => gp.anyadirGasto(g));
+
+gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
+gpw.mostrarDatoEnId("balance-total", gp.calcularBalance());
