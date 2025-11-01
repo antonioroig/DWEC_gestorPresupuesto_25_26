@@ -23,9 +23,25 @@ gP.anyadirGasto(gasto6);
 gW.mostrarDatoEnId("gastos-totales", Math.floor(gP.calcularTotalGastos()));
 gW.mostrarDatoEnId("balance-total", Math.floor(gP.calcularBalance()));
 
-gP.listarGastos().forEach(g => gW.mostrarGastoWeb("listado-gastos-completo", g));
+const gastos = gP.listarGastos();
+for (let i = 0; i < gastos.length; i++) {
+  const gasto = gastos[i];
 
-let listadoCompleto = document.getElementById("listado-gastos-completo");
+  let fechaObj = new Date(gasto.fecha);
+  if (!isNaN(fechaObj)) {
+    let dia = fechaObj.getDate();
+    let mes = fechaObj.getMonth() + 1;
+    let anyo = fechaObj.getFullYear();
+
+    
+    gasto.fecha = `${anyo}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+  }
+
+  gW.mostrarGastoWeb("listado-gastos-completo", gasto);
+}
+
+
+
 let lista = gP.listarGastos();
 for (let i = 0; i < lista.length; i++)
     gW.mostrarGastoWeb("listado-gastos-completo", lista[i]);
