@@ -15,3 +15,4 @@ const g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte",
 
 gpw.mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
 gpw.mostrarDatoEnId("balance-total", gp.calcularBalance());
+gp.listarGastos().forEach(g => gpw.mostrarGastoWeb("listado-gastos-completo", g));
