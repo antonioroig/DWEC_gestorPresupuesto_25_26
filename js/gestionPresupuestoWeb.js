@@ -45,34 +45,37 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
 
 
 
-function mostrarGastosAgrupadosWeb(id, periodo, agrupacion) {
- let id = document.getElementById(idElemento);
-    let titulo = document.createElement("h1");
-    titulo.textContent = 'Gastos agrupados por ' + periodo;
-    let agrupacion = document.createElement("div");
-    agrupacion.classList.add("agrupacion");
-    agrupacion.append(titulo);
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+    const contenedor = document.getElementById(idElemento);
+    if (!contenedor || !agrup) return;
 
-    for(let dato in agrupacion){
-        let agrupacion_dato = document.createElement("div");
-        agrupacion_dato.classList.add("agrupacion-dato");
+    const divAgrupacion = document.createElement("div");
+    divAgrupacion.className = "agrupacion";
+  
+    const h1Periodo = document.createElement("h1");
+    h1Periodo.textContent = `Gastos agrupados por ${periodo}`;
+    divAgrupacion.appendChild(h1Periodo);
 
-        let agrupacion_clave = document.createElement("span");
-        agrupacion_clave.classList.add("agrupacion-dato-clave");
-        agrupacion_clave.textContent = dato;
+    for (const clave of Object.keys(agrup)) {
+      const valor = agrup[clave];
 
-        let agrupacion_valor = document.createElement("span");
-        agrupacion_valor.classList.add("agrupacion-dato-valor");
-        agrupacion_valor.textContent = agrupacion[dato];
+      const divAgrupacionDato = document.createElement("div");
+      divAgrupacionDato.className = "agrupacion-dato";
 
-        
-        agrupacion_dato.append(agrupacion_clave);
-        agrupacion_dato.append(agrupacion_valor);
-        agrupacion.append(agrupacion_dato);
+      const spanClave = document.createElement("span");
+      spanClave.className = "agrupacion-dato-clave";
+      spanClave.textContent = clave;
+
+      const spanValor = document.createElement("span");
+      spanValor.className = "agrupacion-dato-valor";
+      spanValor.textContent = valor;
+
+      divAgrupacionDato.append(spanClave, spanValor);
+      divAgrupacion.appendChild(divAgrupacionDato);
     }
-    
-    id.append(agrupacion);
-}
+
+    contenedor.appendChild(divAgrupacion);
+  }
 
 
 export{

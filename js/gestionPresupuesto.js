@@ -202,13 +202,16 @@ function calcularBalance(){
 
 function filtrarGastos(filtros = {}) {
     return gastos.filter(g => {
+        let fechaGasto = new Date(g.fecha);
 
-        if (filtros.fechaDesde && g.fecha < Date.parse(filtros.fechaDesde)) {
-            return false;
+        if (filtros.fechaDesde) {
+            let fechaDesde = new Date(filtros.fechaDesde);
+            if (fechaGasto < fechaDesde) return false;
         }
 
-        if (filtros.fechaHasta && g.fecha > Date.parse(filtros.fechaHasta)) {
-            return false;
+        if (filtros.fechaHasta) {
+            let fechaHasta = new Date(filtros.fechaHasta);
+            if (fechaGasto > fechaHasta) return false;
         }
 
         if (filtros.valorMinimo !== undefined && g.valor < filtros.valorMinimo) {
@@ -248,7 +251,6 @@ function filtrarGastos(filtros = {}) {
             if (coincidencias.length === 0) return false;
         }
 
-       
         return true;
     });
 }
