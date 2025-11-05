@@ -28,3 +28,4 @@ Js1.mostrarGastoWeb("listado-gastos-filtrado-3", Js2.filtrarGastos({valorMinimo:
 Js1.mostrarGastoWeb("listado-gastos-filtrado-4", Js2.filtrarGastos({valorMaximo: "50", etiquetasTiene: ["comida", "transporte"]}));
 Js1.mostrarGastosAgrupadosWeb("agrupacion-dia", Js2.agruparGastos("dia"), "día");
 Js1.mostrarGastosAgrupadosWeb("agrupacion-mes", Js2.agruparGastos("mes"), "mes");
+Js1.mostrarGastosAgrupadosWeb("agrupacion-anyo", Js2.agruparGastos("anyo"), "año");
