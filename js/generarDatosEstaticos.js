@@ -26,3 +26,4 @@ Js1.mostrarGastoWeb("listado-gastos-filtrado-1", Js2.filtrarGastos({fechaDesde: 
 Js1.mostrarGastoWeb("listado-gastos-filtrado-2", Js2.filtrarGastos({valorMinimo: "50"}));
 Js1.mostrarGastoWeb("listado-gastos-filtrado-3", Js2.filtrarGastos({valorMinimo: "200", etiquetasTiene: ["seguros"]}));
 Js1.mostrarGastoWeb("listado-gastos-filtrado-4", Js2.filtrarGastos({valorMaximo: "50", etiquetasTiene: ["comida", "transporte"]}));
+Js1.mostrarGastosAgrupadosWeb("agrupacion-dia", Js2.agruparGastos("dia"), "día");

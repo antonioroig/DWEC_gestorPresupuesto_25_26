@@ -35,21 +35,24 @@ function mostrarGastoWeb(idElemento, gastos) {
 
 function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo) {
     let elem = document.getElementById(idElemento);
+    let d = document.createElement("div");
+    d.classList.add("agrupacion");
+    elem.appendChild(d);
     let h = document.createElement("h1");
     h.textContent = 'Gastos agrupados por ' + periodo;
-    elem.appendChild(h);
+    d.appendChild(h);
     for (let value of Object.values(agroup)){
         let div = document.createElement("div");
         div.classList.add("agrupacion-dato");
-        elem.appendChild.add(div);
+        d.appendChild(div);
         let span1 = document.createElement("span");
         span1.classList.add("agrupacion-dato-clave");
         span1.textContent = value[0];
-        div.appendChild.add(span1);
+        div.appendChild(span1);
         let span2 = document.createElement("span");
         span2.classList.add("agrupacion-dato-valor");
         span2.textContent = value[1];
-        div.appendChild.add(span2);
+        div.appendChild(span2);
     }
 };
 
