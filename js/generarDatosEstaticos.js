@@ -23,3 +23,4 @@ Js1.mostrarDatoEnId(Js2.calcularTotalGastos(), "gastos-totales");
 Js1.mostrarDatoEnId(Js2.calcularBalance(), "balance-total");
 Js1.mostrarGastoWeb("listado-gastos-completo", Js2.listarGastos());
 Js1.mostrarGastoWeb("listado-gastos-filtrado-1", Js2.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}));
+Js1.mostrarGastoWeb("listado-gastos-filtrado-2", Js2.filtrarGastos({valorMinimo: "50"}));
