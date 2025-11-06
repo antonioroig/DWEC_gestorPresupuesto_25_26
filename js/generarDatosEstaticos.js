@@ -33,15 +33,16 @@ for (let i = 0; i < lGasto.length; i++) {
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
-const listadoGastosSep = gP.listarGastos();
-gW.mostrarGastoWeb(listadoGastosSep,"listado-gastos-completo1")
+let lGastosSep = gP.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
+for (let i = 0; i < lGastosSep.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-1", lGastosSep[i]);
+}
 
-const listadoGastos50 = gP.listarGastos();
-gW.mostrarGastoWeb(listadoGastos50,"listado-gastos-completo2")
+let listadoGastos50 = gP.filtrarGastos({
+  valorMinimo: 50
+});
+for(let i = 0; i < listadoGastos50.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-2", listadoGastos50[i]);
+}
 
-const listadoGastos200 = gP.listarGastos();
-gW.mostrarGastoWeb(listadoGastos200,"listado-gastos-completo3")
-
-const listadoGastosMenos50 = gP.listarGastos();
-gW.mostrarGastoWeb(listadoGastosMenos50,"listado-gastos-completo4")
 
