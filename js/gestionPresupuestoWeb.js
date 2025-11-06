@@ -2,49 +2,50 @@ function mostrarDatoEnId(valor,idElemento){
     document.getElementById(idElemento).textContent = valor;
 }
 
-function mostrarGastoWeb(idElemento,gasto){
-const cont  = document.getElementById(idElemento);
-if (!contenedor) {
-    console.error(`No se encontró el elemento con id "${idElemento}"`);
-    return;
-  }
+function mostrarGastoWeb(idElemento, gasto) {
+    let elem = document.getElementById(idElemento);
+    
+    if (elem) {
+        let gastoDiv = document.createElement("div");
+        gastoDiv.className = "gasto";
 
-  const divGasto = document.createElement("div");
-  divGasto.classList.add("gasto");
+        let descripcionDiv = document.createElement("div");
+        descripcionDiv.className = "gasto-descripcion";
+        descripcionDiv.textContent = gasto.descripcion;
+        gastoDiv.appendChild(descripcionDiv);
 
-  const divDescripcion = document.createElement("div");
-  divDescripcion.classList.add("gasto-descripcion");
-  divDescripcion.textContent = gasto.descripcion;
-  divGasto.appendChild(divDescripcion);
+        let fechaDiv = document.createElement("div");
+        fechaDiv.className = "gasto-fecha";
+        fechaDiv.textContent = gasto.fecha;
+        gastoDiv.appendChild(fechaDiv);
 
-  const divFecha = document.createElement("div");
-  divFecha.classList.add("gasto-fecha");
-  divFecha.textContent = gasto.fecha;
-  divGasto.appendChild(divFecha);
+        let valorDiv = document.createElement("div");
+        valorDiv.className = "gasto-valor";
+        valorDiv.textContent = gasto.valor;
+        gastoDiv.appendChild(valorDiv);
 
-  const divValor = document.createElement("div");
-  divValor.classList.add("gasto-valor");
-  divValor.textContent = gasto.valor.toFixed(2) + " €";
-  divGasto.appendChild(divValor);
+        let etiquetasDiv = document.createElement("div");
+        etiquetasDiv.className = "gasto-etiquetas";
 
-  
-  const divEtiquetas = document.createElement("div");
-  divEtiquetas.classList.add("gasto-etiquetas");
+        if (Array.isArray(gasto.etiquetas)) {
+            gasto.etiquetas.forEach(etiqueta => {
+                let span = document.createElement("span");
+                span.className = "gasto-etiquetas-etiqueta";
+                span.textContent = etiqueta;
+                etiquetasDiv.appendChild(span);
+                etiquetasDiv.appendChild(document.createElement("br"));
+            });
+        }
 
-  if (Array.isArray(gasto.etiquetas)) {
-    gasto.etiquetas.forEach(etiqueta => {
-      const spanEtiqueta = document.createElement("span");
-      spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
-      spanEtiqueta.textContent = etiqueta;
-      divEtiquetas.appendChild(spanEtiqueta);
-    });
-  }
+        gastoDiv.appendChild(etiquetasDiv);
 
-  divGasto.appendChild(divEtiquetas);
+        elem.appendChild(gastoDiv);
+        elem.appendChild(document.createElement("br"));
 
-  contenedor.appendChild(divGasto);
+    } else {
+        alert(`El elemento ${idElemento} no existe`);
+    }
 }
-
 
 function mostrarGastosAgrupadosWeb(){
 

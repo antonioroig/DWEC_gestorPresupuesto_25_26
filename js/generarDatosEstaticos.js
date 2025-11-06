@@ -27,9 +27,10 @@ const balanceTotal = gP.calcularBalance();
 gW.mostrarDatoEnId(balanceTotal,"balance-total")
 //filtrados
 
-const listadoGastos = gP.listarGastos();
-for (i=0 ; i < listadoGastos.lenght;i++){
-    gW.mostrarGastoWeb(listadoGastos,"listado-gastos-completo")
+let lGasto = gP.listarGastos();
+for (let i = 0; i < lGasto.length; i++) {
+  let gasto = lGasto[i];
+  gW.mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
 const listadoGastosSep = gP.listarGastos();
