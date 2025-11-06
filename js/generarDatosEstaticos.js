@@ -30,11 +30,16 @@ gW.mostrarDatoEnId(balanceTotal,"balance-total")
 let lGasto = gP.listarGastos();
 for (let i = 0; i < lGasto.length; i++) {
   let gasto = lGasto[i];
+  
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
 let lGastosSep = gP.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
 for (let i = 0; i < lGastosSep.length; i++){
+
+
+
+
   gW.mostrarGastoWeb("listado-gastos-filtrado-1", lGastosSep[i]);
 }
 
@@ -57,3 +62,5 @@ let listadoGastosMenos50 = gP.filtrarGastos({valorMaximo: 50, etiquetas: "comida
 for(let i = 0; i < listadoGastosMenos50.length; i++){
   gW.mostrarGastoWeb("listado-gastos-filtrado-4", listadoGastosMenos50[i]);
 }
+//agruupaciones
+
