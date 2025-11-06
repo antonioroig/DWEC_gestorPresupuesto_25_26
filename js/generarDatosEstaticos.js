@@ -45,4 +45,15 @@ for(let i = 0; i < listadoGastos50.length; i++){
   gW.mostrarGastoWeb("listado-gastos-filtrado-2", listadoGastos50[i]);
 }
 
+let listadoGastos200 = gP.filtrarGastos({valorMinimo: 200, etiquetas: "seguros"});
 
+for(let i = 0; i < listadoGastos200.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-3", listadoGastos200[i]);
+}
+
+let listadoGastosMenos50 = gP.filtrarGastos({valorMaximo: 50, etiquetas: "comida" || "transporte"
+});
+
+for(let i = 0; i < listadoGastosMenos50.length; i++){
+  gW.mostrarGastoWeb("listado-gastos-filtrado-4", listadoGastosMenos50[i]);
+}
