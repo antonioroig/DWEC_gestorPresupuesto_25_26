@@ -14,6 +14,7 @@ let g4 = new gp.CrearGasto("Gasolina", 60.42, "2021-10-08", "transporte", "gasol
 let g5 = new gp.CrearGasto("Seguro hogar", 206.45, "2021-09-26", "casa", "seguros")
 let g6 = new gp.CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros")
 
+
 gp.anyadirGasto(g1)
 gp.anyadirGasto(g2)
 gp.anyadirGasto(g3)
@@ -51,3 +52,8 @@ gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", agrup2, "mes")
 
 let agrup3 = gp.agruparGastos("anyo")
 gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrup3, "año")
+
+let g7 = new gp.CrearGasto("Prueba", 1000, "2025-11-07", "paco")
+gp.anyadirGasto(g7)
+
+gpw.repintar();

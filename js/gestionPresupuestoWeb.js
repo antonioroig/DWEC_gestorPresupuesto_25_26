@@ -1,3 +1,27 @@
+import * as gp from './gestionPresupuesto.js'
+
+function repintar() {
+    let divPresupuesto = document.getElementById("presupuesto")
+    divPresupuesto.textContent = mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto())
+
+
+    let divGastosTotales = document.getElementById("gastos-totales")
+    divGastosTotales.textContent = mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
+
+    let divBalanceTotal = document.getElementById("balance-total")
+    divBalanceTotal.textContent = mostrarDatoEnId("balance-total", gp.calcularBalance())
+
+    let divListadoGastosCompleto = document.getElementById("listado-gastos-completo")
+    divListadoGastosCompleto.innerHTML = ""
+    divListadoGastosCompleto.textContent = mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
+
+}
+
+
+
+
+// Old Functions
+
 function mostrarDatoEnId(id, valor) {
     let tag = document.getElementById(id);
     tag.textContent = valor;
@@ -77,5 +101,6 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
