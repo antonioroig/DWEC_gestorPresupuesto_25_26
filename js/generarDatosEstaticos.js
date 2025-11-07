@@ -53,7 +53,5 @@ gpw.mostrarGastosAgrupadosWeb("agrupacion-mes", agrup2, "mes")
 let agrup3 = gp.agruparGastos("anyo")
 gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrup3, "año")
 
-let g7 = new gp.CrearGasto("Prueba", 1000, "2025-11-07", "paco")
-gp.anyadirGasto(g7)
 
 gpw.repintar();

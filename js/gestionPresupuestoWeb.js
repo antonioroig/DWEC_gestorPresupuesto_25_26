@@ -1,21 +1,17 @@
 import * as gp from './gestionPresupuesto.js'
 
 function repintar() {
-    let divPresupuesto = document.getElementById("presupuesto")
-    divPresupuesto.textContent = mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto())
 
-
-    let divGastosTotales = document.getElementById("gastos-totales")
-    divGastosTotales.textContent = mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
-
-    let divBalanceTotal = document.getElementById("balance-total")
-    divBalanceTotal.textContent = mostrarDatoEnId("balance-total", gp.calcularBalance())
+    mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto())
+    mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
+    mostrarDatoEnId("balance-total", gp.calcularBalance())
 
     let divListadoGastosCompleto = document.getElementById("listado-gastos-completo")
     divListadoGastosCompleto.innerHTML = ""
-    divListadoGastosCompleto.textContent = mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
-
+    mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
 }
+
+
 
 
 
@@ -102,5 +98,6 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb
 }
