@@ -98,6 +98,5 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar,
-    actualizarPresupuestoWeb
+    repintar
 }
