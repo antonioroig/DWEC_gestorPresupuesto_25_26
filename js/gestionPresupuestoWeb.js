@@ -10,11 +10,25 @@ function repintar() {
     mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
 }
 
+function ActualizarPresupuestoWeb() {
+    this.handleEvent = function(e) {
+        let newPresupuesto = prompt("¿Qué nuevo presupuesto quieres?")
+        if (isNaN(newPresupuesto)) {
+            alert("Intruduce sólo números!")
+        }
+        else {
+            newPresupuesto = parseInt(newPresupuesto)
+            gp.actualizarPresupuesto(newPresupuesto)
+            repintar()
+        }
+    }
+}
+
 function NuevoGastoWeb() {
     this.handleEvent = function(e) {
         let desc = prompt("Descripción del nuevo gasto")
         let precio = parseInt(prompt("Precio"))
-        let fecha = prompt("Introduce la fecha de gasto (YYYY-MM-DD")
+        let fecha = prompt("Introduce la fecha de gasto (YYYY-MM-DD)")
         let etiqueta = prompt("Introduce las etiquetas, separadas por coma")
         etiqueta = etiqueta.split(',')
         let newGasto = new gp.CrearGasto(desc, precio, fecha, ...etiqueta)
@@ -110,5 +124,6 @@ export {
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
+    ActualizarPresupuestoWeb,
     NuevoGastoWeb
 }

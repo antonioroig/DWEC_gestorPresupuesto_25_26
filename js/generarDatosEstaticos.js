@@ -56,22 +56,11 @@ gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrup3, "año")
 
 gpw.repintar();
 
-function ActualizarPresupuestoWeb() {
-    this.handleEvent = function(e) {
-        let newPresupuesto = prompt("¿Qué nuevo presupuesto quieres?")
-        if (isNaN(newPresupuesto)) {
-            alert("Intruduce sólo números!")
-        }
-        else {
-            newPresupuesto = parseInt(newPresupuesto)
-            gp.actualizarPresupuesto(newPresupuesto)
-            gpw.repintar()
-        }
-    }
-}
 
 
-let manejadorActualizarPresupuestoWeb = new ActualizarPresupuestoWeb()
+
+
+let manejadorActualizarPresupuestoWeb = new gpw.ActualizarPresupuestoWeb()
 let updatePresupuestoBtn = document.getElementById("actualizarpresupuesto")
 updatePresupuestoBtn.addEventListener("click", manejadorActualizarPresupuestoWeb)
 
