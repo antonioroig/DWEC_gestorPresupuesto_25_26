@@ -74,3 +74,8 @@ function ActualizarPresupuestoWeb() {
 let manejadorActualizarPresupuestoWeb = new ActualizarPresupuestoWeb()
 let updatePresupuestoBtn = document.getElementById("actualizarpresupuesto")
 updatePresupuestoBtn.addEventListener("click", manejadorActualizarPresupuestoWeb)
+
+
+let anyadirGastoBtn = document.getElementById("anyadirgasto")
+let manejadorAnyadirGasto = new gpw.NuevoGastoWeb()
+anyadirGastoBtn.addEventListener("click", manejadorAnyadirGasto)

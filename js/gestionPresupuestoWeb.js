@@ -10,8 +10,17 @@ function repintar() {
     mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
 }
 
-function nuevoGastoWeb() {
-
+function NuevoGastoWeb() {
+    this.handleEvent = function(e) {
+        let desc = prompt("Descripción del nuevo gasto")
+        let precio = parseInt(prompt("Precio"))
+        let fecha = prompt("Introduce la fecha de gasto (YYYY-MM-DD")
+        let etiqueta = prompt("Introduce las etiquetas, separadas por coma")
+        etiqueta = etiqueta.split(',')
+        let newGasto = new gp.CrearGasto(desc, precio, fecha, ...etiqueta)
+        gp.anyadirGasto(newGasto)
+        repintar()
+    }
 }
 
 
@@ -100,5 +109,6 @@ export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    NuevoGastoWeb
 }
