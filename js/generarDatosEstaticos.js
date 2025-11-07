@@ -50,3 +50,4 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosAgrupado
 let gastosAgrupadosAnyo = gestionPresupuesto.agruparGastos("anyo")
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupadosAnyo, "año")
 
+gestionPresupuestoWeb.actualizarPresupuestoWeb()

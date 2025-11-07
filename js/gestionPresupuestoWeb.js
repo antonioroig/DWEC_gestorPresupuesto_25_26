@@ -71,19 +71,31 @@ function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar(){
-    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto() + " PEPE")
+    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos()) 
     mostrarDatoEnId("balance-total",  gestionPresupuesto.calcularBalance())
     let divGastosCompletos = document.getElementById("listado-gastos-completo")
     divGastosCompletos.innerHTML = ""
     mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
-
-
 }
+
+function actualizarPresupuestoWeb(){
+    let botonPresupuesto = document.getElementById("actualizarpresupuesto")
+    let nuevoPresupuesto = {
+        handleEvent : function(){
+            let respuesta = prompt("ingrese su nuevo presupuesto")
+            gestionPresupuesto.actualizarPresupuesto(parseInt(respuesta))
+            repintar()
+        }
+    }
+    botonPresupuesto.addEventListener("click", nuevoPresupuesto)
+}
+
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb
 }

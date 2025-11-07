@@ -147,7 +147,7 @@ Etiquetas:\n${desplegable}`)
             }
         
             function mostrarPresupuesto() 
-            {
+            {   
                 return (`Tu presupuesto actual es de ${presupuesto} €`)
             }
         
