@@ -91,11 +91,31 @@ function actualizarPresupuestoWeb(){
     botonPresupuesto.addEventListener("click", nuevoPresupuesto)
 }
 
+function nuevoGastoWeb(){
+    let botonAnyadirGasto = document.getElementById("anyadirgasto")
+    let gastoNuevo = {
+        handleEvent : function(){
+            let concepto = prompt("Ingrese un concepto general del gasto")
+            let valorTotal = prompt("Ingrese el valor total del gasto")
+            let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
+            let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
+            let coma = ","
+            let arrayEtiquetas = etiquetasGasto.split(coma)
+            let nuevoGasto = new gestionPresupuesto.CrearGasto(concepto, valorTotal, fechaDelGasto, arrayEtiquetas)
+            gestionPresupuesto.anyadirGasto(nuevoGasto)
+            repintar()
+        }
+    }
+    botonAnyadirGasto.addEventListener("click", gastoNuevo)
+}
+
+
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
