@@ -1,7 +1,6 @@
 import * as gp from './gestionPresupuesto.js'
 
 function repintar() {
-
     mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
     mostrarDatoEnId("balance-total", gp.calcularBalance())
@@ -11,6 +10,9 @@ function repintar() {
     mostrarGastoWeb("listado-gastos-completo", gp.listarGastos())
 }
 
+function nuevoGastoWeb() {
+
+}
 
 
 
