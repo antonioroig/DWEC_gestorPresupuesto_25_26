@@ -13,6 +13,7 @@ function mostrarGastoWeb(idElemento, gastos){
         let divGasto = document.createElement("div")
         divGasto.setAttribute("class", "gasto")
         elem.append(divGasto)
+        let botonEditarGasto = document.createElement("button")
         let divDes = document.createElement("div")
         divDes.setAttribute("class", "gasto-descripcion")
         divDes.textContent = gasto.descripcion;
@@ -38,6 +39,11 @@ function mostrarGastoWeb(idElemento, gastos){
             let br = document.createElement("br")
             divEti.append(br)
         }
+        botonEditarGasto.innerText = "Editar Gasto"
+        botonEditarGasto.setAttribute("class", "botonEditarGasto")
+        botonEditarGasto.setAttribute("type", "button")
+        // botonEditarGasto.addEventListener("click", editarHandle)
+        divGasto.append(botonEditarGasto)
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
