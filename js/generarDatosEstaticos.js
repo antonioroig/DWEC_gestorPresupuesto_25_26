@@ -59,3 +59,8 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
 
 //TOTAL DE GASTOS AGRUPADOS POR AÑO
 gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año");
+
+//FUNCIÓN ACTUALIZARPRESUPUESTOWEB Y BOTÓN ACTUALIZARPRESUPUESTO
+
+let boton = document.getElementById("actualizarpresupuesto");
+boton.addEventListener("click", gPw.actualizarPresupuestoWeb());

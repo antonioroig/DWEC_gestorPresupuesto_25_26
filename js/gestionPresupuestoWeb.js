@@ -32,6 +32,9 @@ function mostrarGastoWeb(idElemento, ...gastos){
         let cajaEtiqueta = document.createElement("div");
         cajaEtiqueta.classList.add("gasto-etiquetas");
 
+        if (gasto.etiquetas == undefined)
+            continue;
+
         for (let j = 0; j < gasto.etiquetas.length; j++){
             let etiqueta = gasto.etiquetas[j];
             let span = document.createElement("span");
@@ -88,12 +91,20 @@ function repintar(){
 
     contenido.innerHTML = "";
 
-    mostrarGastoWeb("listado-gastos-completo", listarGastos());
+    mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+}
+
+function actualizarPresupuestoWeb(){
+        let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
+        Number(cantidadPresupuesto);
+        gP.actualizarPresupuesto(cantidadPresupuesto);
+        repintar();
 }
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb
 }
