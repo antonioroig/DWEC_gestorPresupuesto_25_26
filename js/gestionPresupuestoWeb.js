@@ -101,10 +101,15 @@ function actualizarPresupuestoWeb(){
         repintar();
 }
 
+function nuevoGastoWeb(){
+
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
