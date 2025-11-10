@@ -64,3 +64,12 @@ for(let i = 0; i < listadoGastosMenos50.length; i++){
 }
 //agruupaciones
 
+let gastosDia = gP.agruparGastos("dia");
+gW.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosDia, "día");
+
+let gastosMes = gP.agruparGastos("mes");
+gW.mostrarGastosAgrupadosWeb("agrupacion-mes", gastosMes, "mes");
+
+let gastosAnyo = gP.agruparGastos("anyo")
+gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAnyo, "año");
+
