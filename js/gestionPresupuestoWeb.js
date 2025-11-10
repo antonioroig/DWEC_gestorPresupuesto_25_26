@@ -93,8 +93,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     }
     contenedor.appendChild(divAgrupacion);
 }
+function repintar(){
+    let presupuesto = document.getElementById("presupuesto");
+    let gastosTotales = document.getElementById("gastos-totales");
+    let balanceTotal = document.getElementById("balance-total");
+    let listadoGastosCompleto = document.getElementById("listado-gastos-completo");
+
+    
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 };
