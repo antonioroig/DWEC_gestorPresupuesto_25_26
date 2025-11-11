@@ -13,7 +13,6 @@ function mostrarGastoWeb(idElemento, gastos){
         let divGasto = document.createElement("div")
         divGasto.setAttribute("class", "gasto")
         elem.append(divGasto)
-        let botonEditarGasto = document.createElement("button")
         let divDes = document.createElement("div")
         divDes.setAttribute("class", "gasto-descripcion")
         divDes.textContent = gasto.descripcion;
@@ -39,13 +38,13 @@ function mostrarGastoWeb(idElemento, gastos){
             let br = document.createElement("br")
             divEti.append(br)
         }
-        botonEditarGasto.innerText = "Editar Gasto"
-        botonEditarGasto.setAttribute("class", "botonEditarGasto")
+        let botonEditarGasto = document.createElement("button")
         botonEditarGasto.setAttribute("type", "button")
-        let funcionManejadora = new editarHandle(gasto)
-        botonEditarGasto.addEventListener("click", funcionManejadora)
-        divGasto.append(botonEditarGasto)
+        botonEditarGasto.innerText = "Editar gasto"
+        botonEditarGasto.addEventListener("click", new editarHandle(gasto))
+        divEti.append(botonEditarGasto)
     }
+    
 }
 
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -106,8 +105,7 @@ function nuevoGastoWeb(){
             let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
             let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
             let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
-            let coma = ","
-            let arrayEtiquetas = etiquetasGasto.split(coma)
+            let arrayEtiquetas = etiquetasGasto.split(",")
             let nuevoGasto = new gestionPresupuesto.CrearGasto(concepto, valorTotal, fechaDelGasto, arrayEtiquetas)
             gestionPresupuesto.anyadirGasto(nuevoGasto)
             repintar()
@@ -116,21 +114,22 @@ function nuevoGastoWeb(){
     botonAnyadirGasto.addEventListener("click", gastoNuevo)
 }
 
-class editarHandle  {
-    handleEvent(gasto){
-        let concepto = prompt("Ingrese un concepto general del gasto")
-        let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
-        let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
-        let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
-        let coma = ","
-        let arrayEtiquetas = etiquetasGasto.split(coma)
-        gasto.descripcion = concepto
-        gasto.valor = valorTotal
-        gasto.fecha = fechaDelGasto
-        gasto.etiquetas = arrayEtiquetas
-        repintar()
-        return gasto
-    }
+
+
+function editarHandle(gasto){
+    this.gasto = gasto;
+        this.handleEvent = function(event){
+                let concepto = prompt("Ingrese un concepto general del gasto")
+                let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
+                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
+                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
+                let arrayEtiquetas = etiquetasGasto.split(",")
+                gasto.descripcion = concepto
+                gasto.valor = valorTotal
+                gasto.fecha = fechaDelGasto
+                this.gasto.etiquetas = arrayEtiquetas
+                repintar()
+                }
 }
 
 
@@ -140,5 +139,6 @@ export{
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    editarHandle
 }

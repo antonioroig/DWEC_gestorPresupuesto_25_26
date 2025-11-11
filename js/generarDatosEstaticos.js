@@ -52,3 +52,4 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupad
 
 gestionPresupuestoWeb.actualizarPresupuestoWeb()
 gestionPresupuestoWeb.nuevoGastoWeb()
+gestionPresupuestoWeb.editarHandle()
