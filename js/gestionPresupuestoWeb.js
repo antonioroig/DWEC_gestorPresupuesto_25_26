@@ -88,8 +88,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         divAgrupacion.appendChild(divDato);
     }
     contenedor.appendChild(divAgrupacion);
-
-    function repintar(){
+    
+}
+function repintar(){
         mostrarDatoEnId('presupuesto', gestionPresupuesto.mostrarPresupuesto());
         mostrarDatoEnId('gastos-totales', gestionPresupuesto.calcularTotalGastos());   
         mostrarDatoEnId('balance-total', gestionPresupuesto.calcularBalance());
@@ -97,13 +98,16 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         let contenedorListadoGastoComp = document.getElementById('listado-gastos-completo');
         contenedorListadoGastoComp.innerHTML = '';
 
-        mostrarDatoEnId('listado-gastos-completo', gestionPresupuesto.listarGastos());
+        for (let i = 0; i < gestionPresupuesto.listarGastos().length; i++) {
+            mostrarGastoWeb('listado-gastos-completo', gestionPresupuesto.listarGastos()[i]);
+        }
     }
-    repintar();
+    
 
     function actualizarPresupuestoWeb (){
+        debugger;
         let entradaPresupuesto = prompt("Introduce el nuevo presupuesto:");
-        entradaPresupuesto = parseFloat(entradaPresupuesto);
+        entradaPresupuesto = Number(entradaPresupuesto);
 
         gestionPresupuesto.actualizarPresupuesto(entradaPresupuesto);
         repintar();
@@ -112,7 +116,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     let botonActualizarpresupuesto = document.getElementById('actualizarpresupuesto');
     botonActualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
     
-}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
