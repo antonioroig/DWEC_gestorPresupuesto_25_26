@@ -1,3 +1,5 @@
+"use strict"
+import * as gestionPresupuesto from ("./gestionPresupuesto")
 function mostrarDatoEnId(idElemento, valor) {
     document.getElementById(idElemento).innerHTML += valor
 }
@@ -61,6 +63,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         }
     }
 }
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
