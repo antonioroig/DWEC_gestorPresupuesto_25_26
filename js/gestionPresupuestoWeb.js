@@ -82,11 +82,36 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
  } 
 
+ function actualizarPresupuestoWeb(){
+
+ }
+
+ function nuevoGastoWeb(){
+
+ }
+
+ function EditarHandle(){
+
+ }
+
+ function BorrarHandle(){
+
+ }
+
+function borrarEtiquetasHandle(){
+
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle,
+    borrarEtiquetasHandle
 }
 
 import * as gP from './gestionPresupuesto.js';
