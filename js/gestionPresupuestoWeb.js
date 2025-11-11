@@ -1,4 +1,4 @@
-import * as gpw from './gestionPresupuesto.js'
+import * as gp from './gestionPresupuesto.js'
 
 function mostrarDatoEnId(idElemento, valor){
     document.getElementById(idElemento).textContent = valor;
@@ -54,9 +54,28 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     }
 }
 
+function repintar(){
+    let presupuesto = gp.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto", presupuesto);
+
+    let totalGastos = gp.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales", totalGastos);
+
+    let balance = gp.calcularBalance();
+    mostrarDatoEnId("balance-total", balance);
+
+    let lGastosComp = document.getElementById(listado-gastos-completo);
+    lGastosComp.innerHTML = "";
+
+    let lGastos = gp.listarGastos();
+    for(let gasto of lGastos){
+        mostrarGastoWeb("listado-gastos-completo", gasto)
+    }
+}
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
