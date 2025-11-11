@@ -83,3 +83,5 @@ export{
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb
 }
+
+import * as gP from './gestionPresupuesto.js';
