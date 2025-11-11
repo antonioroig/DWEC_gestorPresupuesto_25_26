@@ -1,5 +1,5 @@
 "use strict";
-
+import * as gestionPresupuesto from './gestionPresupuesto.js';
 //función para mostrar dato en id
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
