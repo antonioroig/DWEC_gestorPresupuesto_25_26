@@ -100,6 +100,18 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         mostrarDatoEnId('listado-gastos-completo', gestionPresupuesto.listarGastos());
     }
     repintar();
+
+    function actualizarPresupuestoWeb (){
+        let entradaPresupuesto = prompt("Introduce el nuevo presupuesto:");
+        entradaPresupuesto = parseFloat(entradaPresupuesto);
+
+        gestionPresupuesto.actualizarPresupuesto(entradaPresupuesto);
+        repintar();
+    }
+
+    let botonActualizarpresupuesto = document.getElementById('actualizarpresupuesto');
+    botonActualizarpresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+    
 }
 export {
     mostrarDatoEnId,
