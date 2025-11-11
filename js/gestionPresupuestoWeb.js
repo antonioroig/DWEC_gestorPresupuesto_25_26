@@ -78,10 +78,15 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
   }
 
 
+ function repintar (){
+
+ } 
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
 
 import * as gP from './gestionPresupuesto.js';
