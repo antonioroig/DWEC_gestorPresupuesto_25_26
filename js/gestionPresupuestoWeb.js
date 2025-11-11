@@ -1,3 +1,5 @@
+import * as gpw from './gestionPresupuesto.js'
+
 function mostrarDatoEnId(idElemento, valor){
     document.getElementById(idElemento).textContent = valor;
 }
