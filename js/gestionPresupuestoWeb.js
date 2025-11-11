@@ -1,3 +1,6 @@
+import * as gP from './gestionPresupuesto.js'
+
+
 function mostrarDatoEnId(valor,idElemento){
     document.getElementById(idElemento).textContent = valor;
 }
@@ -86,9 +89,28 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
   
 }
+ function repintar(){
 
+ }
+ function nuevoGastoWeb(){
+
+ }
+function actualizarPresupuestoWeb(){
+
+}
+function EditarHandle(){
+
+}
+function BorrarEtiquetasHandle(){
+
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarEtiquetasHandle
 }
