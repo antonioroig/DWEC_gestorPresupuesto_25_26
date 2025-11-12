@@ -57,14 +57,11 @@ gpw.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrup3, "año")
 gpw.repintar();
 
 
-
-
-
 let manejadorActualizarPresupuestoWeb = new gpw.ActualizarPresupuestoWeb()
 let updatePresupuestoBtn = document.getElementById("actualizarpresupuesto")
 updatePresupuestoBtn.addEventListener("click", manejadorActualizarPresupuestoWeb)
 
-
 let anyadirGastoBtn = document.getElementById("anyadirgasto")
 let manejadorAnyadirGasto = new gpw.NuevoGastoWeb()
 anyadirGastoBtn.addEventListener("click", manejadorAnyadirGasto)
+
