@@ -68,16 +68,36 @@ function repintar(){
 
 }
 
-const boton = document.getElementById("actualizarpresupuesto");
-boton.addEventListener("click", function actualizarPresupuestoWeb(){
+
+function actualizarPresupuestoWeb(){
     let presupuesto = prompt("Introduce un presupuesto");
-    presupuesto = parseInt(presupuesto);
+    presupuesto = Number(presupuesto);
     Js1.actualizarPresupuesto(presupuesto);
     repintar();
-})
+}
+
+
+function nuevoGastoWeb(){
+    let descripcion = prompt("Añade descripción al gasto");
+    let valor = Number(prompt("Añade valor al gasto"));
+    let fecha = prompt("Añade fecha al gasto con formato yyyy-mm-dd");
+    let etiquetas = prompt("Añade etiquetas al gasto seguidas de una coma (etiqueta1,etiqueta2,etiqueta3)");
+    etiquetas = etiquetas.split(',');
+    let gasto = new Js1.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+    Js1.anyadirGasto(gasto);
+    repintar();
+}
+
+const botonActualizarPresupuestp = document.getElementById("actualizarpresupuesto");
+botonActualizarPresupuestp.addEventListener("click", actualizarPresupuestoWeb);
+
+const botonAnyadirGasto = document.getElementById("anyadirgasto");
+botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
