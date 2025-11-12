@@ -32,6 +32,15 @@ function mostrarGastoWeb(idElemento, gastos) {
             ge.appendChild(gee);
         }
         g.appendChild(ge);
+        let bEditar = document.createElement("button");
+        bEditar.textContent = "Editar";
+        bEditar.classList.add("gasto-editar");
+        g.appendChild(bEditar);
+
+        let evento = new EditarHandle();
+        evento.gasto = gastos[j];
+
+        bEditar.addEventListener("click", evento);
     }
 };
 
@@ -94,10 +103,25 @@ botonActualizarPresupuestp.addEventListener("click", actualizarPresupuestoWeb);
 const botonAnyadirGasto = document.getElementById("anyadirgasto");
 botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
+function EditarHandle(){
+    this.handleEvent = function(evento){
+        this.gasto.descipcion = prompt("Añade descripción al gasto", this.gasto.descipcion);
+        this.gasto.valor = Number(prompt("Añade valor al gasto", this.gasto.valor));
+        this.gasto.fecha = prompt("Añade fecha al gasto con formato yyyy-mm-dd", this.gasto.fecha);
+        this.gasto.etiquetas = prompt("Añade etiquetas al gasto seguidas de una coma (etiqueta1,etiqueta2,etiqueta3)", this.gasto.etiquetas).split(',');
+        this.gasto.actualizarDescripcion(this.gasto.descipcion);
+        this.gasto.actualizarValor(this.gasto.valor);
+        this.gasto.actualizarFecha(this.gasto.fecha);
+        this.gasto.anyadirEtiquetas(...this.gasto.etiquetas);
+        repintar();
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle
 }
