@@ -48,7 +48,12 @@ function EditarHandle() {
         fecha = new Date(fecha)
         this.gasto.actualizarFecha(fecha)
         let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, this.gasto.etiquetas);
-        this.gasto.borrarEtiquetas(this.gasto.etiquetas)
+        if (etiquetas === "") {
+            this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
+            repintar();
+            return;
+        }
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
         etiquetas = etiquetas.split(',')
         this.gasto.anyadirEtiquetas(etiquetas);
         repintar();
@@ -64,7 +69,6 @@ function BorrarHandle() {
 
 function BorrarEtiquetasHandle() {
     this.handleEvent = function(e) {
-        console.log("Hola");
         this.gasto.borrarEtiquetas(this.etiqueta)
         repintar();
     }
@@ -114,7 +118,6 @@ function mostrarGastoWeb(id, gasto) {
             let objManejadorTags = new BorrarEtiquetasHandle();
             objManejadorTags.gasto = obj
             objManejadorTags.etiqueta = tag;
-            console.log(objManejadorTags);
             element.addEventListener("click", objManejadorTags)
 
             etiqueta.append(element);
