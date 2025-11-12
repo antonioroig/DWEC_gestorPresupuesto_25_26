@@ -40,16 +40,17 @@ function NuevoGastoWeb() {
 function EditarHandle() {
     this.handleEvent = function(e) {
         let desc = prompt(`Inserta el concepto general del gasto:`, this.gasto.descripcion);
-        this.gasto.descripcion = desc
+        this.gasto.actualizarDescripcion(desc)
         let precio = Number(prompt(`Inserta el precio`, this.gasto.valor));
-        this.gasto.valor = precio
+        this.gasto.actualizarValor(precio)
         let oldFecha = new Date(this.gasto.fecha).toISOString().replace("/", "-").split("T")[0]
         let fecha = prompt(`Inserta la fecha`, oldFecha);
         fecha = new Date(fecha)
-        this.gasto.fecha = fecha
+        this.gasto.actualizarFecha(fecha)
         let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, this.gasto.etiquetas);
+        this.gasto.borrarEtiquetas(this.gasto.etiquetas)
         etiquetas = etiquetas.split(',')
-        this.gasto.etiquetas = etiquetas;
+        this.gasto.anyadirEtiquetas(etiquetas);
         repintar();
     }
 }
