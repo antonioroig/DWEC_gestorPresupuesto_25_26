@@ -31,17 +31,39 @@ gpw.mostrarDatoEnId("balance-total", balance)
 let completo = gp.listarGastos();
 gpw.mostrarGastoWeb("listado-gastos-completo", completo);
 
+let h2 = document.createElement("h2")
+h2.textContent = "listado-gastos-filtrado-1"
+let filt1 = document.getElementById("listado-gastos-filtrado-1")
+filt1.append(h2)
+
+
 let sept21 = gp.filtrarGastos({fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"})
 gpw.mostrarGastoWeb("listado-gastos-filtrado-1", sept21)
 
+h2 = document.createElement("h2")
+h2.textContent = "listado-gastos-filtrado-2"
+let filt2 = document.getElementById("listado-gastos-filtrado-2")
+filt2.append(h2)
 let mas50 = gp.filtrarGastos({valorMinimo: 50})
 gpw.mostrarGastoWeb("listado-gastos-filtrado-2", mas50)
+
+h2 = document.createElement("h2")
+h2.textContent = "listado-gastos-filtrado-3"
+let filt3 = document.getElementById("listado-gastos-filtrado-3")
+filt3.append(h2)
 
 let mas200 = gp.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]})
 gpw.mostrarGastoWeb("listado-gastos-filtrado-3", mas200)
 
+h2 = document.createElement("h2")
+h2.textContent = "listado-gastos-filtrado-4"
+let filt4 = document.getElementById("listado-gastos-filtrado-4")
+filt4.append(h2)
+
 let conTags = gp.filtrarGastos({valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]})
 gpw.mostrarGastoWeb("listado-gastos-filtrado-4", conTags)
+
+
 
 
 let agrup1 = gp.agruparGastos("dia")

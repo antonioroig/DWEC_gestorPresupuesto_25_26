@@ -33,27 +33,31 @@ function NuevoGastoWeb() {
         etiqueta = etiqueta.split(',')
         let newGasto = new gp.CrearGasto(desc, precio, fecha, ...etiqueta)
         gp.anyadirGasto(newGasto)
-        repintar()
+        repintar();
     }
 }
 
-function EditarHandle(gasto) {
+function EditarHandle() {
     this.handleEvent = function(e) {
-        console.log(gasto);
-        let desc = prompt(`Inserta el concepto general del gasto:`, gasto.descripcion);
-        let oldFecha = new Date(gasto.fecha).toLocaleDateString()
+        let desc = prompt(`Inserta el concepto general del gasto:`, this.gasto.descripcion);
+        this.gasto.descripcion = desc
+        let precio = Number(prompt(`Inserta el precio`, this.gasto.valor));
+        this.gasto.valor = precio
+        let oldFecha = new Date(this.gasto.fecha).toISOString().replace("/", "-").split("T")[0]
         let fecha = prompt(`Inserta la fecha`, oldFecha);
         fecha = new Date(fecha)
-        let precio = parseFloat(prompt(`Inserta el precio`, gasto.valor));
-        let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, gasto.etiquetas);
-        gasto.descripcion = desc
-        gasto.valor = precio
-        gasto.fecha = fecha
+        this.gasto.fecha = fecha
+        let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, this.gasto.etiquetas);
         etiquetas = etiquetas.split(',')
-        gasto.etiquetas = etiquetas;
+        this.gasto.etiquetas = etiquetas;
         repintar();
-    }   
+    }
 }
+
+
+
+
+
 
 
 
@@ -67,7 +71,6 @@ function mostrarDatoEnId(id, valor) {
 
 function mostrarGastoWeb(id, gasto) {
     let idElement = document.getElementById(id);
-    let body = document.body;
 
     for (let obj of gasto) {
         let mainDiv = document.createElement("div")
@@ -104,9 +107,24 @@ function mostrarGastoWeb(id, gasto) {
 
         // crear boton
         let btn = document.createElement("button")
-        btn.setAttribute("class", "edita-gasto")
+        btn.setAttribute("class", "gasto-editar")
+        btn.setAttribute("type", "button")
+        btn.setAttribute("id", obj.id)
         btn.textContent = "Editar"
-        btn.addEventListener("click", new EditarHandle(obj))
+    
+        let objManejador = new EditarHandle();
+        objManejador.gasto = obj;
+        btn.addEventListener("click", objManejador)
+        mainDiv.append(btn);
+
+        let btnDel = document.createElement("button")
+        btnDel.setAttribute("class", "gasto-eliminar")
+        btnDel.setAttribute("type", "button")
+        btnDel.setAttribute("id", obj.id)
+
+        let objManejadorDelete = new BorrarHandle();
+        objManejadorDelete.gasto = obj;
+        btn.addEventListener("click", objManejadorDelete)
         mainDiv.append(btn);
         idElement.append(mainDiv)
     }
