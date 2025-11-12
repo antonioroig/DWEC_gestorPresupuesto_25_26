@@ -32,10 +32,10 @@ function mostrarGastoWeb(idElemento, gastos){
         let divEti = document.createElement("div")
         divEti.setAttribute("class", "gasto-etiquetas")
         divGasto.append(divEti)
-        let objManejadorEtiquetas = new BorrarEtiquetasHandle()
-        objManejadorEtiquetas.gasto = gasto;
         for(let etiqueta of gasto.etiquetas)
         {
+            let objManejadorEtiquetas = new BorrarEtiquetasHandle()
+            objManejadorEtiquetas.gasto = gasto;
             let span = document.createElement("span")
             span.setAttribute("class", "gasto-etiquetas-etiqueta")
             span.textContent = etiqueta
@@ -53,7 +53,6 @@ function mostrarGastoWeb(idElemento, gastos){
         objManejadorEdicion.gasto = gasto
         botonEditarGasto.addEventListener("click", objManejadorEdicion)
         divEti.append(botonEditarGasto)
-
         let botonBorrarGasto = document.createElement("button")
         botonBorrarGasto.setAttribute("type", "button")
         botonBorrarGasto.setAttribute("class", "gasto-borrar")
@@ -63,7 +62,6 @@ function mostrarGastoWeb(idElemento, gastos){
         botonBorrarGasto.addEventListener("click", objManejadorBorrado)
         divEti.append(botonBorrarGasto)
     }
-    
 }
 
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -75,22 +73,18 @@ function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let titulo = document.createElement("h1")
     titulo.textContent = `Gastos agrupados por ${periodo}`
     divAgrup.append(titulo)
-
     for(const [clave, valor] of Object.entries(agrup))
     {
         let divAgrupGasto = document.createElement("div")
         divAgrupGasto.setAttribute("class", "agrupacion-dato")
-
         let spanClave = document.createElement("span")
         spanClave.setAttribute("class", "agrupacion-dato-clave")
         divAgrupGasto.append(spanClave)
         spanClave.textContent = clave
-
         let spanValor = document.createElement("span")
         spanValor.setAttribute("class", "agrupacion-dato-valor")
         divAgrupGasto.append(spanValor)
         spanValor.textContent = valor
-
         divAgrup.append(divAgrupGasto)
     }
 }
@@ -124,7 +118,7 @@ function nuevoGastoWeb(){
     let gastoNuevo = {
         handleEvent : function(){
             let concepto = prompt("Ingrese un concepto general del gasto")
-            let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
+            let valorTotal = Number(prompt("Ingrese el valor total del gasto"))
             let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
             let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
             let arrayEtiquetas = etiquetasGasto.split(",")
@@ -136,8 +130,6 @@ function nuevoGastoWeb(){
     botonAnyadirGasto.addEventListener("click", gastoNuevo)
 }
 
-
-
 function EditarHandle(){   
     this.handleEvent = function(e){
         let concepto = prompt("Ingrese un concepto general del gasto", `${this.gasto.descripcion}`)
@@ -148,9 +140,9 @@ function EditarHandle(){
         let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)",  `${fechaSinT}`)
         let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${this.gasto.etiquetas}`)
         let arrayEtiquetas = etiquetasGasto.split(",")
-        this.gasto.descripcion = concepto
-        this.gasto.valor = valorTotal
-        this.gasto.fecha = fechaDelGasto
+        this.gasto.actualizarDescripcion(concepto)
+        this.gasto.actualizarValor(valorTotal)
+        this.gasto.actualizarFecha(fechaDelGasto)
         this.gasto.etiquetas = arrayEtiquetas
         repintar()
         }
@@ -170,8 +162,6 @@ function BorrarEtiquetasHandle(){
         repintar()  
     }
 }
-
-
 
 export{
     mostrarDatoEnId,
