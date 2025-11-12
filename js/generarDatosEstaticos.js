@@ -67,3 +67,10 @@ gPw.actualizarPresupuestoWeb();
 //FUNCIÓN NUEVOGASTOWEB Y BOTÓN ANYADIR GASTO
 
 gPw.nuevoGastoWeb();
+
+//FUNCIÓN EDITARHANDLE
+
+
+
+    
+

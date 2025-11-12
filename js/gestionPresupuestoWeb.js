@@ -44,6 +44,33 @@ function mostrarGastoWeb(idElemento, ...gastos){
                 cajaGrande.append(cajaEtiqueta);
             }
         }
+
+        let botonEditar = document.createElement("button");
+        botonEditar.setAttribute("type", "button");   
+        botonEditar.classList.add("gasto-editar");
+        botonEditar.textContent = "Editar";
+
+        let manejadorGastoEditar = new EditarHandle();
+
+        manejadorGastoEditar.gasto = gasto;
+
+        botonEditar.addEventListener("click", manejadorGastoEditar);
+
+        cajaGrande.append(botonEditar);
+
+        let botonBorrar = document.createElement("button");
+        botonBorrar.setAttribute("type", "button");   
+        botonBorrar.classList.add("gasto-borrar");
+        botonBorrar.textContent = "Borrar gasto";
+
+        let manejadorGastoBorrar = new BorrarHandle();
+
+        manejadorGastoBorrar.gasto = gasto;
+
+        botonBorrar.addEventListener("click", manejadorGastoBorrar);
+
+        cajaGrande.append(botonBorrar);
+
         elemento.append(cajaGrande);
    }
 }
@@ -86,13 +113,7 @@ function repintar(){
     mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
     mostrarDatoEnId("balance-total", gP.calcularBalance());
-
-    /*
-    let contenido = document.getElementById("listado-gastos-completo");
-
-    contenido.innerHTML = "";
-    */
-   
+    /*document.getElementById("listado-gastos-completo").innerHTML = "";*/
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 }
 
@@ -108,9 +129,7 @@ function actualizarPresupuestoWeb(){
             repintar();
         }
     }
-
     botonActualizar.addEventListener("click", presupuestoActualizado);
-        
 }
 
 
@@ -140,6 +159,40 @@ function nuevoGastoWeb(){
     botonAnyadir.addEventListener("click", gastoNuevo);
 }
 
+function EditarHandle(){
+
+        this.handleEvent = function(event){
+
+            let descripcion = prompt("Descripción: ");
+            let valor = prompt("Valor: ");
+            let fecha = prompt("Fecha: ")
+            let etiquetas = prompt("Etiquetas: ")
+
+            valor = Number(valor);
+
+            let array = etiquetas.split(",");
+        
+            this.gasto.actualizarDescripcion(descripcion);
+
+            this.gasto.actualizarValor(valor);
+
+            this.gasto.actualizarFecha(fecha);
+
+            this.gasto.anyadirEtiquetas(array);
+
+            repintar();
+        }
+}
+
+function BorrarHandle(){
+
+    this.handleEvent = function(event){
+        gP.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
+    
 
 export{
     mostrarDatoEnId,
@@ -147,5 +200,7 @@ export{
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle
 }
