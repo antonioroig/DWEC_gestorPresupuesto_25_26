@@ -33,6 +33,16 @@ function mostrarGastoWeb(idElemento, gasto){
         }
         divgasto.appendChild(divgastoetiquetas);
         document.getElementById(idElemento).appendChild(divgasto);
+
+        /* */
+        let botonEditar = document.createElement("button");
+        botonEditar.setAttribute("type", "button");
+        botonEditar.className = "gasto-editar";
+        botonEditar.innerHTML = "Editar gasto";
+        let objEditar = new EditarHandle();
+        objEditar.gasto = gasto[i];
+        botonEditar.addEventListener("click", objEditar);
+        divgasto.appendChild(botonEditar);
     }
 }
 
@@ -92,6 +102,23 @@ function nuevoGastoWeb(){
 
 let bAnyadirGasto = document.getElementById("anyadirgasto");
 bAnyadirGasto.addEventListener("click", nuevoGastoWeb);
+
+function EditarHandle(){
+    this.handleEvent = function(evento){
+        let descripcion = prompt("Introduce la descripción");
+        let valor = prompt("Introduce el valor");
+        let fecha = prompt("Introduce la fecha");
+        let etiquetas = prompt("Introduce las etiquetas");
+        if (valor != NaN)
+            valor = Number(valor);
+        etiquetas = etiquetas.split(","); 
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
 
 export{
     mostrarDatoEnId,
