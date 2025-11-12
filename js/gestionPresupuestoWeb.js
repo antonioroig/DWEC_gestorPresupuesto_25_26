@@ -105,6 +105,11 @@ function repintar(){
     listadoGastosCompleto.innerHTML = '';
     mostrarDatoEnId(listadoGastosCompleto, gestionPresupuesto.listarGastos());
 }
+function actualizarPresupuestoWeb(){
+    let idString = prompt ('Introduce el ID del presupuesto a actualizar?', '');
+    let idInt = parseInt(idString);
+
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
