@@ -1,3 +1,5 @@
+import * as gP from './gestionPresupuesto.js';
+
 function mostrarDatoEnId(idElemento, valor){
     let presupuesto = document.getElementById(idElemento);
     let parrafo = document.createElement('p');
@@ -56,8 +58,28 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     document.getElementById(idElemento).appendChild(divagrupacion);
 }
 
+function repintar (){
+    mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gP.calcularBalance());
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+}
+
+function actualizarPresupuestoWeb (){
+    let presupuesto = prompt("Introduce un presupuesto");
+    let nPresupuesto = Number(presupuesto);
+    if (nPresupuesto != NaN)
+        gP.actualizarPresupuesto(nPresupuesto);
+    repintar();
+}
+
+let bActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
+bActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }

@@ -6,10 +6,20 @@
         <title>
             Gestor de Presupuesto - Adrián Carretero Mateo
         </title>
+        <link rel="stylesheet" type="text/css" href="css/estilos.css">
     </head>
 
     <body>
         <div id="aplicacion">
+            <div id="controlesprincipales">
+                <button type="button" id="actualizarpresupuesto">
+                    Actualizar presupuesto
+                </button>
+                <button type="button" id="anyadirgasto">
+                    Añadir gasto
+                </button>
+            </div>
+
             <div id="presupuesto">
             </div>
 
@@ -46,6 +56,6 @@
         </div>
 
         <script type="module" src="./js/generarDatosEstaticos.js"></script>
-
+        <script type="module" src="./js/gestionPresupuestoWeb.js"></script>
     </body>
 </html>
