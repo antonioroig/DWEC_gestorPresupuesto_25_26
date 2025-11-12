@@ -108,11 +108,15 @@ function repintar(){
 function actualizarPresupuestoWeb(){
     let idString = prompt ('Introduce el ID del presupuesto a actualizar?', '');
     let idInt = parseInt(idString);
-
+    gestionPresupuesto.actualizarPresupuesto(idInt);
+    repintar();
 }
+let botonActualizar = document.getElementById("actualizarpresupuesto");
+botonActualizar.addEventListener("click", actualizarPresupuestoWeb());
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb
 };
