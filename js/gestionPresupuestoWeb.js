@@ -54,11 +54,20 @@ function EditarHandle() {
     }
 }
 
+function BorrarHandle() {
+    this.handleEvent = function(e) {
+        gp.borrarGasto(this.gasto.id)
+        repintar();
+    }
+}
 
-
-
-
-
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function(e) {
+        console.log("Hola");
+        this.gasto.borrarEtiquetas(this.etiqueta)
+        repintar();
+    }
+}
 
 
 
@@ -100,7 +109,15 @@ function mostrarGastoWeb(id, gasto) {
             let element = document.createElement("span")
             element.setAttribute("class", "gasto-etiquetas-etiqueta")
             element.textContent = tag;
+
+            let objManejadorTags = new BorrarEtiquetasHandle();
+            objManejadorTags.gasto = obj
+            objManejadorTags.etiqueta = tag;
+            console.log(objManejadorTags);
+            element.addEventListener("click", objManejadorTags)
+
             etiqueta.append(element);
+
             let br = document.createElement("br");
             etiqueta.append(br)
         }
@@ -118,14 +135,15 @@ function mostrarGastoWeb(id, gasto) {
         mainDiv.append(btn);
 
         let btnDel = document.createElement("button")
-        btnDel.setAttribute("class", "gasto-eliminar")
+        btnDel.setAttribute("class", "gasto-borrar")
         btnDel.setAttribute("type", "button")
         btnDel.setAttribute("id", obj.id)
+        btnDel.textContent = "Borrar"
 
         let objManejadorDelete = new BorrarHandle();
         objManejadorDelete.gasto = obj;
-        btn.addEventListener("click", objManejadorDelete)
-        mainDiv.append(btn);
+        btnDel.addEventListener("click", objManejadorDelete)
+        mainDiv.append(btnDel);
         idElement.append(mainDiv)
     }
 }
