@@ -32,11 +32,15 @@ function mostrarGastoWeb(idElemento, gastos){
         let divEti = document.createElement("div")
         divEti.setAttribute("class", "gasto-etiquetas")
         divGasto.append(divEti)
-        for(let eti of gasto.etiquetas)
+        let objManejadorEtiquetas = new BorrarEtiquetasHandle()
+        objManejadorEtiquetas.gasto = gasto;
+        for(let etiqueta of gasto.etiquetas)
         {
             let span = document.createElement("span")
             span.setAttribute("class", "gasto-etiquetas-etiqueta")
-            span.textContent = eti
+            span.textContent = etiqueta
+            objManejadorEtiquetas.etiqueta = etiqueta
+            span.addEventListener("click", objManejadorEtiquetas)
             divEti.append(span)
             let br = document.createElement("br")
             divEti.append(br)
@@ -157,6 +161,13 @@ function BorrarHandle()
     this.handleEvent = function(e){
         gestionPresupuesto.borrarGasto(this.gasto.id)
         repintar()
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(e){
+        this.gasto.borrarEtiquetas(this.etiqueta)
+        repintar()  
     }
 }
 
