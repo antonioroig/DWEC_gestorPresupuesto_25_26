@@ -99,7 +99,11 @@ function repintar(){
     let balanceTotal = document.getElementById("balance-total");
     let listadoGastosCompleto = document.getElementById("listado-gastos-completo");
 
-    
+    mostrarDatoEnId(presupuesto, gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId(gastosTotales, gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId(balanceTotal, gestionPresupuesto.calcularBalance());
+    listadoGastosCompleto.innerHTML = '';
+    mostrarDatoEnId(listadoGastosCompleto, gestionPresupuesto.listarGastos());
 }
 export{
     mostrarDatoEnId,
