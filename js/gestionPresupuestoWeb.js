@@ -34,6 +34,8 @@ function mostrarGastoWeb(idElemento, gastos){
         divGasto.append(divEti)
         for(let etiqueta of gasto.etiquetas)
         {
+            if(gasto.etiquetas[0] == "" && gasto.etiquetas.length == 1)
+                continue    
             let objManejadorEtiquetas = new BorrarEtiquetasHandle()
             objManejadorEtiquetas.gasto = gasto;
             let span = document.createElement("span")
@@ -143,7 +145,8 @@ function EditarHandle(){
         this.gasto.actualizarDescripcion(concepto)
         this.gasto.actualizarValor(valorTotal)
         this.gasto.actualizarFecha(fechaDelGasto)
-        this.gasto.etiquetas = arrayEtiquetas
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
+        this.gasto.anyadirEtiquetas(...arrayEtiquetas)
         repintar()
         }
     }
