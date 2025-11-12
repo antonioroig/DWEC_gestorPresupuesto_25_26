@@ -135,6 +135,21 @@ function repintar(){
     let ayadirGAsto = document.getElementById('anyadirgasto');
     ayadirGAsto.addEventListener('click', ayadirGastoWeb);
 
+    //funcion creadora de objeto manejador de evento
+
+    function EditarHandle(gasto){
+        this.gasto = gasto;
+
+        this.handleEvent = function(evento){
+            let nuevaDescripcion = prompt('Editar descripción: ', this.gasto.descripcion);
+            let valor = Number(prompt('Editar valor: ', this.gasto.valor));
+            let fecha = prompt('Editar fecha (YYYY-MM-DD): ', this.gasto.fecha);
+            let etiqueta = prompt('Editar etiquetas (separadas por comas): ', this.gasto.etiqueta);
+//////////////////////77777777777777777777/
+            etiqueta = etiqueta.split(',');
+        }
+    }
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
