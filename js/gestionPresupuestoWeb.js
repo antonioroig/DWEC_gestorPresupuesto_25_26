@@ -29,22 +29,22 @@ function mostrarGastoWeb(idElemento, ...gastos){
         cajaValor.innerHTML = gasto.valor;
         cajaGrande.append(cajaValor);
 
-        let cajaEtiqueta = document.createElement("div");
-        cajaEtiqueta.classList.add("gasto-etiquetas");
+        if (gasto.etiquetas != undefined)
+        {
+            let cajaEtiqueta = document.createElement("div");
+            cajaEtiqueta.classList.add("gasto-etiquetas");
 
-        if (gasto.etiquetas == undefined)
-            continue;
+            for (let j = 0; j < gasto.etiquetas.length; j++){
+                let etiqueta = gasto.etiquetas[j];
+                let span = document.createElement("span");
+                span.classList.add("gasto-etiquetas-etiqueta");
+                span.innerHTML = etiqueta;
+                cajaEtiqueta.append(span);
 
-        for (let j = 0; j < gasto.etiquetas.length; j++){
-            let etiqueta = gasto.etiquetas[j];
-            let span = document.createElement("span");
-            span.classList.add("gasto-etiquetas-etiqueta");
-            span.innerHTML = etiqueta;
-            cajaEtiqueta.append(span);
-
-        cajaGrande.append(cajaEtiqueta);
-        elemento.append(cajaGrande);
+                cajaGrande.append(cajaEtiqueta);
+            }
         }
+        elemento.append(cajaGrande);
    }
 }
 
@@ -87,23 +87,59 @@ function repintar(){
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
     mostrarDatoEnId("balance-total", gP.calcularBalance());
 
+    /*
     let contenido = document.getElementById("listado-gastos-completo");
 
     contenido.innerHTML = "";
-
+    */
+   
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 }
 
 function actualizarPresupuestoWeb(){
-        let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
-        Number(cantidadPresupuesto);
-        gP.actualizarPresupuesto(cantidadPresupuesto);
-        repintar();
+
+    let botonActualizar = document.getElementById("actualizarpresupuesto");
+
+    let presupuestoActualizado = {
+        handleEvent: function(){
+            let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
+            Number(cantidadPresupuesto);
+            gP.actualizarPresupuesto(cantidadPresupuesto);
+            repintar();
+        }
+    }
+
+    botonActualizar.addEventListener("click", presupuestoActualizado);
+        
 }
+
 
 function nuevoGastoWeb(){
 
+    let botonAnyadir = document.getElementById("anyadirgasto");
+
+    let gastoNuevo = {
+        handleEvent: function(){
+            let descripcion = prompt("Descripción: ");
+            let valor = prompt("Valor: ");
+            let fecha = prompt("Fecha: ")
+            let etiquetas = prompt("Etiquetas: ")
+
+            valor = Number(valor);
+
+            let array = etiquetas.split(",");
+
+            let gasto = new gP.CrearGasto(descripcion, valor, fecha, array);
+
+            gP.anyadirGasto(gasto);
+
+            repintar();
+        }
+    }
+
+    botonAnyadir.addEventListener("click", gastoNuevo);
 }
+
 
 export{
     mostrarDatoEnId,

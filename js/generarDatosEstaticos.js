@@ -62,10 +62,8 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año
 
 //FUNCIÓN ACTUALIZARPRESUPUESTOWEB Y BOTÓN ACTUALIZARPRESUPUESTO
 
-let botonActualizar = document.getElementById("actualizarpresupuesto");
-botonActualizar.addEventListener("click", gPw.actualizarPresupuestoWeb());
+gPw.actualizarPresupuestoWeb();
 
 //FUNCIÓN NUEVOGASTOWEB Y BOTÓN ANYADIR GASTO
 
-let botonAnyadir = document.getElementById("anyadirgasto");
-botonAnyadir.addEventListener("click", gPw.nuevoGastoWeb());
+gPw.nuevoGastoWeb();
