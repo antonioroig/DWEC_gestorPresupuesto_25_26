@@ -37,6 +37,11 @@ function NuevoGastoWeb() {
     }
 }
 
+function EditarHandle(gasto) {
+    this.handleEvent = function(e) {
+        
+    }
+}
 
 
 
@@ -85,6 +90,11 @@ function mostrarGastoWeb(id, gasto) {
             etiqueta.append(br)
         }
 
+        // crear boton
+        let btn = document.createElement("button")
+        btn.setAttribute("class", "edita-gasto")
+        btn.textContent = "Editar"
+        mainDiv.append(btn);
         idElement.append(mainDiv)
     }
 }
@@ -116,6 +126,8 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
         div.append(agrupDiv);
     }
 }
+
+
 
 
 
