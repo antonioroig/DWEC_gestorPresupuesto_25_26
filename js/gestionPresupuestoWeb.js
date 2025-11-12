@@ -1,6 +1,8 @@
+import * as gestionPresupuesto from "./gestionPresupuesto.js"
+
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento)
-    if( elem != null)
+    if( elem != null || elem!= undefined)
         elem.textContent = valor
 }
 function mostrarGastoWeb(idElemento, gastos){
@@ -17,7 +19,8 @@ function mostrarGastoWeb(idElemento, gastos){
         divGasto.append(divDes)
         let divFec = document.createElement("div")
         divFec.setAttribute("class", "gasto-fecha")
-        divFec.textContent = gasto.fecha
+        let fechaFormateada = new Date(gasto.fecha).toLocaleDateString()
+        divFec.textContent = fechaFormateada
         divGasto.append(divFec)
         let divVal = document.createElement("div")
         divVal.setAttribute("class", "gasto-valor")
@@ -32,16 +35,110 @@ function mostrarGastoWeb(idElemento, gastos){
             span.setAttribute("class", "gasto-etiquetas-etiqueta")
             span.textContent = eti
             divEti.append(span)
-            let bre = document.createElement("br")
-            divEti.append(bre)
+            let br = document.createElement("br")
+            divEti.append(br)
         }
+        let botonEditarGasto = document.createElement("button")
+        botonEditarGasto.setAttribute("type", "button")
+        botonEditarGasto.innerText = "Editar gasto"
+        botonEditarGasto.addEventListener("click", new editarHandle(gasto))
+        divEti.append(botonEditarGasto)
+    }
+    
+}
+
+function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
+    
+    let elem = document.getElementById(idElemento)
+    let divAgrup = document.createElement("div")
+    divAgrup.setAttribute("class", "agrupacion")
+    elem.append(divAgrup)
+    let titulo = document.createElement("h1")
+    titulo.textContent = `Gastos agrupados por ${periodo}`
+    divAgrup.append(titulo)
+
+    for(const [clave, valor] of Object.entries(agrup))
+    {
+        let divAgrupGasto = document.createElement("div")
+        divAgrupGasto.setAttribute("class", "agrupacion-dato")
+
+        let spanClave = document.createElement("span")
+        spanClave.setAttribute("class", "agrupacion-dato-clave")
+        divAgrupGasto.append(spanClave)
+        spanClave.textContent = clave
+
+        let spanValor = document.createElement("span")
+        spanValor.setAttribute("class", "agrupacion-dato-valor")
+        divAgrupGasto.append(spanValor)
+        spanValor.textContent = valor
+
+        divAgrup.append(divAgrupGasto)
     }
 }
-function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
+function repintar(){
+    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto())
+    mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos()) 
+    mostrarDatoEnId("balance-total",  gestionPresupuesto.calcularBalance())
+    let divGastosCompletos = document.getElementById("listado-gastos-completo")
+    divGastosCompletos.innerHTML = ""
+    mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
 }
+
+function actualizarPresupuestoWeb(){
+    let botonPresupuesto = document.getElementById("actualizarpresupuesto")
+    let nuevoPresupuesto = {
+        handleEvent : function(){
+            let respuesta = prompt("ingrese su nuevo presupuesto")
+            gestionPresupuesto.actualizarPresupuesto(parseInt(respuesta))
+            repintar()
+        }
+    }
+    botonPresupuesto.addEventListener("click", nuevoPresupuesto)
+}
+
+function nuevoGastoWeb(){
+    let botonAnyadirGasto = document.getElementById("anyadirgasto")
+    let gastoNuevo = {
+        handleEvent : function(){
+            let concepto = prompt("Ingrese un concepto general del gasto")
+            let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
+            let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
+            let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
+            let arrayEtiquetas = etiquetasGasto.split(",")
+            let nuevoGasto = new gestionPresupuesto.CrearGasto(concepto, valorTotal, fechaDelGasto, arrayEtiquetas)
+            gestionPresupuesto.anyadirGasto(nuevoGasto)
+            repintar()
+        }
+    }
+    botonAnyadirGasto.addEventListener("click", gastoNuevo)
+}
+
+
+
+function editarHandle(gasto){
+    this.gasto = gasto;
+        this.handleEvent = function(event){
+                let concepto = prompt("Ingrese un concepto general del gasto")
+                let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
+                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
+                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
+                let arrayEtiquetas = etiquetasGasto.split(",")
+                gasto.descripcion = concepto
+                gasto.valor = valorTotal
+                gasto.fecha = fechaDelGasto
+                this.gasto.etiquetas = arrayEtiquetas
+                repintar()
+                }
+}
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    editarHandle
 }
