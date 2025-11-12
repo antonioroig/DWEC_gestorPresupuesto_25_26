@@ -34,7 +34,6 @@ function mostrarGastoWeb(idElemento, gasto){
         divgasto.appendChild(divgastoetiquetas);
         document.getElementById(idElemento).appendChild(divgasto);
 
-        /* */
         let botonEditar = document.createElement("button");
         botonEditar.setAttribute("type", "button");
         botonEditar.className = "gasto-editar";
@@ -43,6 +42,15 @@ function mostrarGastoWeb(idElemento, gasto){
         objEditar.gasto = gasto[i];
         botonEditar.addEventListener("click", objEditar);
         divgasto.appendChild(botonEditar);
+
+        let botonBorrar = document.createElement("button");
+        botonBorrar.setAttribute("type", "button");
+        botonBorrar.className = "gasto-borrar";
+        botonBorrar.innerHTML = "Borrar gasto";
+        let objBorrar = new BorrarHandle();
+        objBorrar.gasto = gasto[i];
+        botonBorrar.addEventListener("click", objBorrar);
+        divgasto.appendChild(botonBorrar);
     }
 }
 
@@ -120,9 +128,20 @@ function EditarHandle(){
     }
 }
 
+function BorrarHandle(){
+    this.handleEvent = function(evento){
+        gP.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb,
+    EditarHandle,
+    BorrarHandle
 }
