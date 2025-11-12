@@ -66,7 +66,7 @@ function repintar (){
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 }
 
-function actualizarPresupuestoWeb (){
+function actualizarPresupuestoWeb(){
     let presupuesto = prompt("Introduce un presupuesto");
     let nPresupuesto = Number(presupuesto);
     if (nPresupuesto != NaN)
@@ -76,6 +76,22 @@ function actualizarPresupuestoWeb (){
 
 let bActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 bActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
+
+function nuevoGastoWeb(){
+    let descripcion = prompt("Introduce la descripción");
+    let valor = prompt("Introduce el valor");
+    let fecha = prompt("Introduce la fecha");
+    let etiquetas = prompt("Introduce las etiquetas");
+    if (valor != NaN)
+        valor = Number(valor);
+    etiquetas = etiquetas.split(",");
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+    gP.anyadirGasto(gasto);
+    repintar();
+}
+
+let bAnyadirGasto = document.getElementById("anyadirgasto");
+bAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 export{
     mostrarDatoEnId,
