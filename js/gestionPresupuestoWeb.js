@@ -39,8 +39,20 @@ function NuevoGastoWeb() {
 
 function EditarHandle(gasto) {
     this.handleEvent = function(e) {
-        
-    }
+        console.log(gasto);
+        let desc = prompt(`Inserta el concepto general del gasto:`, gasto.descripcion);
+        let oldFecha = new Date(gasto.fecha).toLocaleDateString()
+        let fecha = prompt(`Inserta la fecha`, oldFecha);
+        fecha = new Date(fecha)
+        let precio = parseFloat(prompt(`Inserta el precio`, gasto.valor));
+        let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, gasto.etiquetas);
+        gasto.descripcion = desc
+        gasto.valor = precio
+        gasto.fecha = fecha
+        etiquetas = etiquetas.split(',')
+        gasto.etiquetas = etiquetas;
+        repintar();
+    }   
 }
 
 
@@ -94,6 +106,7 @@ function mostrarGastoWeb(id, gasto) {
         let btn = document.createElement("button")
         btn.setAttribute("class", "edita-gasto")
         btn.textContent = "Editar"
+        btn.addEventListener("click", new EditarHandle(obj))
         mainDiv.append(btn);
         idElement.append(mainDiv)
     }
