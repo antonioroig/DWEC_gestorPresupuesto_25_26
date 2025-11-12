@@ -1,3 +1,5 @@
+import * as L from './gestionPresupuesto.js';
+
 export function mostrarDatoEnId(idElemento, valor) {
   const elemento = document.getElementById(idElemento);
   if (elemento) elemento.textContent = valor;
@@ -47,8 +49,26 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup = [], periodo) {
   cont.innerHTML = `
     <div class="agrupacion">
       <h1>${titulo}</h1>
-      ${agrup.map(([clave, valor]) => `<div class="agrupacion-dato"><span class="agrupacion-dato-clave">${clave}</span><span class="agrupacion-dato-valor">${valor}</span></div>`).join("")}
+      ${Object.entries(agrup).map(([clave, valor]) =>
+        `<div class="agrupacion-dato"><span class="agrupacion-dato-clave">${clave}</span><span class="agrupacion-dato-valor">${valor}</span></div>`
+      ).join("")}
     </div>
   `;
+}
+
+export function repintar() {
+  mostrarDatoEnId("presupuesto", L.mostrarPresupuesto());
+
+  const totalGastos = L.calcularTotalGastos();
+  mostrarDatoEnId("gastos-totales", totalGastos.toFixed(2));
+
+  const balance = L.calcularBalance();
+  mostrarDatoEnId("balance-total", balance.toFixed(2));
+
+  const listadoCompleto = document.getElementById("listado-gastos-completo");
+  if (listadoCompleto) listadoCompleto.innerHTML = "";
+
+  const gastos = L.listarGastos();
+  gastos.forEach(gasto => mostrarGastoWeb("listado-gastos-completo", gasto));
 }
 
