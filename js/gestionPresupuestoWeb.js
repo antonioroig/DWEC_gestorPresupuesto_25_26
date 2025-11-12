@@ -3,7 +3,10 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js"
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento)
     if( elem != null || elem!= undefined)
+    {
+        Element.textContent = ""
         elem.textContent = valor
+    }
 }
 function mostrarGastoWeb(idElemento, gastos){
     let elem = document.getElementById(idElemento)
@@ -40,7 +43,8 @@ function mostrarGastoWeb(idElemento, gastos){
         }
         let botonEditarGasto = document.createElement("button")
         botonEditarGasto.setAttribute("type", "button")
-        botonEditarGasto.innerText = "Editar gasto"
+        botonEditarGasto.setAttribute("class", "gasto-editar")
+        botonEditarGasto.innerText = "Editar"
         botonEditarGasto.addEventListener("click", new editarHandle(gasto))
         divEti.append(botonEditarGasto)
     }
@@ -116,21 +120,24 @@ function nuevoGastoWeb(){
 
 
 
-function editarHandle(gasto){
-    this.gasto = gasto;
-        this.handleEvent = function(event){
-                let concepto = prompt("Ingrese un concepto general del gasto")
-                let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
-                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
-                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
+function editarHandle(gasto){   
+            this.handleEvent = function(e){
+                let concepto = prompt("Ingrese un concepto general del gasto", `${gasto.descripcion}`)
+                let valorTotal = parseFloat(prompt("Ingrese el valor total del gasto",  `${gasto.valor}`))
+                let fechaPrompt = new Date(gasto.fecha).toISOString()
+                let fechaConGuiones = fechaPrompt.replaceAll("/", "-")
+                let fechaSinT = fechaConGuiones.split("T")[0]
+                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)",  `${fechaSinT}`)
+                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${gasto.etiquetas}`)
                 let arrayEtiquetas = etiquetasGasto.split(",")
                 gasto.descripcion = concepto
                 gasto.valor = valorTotal
                 gasto.fecha = fechaDelGasto
-                this.gasto.etiquetas = arrayEtiquetas
+                gasto.etiquetas = arrayEtiquetas
                 repintar()
                 }
-}
+            }
+
 
 
 export{

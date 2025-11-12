@@ -28,6 +28,11 @@ gestionPresupuestoWeb.mostrarDatoEnId("balance-total", balance)
 let gastosCompletos = gestionPresupuesto.listarGastos()
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gastosCompletos)
 
+let titulo = document.createElement("h1")
+titulo.innerText = "Gastos Filtrados"
+let divGastosCompletos = document.getElementById("listado-gastos-completo")
+divGastosCompletos.append(titulo)
+
 let filtroFecha = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}
 let gastosFiltradosFecha = gestionPresupuesto.filtrarGastos(filtroFecha)
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltradosFecha)
@@ -52,4 +57,3 @@ gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", gastosAgrupad
 
 gestionPresupuestoWeb.actualizarPresupuestoWeb()
 gestionPresupuestoWeb.nuevoGastoWeb()
-gestionPresupuestoWeb.editarHandle()

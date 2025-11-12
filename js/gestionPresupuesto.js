@@ -8,7 +8,7 @@
         let idGasto = 0;
 
                         // CONSTRUCTOR
-        
+
         function CrearGasto(nuevaDescripcion, nuevoValor, nuevaFecha, ...nuevaEtiqueta) {
         
             this.descripcion = nuevaDescripcion;
