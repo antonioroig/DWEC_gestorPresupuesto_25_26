@@ -45,8 +45,19 @@ function mostrarGastoWeb(idElemento, gastos){
         botonEditarGasto.setAttribute("type", "button")
         botonEditarGasto.setAttribute("class", "gasto-editar")
         botonEditarGasto.innerText = "Editar"
-        botonEditarGasto.addEventListener("click", new editarHandle(gasto))
+        let objManejadorEdicion = new EditarHandle()
+        objManejadorEdicion.gasto = gasto
+        botonEditarGasto.addEventListener("click", objManejadorEdicion)
         divEti.append(botonEditarGasto)
+
+        let botonBorrarGasto = document.createElement("button")
+        botonBorrarGasto.setAttribute("type", "button")
+        botonBorrarGasto.setAttribute("class", "gasto-borrar")
+        botonBorrarGasto.innerText = "Borrar"
+        let objManejadorBorrado = new BorrarHandle()
+        objManejadorBorrado.gasto = gasto
+        botonBorrarGasto.addEventListener("click", objManejadorBorrado)
+        divEti.append(botonBorrarGasto)
     }
     
 }
@@ -87,6 +98,9 @@ function repintar(){
     let divGastosCompletos = document.getElementById("listado-gastos-completo")
     divGastosCompletos.innerHTML = ""
     mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
+    let titulo = document.createElement("h1")
+    titulo.innerText = "Gastos Filtrados"
+    divGastosCompletos.append(titulo)
 }
 
 function actualizarPresupuestoWeb(){
@@ -120,23 +134,31 @@ function nuevoGastoWeb(){
 
 
 
-function editarHandle(gasto){   
-            this.handleEvent = function(e){
-                let concepto = prompt("Ingrese un concepto general del gasto", `${gasto.descripcion}`)
-                let valorTotal = parseFloat(prompt("Ingrese el valor total del gasto",  `${gasto.valor}`))
-                let fechaPrompt = new Date(gasto.fecha).toISOString()
-                let fechaConGuiones = fechaPrompt.replaceAll("/", "-")
-                let fechaSinT = fechaConGuiones.split("T")[0]
-                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)",  `${fechaSinT}`)
-                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${gasto.etiquetas}`)
-                let arrayEtiquetas = etiquetasGasto.split(",")
-                gasto.descripcion = concepto
-                gasto.valor = valorTotal
-                gasto.fecha = fechaDelGasto
-                gasto.etiquetas = arrayEtiquetas
-                repintar()
-                }
-            }
+function EditarHandle(){   
+    this.handleEvent = function(e){
+        let concepto = prompt("Ingrese un concepto general del gasto", `${this.gasto.descripcion}`)
+        let valorTotal = Number(prompt("Ingrese el valor total del gasto",  `${this.gasto.valor}`))
+        let fechaPrompt = new Date(this.gasto.fecha).toISOString()
+        let fechaConGuiones = fechaPrompt.replaceAll("/", "-")
+        let fechaSinT = fechaConGuiones.split("T")[0]
+        let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)",  `${fechaSinT}`)
+        let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${this.gasto.etiquetas}`)
+        let arrayEtiquetas = etiquetasGasto.split(",")
+        this.gasto.descripcion = concepto
+        this.gasto.valor = valorTotal
+        this.gasto.fecha = fechaDelGasto
+        this.gasto.etiquetas = arrayEtiquetas
+        repintar()
+        }
+    }
+
+function BorrarHandle()
+{
+    this.handleEvent = function(e){
+        gestionPresupuesto.borrarGasto(this.gasto.id)
+        repintar()
+    }
+}
 
 
 
@@ -146,6 +168,5 @@ export{
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    editarHandle
+    nuevoGastoWeb
 }
