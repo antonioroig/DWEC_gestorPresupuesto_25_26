@@ -39,6 +39,10 @@ function mostrarGastoWeb(idElemento, gastos){
                 let span = document.createElement("span");
                 span.classList.add("gasto-etiquetas-etiqueta");
                 span.innerHTML = etiqueta;
+                let manejadorSpan = new BorrarEtiquetasHandle();
+                manejadorSpan.gasto = gasto;
+                manejadorSpan.etiqueta = etiqueta;
+                span.addEventListener("click", manejadorSpan);
                 cajaEtiqueta.append(span);
 
                 cajaGrande.append(cajaEtiqueta);
@@ -118,19 +122,6 @@ function repintar(){
 }
 
 function actualizarPresupuestoWeb(){
-    /*
-    let botonActualizar = document.getElementById("actualizarpresupuesto");
-
-    let presupuestoActualizado = {
-        handleEvent: function(){
-            let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
-            Number(cantidadPresupuesto);
-            gP.actualizarPresupuesto(cantidadPresupuesto);
-            repintar();
-        }
-    }
-    botonActualizar.addEventListener("click", presupuestoActualizado);
-    */
     let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
     Number(cantidadPresupuesto);
     gP.actualizarPresupuesto(cantidadPresupuesto);
@@ -139,30 +130,6 @@ function actualizarPresupuestoWeb(){
 
 
 function nuevoGastoWeb(){
-    /*
-    let botonAnyadir = document.getElementById("anyadirgasto");
-
-    let gastoNuevo = {
-        handleEvent: function(){
-            let descripcion = prompt("Descripción: ");
-            let valor = prompt("Valor: ");
-            let fecha = prompt("Fecha: ")
-            let etiquetas = prompt("Etiquetas: ")
-
-            valor = Number(valor);
-
-            let array = etiquetas.split(",");
-
-            let gasto = new gP.CrearGasto(descripcion, valor, fecha, array);
-
-            gP.anyadirGasto(gasto);
-
-            repintar();
-        }
-    }
-
-    botonAnyadir.addEventListener("click", gastoNuevo);
-    */
     let descripcion = prompt("Descripción: ");
     let valor = prompt("Valor: ");
     let fecha = prompt("Fecha: ")
@@ -209,6 +176,12 @@ function BorrarHandle(){
     this.handleEvent = function(event){
         gP.borrarGasto(this.gasto.id);
         repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(event){
+        this.gasto.borrarEtiquetas(this.gasto.etiqueta);
     }
 }
 
