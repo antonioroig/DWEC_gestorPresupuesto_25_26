@@ -21,7 +21,7 @@ gPw.mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
 gPw.mostrarDatoEnId("balance-total", gP.calcularBalance());
 
 //MOSTRAR EL LISTADO COMPLETO DE GASTOS EN DIVLISTADOGASTOSCOMPLETOS
-gPw.mostrarGastoWeb("listado-gastos-completo", ...gP.listarGastos());
+gPw.mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 
 //MOSTRAR EL LISTADO FILTRADO 1
 let objeto1 = new Object();
@@ -29,27 +29,27 @@ let fechaDesde = "fechaDesde";
 let fechaHasta = "fechaHasta";
 objeto1[fechaDesde] = "2021-09-01";
 objeto1[fechaHasta] = "2021-09-30";
-gPw.mostrarGastoWeb("listado-gastos-filtrado-1", ...gP.filtrarGastos(objeto1));
+gPw.mostrarGastoWeb("listado-gastos-filtrado-1", gP.filtrarGastos(objeto1));
 
 //MOSTRAR EL LISTADO FILTRADO 2
 let objeto2 = new Object();
 let valorMinimo = "valorMinimo";
 objeto2[valorMinimo] = 50;
-gPw.mostrarGastoWeb("listado-gastos-filtrado-2", ...gP.filtrarGastos(objeto2));
+gPw.mostrarGastoWeb("listado-gastos-filtrado-2", gP.filtrarGastos(objeto2));
 
 //MOSTRAR EL LISTADO FILTRADO 3
 let objeto3 = new Object();
 let etiquetasTiene = "etiquetasTiene";
 objeto3[valorMinimo] = 200;
 objeto3[etiquetasTiene] = ["seguros"]
-gPw.mostrarGastoWeb("listado-gastos-filtrado-3", ...gP.filtrarGastos(objeto3));
+gPw.mostrarGastoWeb("listado-gastos-filtrado-3", gP.filtrarGastos(objeto3));
 
 //MOSTRAR EL LISTADO FILTRADO 4
 let objeto4 = new Object();
 let valorMaximo = "valorMaximo";
 objeto4[valorMaximo] = 50;
 objeto4[etiquetasTiene] = ["comida", "transporte"];
-gPw.mostrarGastoWeb("listado-gastos-filtrado-4", ...gP.filtrarGastos(objeto4));
+gPw.mostrarGastoWeb("listado-gastos-filtrado-4", gP.filtrarGastos(objeto4));
 
 //TOTAL DE GASTOS AGRUPADOS POR DÍA
 gPw.mostrarGastosAgrupadosWeb("agrupacion-dia", gP.agruparGastos("dia"), "día");
@@ -62,11 +62,7 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año
 
 //FUNCIÓN ACTUALIZARPRESUPUESTOWEB Y BOTÓN ACTUALIZARPRESUPUESTO
 
-gPw.actualizarPresupuestoWeb();
-
 //FUNCIÓN NUEVOGASTOWEB Y BOTÓN ANYADIR GASTO
-
-gPw.nuevoGastoWeb();
 
 //FUNCIÓN EDITARHANDLE
 

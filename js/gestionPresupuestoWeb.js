@@ -7,7 +7,7 @@ function mostrarDatoEnId(idElemento, valor){
     elemento.append(parrafo);
 }
 
-function mostrarGastoWeb(idElemento, ...gastos){
+function mostrarGastoWeb(idElemento, gastos){
     let elemento = document.getElementById(idElemento);
     for(let i = 0; i < gastos.length; i++){
         let gasto = gastos[i];
@@ -113,12 +113,12 @@ function repintar(){
     mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
     mostrarDatoEnId("balance-total", gP.calcularBalance());
-    /*document.getElementById("listado-gastos-completo").innerHTML = "";*/
+    document.getElementById("listado-gastos-completo").innerHTML = "";
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 }
 
 function actualizarPresupuestoWeb(){
-
+    /*
     let botonActualizar = document.getElementById("actualizarpresupuesto");
 
     let presupuestoActualizado = {
@@ -130,11 +130,16 @@ function actualizarPresupuestoWeb(){
         }
     }
     botonActualizar.addEventListener("click", presupuestoActualizado);
+    */
+    let cantidadPresupuesto = prompt("Introduce el presupuesto: ");
+    Number(cantidadPresupuesto);
+    gP.actualizarPresupuesto(cantidadPresupuesto);
+    repintar();
 }
 
 
 function nuevoGastoWeb(){
-
+    /*
     let botonAnyadir = document.getElementById("anyadirgasto");
 
     let gastoNuevo = {
@@ -157,6 +162,21 @@ function nuevoGastoWeb(){
     }
 
     botonAnyadir.addEventListener("click", gastoNuevo);
+    */
+    let descripcion = prompt("Descripción: ");
+    let valor = prompt("Valor: ");
+    let fecha = prompt("Fecha: ")
+    let etiquetas = prompt("Etiquetas: ")
+
+    valor = Number(valor);
+
+    let array = etiquetas.split(",");
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, ...array);
+
+    gP.anyadirGasto(gasto);
+    console.log(gP.listarGastos());
+
+    repintar();
 }
 
 function EditarHandle(){
@@ -192,8 +212,11 @@ function BorrarHandle(){
     }
 }
 
+let botonActualizar = document.getElementById("actualizarpresupuesto");
+botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
+let botonAnyadir = document.getElementById("anyadirgasto");
+botonAnyadir.addEventListener("click", nuevoGastoWeb);
     
-
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
