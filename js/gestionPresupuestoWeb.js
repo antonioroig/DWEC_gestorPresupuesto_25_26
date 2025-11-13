@@ -32,6 +32,7 @@ function mostrarGastoWeb(idElemento, gastos) {
             ge.appendChild(gee);
         }
         g.appendChild(ge);
+        //BOTON EDITAR GASTO
         let bEditar = document.createElement("button");
         bEditar.textContent = "Editar";
         bEditar.classList.add("gasto-editar");
@@ -41,6 +42,16 @@ function mostrarGastoWeb(idElemento, gastos) {
         evento.gasto = gastos[j];
 
         bEditar.addEventListener("click", evento);
+        //BOTON BORRAR GASTO
+        let bBorrar = document.createElement("button");
+        bBorrar.textContent = "Borrar";
+        bBorrar.classList.add("gasto-borrar");
+        g.appendChild(bBorrar);
+
+        let eventoBorrar = new BorrarGasto();
+        eventoBorrar.gasto = gastos[j];
+
+        bBorrar.addEventListener("click", eventoBorrar);
     }
 };
 
@@ -113,6 +124,13 @@ function EditarHandle(){
         this.gasto.actualizarValor(this.gasto.valor);
         this.gasto.actualizarFecha(this.gasto.fecha);
         this.gasto.anyadirEtiquetas(...this.gasto.etiquetas);
+        repintar();
+    }
+}
+
+function BorrarGasto(){
+    this.handleEvent = function(evento){
+        Js1.borrarGasto(this.gasto.id);
         repintar();
     }
 }
