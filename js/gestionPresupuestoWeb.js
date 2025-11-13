@@ -117,7 +117,7 @@ function nuevoGastoWeb(){
 
 
 function editarHandle(gasto){
-    this.gasto = gasto;
+        this.gasto = gasto
         this.handleEvent = function(event){
                 let concepto = prompt("Ingrese un concepto general del gasto")
                 let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
