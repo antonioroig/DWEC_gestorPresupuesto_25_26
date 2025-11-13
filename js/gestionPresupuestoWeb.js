@@ -77,7 +77,22 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 }
 function repintar(){
+  let presupuesto = gp.mostrarPresupuesto();
+  mostrarDatoEnId("presupuesto", presupuesto);
 
+  let gastoTotal = gp.calcularTotalGastos();
+  mostrarDatoEnId("gastos-totales", gastoTotal);
+
+  let balanceTotal = gp.calcularBalance();
+  mostrarDatoEnId("balance-total", balanceTotal);
+
+  document.getElementById("listado-gastos-completo").innerHtml = "";
+
+  let gastosCompletos = gp.listarGastos();
+  for (let gasto of gastosCompletos)
+  {
+    mostrarDatoEnId("listado-gastos-completo", gasto);
+  }
 }
 
 let btnAcualizar = document.getElementById("actualizarpresupuesto");
