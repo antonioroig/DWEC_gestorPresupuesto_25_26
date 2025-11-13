@@ -17,7 +17,7 @@ function mostrarGastoWeb(idElemento, gasto){
         divgasto.appendChild(divgastodescripcion);
         let divgastofecha = document.createElement('div');
         divgastofecha.className = 'gasto-fecha';
-        divgastofecha.innerHTML = gasto[i].fecha;
+        divgastofecha.innerHTML = new Date(gasto[i].fecha).toLocaleDateString();
         divgasto.appendChild(divgastofecha);
         let divgastovalor = document.createElement('div');
         divgastovalor.className = 'gasto-valor';
