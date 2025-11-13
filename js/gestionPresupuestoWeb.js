@@ -103,10 +103,22 @@ function actualizarPresupuestoWeb(){
   gp.actualizarPresupuesto(valor);
   repintar();
 }
+
+let btnAnyadir = document.getElementById("anyadirgasto");
+btnAnyadir.addEventListener("click", nuevoGastoWeb);
+
+function nuevoGastoWeb ()
+{
+  let descripcion = prompt("Introduce la descripcion al gasto");
+  let valor = prompt("Introduce un valor al gasto");
+  let fecha = prompt("");
+  let etiquetas = prompt("");
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar, 
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }
