@@ -25,11 +25,17 @@ function mostrarGastoWeb(idElemento, gasto){
         divgasto.appendChild(divgastovalor);
         let divgastoetiquetas = document.createElement('div');
         divgastoetiquetas.className = 'gasto-etiquetas';
+        
         for (let j = 0; j < gasto[i].etiquetas.length; j++){
             let spanetiquetas = document.createElement('span');
             spanetiquetas.className = 'gasto-etiquetas-etiqueta';
             spanetiquetas.innerHTML = gasto[i].etiquetas[j];
             divgastoetiquetas.appendChild(spanetiquetas);
+            
+            let objBorrarEtiqueta = new BorrarEtiquetasHandle();
+            objBorrarEtiqueta.gasto = gasto[i];
+            objBorrarEtiqueta.etiqueta = gasto[i].etiquetas[j];
+            spanetiquetas.addEventListener("click", objBorrarEtiqueta);
         }
         divgasto.appendChild(divgastoetiquetas);
         document.getElementById(idElemento).appendChild(divgasto);
@@ -37,7 +43,7 @@ function mostrarGastoWeb(idElemento, gasto){
         let botonEditar = document.createElement("button");
         botonEditar.setAttribute("type", "button");
         botonEditar.className = "gasto-editar";
-        botonEditar.innerHTML = "Editar gasto";
+        botonEditar.innerHTML = "Editar";
         let objEditar = new EditarHandle();
         objEditar.gasto = gasto[i];
         botonEditar.addEventListener("click", objEditar);
@@ -46,7 +52,7 @@ function mostrarGastoWeb(idElemento, gasto){
         let botonBorrar = document.createElement("button");
         botonBorrar.setAttribute("type", "button");
         botonBorrar.className = "gasto-borrar";
-        botonBorrar.innerHTML = "Borrar gasto";
+        botonBorrar.innerHTML = "Borrar";
         let objBorrar = new BorrarHandle();
         objBorrar.gasto = gasto[i];
         botonBorrar.addEventListener("click", objBorrar);
@@ -135,6 +141,13 @@ function BorrarHandle(){
     }
 }
 
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(evento){
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -143,5 +156,6 @@ export{
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
-    BorrarHandle
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
