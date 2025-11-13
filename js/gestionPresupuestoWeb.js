@@ -60,7 +60,8 @@ export function repintar() {
   mostrarDatoEnId("presupuesto", L.mostrarPresupuesto());
 
   const totalGastos = L.calcularTotalGastos();
-  mostrarDatoEnId("gastos-totales", totalGastos.toFixed(2));
+  mostrarDatoEnId("gastos-totales", totalGastos.toString());
+
 
   const balance = L.calcularBalance();
   mostrarDatoEnId("balance-total", balance.toFixed(2));
@@ -71,4 +72,36 @@ export function repintar() {
   const gastos = L.listarGastos();
   gastos.forEach(gasto => mostrarGastoWeb("listado-gastos-completo", gasto));
 }
+
+function actualizarPresupuestoWeb() {
+  const entrada = prompt("Introduce el nuevo presupuesto:");
+  const nuevoPresupuesto = Number(entrada);
+  if (!isNaN(nuevoPresupuesto)) {
+    L.actualizarPresupuesto(nuevoPresupuesto);
+    repintar();
+  } else {
+    alert("Por favor, introduce un número válido.");
+  }
+}
+
+const botonActualizar = document.getElementById("actualizarpresupuesto");
+botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
+
+
+function nuevoGastoWeb() {
+  const gasto = new L.CrearGasto(
+    prompt("Introduce la descripción del gasto:"),
+    Number(prompt("Introduce el valor del gasto:")),
+    prompt("Introduce la fecha del gasto (yyyy-mm-dd):"),
+    prompt("Introduce las etiquetas separadas por comas:").split(",").map(e => e.trim())
+  );
+
+  L.anyadirGasto(gasto);
+  repintar();
+}
+
+const botonAnyadir = document.getElementById("anyadirgasto");
+botonAnyadir.addEventListener("click", nuevoGastoWeb);
+
+
 

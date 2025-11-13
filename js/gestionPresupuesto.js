@@ -117,8 +117,13 @@ function borrarGasto(id) {
 }
 
 function calcularTotalGastos() {
-    return gastos.reduce((total, gasto) => total + gasto.valor, 0);
+    let total = 0;
+    for (let i = 0; i < gastos.length; i++) {
+        total += gastos[i].valor;
+    }
+    return total;
 }
+
 
 function calcularBalance() {
     return presupuesto - calcularTotalGastos();
