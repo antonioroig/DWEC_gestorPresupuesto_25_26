@@ -3,7 +3,10 @@ import * as gestionPresupuesto from "./gestionPresupuesto.js"
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento)
     if( elem != null || elem!= undefined)
+    {
+        Element.textContent = ""
         elem.textContent = valor
+    }
 }
 function mostrarGastoWeb(idElemento, gastos){
     let elem = document.getElementById(idElemento)
@@ -29,22 +32,38 @@ function mostrarGastoWeb(idElemento, gastos){
         let divEti = document.createElement("div")
         divEti.setAttribute("class", "gasto-etiquetas")
         divGasto.append(divEti)
-        for(let eti of gasto.etiquetas)
+        for(let etiqueta of gasto.etiquetas)
         {
+            if(gasto.etiquetas[0] == "" && gasto.etiquetas.length == 1)
+                continue    
+            let objManejadorEtiquetas = new BorrarEtiquetasHandle()
+            objManejadorEtiquetas.gasto = gasto;
             let span = document.createElement("span")
             span.setAttribute("class", "gasto-etiquetas-etiqueta")
-            span.textContent = eti
+            span.textContent = etiqueta
+            objManejadorEtiquetas.etiqueta = etiqueta
+            span.addEventListener("click", objManejadorEtiquetas)
             divEti.append(span)
             let br = document.createElement("br")
             divEti.append(br)
         }
         let botonEditarGasto = document.createElement("button")
         botonEditarGasto.setAttribute("type", "button")
-        botonEditarGasto.innerText = "Editar gasto"
-        botonEditarGasto.addEventListener("click", new editarHandle(gasto))
+        botonEditarGasto.setAttribute("class", "gasto-editar")
+        botonEditarGasto.innerText = "Editar"
+        let objManejadorEdicion = new EditarHandle()
+        objManejadorEdicion.gasto = gasto
+        botonEditarGasto.addEventListener("click", objManejadorEdicion)
         divEti.append(botonEditarGasto)
+        let botonBorrarGasto = document.createElement("button")
+        botonBorrarGasto.setAttribute("type", "button")
+        botonBorrarGasto.setAttribute("class", "gasto-borrar")
+        botonBorrarGasto.innerText = "Borrar"
+        let objManejadorBorrado = new BorrarHandle()
+        objManejadorBorrado.gasto = gasto
+        botonBorrarGasto.addEventListener("click", objManejadorBorrado)
+        divEti.append(botonBorrarGasto)
     }
-    
 }
 
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -56,22 +75,18 @@ function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let titulo = document.createElement("h1")
     titulo.textContent = `Gastos agrupados por ${periodo}`
     divAgrup.append(titulo)
-
     for(const [clave, valor] of Object.entries(agrup))
     {
         let divAgrupGasto = document.createElement("div")
         divAgrupGasto.setAttribute("class", "agrupacion-dato")
-
         let spanClave = document.createElement("span")
         spanClave.setAttribute("class", "agrupacion-dato-clave")
         divAgrupGasto.append(spanClave)
         spanClave.textContent = clave
-
         let spanValor = document.createElement("span")
         spanValor.setAttribute("class", "agrupacion-dato-valor")
         divAgrupGasto.append(spanValor)
         spanValor.textContent = valor
-
         divAgrup.append(divAgrupGasto)
     }
 }
@@ -83,6 +98,9 @@ function repintar(){
     let divGastosCompletos = document.getElementById("listado-gastos-completo")
     divGastosCompletos.innerHTML = ""
     mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
+    let titulo = document.createElement("h1")
+    titulo.innerText = "Gastos Filtrados"
+    divGastosCompletos.append(titulo)
 }
 
 function actualizarPresupuestoWeb(){
@@ -102,7 +120,7 @@ function nuevoGastoWeb(){
     let gastoNuevo = {
         handleEvent : function(){
             let concepto = prompt("Ingrese un concepto general del gasto")
-            let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
+            let valorTotal = Number(prompt("Ingrese el valor total del gasto"))
             let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
             let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
             let arrayEtiquetas = etiquetasGasto.split(",")
@@ -114,24 +132,39 @@ function nuevoGastoWeb(){
     botonAnyadirGasto.addEventListener("click", gastoNuevo)
 }
 
+function EditarHandle(){   
+    this.handleEvent = function(e){
+        let concepto = prompt("Ingrese un concepto general del gasto", `${this.gasto.descripcion}`)
+        let valorTotal = Number(prompt("Ingrese el valor total del gasto",  `${this.gasto.valor}`))
+        let fechaPrompt = new Date(this.gasto.fecha).toISOString()
+        let fechaConGuiones = fechaPrompt.replaceAll("/", "-")
+        let fechaSinT = fechaConGuiones.split("T")[0]
+        let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)",  `${fechaSinT}`)
+        let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${this.gasto.etiquetas}`)
+        let arrayEtiquetas = etiquetasGasto.split(",")
+        this.gasto.actualizarDescripcion(concepto)
+        this.gasto.actualizarValor(valorTotal)
+        this.gasto.actualizarFecha(fechaDelGasto)
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
+        this.gasto.anyadirEtiquetas(...arrayEtiquetas)
+        repintar()
+        }
+    }
 
-
-function editarHandle(gasto){
-        this.gasto = gasto
-        this.handleEvent = function(event){
-                let concepto = prompt("Ingrese un concepto general del gasto")
-                let valorTotal = parseInt(prompt("Ingrese el valor total del gasto"))
-                let fechaDelGasto = prompt("Ingrese la fecha del gasto (formato: yyyy-mm-dd)")
-                let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto")
-                let arrayEtiquetas = etiquetasGasto.split(",")
-                gasto.descripcion = concepto
-                gasto.valor = valorTotal
-                gasto.fecha = fechaDelGasto
-                this.gasto.etiquetas = arrayEtiquetas
-                repintar()
-                }
+function BorrarHandle()
+{
+    this.handleEvent = function(e){
+        gestionPresupuesto.borrarGasto(this.gasto.id)
+        repintar()
+    }
 }
 
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(e){
+        this.gasto.borrarEtiquetas(this.etiqueta)
+        repintar()  
+    }
+}
 
 export{
     mostrarDatoEnId,
@@ -139,6 +172,5 @@ export{
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    editarHandle
+    nuevoGastoWeb
 }
