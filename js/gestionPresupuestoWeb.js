@@ -13,11 +13,11 @@ function mostrarGastoWeb(idElemento, gastos) {
         elem.appendChild(g);
         let gd = document.createElement("div");
         gd.classList.add("gasto-descripcion");
-        gd.textContent = gastos[j].descipcion;
+        gd.textContent = gastos[j].descripcion;
         g.appendChild(gd);
         let gf = document.createElement("div");
         gf.classList.add("gasto-fecha");
-        gf.textContent = gastos[j].fecha;
+        gf.textContent = new Date(gastos[j].fecha).toLocaleDateString();
         g.appendChild(gf);
         let gv = document.createElement("div");
         gv.classList.add("gasto-valor");
@@ -64,17 +64,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo) {
     let h = document.createElement("h1");
     h.textContent = 'Gastos agrupados por ' + periodo;
     d.appendChild(h);
-    for (let value of Object.values(agroup)){
+    for (let [clave, value] of Object.entries(agroup)){
         let div = document.createElement("div");
         div.classList.add("agrupacion-dato");
         d.appendChild(div);
         let span1 = document.createElement("span");
         span1.classList.add("agrupacion-dato-clave");
-        span1.textContent = value[0];
+        span1.textContent = clave;
         div.appendChild(span1);
         let span2 = document.createElement("span");
         span2.classList.add("agrupacion-dato-valor");
-        span2.textContent = value[1];
+        span2.textContent = ` ${value}`;
         div.appendChild(span2);
     }
 };
@@ -117,7 +117,7 @@ botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle(){
     this.handleEvent = function(evento){
-        this.gasto.descipcion = prompt("Añade descripción al gasto", this.gasto.descipcion);
+        this.gasto.descipcion = prompt("Añade descripción al gasto", this.gasto.descripcion);
         this.gasto.valor = Number(prompt("Añade valor al gasto", this.gasto.valor));
         this.gasto.fecha = prompt("Añade fecha al gasto con formato yyyy-mm-dd", this.gasto.fecha);
         this.gasto.etiquetas = prompt("Añade etiquetas al gasto seguidas de una coma (etiqueta1,etiqueta2,etiqueta3)", this.gasto.etiquetas).split(',');
