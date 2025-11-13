@@ -1,4 +1,5 @@
 import * as gestionPresupuesto from "./gestionPresupuesto.js"
+import * as Utils from "./jsUtils.js"
 
 function mostrarDatoEnId(idElemento, valor){
     let elem = document.getElementById(idElemento)
@@ -7,30 +8,28 @@ function mostrarDatoEnId(idElemento, valor){
         Element.textContent = ""
         elem.textContent = valor
     }
+    else
+
+        console.log(`La función mostrarDatoEnId con idElemento + ${idElemento} y valor ${valor} ha fallado`)
 }
 function mostrarGastoWeb(idElemento, gastos){
     let elem = document.getElementById(idElemento)
 
     for(let gasto of gastos)
     {
-        let divGasto = document.createElement("div")
-        divGasto.setAttribute("class", "gasto")
+        let divGasto = Utils.divWithClass("gasto")
         elem.append(divGasto)
-        let divDes = document.createElement("div")
-        divDes.setAttribute("class", "gasto-descripcion")
+        let divDes = Utils.divWithClass("gasto-descripcion")
         divDes.textContent = gasto.descripcion;
         divGasto.append(divDes)
-        let divFec = document.createElement("div")
-        divFec.setAttribute("class", "gasto-fecha")
+        let divFec = Utils.divWithClass("gasto-fecha")
         let fechaFormateada = new Date(gasto.fecha).toLocaleDateString()
         divFec.textContent = fechaFormateada
         divGasto.append(divFec)
-        let divVal = document.createElement("div")
-        divVal.setAttribute("class", "gasto-valor")
+        let divVal = Utils.divWithClass("gasto-valor")
         divVal.textContent = gasto.valor
         divGasto.append(divVal)
-        let divEti = document.createElement("div")
-        divEti.setAttribute("class", "gasto-etiquetas")
+        let divEti = Utils.divWithClass("gasto-etiquetas")
         divGasto.append(divEti)
         for(let etiqueta of gasto.etiquetas)
         {
@@ -38,8 +37,7 @@ function mostrarGastoWeb(idElemento, gastos){
                 continue    
             let objManejadorEtiquetas = new BorrarEtiquetasHandle()
             objManejadorEtiquetas.gasto = gasto;
-            let span = document.createElement("span")
-            span.setAttribute("class", "gasto-etiquetas-etiqueta")
+            let span = Utils.elementWithClass("span", "gasto-etiquetas-etiqueta")
             span.textContent = etiqueta
             objManejadorEtiquetas.etiqueta = etiqueta
             span.addEventListener("click", objManejadorEtiquetas)
@@ -65,32 +63,25 @@ function mostrarGastoWeb(idElemento, gastos){
         divEti.append(botonBorrarGasto)
     }
 }
-
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    
     let elem = document.getElementById(idElemento)
-    let divAgrup = document.createElement("div")
-    divAgrup.setAttribute("class", "agrupacion")
+    let divAgrup = Utils.divWithClass("agrupacion")
     elem.append(divAgrup)
     let titulo = document.createElement("h1")
     titulo.textContent = `Gastos agrupados por ${periodo}`
     divAgrup.append(titulo)
     for(const [clave, valor] of Object.entries(agrup))
     {
-        let divAgrupGasto = document.createElement("div")
-        divAgrupGasto.setAttribute("class", "agrupacion-dato")
-        let spanClave = document.createElement("span")
-        spanClave.setAttribute("class", "agrupacion-dato-clave")
+        let divAgrupGasto = Utils.divWithClass("agrupacion-dato")
+        let spanClave = Utils.elementWithClass("span", "agrupacion-dato-clave")
         divAgrupGasto.append(spanClave)
         spanClave.textContent = clave
-        let spanValor = document.createElement("span")
-        spanValor.setAttribute("class", "agrupacion-dato-valor")
+        let spanValor = Utils.elementWithClass("span", "agrupacion-dato-valor")
         divAgrupGasto.append(spanValor)
         spanValor.textContent = valor
         divAgrup.append(divAgrupGasto)
     }
 }
-
 function repintar(){
     mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos()) 
@@ -102,7 +93,6 @@ function repintar(){
     titulo.innerText = "Gastos Filtrados"
     divGastosCompletos.append(titulo)
 }
-
 function actualizarPresupuestoWeb(){
     let botonPresupuesto = document.getElementById("actualizarpresupuesto")
     let nuevoPresupuesto = {
@@ -114,7 +104,6 @@ function actualizarPresupuestoWeb(){
     }
     botonPresupuesto.addEventListener("click", nuevoPresupuesto)
 }
-
 function nuevoGastoWeb(){
     let botonAnyadirGasto = document.getElementById("anyadirgasto")
     let gastoNuevo = {
@@ -131,7 +120,6 @@ function nuevoGastoWeb(){
     }
     botonAnyadirGasto.addEventListener("click", gastoNuevo)
 }
-
 function EditarHandle(){   
     this.handleEvent = function(e){
         let concepto = prompt("Ingrese un concepto general del gasto", `${this.gasto.descripcion}`)
@@ -150,7 +138,6 @@ function EditarHandle(){
         repintar()
         }
     }
-
 function BorrarHandle()
 {
     this.handleEvent = function(e){
@@ -158,14 +145,12 @@ function BorrarHandle()
         repintar()
     }
 }
-
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(e){
         this.gasto.borrarEtiquetas(this.etiqueta)
         repintar()  
     }
 }
-
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
