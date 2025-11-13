@@ -35,6 +35,7 @@ function mostrarGastoWeb(idElemento, gastos){
             cajaEtiqueta.classList.add("gasto-etiquetas");
 
             for (let j = 0; j < gasto.etiquetas.length; j++){
+
                 let etiqueta = gasto.etiquetas[j];
                 let span = document.createElement("span");
                 span.classList.add("gasto-etiquetas-etiqueta");
@@ -128,7 +129,6 @@ function actualizarPresupuestoWeb(){
     repintar();
 }
 
-
 function nuevoGastoWeb(){
     let descripcion = prompt("Descripción: ");
     let valor = prompt("Valor: ");
@@ -141,7 +141,6 @@ function nuevoGastoWeb(){
     let gasto = new gP.CrearGasto(descripcion, valor, fecha, ...array);
 
     gP.anyadirGasto(gasto);
-    console.log(gP.listarGastos());
 
     repintar();
 }
@@ -181,7 +180,9 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(event){
-        this.gasto.borrarEtiquetas(this.gasto.etiqueta);
+        
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
     }
 }
 
