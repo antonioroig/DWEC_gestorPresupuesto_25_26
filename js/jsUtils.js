@@ -18,7 +18,21 @@ function elementWithClass(element, clase){
         return newDiv
     }
 }
+function buttonWithClass(clase){
+    let boton = document.createElement("button")
+    boton.setAttribute("type", "button")
+    boton.setAttribute("class", `${clase}`)
+    return boton
+}
+function formatDate(date){
+    let fecha = new Date(date).toISOString()
+    let fechaConGuiones = fecha.replaceAll("/", "-")
+    let fechaSinT = fechaConGuiones.split("T")[0]
+    return fechaSinT
+}
 export{
     divWithClass,
-    elementWithClass
+    elementWithClass,
+    formatDate,
+    buttonWithClass
 }
