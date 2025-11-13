@@ -1,4 +1,7 @@
 "use strict";
+
+import * as gp from "./gestionPresupuesto.js";
+
 function mostrarDatoEnId(idElemento, valor){
     let elemento = document.getElementById(idElemento);
     if (elemento) {
@@ -87,8 +90,50 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     elemento.appendChild(divAgrupacion);
 }
 
+function repintar(){
+    mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
+
+    mostrarDatoEnId("gastostotales", gp.calcularTotalGastos());
+
+    mostrarDatoEnId("balance", gp.calcularBalance());
+
+    let listaGastos = document.getElementById("listado-gastos-completo");
+    if(listaGastos){
+        listaGastos.textContent = "";
+    }
+    
+    let lista = gp.listarGastos();
+    for(let i = 0; i < lista.length; i++){
+        mostrarGastoWeb("listado-gastos-completo", lista[i]);
+    }
+}
+
+function actualizarPresupuestoWeb(){
+    let nuevoPresupuesto = prompt("Introduce el nuevo presupuesto:");
+
+    if (nuevoPresupuesto === null) {
+        return;
+    }
+
+    let presupuestoNumerico = Number(nuevoPresupuesto);
+
+    if (isNaN(presupuestoNumerico) || presupuestoNumerico < 0) {
+        alert("Por favor, introduce un número válido para el presupuesto.");
+        return;
+    }
+debugger;
+    gp.actualizarPresupuesto(presupuestoNumerico);
+
+    repintar();
+}
+
+    let botonActualizar = document.getElementById("actualizarpresupuesto");
+    botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    actualizarPresupuestoWeb
 }
