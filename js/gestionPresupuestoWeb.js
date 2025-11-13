@@ -93,9 +93,9 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 function repintar(){
     mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
 
-    mostrarDatoEnId("gastostotales", gp.calcularTotalGastos());
+    mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos());
 
-    mostrarDatoEnId("balance", gp.calcularBalance());
+    mostrarDatoEnId("balance-total", gp.calcularBalance());
 
     let listaGastos = document.getElementById("listado-gastos-completo");
     if(listaGastos){
@@ -121,7 +121,7 @@ function actualizarPresupuestoWeb(){
         alert("Por favor, introduce un número válido para el presupuesto.");
         return;
     }
-debugger;
+
     gp.actualizarPresupuesto(presupuestoNumerico);
 
     repintar();
@@ -129,6 +129,29 @@ debugger;
 
     let botonActualizar = document.getElementById("actualizarpresupuesto");
     botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
+
+
+function nuevoGastoWeb() {
+
+    let descripcion = prompt("Introduce la descripción del gasto: ");
+    let valorString = prompt("Introduce el valor del gasto: ");
+    let fecha = prompt("Introduce la fecha del gasto (Formato yyyy-mm-dd): ");
+    let etiquetasString = prompt("Introduce las etiquetas separadas por comas (Ejemplo: comida,ocio,transporte): ");
+
+    let valor = Number(valorString);
+
+    let etiquetas = [];
+    etiquetas = etiquetasString.split(",");
+
+    let nuevoGasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+
+    gp.anyadirGasto(nuevoGasto);
+
+    repintar();
+}
+
+let botonAnyadir = document.getElementById("anyadirgasto");
+botonAnyadir.addEventListener("click", nuevoGastoWeb);
 
 
 export{
