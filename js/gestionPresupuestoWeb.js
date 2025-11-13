@@ -99,16 +99,16 @@ btnAGrasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
     this.handleEvent = function() {
-        this.descripcion = prompt("Introduce una descripción para el gasto.");
-        this.valor = Number(prompt("Introduce un valor para el gasto."));
-        this.fecha = prompt("Introduce una fecha con formato yyyy-mm-dd para el gasto.");
-        this.etiquetas = prompt("Introduce las etiquetas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.");
-        this.etiquetas = this.etiquetas.split(",");
+        let nDes = prompt("Introduce una descripción nueva para el gasto.", this.gasto.descripcion);
+        let nValor = Number(prompt("Introduce un valor nuevo para el gasto.", this.gasto.valor));
+        let nFecha = prompt("Introduce una fecha nueva con formato yyyy-mm-dd para el gasto.", this.gasto.fecha);
+        let nEtiquetas= prompt("Introduce las etiquetas nuevas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.", this.gasto.etiquetas);
+        nEtiquetas = nEtiquetas.split(",");
 
-        this.gasto.actualizarValor(this.valor);
-        this.gasto.actualizarDescripcion(this.descripcion);
-        this.gasto.actualizarFecha (this.fecha);
-        this.gasto.anyadirEtiquetas(this.etiquetas);
+        this.gasto.actualizarValor(nValor);
+        this.gasto.actualizarDescripcion(nDes);
+        this.gasto.actualizarFecha (nFecha);
+        this.gasto.anyadirEtiquetas(nEtiquetas);
         repintar();
     }
 }
