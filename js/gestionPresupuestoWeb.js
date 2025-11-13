@@ -29,6 +29,11 @@ function mostrarGastoWeb(idElemento, gastos) {
             let gee = document.createElement("span");
             gee.classList.add("gasto-etiquetas-etiqueta");
             gee.textContent = gastos[j].etiquetas[i];
+            //BOTON BORRAR ETIQUETA
+            let eventoBorrarEtiqueta = new BorrarEtiquetasHandle();
+            eventoBorrarEtiqueta.gasto = gastos[j];
+            eventoBorrarEtiqueta.etiqueta = gastos[j].etiquetas[i];
+            gee.addEventListener("click", eventoBorrarEtiqueta);
             ge.appendChild(gee);
         }
         g.appendChild(ge);
@@ -37,20 +42,16 @@ function mostrarGastoWeb(idElemento, gastos) {
         bEditar.textContent = "Editar";
         bEditar.classList.add("gasto-editar");
         g.appendChild(bEditar);
-
         let evento = new EditarHandle();
         evento.gasto = gastos[j];
-
         bEditar.addEventListener("click", evento);
         //BOTON BORRAR GASTO
         let bBorrar = document.createElement("button");
         bBorrar.textContent = "Borrar";
         bBorrar.classList.add("gasto-borrar");
         g.appendChild(bBorrar);
-
         let eventoBorrar = new BorrarGasto();
         eventoBorrar.gasto = gastos[j];
-
         bBorrar.addEventListener("click", eventoBorrar);
     }
 };
@@ -135,11 +136,15 @@ function BorrarGasto(){
     }
 }
 
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(event){
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb,
-    actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    EditarHandle
+    mostrarGastosAgrupadosWeb
 }
