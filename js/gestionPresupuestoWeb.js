@@ -94,14 +94,26 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     contenedor.appendChild(divAgrupacion);
 }
 function repintar(){
+    let presupuesto = document.getElementById("presupuesto");
+    let gastosTotales = document.getElementById("gastos-totales");
+    let balanceTotal = document.getElementById("balance-total");
     let listadoGastosCompleto = document.getElementById("listado-gastos-completo");
 
-    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
-    mostrarDatoEnId("gastosTotales", gestionPresupuesto.calcularTotalGastos());
-    mostrarDatoEnId("balanceTotal", gestionPresupuesto.calcularBalance());
+    mostrarDatoEnId(presupuesto, gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId(gastosTotales, gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId(balanceTotal, gestionPresupuesto.calcularBalance());
+    
     listadoGastosCompleto.innerHTML = '';
-    mostrarDatoEnId("listadoGastosCompleto", gestionPresupuesto.listarGastos());
+    gestionPresupuesto.listarGastos().forEach(gasto => {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    });
+
+    let contenedorListado = document.getElementById("listado-gastos-completo");
+    let tituloAgrupaciones = document.createElement("h1");
+    tituloAgrupaciones.textContent = "Agrupaciones";
+    contenedorListado.insertAdjacentElement("afterend", tituloAgrupaciones);
 }
+
 function actualizarPresupuestoWeb(){
     let respuesta = prompt ('Introduce el presupuesto que tienes', '');
     let intPresu = parseInt(respuesta);
