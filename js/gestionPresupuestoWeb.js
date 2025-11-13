@@ -114,6 +114,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
  }
 function actualizarPresupuestoWeb(){
+    
 
 }
 function EditarHandle(){
