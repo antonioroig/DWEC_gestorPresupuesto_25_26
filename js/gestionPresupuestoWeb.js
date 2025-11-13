@@ -74,8 +74,7 @@ function repintar(){
 }
 
 function actualizarPresupuestoWeb(){
-    let presupuesto = prompt("Introduce un presupuesto:")
-    Number(presupuesto);
+    let presupuesto = Number(prompt("Introduce un presupuesto:"));
     gp.actualizarPresupuesto(presupuesto);
     repintar();
 }
@@ -85,13 +84,19 @@ btnActPresu.addEventListener("click", actualizarPresupuestoWeb);
 function nuevoGastoWeb(){
     let descripcion, valor, fecha, etiquetas;
     descripcion = prompt("Introduce una descripción para el gasto.");
-    valor = prompt("Introduce un valor para el gasto.");
+    valor = Number(prompt("Introduce un valor para el gasto."));
     fecha = prompt("Introduce una fecha con formato yyyy-mm-dd para el gasto.");
     etiquetas = prompt("Introduce las etiquetas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.");
-
-    Number(valor);
-    etiquetas,split([,]);
+    etiquetas = etiquetas.split(",");
+    
+    let nuevoGasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+    gp.anyadirGasto(nuevoGasto);
+    repintar();
 }
+let btnAGrasto = document.getElementById("anyadirgasto");
+btnAGrasto.addEventListener("click", nuevoGastoWeb);
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
