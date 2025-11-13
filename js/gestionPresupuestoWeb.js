@@ -94,14 +94,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     contenedor.appendChild(divAgrupacion);
 }
 function repintar(){
-    let presupuesto = document.getElementById("presupuesto");
-    let gastosTotales = document.getElementById("gastos-totales");
-    let balanceTotal = document.getElementById("balance-total");
     let listadoGastosCompleto = document.getElementById("listado-gastos-completo");
 
-    mostrarDatoEnId(presupuesto, gestionPresupuesto.mostrarPresupuesto());
-    mostrarDatoEnId(gastosTotales, gestionPresupuesto.calcularTotalGastos());
-    mostrarDatoEnId(balanceTotal, gestionPresupuesto.calcularBalance());
+    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
+    mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
+    mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
     
     listadoGastosCompleto.innerHTML = '';
     gestionPresupuesto.listarGastos().forEach(gasto => {
