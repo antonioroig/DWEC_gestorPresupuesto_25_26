@@ -78,11 +78,40 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
   }
 
 
- function repintar (){
+ function repintar() {
+ 
+  const presupuesto = gP.mostrarPresupuesto();
+  mostrarDatoEnId("presupuesto", presupuesto);
 
- } 
+  
+  const totalGastos = gP.calcularTotalGastos();
+  mostrarDatoEnId("gastos-totales", totalGastos);
 
+  const balance = gP.calcularBalance();
+  mostrarDatoEnId("balance-total", balance);
+
+  const contenedor = document.getElementById("listado-gastos-completo");
+  contenedor.innerHTML = "";
+
+
+  const gastos = gP.listarGastos(); 
+  for (let gasto of gastos) {
+    
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  }
+}
+
+ let btnActualizar = document.getElementById("actualizarpresupuesto");
+ btnActualizar.addEventListener("click", actualizarPresupuestoWeb);
+ 
  function actualizarPresupuestoWeb(){
+
+  let valor = +prompt("Introduzca un presupuesto");
+  gp.actualizarPresupuesto(valor);
+  repintar();
+
+
+  repintar();
 
  }
 
