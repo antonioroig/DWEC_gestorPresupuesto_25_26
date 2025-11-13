@@ -21,7 +21,9 @@ function mostrarGastoWeb(idElemento, gastos){
 
         let cajaFecha = document.createElement("div");
         cajaFecha.classList.add("gasto-fecha");
-        cajaFecha.innerHTML = gasto.fecha;
+        let fechaLocal = new Date(gasto.fecha);
+        let fechaFormateada = fechaLocal.toLocaleDateString();
+        cajaFecha.innerHTML = fechaFormateada;
         cajaGrande.append(cajaFecha);
 
         let cajaValor = document.createElement("div");
