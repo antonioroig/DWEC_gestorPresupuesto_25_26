@@ -104,7 +104,10 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     lGastosDatos.innerHTML = "";
 
     let lCompGastos = gP.listarGastos();
-    mostrarGastoWeb(lCompGastos,"listado-gastos-completo")
+    for(let gasto of lCompGastos){
+        mostrarGastoWeb(gasto,"listado-gastos-completo")
+    }
+
 
  }
  function nuevoGastoWeb(){
