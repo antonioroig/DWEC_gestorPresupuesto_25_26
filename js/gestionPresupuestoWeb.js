@@ -97,11 +97,22 @@ let btnAGrasto = document.getElementById("anyadirgasto");
 btnAGrasto.addEventListener("click", nuevoGastoWeb);
 
 
+function EditarHandle(gasto){        
+    this.gasto = gasto;
+    this.handleEvent = function(evento){
+
+
+        
+        repintar();
+    }
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle
 }
