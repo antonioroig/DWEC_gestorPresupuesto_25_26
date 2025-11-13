@@ -1,3 +1,5 @@
+import * as gp from './gestionPresupuesto.js';
+
 function mostrarDatoEnId(idElemento, valor) {
   const elemento = document.getElementById(idElemento);
   if (elemento) {
@@ -72,9 +74,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
   });
 
   elemento.appendChild(divAgrupacion);
+
+}
+function repintar(){
+
+}
+let btnAcualizar = document.getElementById("actualizarpresupuesto");
+btnAcualizar.addEventListener("click", actualizarPresupuestoWeb);
+function actualizarPresupuestoWeb(){
+
 }
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar, 
+    actualizarPresupuestoWeb
 }
