@@ -126,10 +126,33 @@ let objActualizar = {
       }  
 };
 botonActualizar.addEventListener("click", objActualizar);
+
+function nuevoGastoWeb(){
+    let respuestaDescripcion = prompt('Introduce la Descripcion del nuevo gasto');
+    let respuestaValor = prompt('Introduce el Valor del nuevo gasto');
+    let respuestaFecha = prompt('Introduce la Fecha del nuevo gasto con formato YYYY/MM/DD');
+    let respuestaEtiquetas = prompt('Introduce las Etiquetas del nuevo gasto');
+    let intValor = parseInt(respuestaValor);
+
+    let etiquetasOrdenadas = respuestaEtiquetas.split(',');
+    let nuevoGasto = new gestionPresupuesto.CrearGasto(respuestaDescripcion,intValor, respuestaFecha, ...etiquetasOrdenadas);
+
+    gestionPresupuesto.anyadirGasto(nuevoGasto);
+    repintar();
+
+}
+let botonAnyadir = document.getElementById("anyadirgasto");
+let objAnyadir = {
+    handleEvent(event) {
+        nuevoGastoWeb();
+    }
+};
+botonAnyadir.addEventListener("click", objAnyadir);
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 };
