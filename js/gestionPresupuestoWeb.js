@@ -148,11 +148,30 @@ let objAnyadir = {
     }
 };
 botonAnyadir.addEventListener("click", objAnyadir);
+
+function EditarHandle(gasto){
+    this.gasto = gasto;
+    this.handleEvent = function(event){
+        let respuestaDescripcion = prompt('Introduce la Descripcion del gasto a editar', this.gasto.descripcion);
+        let respuestaValor = prompt('Introduce el Valor del gasto a editar', this.gasto.valor);
+        let respuestaFecha = prompt('Introduce la Fecha del gasto a editar con formato YYYY-MM-DD', new Date(this.gasto.fecha).toISOString().split('T')[0]);
+        let respuestaEtiquetas = prompt('Introduce las Etiquetas del gasto a editar', this.gasto.etiquetas.join(','));
+        let intValor = parseInt(respuestaValor);
+
+        let etiquetasOrdenadas = respuestaEtiquetas.split(',');
+        
+        this.gasto.actualizarDescripcion(respuestaDescripcion);
+        this.gasto.actualizarValor(intValor);
+        this.gasto.actualizarFecha(respuestaFecha);
+        this.gasto.anyadirEtiquetas(...etiquetasOrdenadas);
+    }
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    EditarHandle
 };
