@@ -124,7 +124,7 @@ function EditarHandle() {
 
 function BorrarHandle(){
     this.handleEvent = function(){
-
+        this.gasto.borrarGasto(this.gasto.id)
         repintar();
     }
 }
