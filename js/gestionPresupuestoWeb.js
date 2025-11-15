@@ -99,16 +99,25 @@ btnAGrasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
     this.handleEvent = function() {
-        this.descripcion = prompt("Introduce una descripción para el gasto.");
-        this.valor = Number(prompt("Introduce un valor para el gasto."));
-        this.fecha = prompt("Introduce una fecha con formato yyyy-mm-dd para el gasto.");
-        this.etiquetas = prompt("Introduce las etiquetas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.");
-        this.etiquetas = this.etiquetas.split(",");
+        let descripcion, valor, fecha, etiquetas;
+        
+        descripcion = prompt("Introduce una descripción nueva para el gasto.", this.gasto.descripcion);
+        valor = Number(prompt("Introduce un valor nuevo para el gasto.", this.gasto.valor));
+        fecha = prompt("Introduce una fecha nueva con formato yyyy-mm-dd para el gasto.", this.gasto.fecha);
+        etiquetas = prompt("Introduce las etiquetas nuevas con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.", this.gasto.etiquetas.toString());
+        etiquetas = etiquetas.split(",");
 
-        this.gasto.actualizarValor(this.valor);
-        this.gasto.actualizarDescripcion(this.descripcion);
-        this.gasto.actualizarFecha (this.fecha);
-        this.gasto.anyadirEtiquetas(this.etiquetas);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha (fecha);
+
+        let etiquetasCopia = [...this.gasto.etiquetas];
+
+        for (let etiqueta of etiquetasCopia) {
+            this.gasto.borrarEtiquetas(etiqueta);
+        }
+        this.gasto.anyadirEtiquetas(etiquetas);
+
         repintar();
     }
 }
