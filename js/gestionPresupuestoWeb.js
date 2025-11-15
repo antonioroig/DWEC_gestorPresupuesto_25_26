@@ -111,13 +111,12 @@ function EditarHandle() {
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha (fecha);
 
-        let etiquetasCopia = [...this.gasto.etiquetas];
+        let etiquetasCopia = [...this.gasto.etiquetas]; //Preguntar Antonio
 
         for (let etiqueta of etiquetasCopia) {
             this.gasto.borrarEtiquetas(etiqueta);
         }
         this.gasto.anyadirEtiquetas(etiquetas);
-
         repintar();
     }
 }
@@ -131,7 +130,7 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle(){
     this.handleEvent = function(){
-
+        this.gasto.borrarEtiquetas(this.etiqueta)
         repintar();        
     }
 }
