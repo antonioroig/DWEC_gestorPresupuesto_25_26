@@ -22,7 +22,10 @@ function mostrarGastoWeb(idElemento, gasto) {
       <div class="gasto-etiquetas">
         ${etiquetasHTML}
       </div>
+      <button class="gasto-editar" type="button">Editar</button>
+      <button class="gasto-borrar" type="button">Borrar</button>
     </div><br>`;
+    
         elem.innerHTML += gastoHTML;
     }
     else {
