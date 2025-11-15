@@ -113,6 +113,20 @@ function EditarHandle() {
     }
 }
 
+function BorrarHandle(){
+    this.handleEvent = function(){
+
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(){
+
+        repintar();        
+    }
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -120,5 +134,7 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
