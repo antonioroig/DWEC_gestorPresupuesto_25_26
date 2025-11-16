@@ -59,6 +59,18 @@ botonEditar.addEventListener("click", manejadorEditar);
 
 divGasto.appendChild(botonEditar);
 contenedor.appendChild(divGasto);
+
+let botonBorrar = document.createElement("button");
+botonBorrar.type = 'button';
+botonBorrar.textContent = "Borrar";
+botonBorrar.classList.add("gasto-borrar");
+
+let manejadorBorrar = new BorrarHandle(gasto);
+
+botonBorrar.addEventListener("click", manejadorBorrar);
+
+divGasto.appendChild(botonBorrar);
+contenedor.appendChild(divGasto);
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let contenedor = document.getElementById(idElemento);
@@ -179,6 +191,13 @@ function EditarHandle(gasto){
         repintar();
     }
 }
+function BorrarHandle(gasto){
+    this.gasto = gasto;
+    this.handleEvent = function(event){
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -186,5 +205,6 @@ export{
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle
 };
