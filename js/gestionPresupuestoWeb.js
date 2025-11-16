@@ -47,6 +47,18 @@ if (gasto.etiquetas && gasto.etiquetas.length > 0){
 
 divGasto.appendChild(divEtiquetas);
 contenedor.appendChild(divGasto);
+
+let botonEditar = document.createElement("button");
+botonEditar.type = 'button';
+botonEditar.textContent = "Editar";
+botonEditar.classList.add("gasto-editar");
+
+let manejadorEditar = new EditarHandle(gasto);
+
+botonEditar.addEventListener("click", manejadorEditar);
+
+divGasto.appendChild(botonEditar);
+contenedor.appendChild(divGasto);
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let contenedor = document.getElementById(idElemento);
@@ -132,7 +144,7 @@ function nuevoGastoWeb(){
     let respuestaValor = prompt('Introduce el Valor del nuevo gasto');
     let respuestaFecha = prompt('Introduce la Fecha del nuevo gasto con formato YYYY/MM/DD');
     let respuestaEtiquetas = prompt('Introduce las Etiquetas del nuevo gasto');
-    let intValor = parseInt(respuestaValor);
+    let intValor = parseFloat(respuestaValor);
 
     let etiquetasOrdenadas = respuestaEtiquetas.split(',');
     let nuevoGasto = new gestionPresupuesto.CrearGasto(respuestaDescripcion,intValor, respuestaFecha, ...etiquetasOrdenadas);
@@ -156,14 +168,15 @@ function EditarHandle(gasto){
         let respuestaValor = prompt('Introduce el Valor del gasto a editar', this.gasto.valor);
         let respuestaFecha = prompt('Introduce la Fecha del gasto a editar con formato YYYY-MM-DD', new Date(this.gasto.fecha).toISOString().split('T')[0]);
         let respuestaEtiquetas = prompt('Introduce las Etiquetas del gasto a editar', this.gasto.etiquetas.join(','));
-        let intValor = parseInt(respuestaValor);
+        let floatValor = parseFloat(respuestaValor);
 
         let etiquetasOrdenadas = respuestaEtiquetas.split(',');
         
         this.gasto.actualizarDescripcion(respuestaDescripcion);
-        this.gasto.actualizarValor(intValor);
+        this.gasto.actualizarValor(floatValor);
         this.gasto.actualizarFecha(respuestaFecha);
         this.gasto.anyadirEtiquetas(...etiquetasOrdenadas);
+        repintar();
     }
 }
 export{
