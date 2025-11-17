@@ -1,3 +1,6 @@
+import * as gp from './gestionPresupuesto';
+
+
 export function mostrarDatoEnId(idElemento, valor) {
   const el = document.getElementById(idElemento);
   if (!el) return;
@@ -72,5 +75,27 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
   });
 
   cont.appendChild(wrap);
+}
+
+export function repintar() {
+  mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
+
+  const totalGastos = gp.calcularTotalGastos().toFixed(2) + " €";
+  mostrarDatoEnId("gastos-totales", totalGastos);
+
+  const balance = gp.calcularBalance().toFixed(2) + " €";
+  mostrarDatoEnId("balance-total", balance);
+  
+  const contenedorListado = document.getElementsById("listado-gastos-completo");
+  if(!contenedorListado) {
+    return;
+  }
+  contenedorListado.innerHTML = "";
+
+  const gastos = gp.listarGastos();
+  gastos.forEach((gasto) => {
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  });  
+  
 }
 
