@@ -64,8 +64,7 @@ export function repintar() {
 
 
   const balance = L.calcularBalance();
-  mostrarDatoEnId("balance-total", balance.toFixed(2));
-
+  mostrarDatoEnId("balance-total", balance.toFixed(0));
   const listadoCompleto = document.getElementById("listado-gastos-completo");
   if (listadoCompleto) listadoCompleto.innerHTML = "";
 
@@ -102,6 +101,8 @@ function nuevoGastoWeb() {
 
 const botonAnyadir = document.getElementById("anyadirgasto");
 botonAnyadir.addEventListener("click", nuevoGastoWeb);
+
+
 
 
 
