@@ -81,7 +81,12 @@ function repintar(){
 
     mostrarGastoWeb("listado-gastos-completo",presupuesto.listarGastos())
 }
-
+function actualizarPresupuestoWeb(){
+    let nuevoPresupuesto = prompt("Ingrese el nuevo valor del presupuesto")
+    nuevoPresupuesto = Number(nuev)
+    presupuesto.actualizarPresupuesto(nuevoPresupuesto)
+    repintar()
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
