@@ -1,13 +1,20 @@
 "use strict"
-import * as gestionPresupuesto from ("./gestionPresupuesto")
+import * as presupuesto from './gestionPresupuesto.js'
+
+let numeroFiltro = 0
+
 function mostrarDatoEnId(idElemento, valor) {
-    document.getElementById(idElemento).innerHTML += valor
+    document.getElementById(idElemento).innerHTML = valor
 }
 function mostrarGastoWeb(idElemento, listaGastos) {
-    listaGastos.forEach(element => {
-        let contenido = "<div class=gasto>"
-        let gastoFiltrado = Object.fromEntries(Object.entries(element).filter(([k, v]) => typeof v !== "function"))
+    let contenido = ""
 
+    if(idElemento.includes("filtrado")){
+        contenido += `<h1>Filtrado Numero ${++numeroFiltro}</h1>`
+    }
+    listaGastos.forEach(element => {
+        contenido += "<div class=gasto>"
+        let gastoFiltrado = Object.fromEntries(Object.entries(element).filter(([k, v]) => typeof v !== "function"))
         for (let gasto in gastoFiltrado) {
             if (gasto === "etiquetas") {
                 contenido += `<div class = gasto-${gasto}>${gasto}:<br>`
@@ -26,8 +33,10 @@ function mostrarGastoWeb(idElemento, listaGastos) {
 
         }
         contenido += "</div>"
-        mostrarDatoEnId(idElemento, contenido)
+        
     });
+    contenido += "<br><br><br>"
+    mostrarDatoEnId(idElemento, contenido)
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const contenedor = document.getElementById(idElemento)
@@ -63,9 +72,20 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         }
     }
 }
+function repintar(){
+    mostrarDatoEnId("presupuesto", presupuesto.mostrarPresupuesto())
+
+    mostrarDatoEnId("gastos-totales", presupuesto.calcularTotalGastos())
+
+    mostrarDatoEnId("balance-total", presupuesto.calcularBalance())
+
+    mostrarGastoWeb("listado-gastos-completo",presupuesto.listarGastos())
+}
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar,
+    actualizarPresupuestoWeb
 }
