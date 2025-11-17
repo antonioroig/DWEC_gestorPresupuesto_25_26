@@ -41,6 +41,10 @@ if (gasto.etiquetas && gasto.etiquetas.length > 0){
         let span = document.createElement("span");
         span.className = "gasto-etiquetas-etiqueta";
         span.textContent = element;
+        let manejadorBorrarEtiqueta = new BorrarEtiquetasHandle();
+        manejadorBorrarEtiqueta.gasto = gasto;
+        manejadorBorrarEtiqueta.etiqueta = element;
+        span.addEventListener("click", manejadorBorrarEtiqueta);
         divEtiquetas.appendChild(span);
     });
 }
@@ -71,6 +75,8 @@ botonBorrar.addEventListener("click", manejadorBorrar);
 
 divGasto.appendChild(botonBorrar);
 contenedor.appendChild(divGasto);
+
+
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     let contenedor = document.getElementById(idElemento);
@@ -198,6 +204,14 @@ function BorrarHandle(gasto){
         repintar();
     }
 }
+function BorrarEtiquetasHandle(gasto, etiqueta){
+    this.gasto = gasto;
+    this.etiqueta = etiqueta;
+    this.handleEvent = function(event){
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -206,5 +220,6 @@ export{
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
-    BorrarHandle
+    BorrarHandle,
+    BorrarEtiquetasHandle
 };
