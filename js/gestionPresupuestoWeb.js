@@ -22,7 +22,10 @@ function mostrarGastoWeb(idElemento, gasto) {
       <div class="gasto-etiquetas">
         ${etiquetasHTML}
       </div>
+      <button class="gasto-editar" type="button">Editar</button>
+      <button class="gasto-borrar" type="button">Borrar</button>
     </div><br>`;
+    
         elem.innerHTML += gastoHTML;
     }
     else {
@@ -99,17 +102,39 @@ btnAGrasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
     this.handleEvent = function() {
-        let nDes = prompt("Introduce una descripción nueva para el gasto.", this.gasto.descripcion);
-        let nValor = Number(prompt("Introduce un valor nuevo para el gasto.", this.gasto.valor));
-        let nFecha = prompt("Introduce una fecha nueva con formato yyyy-mm-dd para el gasto.", this.gasto.fecha);
-        let nEtiquetas= prompt("Introduce las etiquetas nuevas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.", this.gasto.etiquetas);
-        nEtiquetas = nEtiquetas.split(",");
+        let descripcion, valor, fecha, etiquetas;
+        
+        descripcion = prompt("Introduce una descripción nueva para el gasto.", this.gasto.descripcion);
+        valor = Number(prompt("Introduce un valor nuevo para el gasto.", this.gasto.valor));
+        fecha = prompt("Introduce una fecha nueva con formato yyyy-mm-dd para el gasto.", this.gasto.fecha);
+        etiquetas = prompt("Introduce las etiquetas nuevas con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.", this.gasto.etiquetas.toString());
+        etiquetas = etiquetas.split(",");
 
-        this.gasto.actualizarValor(nValor);
-        this.gasto.actualizarDescripcion(nDes);
-        this.gasto.actualizarFecha (nFecha);
-        this.gasto.anyadirEtiquetas(nEtiquetas);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarFecha (fecha);
+
+        let etiquetasCopia = [...this.gasto.etiquetas]; //Preguntar Antonio
+
+        for (let etiqueta of etiquetasCopia) {
+            this.gasto.borrarEtiquetas(etiqueta);
+        }
+        this.gasto.anyadirEtiquetas(etiquetas);
         repintar();
+    }
+}
+
+function BorrarHandle(){
+    this.handleEvent = function(){
+        this.gasto.borrarGasto(this.gasto.id)
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(){
+        this.gasto.borrarEtiquetas(this.etiqueta)
+        repintar();        
     }
 }
 
@@ -120,5 +145,7 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    EditarHandle
+    EditarHandle,
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
