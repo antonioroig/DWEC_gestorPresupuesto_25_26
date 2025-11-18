@@ -35,7 +35,29 @@ function mostrarGastoWeb(idElemento, gasto) {
     divValor.textContent = gasto.valor.toFixed(2);
     divGasto.appendChild(divValor);
 
-    // BOTÓN EDITAR
+    // etiquetas
+    let divEtiquetas = document.createElement("div");
+    divEtiquetas.classList.add("gasto-etiquetas");
+
+    if (Array.isArray(gasto.etiquetas)) {
+    gasto.etiquetas.forEach(etiqueta => {
+        let spanEtiqueta = document.createElement("span");
+        spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
+        spanEtiqueta.textContent = etiqueta;
+
+        
+        spanEtiqueta.addEventListener("click", new BorrarEtiquetasHandle(gasto, etiqueta));
+
+        divEtiquetas.appendChild(spanEtiqueta);
+    });
+}
+
+
+
+    divGasto.appendChild(divEtiquetas);
+    elemento.appendChild(divGasto);
+
+     // BOTÓN EDITAR
     let botonEditar = document.createElement("button");
     botonEditar.type = "button";
     botonEditar.textContent = "Editar";
@@ -46,28 +68,18 @@ function mostrarGastoWeb(idElemento, gasto) {
     botonEditar.addEventListener("click", manejador);
 
     divGasto.appendChild(botonEditar);
+    //boton borrar
+    let botonBorrar = document.createElement("button");
+    botonBorrar.type = "button";
+    botonBorrar.textContent = "Borrar";
+    botonBorrar.classList.add("gasto-borrar");
+    
+    let manejadorBorrar = new BorrarHandle(gasto);
 
-    // etiquetas
-    let divEtiquetas = document.createElement("div");
-    divEtiquetas.classList.add("gasto-etiquetas");
+    botonBorrar.addEventListener("click", manejadorBorrar);
+    divGasto.appendChild(botonBorrar);
 
-    if (Array.isArray(gasto.etiquetas)) {
-        gasto.etiquetas.forEach(etiqueta => {
-            let spanEtiqueta = document.createElement("span");
-            spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
-            spanEtiqueta.textContent = etiqueta;
-            divEtiquetas.appendChild(spanEtiqueta);
-        });
-    } else if (gasto.etiqueta) {
-        let spanEtiqueta = document.createElement("span");
-        spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
-        spanEtiqueta.textContent = gasto.etiqueta;
-        divEtiquetas.appendChild(spanEtiqueta);
-    }
-
-
-    divGasto.appendChild(divEtiquetas);
-    elemento.appendChild(divGasto);
+    
 }
 
 //función para mostrar gastos agrupados en web
@@ -190,6 +202,26 @@ function repintar(){
         repintar();
     }
 }
+
+function BorrarHandle(gasto){
+    this.gasto = gasto;
+
+    this.handleEvent = function(evento){
+        gestionPresupuesto.borrarGasto(this.gasto.id);
+        repintar();
+    }
+}
+
+function BorrarEtiquetasHandle(gasto, etiqueta) {
+    this.gasto = gasto;
+    this.etiqueta = etiqueta;
+
+    this.handleEvent = function(evento) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    }
+}
+
 
 
 
