@@ -39,7 +39,7 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             } else if (key !== "fecha") {
                 const divProp = document.createElement("div");
                 divProp.classList.add(`gasto-${key}`);
-                divProp.textContent = `${key}: ${gastoFiltrado[key]}`;
+                divProp.textContent = `${gastoFiltrado[key]}`;
                 divGasto.appendChild(divProp);
             } else {
                 const divFecha = document.createElement("div");
