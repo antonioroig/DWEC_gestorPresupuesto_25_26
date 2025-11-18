@@ -80,21 +80,21 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
  function repintar() {
  
-  const presupuesto = gP.mostrarPresupuesto();
+  let presupuesto = gP.mostrarPresupuesto();
   mostrarDatoEnId("presupuesto", presupuesto);
 
   
-  const totalGastos = gP.calcularTotalGastos();
+  let totalGastos = gP.calcularTotalGastos();
   mostrarDatoEnId("gastos-totales", totalGastos);
 
-  const balance = gP.calcularBalance();
+  let balance = gP.calcularBalance();
   mostrarDatoEnId("balance-total", balance);
 
-  const contenedor = document.getElementById("listado-gastos-completo");
+  let contenedor = document.getElementById("listado-gastos-completo");
   contenedor.innerHTML = "";
 
 
-  const gastos = gP.listarGastos(); 
+  let gastos = gP.listarGastos(); 
   for (let gasto of gastos) {
     
     mostrarGastoWeb("listado-gastos-completo", gasto);
@@ -107,7 +107,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
  function actualizarPresupuestoWeb(){
 
   let valor = +prompt("Introduzca un presupuesto");
-  gp.actualizarPresupuesto(valor);
+  gP.actualizarPresupuesto(valor);
   repintar();
 
 
@@ -117,11 +117,31 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
  function nuevoGastoWeb(){
 
+  let descripcion = prompt ("Descripcion del gasto: ");
+  let valorStr = prompt ("Valor del gasto: ");
+  let fecha = prompt ("Fecha del gasto: ");
+  let etiquetas = prompt ("Etiquetas del gasto: ");
+
+  let valor = Number(valorStr);
+ 
+  etiquetas = etiquetas.split(",")
+
+
+
+  let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+  gP.anyadirGasto(gasto); 
+
+  repintar();
  }
 
- function EditarHandle(){
+let btnAnyadirGasto = document.getElementById("anyadirgasto");
+btnAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
- }
+function EditarHandle(){
+
+
+}
 
  function BorrarHandle(){
 

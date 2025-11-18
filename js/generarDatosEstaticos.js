@@ -37,7 +37,6 @@ for (let i = 0; i < gastos.length; i++) {
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
-// ✅ CORRECCIÓN AQUÍ: filtro1 con limpieza de contenedor
 document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
 
 let filtro1 = gP.filtrarGastos({ fechaDesde: "2021-09-01", fechaHasta: "2021-09-30" });
