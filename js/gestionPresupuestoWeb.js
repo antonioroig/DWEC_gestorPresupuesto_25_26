@@ -35,6 +35,18 @@ function mostrarGastoWeb(idElemento, gasto) {
     divValor.textContent = gasto.valor.toFixed(2);
     divGasto.appendChild(divValor);
 
+    // BOTÓN EDITAR
+    let botonEditar = document.createElement("button");
+    botonEditar.type = "button";
+    botonEditar.textContent = "Editar";
+    botonEditar.classList.add("boton-editar");
+
+    let manejador = new EditarHandle(gasto);
+
+    botonEditar.addEventListener("click", manejador);
+
+    divGasto.appendChild(botonEditar);
+
     // etiquetas
     let divEtiquetas = document.createElement("div");
     divEtiquetas.classList.add("gasto-etiquetas");
@@ -52,6 +64,7 @@ function mostrarGastoWeb(idElemento, gasto) {
         spanEtiqueta.textContent = gasto.etiqueta;
         divEtiquetas.appendChild(spanEtiqueta);
     }
+
 
     divGasto.appendChild(divEtiquetas);
     elemento.appendChild(divGasto);
@@ -141,14 +154,30 @@ function repintar(){
         this.gasto = gasto;
 
         this.handleEvent = function(evento){
-            let nuevaDescripcion = prompt('Editar descripción: ', this.gasto.descripcion);
-            let valor = Number(prompt('Editar valor: ', this.gasto.valor));
-            let fecha = prompt('Editar fecha (YYYY-MM-DD): ', this.gasto.fecha);
-            let etiqueta = prompt('Editar etiquetas (separadas por comas): ', this.gasto.etiqueta);
-//////////////////////77777777777777777777/
-            etiqueta = etiqueta.split(',');
+            
+            let nuevaDescripcion = prompt("Nueva descripcion");
+            if(nuevaDescripcion !== ""){
+                this.gasto.descripcion = nuevaDescripcion;  
+            }
+            let nuevoValor = prompt("Nuevo valor");
+            if(nuevoValor !== ""){
+                this.gasto.valor = Number(nuevoValor);  
+            }
+            let nuevaFecha = prompt("Nueva fecha (YYYY-MM-DD)");
+            if(nuevaFecha !== ""){
+                this.gasto.fecha = nuevaFecha;  
+            }
+            let entradaEtiquetas = prompt(
+            "Etiquetas (coma separadas). Deja vacío para no cambiar:",
+            this.gasto.etiquetas ? this.gasto.etiquetas.join(",") : ""
+            );
+            if (entradaEtiquetas !== "") {
+                this.gasto.etiquetas = entradaEtiquetas.split(",").map(e => e.trim());
+            }
+            repintar();        
         }
     }
+
 
 export {
     mostrarDatoEnId,
