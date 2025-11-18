@@ -39,7 +39,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     let botonEditar = document.createElement("button");
     botonEditar.type = "button";
     botonEditar.textContent = "Editar";
-    botonEditar.classList.add("boton-editar");
+    botonEditar.classList.add("gasto-editar");
 
     let manejador = new EditarHandle(gasto);
 
@@ -151,32 +151,46 @@ function repintar(){
     //funcion creadora de objeto manejador de evento
 
     function EditarHandle(gasto){
-        this.gasto = gasto;
+    this.gasto = gasto;
 
-        this.handleEvent = function(evento){
-            
-            let nuevaDescripcion = prompt("Nueva descripcion");
-            if(nuevaDescripcion !== ""){
-                this.gasto.descripcion = nuevaDescripcion;  
-            }
-            let nuevoValor = prompt("Nuevo valor");
-            if(nuevoValor !== ""){
-                this.gasto.valor = Number(nuevoValor);  
-            }
-            let nuevaFecha = prompt("Nueva fecha (YYYY-MM-DD)");
-            if(nuevaFecha !== ""){
-                this.gasto.fecha = nuevaFecha;  
-            }
-            let entradaEtiquetas = prompt(
-            "Etiquetas (coma separadas). Deja vacío para no cambiar:",
-            this.gasto.etiquetas ? this.gasto.etiquetas.join(",") : ""
-            );
-            if (entradaEtiquetas !== "") {
-                this.gasto.etiquetas = entradaEtiquetas.split(",").map(e => e.trim());
-            }
-            repintar();        
+    this.handleEvent = function(evento){
+
+        // --- DESCRIPCIÓN ---
+        let nuevaDescripcion = prompt("Nueva descripcion", this.gasto.descripcion);
+        if (nuevaDescripcion !== "") {
+            this.gasto.actualizarDescripcion(nuevaDescripcion);
         }
+
+        // --- VALOR ---
+        let nuevoValor = prompt("Nuevo valor", this.gasto.valor);
+        if (nuevoValor !== "") {
+            this.gasto.actualizarValor(Number(nuevoValor));
+        }
+
+        // --- FECHA ---
+        let nuevaFecha = prompt("Nueva fecha (YYYY-MM-DD)", new Date(this.gasto.fecha).toISOString().slice(0,10));
+        if (nuevaFecha !== "") {
+            this.gasto.actualizarFecha(nuevaFecha);
+        }
+
+        // --- ETIQUETAS ---
+        let entradaEtiquetas = prompt(
+            "Etiquetas (coma separadas). Déjalo vacío para no cambiar.",
+            this.gasto.etiquetas.join(",")
+        );
+
+        if (entradaEtiquetas !== "") {
+            let nuevas = entradaEtiquetas.split(",").map(e => e.trim());
+
+            // reemplazar etiquetas actuales por las nuevas
+            this.gasto.etiquetas = []; 
+            this.gasto.anyadirEtiquetas(...nuevas);
+        }
+
+        repintar();
     }
+}
+
 
 
 export {
