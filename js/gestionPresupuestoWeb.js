@@ -8,7 +8,7 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 function mostrarGastoWeb(idElemento, listaGastos) {
     const contenedor = document.getElementById(idElemento);
-
+    contenedor.innerHTML = ""
     if (idElemento.includes("filtrado")) {
         const h1 = document.createElement("h1");
         h1.textContent = `Filtrado Numero ${++numeroFiltro}`;
@@ -126,9 +126,28 @@ function nuevoGastoWeb(event) {
     presupuesto.anyadirGasto(gasto)
     repintar()
 }
-function EditarHandle(gasto) {
-    this.handleEvent = function (event) {
-        console.log(this.gasto.descripcion)
+function EditarHandle() {
+    this.handleEvent = function () {
+        let arrayEtiquetas
+        let etiquetas
+        let descripcion = prompt("Ingrese la nueva descripción", this.gasto.descripcion)
+        if(descripcion != null && descripcion != ""){
+        this.gasto.actualizarDescripcion(descripcion)
+        }
+        let valor = Number(prompt("Ingrese el nuevo valor del gasto", this.gasto.valor))
+        if(valor != null && valor != ""){
+        this.gasto.actualizarValor(valor)
+        }
+        let fecha = prompt("Ingrese la nueva fecha con formato yyyy-mm-dd", (new Date(this.gasto.fecha)).toISOString().slice(0, 10))
+        if(fecha != null && fecha != ""){
+            this.gasto.actualizarFecha(fecha)
+        }
+        etiquetas = prompt("Ingrese las etiquetas que quiera añadir al gasto separadas por una coma sin espacios")
+        arrayEtiquetas = etiquetas.split(",")
+        if (etiquetas != "") {
+            this.gasto.anyadirEtiquetas(arrayEtiquetas)
+        }
+        repintar()
     }
 }
 export {

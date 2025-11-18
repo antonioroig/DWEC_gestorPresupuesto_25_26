@@ -8,11 +8,11 @@ var idGasto = 0
 
 function actualizarPresupuesto(nuevoPresupuesto) {
     // TODO
-    if(!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0){
+    if (!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0) {
         presupuesto = nuevoPresupuesto
         return presupuesto
     }
-    else{
+    else {
         console.log("El valor introducido no es valido")
         return -1
     }
@@ -30,45 +30,44 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.fecha = (fecha !== undefined && !isNaN(Date.parse(fecha))) ? Date.parse(fecha) : Date.now()
     this.etiquetas = (etiquetas !== undefined) ? etiquetas : []
 
-    this.actualizarDescripcion = function(descripcionNueva){
+    this.actualizarDescripcion = function (descripcionNueva) {
         this.descripcion = descripcionNueva
     }
-    this.actualizarValor = function(valorNuevo){
-        if(!isNaN(valorNuevo) && valorNuevo >= 0){
+    this.actualizarValor = function (valorNuevo) {
+        if (!isNaN(valorNuevo) && valorNuevo >= 0) {
             this.valor = valorNuevo
         }
     }
-    this.mostrarGasto = function(){
+    this.actualizarFecha = function (fechaNueva) {
+        this.fecha = (fechaNueva !== undefined && !isNaN(Date.parse(fechaNueva))) ? Date.parse(fechaNueva) : this.fecha
+    }
+    this.anyadirEtiquetas = function (...etiquetas) {
+        etiquetas.forEach(nueva => {
+            if (!this.etiquetas.includes(nueva)) {
+                this.etiquetas.push(nueva)
+            }
+        })
+    }
+    this.borrarEtiquetas = function (...etiquetas) {
+        etiquetas.forEach(eliminar => {
+            let indice = this.etiquetas.indexOf(eliminar)
+            if (indice !== -1) {
+                this.etiquetas.splice(indice, 1)
+            }
+        })
+    }
+    this.mostrarGasto = function () {
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`
     }
-    
-    this.mostrarGastoCompleto = function(){
+
+    this.mostrarGastoCompleto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.
 Fecha: ${(new Date(this.fecha)).toLocaleString()}
 Etiquetas:
 - ${this.etiquetas.join("\n- ")}
 `}
-    this.actualizarFecha = function(fechaNueva){
-        this.fecha = (fechaNueva !== undefined && !isNaN(Date.parse(fechaNueva))) ? Date.parse(fechaNueva) : this.fecha
-    }
-    this.anyadirEtiquetas = function(...etiquetas){
-
-        etiquetas.forEach(nueva =>{
-            if(!this.etiquetas.includes(nueva)){
-                this.etiquetas.push(nueva)
-            }
-        })
-    }
-    this.borrarEtiquetas = function(...etiquetas){
-        etiquetas.forEach(eliminar =>{
-            let indice = this.etiquetas.indexOf(eliminar)
-            if(indice !== -1){
-                this.etiquetas.splice(indice,1)
-            }
-        })
-    }
-    this.obtenerPeriodoAgrupacion = function(periodo){
-        switch(periodo){
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        switch (periodo) {
             case "dia":
                 return (new Date(this.fecha)).toISOString().slice(0, 10)
                 break
@@ -83,77 +82,77 @@ Etiquetas:
         }
     }
 }
-function listarGastos(){
+function listarGastos() {
     return gastos
 }
-function anyadirGasto(Gasto){
-    Object.assign(Gasto, {id : idGasto})
+function anyadirGasto(Gasto) {
+    Object.assign(Gasto, { id: idGasto })
     idGasto++
     gastos.push(Gasto)
 }
 function borrarGasto(id) {
-  for (let i = 0; i < gastos.length; i++) {
-    if (gastos[i].id === id) { 
-      gastos.splice(i, 1);
-      break; 
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id === id) {
+            gastos.splice(i, 1);
+            break;
+        }
     }
-  }
 }
-function calcularTotalGastos(){
+function calcularTotalGastos() {
     let suma = 0
     for (let i = 0; i < gastos.length; i++) {
         suma += gastos[i].valor
     }
     return suma
 }
-function calcularBalance(){
+function calcularBalance() {
     let gastosTotales = calcularTotalGastos()
     return presupuesto - gastosTotales
 }
-function filtrarGastos(filtros){
+function filtrarGastos(filtros) {
     let filtrado = gastos.filter(param =>
-    (!filtros.fechaDesde || (!isNaN(Date.parse(filtros.fechaDesde)) && param.fecha >= (Date.parse(filtros.fechaDesde)))) &&
-    (!filtros.fechaHasta || (!isNaN(Date.parse(filtros.fechaHasta)) && param.fecha <= (Date.parse(filtros.fechaHasta)))) &&
-    (!filtros.valorMinimo || (!isNaN(filtros.valorMinimo) && param.valor > filtros.valorMinimo)) &&
-    (!filtros.valorMaximo || (!isNaN(filtros.valorMaximo) && param.valor < filtros.valorMaximo)) &&
-    (!filtros.descripcionContiene || param.descripcion.toLowerCase().includes(filtros.descripcionContiene.toLowerCase())) &&
-    (!filtros.etiquetasTiene || 
-        (filtros.etiquetasTiene.some(etiquetaFiltro => 
-            param.etiquetas.some(etiquetaGasto => 
-                etiquetaGasto.toLowerCase() === etiquetaFiltro.toLowerCase()
+        (!filtros.fechaDesde || (!isNaN(Date.parse(filtros.fechaDesde)) && param.fecha >= (Date.parse(filtros.fechaDesde)))) &&
+        (!filtros.fechaHasta || (!isNaN(Date.parse(filtros.fechaHasta)) && param.fecha <= (Date.parse(filtros.fechaHasta)))) &&
+        (!filtros.valorMinimo || (!isNaN(filtros.valorMinimo) && param.valor > filtros.valorMinimo)) &&
+        (!filtros.valorMaximo || (!isNaN(filtros.valorMaximo) && param.valor < filtros.valorMaximo)) &&
+        (!filtros.descripcionContiene || param.descripcion.toLowerCase().includes(filtros.descripcionContiene.toLowerCase())) &&
+        (!filtros.etiquetasTiene ||
+            (filtros.etiquetasTiene.some(etiquetaFiltro =>
+                param.etiquetas.some(etiquetaGasto =>
+                    etiquetaGasto.toLowerCase() === etiquetaFiltro.toLowerCase()
                 )))))
 
     return filtrado
 }
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
-  let filtros = {};
-  if (etiquetas) filtros.etiquetasTiene = etiquetas;
-  if (fechaDesde) filtros.fechaDesde = fechaDesde;
-  if (fechaHasta) filtros.fechaHasta = fechaHasta;
+    let filtros = {};
+    if (etiquetas) filtros.etiquetasTiene = etiquetas;
+    if (fechaDesde) filtros.fechaDesde = fechaDesde;
+    if (fechaHasta) filtros.fechaHasta = fechaHasta;
 
     let filtrado = filtrarGastos(filtros);
 
     let reducido = filtrado.reduce((acc, element) => {
-    let clave = element.obtenerPeriodoAgrupacion(periodo);
+        let clave = element.obtenerPeriodoAgrupacion(periodo);
 
-    if (!acc[clave]) acc[clave] = element.valor;
-    else acc[clave] += element.valor;
+        if (!acc[clave]) acc[clave] = element.valor;
+        else acc[clave] += element.valor;
 
-    return acc;
-  }, {});
+        return acc;
+    }, {});
 
-  return reducido;
+    return reducido;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
-export   {
+export {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
     listarGastos,
-    anyadirGasto, 
+    anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
