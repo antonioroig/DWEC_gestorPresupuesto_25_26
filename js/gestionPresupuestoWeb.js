@@ -110,10 +110,18 @@ btnAnyadir.addEventListener("click", nuevoGastoWeb);
 function nuevoGastoWeb ()
 {
   let descripcion = prompt("Introduce la descripcion al gasto");
-  let valor = prompt("Introduce un valor al gasto");
-  let fecha = prompt("");
-  let etiquetas = prompt("");
+  let valor = +prompt("Introduce un valor al gasto");
+  let fecha = prompt("Introduce la fecha del gasto");
+  let etiquetas = prompt("Introduce las etiquetas");
+  etiquetas = etiquetas.split(",")
+
+  let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas)
+
+  gp.anyadirGasto(gasto);
+
+  repintar();
 }
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
