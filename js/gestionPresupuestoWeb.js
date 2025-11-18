@@ -7,36 +7,64 @@ function mostrarDatoEnId(idElemento, valor) {
     document.getElementById(idElemento).innerHTML = valor
 }
 function mostrarGastoWeb(idElemento, listaGastos) {
-    let contenido = ""
+    const contenedor = document.getElementById(idElemento);
 
-    if(idElemento.includes("filtrado")){
-        contenido += `<h1>Filtrado Numero ${++numeroFiltro}</h1>`
+    if (idElemento.includes("filtrado")) {
+        const h1 = document.createElement("h1");
+        h1.textContent = `Filtrado Numero ${++numeroFiltro}`;
+        contenedor.appendChild(h1);
     }
-    listaGastos.forEach(element => {
-        contenido += "<div class=gasto>"
-        let gastoFiltrado = Object.fromEntries(Object.entries(element).filter(([k, v]) => typeof v !== "function"))
-        for (let gasto in gastoFiltrado) {
-            if (gasto === "etiquetas") {
-                contenido += `<div class = gasto-${gasto}>${gasto}:<br>`
-                gastoFiltrado[gasto].forEach(element => {
-                    contenido += `<span class = gasto-etiquetas-etiqueta>${element}</span><br>`
+    listaGastos.forEach(gasto => {
+        const divGasto = document.createElement("div");
+        divGasto.classList.add("gasto");
+
+        const gastoFiltrado = Object.fromEntries(
+            Object.entries(gasto).filter(([k, v]) => typeof v !== "function")
+        );
+
+        for (let key in gastoFiltrado) {
+            if (key === "etiquetas") {
+                const divEtiquetas = document.createElement("div");
+                divEtiquetas.classList.add(`gasto-${key}`);
+                divEtiquetas.textContent = `${key}:`;
+                divGasto.appendChild(divEtiquetas);
+
+                gastoFiltrado[key].forEach(etiqueta => {
+                    const span = document.createElement("span");
+                    span.classList.add("gasto-etiquetas-etiqueta");
+                    span.textContent = etiqueta;
+                    divEtiquetas.appendChild(span);
+                    divEtiquetas.appendChild(document.createElement("br"));
                 });
-                contenido += `</div>`
+            } else if (key !== "fecha") {
+                const divProp = document.createElement("div");
+                divProp.classList.add(`gasto-${key}`);
+                divProp.textContent = `${key}: ${gastoFiltrado[key]}`;
+                divGasto.appendChild(divProp);
+            } else {
+                const divFecha = document.createElement("div");
+                divFecha.classList.add(`gasto-${key}`);
+                divFecha.textContent = `${key}: ${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`;
+                divGasto.appendChild(divFecha);
             }
-            else if (gasto !== "fecha") {
-                contenido += `<div class = gasto-${gasto}>${gasto}: ${gastoFiltrado[gasto]}</div>`
-            }
-
-            else {
-                contenido += `<div class = gasto-${gasto}>${gasto}: ${(new Date(gastoFiltrado[gasto])).toISOString().slice(0, 10)}</div>`
-            }
-
         }
-        contenido += "</div>"
-        
+        if (!idElemento.includes("filtrado")) {
+            const botonEditar = document.createElement("button");
+            botonEditar.type = "button";
+            botonEditar.classList.add("gasto-editar");
+            botonEditar.textContent = "Editar";
+            const manejador = new EditarHandle();
+            manejador.gasto = gasto;
+            botonEditar.addEventListener("click", manejador);
+            divGasto.appendChild(botonEditar);
+        }
+
+        contenedor.appendChild(divGasto);
     });
-    contenido += "<br><br><br>"
-    mostrarDatoEnId(idElemento, contenido)
+
+    contenedor.appendChild(document.createElement("br"));
+    contenedor.appendChild(document.createElement("br"));
+    contenedor.appendChild(document.createElement("br"));
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const contenedor = document.getElementById(idElemento)
@@ -48,46 +76,46 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
         divAgrupacion.className = "agrupacion"
 
         const h1 = document.createElement("h1")
-        h1.textContent = "Gastos agrupados por "+ periodo
+        h1.textContent = "Gastos agrupados por " + periodo
 
-       contenedor.appendChild(divAgrupacion)
+        contenedor.appendChild(divAgrupacion)
         divAgrupacion.appendChild(h1)
-        
+
 
         for (let clave in agrup) {
-                const divDato = document.createElement("div")
-                divDato.className = "agrupacion-dato"
+            const divDato = document.createElement("div")
+            divDato.className = "agrupacion-dato"
 
-                const spanClave = document.createElement("span")
-                spanClave.className = "agrupacion-dato-clave"
-                spanClave.innerHTML = clave + ": "
+            const spanClave = document.createElement("span")
+            spanClave.className = "agrupacion-dato-clave"
+            spanClave.innerHTML = clave + ": "
 
-                const spanValor = document.createElement("span")
-                spanValor.className = "agrupacion-dato-valor"
-                spanValor.innerHTML = agrup[clave] + "<br>"
+            const spanValor = document.createElement("span")
+            spanValor.className = "agrupacion-dato-valor"
+            spanValor.innerHTML = agrup[clave] + "<br>"
 
-                divDato.appendChild(spanClave)
-                divDato.appendChild(spanValor)
-                divAgrupacion.appendChild(divDato)   
+            divDato.appendChild(spanClave)
+            divDato.appendChild(spanValor)
+            divAgrupacion.appendChild(divDato)
         }
     }
 }
-function repintar(){
+function repintar() {
     mostrarDatoEnId("presupuesto", presupuesto.mostrarPresupuesto())
 
     mostrarDatoEnId("gastos-totales", presupuesto.calcularTotalGastos())
 
     mostrarDatoEnId("balance-total", presupuesto.calcularBalance())
 
-    mostrarGastoWeb("listado-gastos-completo",presupuesto.listarGastos())
+    mostrarGastoWeb("listado-gastos-completo", presupuesto.listarGastos())
 }
-function actualizarPresupuestoWeb(){
+function actualizarPresupuestoWeb() {
     let nuevoPresupuesto = prompt("Ingrese el nuevo valor del presupuesto")
     nuevoPresupuesto = Number(nuevoPresupuesto)
     presupuesto.actualizarPresupuesto(nuevoPresupuesto)
     repintar()
 }
-function nuevoGastoWeb(event){
+function nuevoGastoWeb(event) {
     let descripcion = prompt("Ingrese la descripción del nuevo gasto")
     let valor = prompt("Ingrese el valor del nuevo gasto")
     valor = Number(valor)
@@ -97,6 +125,11 @@ function nuevoGastoWeb(event){
     let gasto = new presupuesto.CrearGasto(descripcion, valor, fecha, ...arrayEtiquetas)
     presupuesto.anyadirGasto(gasto)
     repintar()
+}
+function EditarHandle(gasto) {
+    this.handleEvent = function (event) {
+        console.log(this.gasto.descripcion)
+    }
 }
 export {
     mostrarDatoEnId,
