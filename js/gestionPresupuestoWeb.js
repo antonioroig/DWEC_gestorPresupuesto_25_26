@@ -33,6 +33,11 @@ function mostrarGastoWeb(idElemento, listaGastos) {
                     const span = document.createElement("span")
                     span.classList.add("gasto-etiquetas-etiqueta")
                     span.textContent = etiqueta
+                    const manejadorBorrarEtiqueta = new BorrarEtiquetasHandle()
+                    manejadorBorrarEtiqueta.gasto = gasto
+                    manejadorBorrarEtiqueta.etiqueta = etiqueta
+                    span.addEventListener("click", manejadorBorrarEtiqueta)
+
                     divEtiquetas.appendChild(span)
                     divEtiquetas.appendChild(document.createElement("br"))
                 })
@@ -162,6 +167,12 @@ function EditarHandle() {
 function BorrarHandle(){
     this.handleEvent = function(){
         presupuesto.borrarGasto(this.gasto.id)
+        repintar()
+    }
+}
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(){
+        this.gasto.borrarEtiquetas(this.etiqueta)
         repintar()
     }
 }
