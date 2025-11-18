@@ -83,8 +83,19 @@ function repintar(){
 }
 function actualizarPresupuestoWeb(){
     let nuevoPresupuesto = prompt("Ingrese el nuevo valor del presupuesto")
-    nuevoPresupuesto = Number(nuev)
+    nuevoPresupuesto = Number(nuevoPresupuesto)
     presupuesto.actualizarPresupuesto(nuevoPresupuesto)
+    repintar()
+}
+function nuevoGastoWeb(event){
+    let descripcion = prompt("Ingrese la descripción del nuevo gasto")
+    let valor = prompt("Ingrese el valor del nuevo gasto")
+    valor = Number(valor)
+    let fecha = prompt("Ingrese la fecha en formato yyyy-mm-dd")
+    let etiquetas = prompt("Ingrese las etiquetas separadas por una coma sin espacios")
+    let arrayEtiquetas = etiquetas.split(",")
+    let gasto = new presupuesto.CrearGasto(descripcion, valor, fecha, ...arrayEtiquetas)
+    presupuesto.anyadirGasto(gasto)
     repintar()
 }
 export {
@@ -92,5 +103,6 @@ export {
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    nuevoGastoWeb
 }

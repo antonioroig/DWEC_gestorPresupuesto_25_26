@@ -64,3 +64,7 @@ presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", datosAgrupadosMes, "m
 
 let datosAgrupadosAnyo = presupuesto.agruparGastos("anyo")
 presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", datosAgrupadosAnyo, "año")
+
+document.getElementById("actualizarpresupuesto").addEventListener("click", presupuestoWeb.actualizarPresupuestoWeb)
+
+document.getElementById("anyadirgasto").addEventListener("click", presupuestoWeb.nuevoGastoWeb)
