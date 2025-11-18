@@ -60,6 +60,18 @@ function mostrarGastoWeb(idElemento , gasto){
     botonEditar.addEventListener("click", editarHandler);
 
     divGasto.appendChild(botonEditar);
+
+
+    let botonBorrar = document.createElement("button");
+    botonBorrar.type = "button";
+    botonBorrar.classList.add("gasto-borrar");
+    botonBorrar.textContent = "Borrar";
+
+    let borrarHandler = new BorrarHandle(gasto);
+
+    botonBorrar.addEventListener("click", borrarHandler);
+
+    divGasto.appendChild(botonBorrar);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -189,6 +201,16 @@ function EditarHandle(){
         // Repintar siempre al final
         repintar();
     }
+}
+
+function BorrarHandle(gasto) {
+
+    this.gasto = gasto;
+
+    this.handleEvent = function() {
+        gp.borrarGasto(this.gasto.id);
+        repintar();
+    };
 }
 
 export{
