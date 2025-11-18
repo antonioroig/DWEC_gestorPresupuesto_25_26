@@ -43,6 +43,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
   divGasto.appendChild(divEtiquetas);
   elemento.appendChild(divGasto);
+  
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -109,10 +110,11 @@ btnAnyadir.addEventListener("click", nuevoGastoWeb);
 
 function nuevoGastoWeb ()
 {
-  let descripcion = prompt("Introduce la descripcion al gasto");
-  let valor = +prompt("Introduce un valor al gasto");
-  let fecha = prompt("Introduce la fecha del gasto");
-  let etiquetas = prompt("Introduce las etiquetas");
+     let descripcion = prompt("Introduce la descripcion al gasto");
+      let valor = +prompt("Introduce un valor al gasto");
+      let fecha = prompt("Introduce la fecha del gasto");
+      let etiquetas = prompt("Introduce las etiquetas");
+
   etiquetas = etiquetas.split(",")
 
   let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas)
@@ -122,6 +124,25 @@ function nuevoGastoWeb ()
   repintar();
 }
 
+function EditarHandle(){
+  this.gasto = gasto;
+
+  EditarHandle.prototype.handleEvent = function(evento){
+      let descripcion = prompt("Introduce la descripcion al gasto", this.gasto.descripcion);
+      let valor = +prompt("Introduce un valor al gasto", this.gasto.valor);
+      let fecha = prompt("Introduce la fecha del gasto", this.gasto.fecha);
+      let etiquetas = prompt("Introduce las etiquetas", this.gasto.etiquetas);
+     
+  }
+  etiquetas = etiquetas.split(",");
+
+  this.gasto.actualizarDescripcion(descripcion);
+  this.gasto.actualizarValor(valor);
+  this.gasto.actualizarFecha(fecha);
+  this.gasto.actualizarValor(etiquetas);
+
+  repintar();
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
