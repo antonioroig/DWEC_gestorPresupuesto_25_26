@@ -49,6 +49,17 @@ function mostrarGastoWeb(idElemento , gasto){
     }
     divGasto.appendChild(divEtiquetas);
     elemento.appendChild(divGasto);
+
+    let botonEditar = document.createElement("button");
+    botonEditar.type = "button";
+    botonEditar.classList.add("gasto-editar");
+    botonEditar.textContent = "Editar";
+
+    let editarHandler = new EditarHandle();
+    editarHandler.gasto = gasto; 
+    botonEditar.addEventListener("click", editarHandler);
+
+    divGasto.appendChild(botonEditar);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -153,6 +164,32 @@ function nuevoGastoWeb() {
 let botonAnyadir = document.getElementById("anyadirgasto");
 botonAnyadir.addEventListener("click", nuevoGastoWeb);
 
+
+function EditarHandle(){
+
+    this.handleEvent = function(evento) {
+        // Descripción
+        let descripcion = prompt("Introduce la descripción del gasto:", this.gasto.descripcion);
+        this.gasto.actualizarDescripcion(descripcion);
+
+        // Valor
+        let valor = +prompt("Introduce el valor del gasto:", this.gasto.valor);
+        this.gasto.actualizarValor(valor);
+
+        // Fecha
+        let fecha = prompt("Introduce la fecha del gasto (Formato yyyy-mm-dd):", this.gasto.obtenerPeriodoAgrupacion("dia"));
+        this.gasto.actualizarFecha(fecha);
+
+        // Etiquetas
+        let etiqueta = prompt("Introduce las etiquetas:", this.gasto.etiquetas.join(","));
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas.join(","));
+        etiqueta = etiqueta.split(",");
+        this.gasto.anyadirEtiquetas(...etiqueta);
+
+        // Repintar siempre al final
+        repintar();
+    }
+}
 
 export{
     mostrarDatoEnId,
