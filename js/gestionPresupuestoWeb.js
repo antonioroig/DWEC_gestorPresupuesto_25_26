@@ -7,64 +7,73 @@ function mostrarDatoEnId(idElemento, valor) {
     document.getElementById(idElemento).innerHTML = valor
 }
 function mostrarGastoWeb(idElemento, listaGastos) {
-    const contenedor = document.getElementById(idElemento);
+    const contenedor = document.getElementById(idElemento)
     contenedor.innerHTML = ""
     if (idElemento.includes("filtrado")) {
-        const h1 = document.createElement("h1");
-        h1.textContent = `Filtrado Numero ${++numeroFiltro}`;
-        contenedor.appendChild(h1);
+        const h1 = document.createElement("h1")
+        h1.textContent = `Filtrado Numero ${++numeroFiltro}`
+        contenedor.appendChild(h1)
     }
     listaGastos.forEach(gasto => {
-        const divGasto = document.createElement("div");
-        divGasto.classList.add("gasto");
+        const divGasto = document.createElement("div")
+        divGasto.classList.add("gasto")
 
         const gastoFiltrado = Object.fromEntries(
             Object.entries(gasto).filter(([k, v]) => typeof v !== "function")
-        );
+        )
 
         for (let key in gastoFiltrado) {
             if (key === "etiquetas") {
-                const divEtiquetas = document.createElement("div");
-                divEtiquetas.classList.add(`gasto-${key}`);
-                divEtiquetas.textContent = `${key}:`;
-                divGasto.appendChild(divEtiquetas);
+                const divEtiquetas = document.createElement("div")
+                divEtiquetas.classList.add(`gasto-${key}`)
+                divEtiquetas.textContent = `${key}:`
+                divGasto.appendChild(divEtiquetas)
 
                 gastoFiltrado[key].forEach(etiqueta => {
-                    const span = document.createElement("span");
-                    span.classList.add("gasto-etiquetas-etiqueta");
-                    span.textContent = etiqueta;
-                    divEtiquetas.appendChild(span);
-                    divEtiquetas.appendChild(document.createElement("br"));
-                });
+                    const span = document.createElement("span")
+                    span.classList.add("gasto-etiquetas-etiqueta")
+                    span.textContent = etiqueta
+                    divEtiquetas.appendChild(span)
+                    divEtiquetas.appendChild(document.createElement("br"))
+                })
             } else if (key !== "fecha") {
-                const divProp = document.createElement("div");
-                divProp.classList.add(`gasto-${key}`);
-                divProp.textContent = `${gastoFiltrado[key]}`;
-                divGasto.appendChild(divProp);
+                const divProp = document.createElement("div")
+                divProp.classList.add(`gasto-${key}`)
+                divProp.textContent = `${gastoFiltrado[key]}`
+                divGasto.appendChild(divProp)
             } else {
-                const divFecha = document.createElement("div");
-                divFecha.classList.add(`gasto-${key}`);
-                divFecha.textContent = `${key}: ${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`;
-                divGasto.appendChild(divFecha);
+                const divFecha = document.createElement("div")
+                divFecha.classList.add(`gasto-${key}`)
+                divFecha.textContent = `${key}: ${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`
+                divGasto.appendChild(divFecha)
             }
         }
         if (!idElemento.includes("filtrado")) {
-            const botonEditar = document.createElement("button");
-            botonEditar.type = "button";
-            botonEditar.classList.add("gasto-editar");
-            botonEditar.textContent = "Editar";
-            const manejador = new EditarHandle();
-            manejador.gasto = gasto;
-            botonEditar.addEventListener("click", manejador);
-            divGasto.appendChild(botonEditar);
+            const botonEditar = document.createElement("button")
+            botonEditar.type = "button"
+            botonEditar.classList.add("gasto-editar")
+            botonEditar.textContent = "Editar"
+            const manejadorEditar = new EditarHandle()
+            manejadorEditar.gasto = gasto
+            botonEditar.addEventListener("click", manejadorEditar)
+            divGasto.appendChild(botonEditar)
+
+            const botonBorrar = document.createElement("button")
+            botonBorrar.type = "button"
+            botonBorrar.classList.add("gasto-borrar")
+            botonBorrar.textContent = "Borrar"
+            const manejadorBorrar = new BorrarHandle()
+            manejadorBorrar.gasto = gasto
+            botonBorrar.addEventListener("click", manejadorBorrar)
+            divGasto.appendChild(botonBorrar)
         }
 
-        contenedor.appendChild(divGasto);
-    });
+        contenedor.appendChild(divGasto)
+    })
 
-    contenedor.appendChild(document.createElement("br"));
-    contenedor.appendChild(document.createElement("br"));
-    contenedor.appendChild(document.createElement("br"));
+    contenedor.appendChild(document.createElement("br"))
+    contenedor.appendChild(document.createElement("br"))
+    contenedor.appendChild(document.createElement("br"))
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     const contenedor = document.getElementById(idElemento)
@@ -147,6 +156,12 @@ function EditarHandle() {
         if (etiquetas != "") {
             this.gasto.anyadirEtiquetas(arrayEtiquetas)
         }
+        repintar()
+    }
+}
+function BorrarHandle(){
+    this.handleEvent = function(){
+        presupuesto.borrarGasto(this.gasto.id)
         repintar()
     }
 }
