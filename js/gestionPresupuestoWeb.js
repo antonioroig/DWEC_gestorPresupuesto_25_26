@@ -78,18 +78,17 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
 }
 
 export function repintar() {
+  const presupuestoActual = global.mostrarPresupuesto();
   mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
 
-  const totalGastos = gp.calcularTotalGastos().toFixed(2) + " €";
+  const totalGastos = gp.calcularTotalGastos();
   mostrarDatoEnId("gastos-totales", totalGastos);
 
-  const balance = gp.calcularBalance().toFixed(2) + " €";
-  mostrarDatoEnId("balance-total", balance);
+  const balanceActual = gp.calcularBalance();
+  mostrarDatoEnId("balance-total", balanceActual);
   
   const contenedorListado = document.getElementsById("listado-gastos-completo");
-  if(!contenedorListado) {
-    return;
-  }
+  if(!contenedorListado) return;
   contenedorListado.innerHTML = "";
 
   const gastos = gp.listarGastos();
@@ -98,4 +97,20 @@ export function repintar() {
   });  
   
 }
+
+export function actualizarPrepuestoWeb() {
+
+  const nuevoPresupuesto = prompt('Introduce el nuevo presupuesto');
+  const presupuesto = Number(nuevoPresupuesto)
+
+  gp.actualizarPresupuesto(presupuesto);
+  repintar();
+}
+// manejador del boton 
+const botonPresupuesto = document.getElementById("actualizarpresupuesto");
+if (botonPresupuesto){
+  botonPresupuesto.addEventListener("click", actualizarPrepuestoWeb);
+
+}
+
 
