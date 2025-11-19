@@ -45,9 +45,26 @@ export function mostrarGastoWeb(idElemento, gasto) {
     const span = document.createElement("span");
     span.className = "gasto-etiquetas-etiqueta";
     span.textContent = String(tag);
+    const handleEtiqueta = new BorrarEtiquetasHandle();
+    handleEtiqueta.gasto = gasto;
+    handleEtiqueta.etiqueta = tag;
+
+    span.addEventListener("click", handleEtiqueta);
+
     etq.appendChild(span);
   });
   wrap.appendChild(etq);
+
+  const btnBorrar = document.createElement("button");
+  btnBorrar.type = "button";
+  btnBorrar.className = "gasto-borrar";
+  btnBorrar.textContent = "Borrar";
+
+  const handleBorrar = new BorrarHandle();
+  handleBorrar.gasto = gasto;
+
+  btnBorrar.addEventListener("click", handleBorrar);
+  wrap.appendChild(btnBorrar);
 
   cont.appendChild(wrap);
 }
@@ -112,7 +129,7 @@ export function repintar() {
   if (!contenedorListado) return;
   contenedorListado.innerHTML = "";
 
- gp.listarGastos().forEach(gasto => {
+  gp.listarGastos().forEach(gasto => {
     mostrarGastoWeb("listado-gastos-completo", gasto);
   });
 
@@ -138,7 +155,7 @@ export function nuevoGastoWeb() {
   let etiquetas = [];
   if (etiquetasStr && etiquetasStr.trim() !== "") {
     etiquetas = etiquetasStr.split(",")
-    .map(e => e.trim());
+      .map(e => e.trim());
   }
 
   const nuevo = new gp.CrearGasto(desc, valorNum, fechaStr, ...etiquetas);
@@ -146,7 +163,7 @@ export function nuevoGastoWeb() {
   repintar();
 }
 
-export function EditarHandle() {}
+export function EditarHandle() { }
 
 EditarHandle.prototype.handleEvent = function () {
   if (!this.gasto) return;
@@ -202,7 +219,7 @@ EditarHandle.prototype.handleEvent = function () {
   repintar();
 };
 
-export function BorrarHandle() {}
+export function BorrarHandle() { }
 
 BorrarHandle.prototype.handleEvent = function () {
   if (!this.gasto) return;
@@ -211,8 +228,16 @@ BorrarHandle.prototype.handleEvent = function () {
   repintar();
 };
 
+export function BorrarEtiquetasHandle() { }
 
-//boton act presupuest
+BorrarEtiquetasHandle.prototype.handleEvent = function () {
+  if (!this.gasto || !this.etiqueta) return;
+
+  this.gasto.borrarEtiquetas(this.etiqueta);
+  repintar();
+};
+
+
 const botonPresupuesto = document.getElementById("actualizarpresupuesto");
 if (botonPresupuesto) {
   botonPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
