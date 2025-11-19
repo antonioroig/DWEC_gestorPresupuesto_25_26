@@ -43,10 +43,10 @@ gp.filtrarGastos({
 );
 
 gp.filtrarGastos({
-  valorMaximo: 50,
-  etiquetasTiene: ["comida", "transporte"]
+    valorMaximo: 50,
+    etiquetasTiene: ["comida", "transporte"]
 }).forEach(g =>
-  web.mostrarGastoWeb("listado-gastos-filtrado-4", g)
+    web.mostrarGastoWeb("listado-gastos-filtrado-4", g)
 );
 
 web.mostrarGastosAgrupadosWeb("agrupacion-dia", gp.agruparGastos("dia"), "dia");

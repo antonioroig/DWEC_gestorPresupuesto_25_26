@@ -66,6 +66,16 @@ export function mostrarGastoWeb(idElemento, gasto) {
   btnBorrar.addEventListener("click", handleBorrar);
   wrap.appendChild(btnBorrar);
 
+  const btnEditar = document.createElement("button");
+  btnEditar.type = "button";
+  btnEditar.className = "gasto-editar";
+  btnEditar.textContent = "Editar";
+
+  const handleEditar = new EditarHandle();
+  handleEditar.gasto = gasto;
+
+  btnEditar.addEventListener("click", handleEditar);
+  wrap.appendChild(btnEditar);
   cont.appendChild(wrap);
 }
 
@@ -92,6 +102,7 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
     sClave.className = "agrupacion-dato-clave";
     sClave.textContent = String(clave);
     fila.appendChild(sClave);
+    fila.appendChild(document.createTextNode(" "));
 
     const sValor = document.createElement("span");
     sValor.className = "agrupacion-dato-valor";
