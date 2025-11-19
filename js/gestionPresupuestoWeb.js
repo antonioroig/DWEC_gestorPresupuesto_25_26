@@ -43,6 +43,16 @@ function mostrarGastoWeb(idElemento, gasto) {
 
   divGasto.appendChild(divEtiquetas);
   elemento.appendChild(divGasto);
+
+  let btnEditar = document.createElement("button");
+  btnEditar.textContent = "Editar";
+  btnEditar.classList.add ("gasto-editar");
+
+  let manejadorEditar = new EditarHandle();
+  manejadorEditar.gasto = gasto;
+
+  btnEditar.addEventListener("click", manejadorEditar)
+  divGasto.appendChild(btnEditar)
   
 }
 
@@ -124,8 +134,7 @@ function nuevoGastoWeb ()
   repintar();
 }
 
-function EditarHandle(){
-  this.gasto = gasto;
+function EditarHandle(){}
 
   EditarHandle.prototype.handleEvent = function(evento){
       let descripcion = prompt("Introduce la descripcion al gasto", this.gasto.descripcion);
@@ -133,7 +142,7 @@ function EditarHandle(){
       let fecha = prompt("Introduce la fecha del gasto", this.gasto.fecha);
       let etiquetas = prompt("Introduce las etiquetas", this.gasto.etiquetas);
      
-  }
+  
   etiquetas = etiquetas.split(",");
 
   this.gasto.actualizarDescripcion(descripcion);
