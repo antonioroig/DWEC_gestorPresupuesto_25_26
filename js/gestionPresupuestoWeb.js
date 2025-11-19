@@ -40,6 +40,12 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
             etiquetaSpan.textContent = etiqueta;
             etiquetas.appendChild(etiquetaSpan);
 
+            let manejadorBorrarEtiquetas = new BorrarEtiquetasHandle();
+            manejadorBorrarEtiquetas.gasto = datosGasto;
+            manejadorBorrarEtiquetas.etiqueta = etiqueta;
+
+            etiquetaSpan.addEventListener("click", manejadorBorrarEtiquetas);
+
        
         }
     }
@@ -178,6 +184,13 @@ BorrarHandle.prototype.handleEvent = function(){
   gp.borrarGasto(this.gasto.id)
   repintar();
 }
+
+function BorrarEtiquetasHandle(){}
+  BorrarEtiquetasHandle.prototype.handleEvent = function(){
+    this.gasto.borrarEtiquetas(this.etiqueta)
+    repintar();
+  }
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
