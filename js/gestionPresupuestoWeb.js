@@ -1,4 +1,4 @@
-import * as gp from './gestionPresupuesto';
+import * as gp from './gestionPresupuesto.js';
 
 
 export function mostrarDatoEnId(idElemento, valor) {
@@ -21,18 +21,25 @@ export function mostrarGastoWeb(idElemento, gasto) {
 
   const fechaDiv = document.createElement("div");
   fechaDiv.className = "gasto-fecha";
-  const ts = typeof gasto.fecha === "number" ? gasto.fecha : Date.parse(gasto.fecha);
-  fechaDiv.textContent = isNaN(ts) ? "" : new Date(ts).toLocaleDateString();
+  const ts = typeof gasto.fecha === "number"
+    ? gasto.fecha
+    : Date.parse(gasto.fecha);
+  fechaDiv.textContent = isNaN(ts)
+    ? ""
+    : new Date(ts).toLocaleDateString();
   wrap.appendChild(fechaDiv);
 
   const valorDiv = document.createElement("div");
   valorDiv.className = "gasto-valor";
-  const num = typeof gasto.valor === "number" ? gasto.valor : Number(gasto.valor) || 0;
-  valorDiv.textContent = `${num.toFixed(2)} €`;
+  const num = typeof gasto.valor === "number"
+    ? gasto.valor
+    : Number(gasto.valor) || 0;
+  valorDiv.textContent = num.toFixed(2);
   wrap.appendChild(valorDiv);
 
   const etq = document.createElement("div");
   etq.className = "gasto-etiquetas";
+
   (Array.isArray(gasto.etiquetas) ? gasto.etiquetas : []).forEach((tag, i) => {
     if (i > 0) etq.appendChild(document.createTextNode(" "));
     const span = document.createElement("span");
@@ -44,10 +51,13 @@ export function mostrarGastoWeb(idElemento, gasto) {
 
   cont.appendChild(wrap);
 }
- 
+
+
 export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
   const cont = document.getElementById(idElemento);
   if (!cont || !agrup || typeof agrup !== "object") return;
+
+  cont.innerHTML = "";
 
   const wrap = document.createElement("div");
   wrap.className = "agrupacion";
@@ -65,52 +75,70 @@ export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
     sClave.className = "agrupacion-dato-clave";
     sClave.textContent = String(clave);
     fila.appendChild(sClave);
-    fila.appendChild(document.createTextNode(" "));
+
     const sValor = document.createElement("span");
     sValor.className = "agrupacion-dato-valor";
-    sValor.textContent = String(valor);
-    fila.appendChild(sValor);
+    const num = typeof valor === "number" ? valor : Number(valor) || 0;
+    sValor.textContent = num.toFixed(2);
 
+    fila.appendChild(sValor);
     wrap.appendChild(fila);
   });
 
   cont.appendChild(wrap);
 }
 
+function ponerTituloAntesDe(idElemento, texto) {
+  const div = document.getElementById(idElemento);
+  if (!div) return;
+
+  const titulo = document.createElement("h2");
+  titulo.textContent = texto;
+
+  div.parentNode.insertBefore(titulo, div);
+}
+
 export function repintar() {
-  const presupuestoActual = global.mostrarPresupuesto();
-  mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto());
+  const presupuestoActual = gp.mostrarPresupuesto();
+  mostrarDatoEnId("presupuesto", presupuestoActual);
 
   const totalGastos = gp.calcularTotalGastos();
   mostrarDatoEnId("gastos-totales", totalGastos);
 
   const balanceActual = gp.calcularBalance();
   mostrarDatoEnId("balance-total", balanceActual);
-  
-  const contenedorListado = document.getElementsById("listado-gastos-completo");
-  if(!contenedorListado) return;
+
+  const contenedorListado = document.getElementById("listado-gastos-completo");
+  if (!contenedorListado) return;
   contenedorListado.innerHTML = "";
 
   const gastos = gp.listarGastos();
   gastos.forEach((gasto) => {
     mostrarGastoWeb("listado-gastos-completo", gasto);
-  });  
-  
+  });
+
 }
 
-export function actualizarPrepuestoWeb() {
+
+export function actualizarPresupuestoWeb() {
 
   const nuevoPresupuesto = prompt('Introduce el nuevo presupuesto');
   const presupuesto = Number(nuevoPresupuesto)
-
   gp.actualizarPresupuesto(presupuesto);
   repintar();
 }
-// manejador del boton 
+//boton act presupuest
 const botonPresupuesto = document.getElementById("actualizarpresupuesto");
-if (botonPresupuesto){
-  botonPresupuesto.addEventListener("click", actualizarPrepuestoWeb);
-
+if (botonPresupuesto) {
+  botonPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 }
+
+//botonAnyadir.addEventListener("click", nuevoGastoWeb)
+
+
+ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
+ponerTituloAntesDe("listado-gastos-filtrado-2", "Gastos filtrados 2");
+ponerTituloAntesDe("listado-gastos-filtrado-3", "Gastos filtrados 3");
+ponerTituloAntesDe("listado-gastos-filtrado-4", "Gastos filtrados 4");
 
 
