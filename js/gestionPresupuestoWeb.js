@@ -5,30 +5,59 @@ function mostrarDatoEnId(idElemento, valor) {
 }
 
 function mostrarGastoWeb(idElemento, gasto) {
-    let elem = document.getElementById(idElemento)
+    let elem = document.getElementById(idElemento);
 
     if (elem) {
-        let etiquetasHTML = "";
+        let divGasto = document.createElement("div");
+        divGasto.className = "gasto";
+
+        let divDescripcion = document.createElement("div");
+        divDescripcion.className = "gasto-descripcion";
+        divDescripcion.textContent = gasto.descripcion;
+        divGasto.appendChild(divDescripcion);
+
+        let divFecha = document.createElement("div");
+        divFecha.className = "gasto-fecha";
+        divFecha.textContent = gasto.fecha;
+        divGasto.appendChild(divFecha);
+
+        let divValor = document.createElement("div");
+        divValor.className = "gasto-valor";
+        divValor.textContent = gasto.valor;
+        divGasto.appendChild(divValor);
+
+        let divEtiquetas = document.createElement("div");
+        divEtiquetas.className = "gasto-etiquetas";
+
         if (Array.isArray(gasto.etiquetas)) {
             for (let i = 0; i < gasto.etiquetas.length; i++) {
-                etiquetasHTML += `<span class="gasto-etiquetas-etiqueta">${gasto.etiquetas[i]}</span><br>`;
+                let span = document.createElement("span");
+                span.className = "gasto-etiquetas-etiqueta";
+                span.textContent = gasto.etiquetas[i];
+                divEtiquetas.appendChild(span);
+                divEtiquetas.innerHTML += "<br>";
             }
         }
-        let gastoHTML =
-            `<div class="gasto">
-      <div class="gasto-descripcion">${gasto.descripcion}</div>
-      <div class="gasto-fecha">${gasto.fecha}</div>
-      <div class="gasto-valor">${gasto.valor}</div>
-      <div class="gasto-etiquetas">
-        ${etiquetasHTML}
-      </div>
-      <button class="gasto-editar" type="button">Editar</button>
-      <button class="gasto-borrar" type="button">Borrar</button>
-    </div><br>`;
-    
-        elem.innerHTML += gastoHTML;
-    }
-    else {
+
+        divGasto.appendChild(divEtiquetas);
+
+        let btnEditar = document.createElement("button");
+        btnEditar.className = "gasto-editar";
+        btnEditar.type = "button";
+        btnEditar.textContent = "Editar";
+        divGasto.appendChild(btnEditar);
+
+        let btnBorrar = document.createElement("button");
+        btnBorrar.className = "gasto-borrar";
+        btnBorrar.type = "button";
+        btnBorrar.textContent = "Borrar";
+        divGasto.appendChild(btnBorrar);
+
+        elem.appendChild(divGasto);
+
+        elem.innerHTML += "<br>";
+
+    } else {
         alert(`El elemento ${idElemento} no existe`);
     }
 }
