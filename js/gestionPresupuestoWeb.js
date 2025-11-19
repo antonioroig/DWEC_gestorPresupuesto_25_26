@@ -41,16 +41,21 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     if (Array.isArray(gasto.etiquetas)) {
     gasto.etiquetas.forEach(etiqueta => {
+
         let spanEtiqueta = document.createElement("span");
         spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
         spanEtiqueta.textContent = etiqueta;
 
-        
-        spanEtiqueta.addEventListener("click", new BorrarEtiquetasHandle(gasto, etiqueta));
+        let manejadorEtiqueta = new BorrarEtiquetasHandle();
+        manejadorEtiqueta.gasto = gasto;
+        manejadorEtiqueta.etiqueta = etiqueta;
+
+        spanEtiqueta.addEventListener("click", manejadorEtiqueta);
 
         divEtiquetas.appendChild(spanEtiqueta);
     });
 }
+
 
 
 
@@ -63,8 +68,8 @@ function mostrarGastoWeb(idElemento, gasto) {
     botonEditar.textContent = "Editar";
     botonEditar.classList.add("gasto-editar");
 
-    let manejador = new EditarHandle(gasto);
-
+    let manejador = new EditarHandle();
+    manejador.gasto = gasto;
     botonEditar.addEventListener("click", manejador);
 
     divGasto.appendChild(botonEditar);
@@ -74,8 +79,8 @@ function mostrarGastoWeb(idElemento, gasto) {
     botonBorrar.textContent = "Borrar";
     botonBorrar.classList.add("gasto-borrar");
     
-    let manejadorBorrar = new BorrarHandle(gasto);
-
+    let manejadorBorrar = new BorrarHandle();
+    manejadorBorrar.gasto = gasto;
     botonBorrar.addEventListener("click", manejadorBorrar);
     divGasto.appendChild(botonBorrar);
 
@@ -162,8 +167,7 @@ function repintar(){
 
     //funcion creadora de objeto manejador de evento
 
-    function EditarHandle(gasto){
-    this.gasto = gasto;
+    function EditarHandle(){
 
     this.handleEvent = function(evento){
 
@@ -175,7 +179,7 @@ function repintar(){
 
         // --- VALOR ---
         let nuevoValor = prompt("Nuevo valor", this.gasto.valor);
-        if (nuevoValor !== "") {
+        if (nuevoValor !== "" && nuevoValor !== null) {
             this.gasto.actualizarValor(Number(nuevoValor));
         }
 
@@ -203,18 +207,15 @@ function repintar(){
     }
 }
 
-function BorrarHandle(gasto){
-    this.gasto = gasto;
+function BorrarHandle(){
 
     this.handleEvent = function(evento){
         gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
-}
+}   
 
-function BorrarEtiquetasHandle(gasto, etiqueta) {
-    this.gasto = gasto;
-    this.etiqueta = etiqueta;
+function BorrarEtiquetasHandle() {
 
     this.handleEvent = function(evento) {
         this.gasto.borrarEtiquetas(this.etiqueta);
