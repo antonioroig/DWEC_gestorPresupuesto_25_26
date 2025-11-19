@@ -18,7 +18,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
         let divFecha = document.createElement("div");
         divFecha.className = "gasto-fecha";
-        divFecha.textContent = gasto.fecha;
+        divFecha.textContent = new Date(gasto.fecha).toISOString().slice(0,10);
         divGasto.appendChild(divFecha);
 
         let divValor = document.createElement("div");
@@ -34,8 +34,12 @@ function mostrarGastoWeb(idElemento, gasto) {
                 let span = document.createElement("span");
                 span.className = "gasto-etiquetas-etiqueta";
                 span.textContent = gasto.etiquetas[i];
-                divEtiquetas.appendChild(span);
+                let borrarEtiquetas = new BorrarEtiquetasHandle();
+                borrarEtiquetas.gasto = gasto;
+                borrarEtiquetas.etiqueta = gasto.etiquetas[i];
+                span.addEventListener("click", borrarEtiquetas);
 
+                divEtiquetas.appendChild(span);
                 let br = document.createElement("br");
                 divEtiquetas.appendChild(br);
             }
@@ -182,8 +186,5 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb,
-    EditarHandle,
-    BorrarHandle,
-    BorrarEtiquetasHandle
+    nuevoGastoWeb
 }
