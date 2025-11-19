@@ -145,6 +145,63 @@ export function nuevoGastoWeb() {
   gp.anyadirGasto(nuevo);
   repintar();
 }
+
+export function EditarHandle() {}
+
+EditarHandle.prototype.handleEvent = function () {
+  if (!this.gasto) return;
+
+  const nuevaDescripcion = prompt(
+    "Nueva descripción:",
+    this.gasto.descripcion
+  );
+
+
+  const nuevoValorStr = prompt(
+    "Nuevo valor:",
+    String(this.gasto.valor)
+  );
+
+  let fechaActualISO;
+  if (typeof this.gasto.fecha === "number") {
+    fechaActualISO = new Date(this.gasto.fecha).toISOString().slice(0, 10);
+  } else {
+    fechaActualISO = this.gasto.fecha;
+  }
+  const nuevaFechaStr = prompt(
+    "Nueva fecha (yyyy-mm-dd):",
+    fechaActualISO
+  );
+
+  const etiquetasActuales = Array.isArray(this.gasto.etiquetas)
+    ? this.gasto.etiquetas.join(",")
+    : "";
+  const nuevasEtiquetasStr = prompt(
+    "Nuevas etiquetas separadas por comas (eti1,eti2,eti3):",
+    etiquetasActuales
+  );
+
+
+  const nuevoValor = Number(nuevoValorStr);
+
+  let nuevasEtiquetas = [];
+  if (nuevasEtiquetasStr && nuevasEtiquetasStr.trim() !== "") {
+    nuevasEtiquetas = nuevasEtiquetasStr
+      .split(",")
+      .map(e => e.trim())
+      .filter(e => e !== "");
+  }
+
+  this.gasto.actualizarDescripcion(nuevaDescripcion);
+  this.gasto.actualizarValor(nuevoValor);
+  this.gasto.actualizarFecha(nuevaFechaStr);
+
+  this.gasto.borrarEtiquetas(...(this.gasto.etiquetas || []));
+  this.gasto.anyadirEtiquetas(...nuevasEtiquetas);
+
+  repintar();
+};
+
 //boton act presupuest
 const botonPresupuesto = document.getElementById("actualizarpresupuesto");
 if (botonPresupuesto) {
