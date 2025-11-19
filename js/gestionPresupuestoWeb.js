@@ -60,6 +60,19 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
 
 
 
+    let botonBorrar = document.createElement("button");
+    botonBorrar.textContent = "Borrar";
+
+    botonBorrar.classList.add("gasto-borrar");
+
+    let manejadorBorrar = new BorrarHandle();
+    manejadorBorrar.gasto = datosGasto;
+
+    botonBorrar.addEventListener("click", manejadorBorrar);
+
+    bloqueGasto.appendChild(botonBorrar);
+
+
    
 }
 
@@ -158,6 +171,11 @@ function EditarHandle(){}
   this.gasto.actualizarFecha(fecha);
   this.gasto.anyadirEtiquetas(etiquetas);
 
+  repintar();
+}
+function BorrarHandle(){}
+BorrarHandle.prototype.handleEvent = function(){
+  gp.borrarGasto(this.gasto.id)
   repintar();
 }
 export {
