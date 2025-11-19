@@ -35,7 +35,7 @@ for (let i = 0; i < gastos.length; i++) {
   }
 
   gW.mostrarGastoWeb("listado-gastos-completo", gasto);
-}
+} 
 
 document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
 
