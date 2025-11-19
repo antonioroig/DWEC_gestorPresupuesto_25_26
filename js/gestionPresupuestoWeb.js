@@ -56,6 +56,9 @@ function mostrarGastoWeb(idElemento, gasto) {
         btnBorrar.className = "gasto-borrar";
         btnBorrar.type = "button";
         btnBorrar.textContent = "Borrar";
+        let borrarHandle = new BorrarHandle();
+        borrarHandle.gasto = gasto;
+        btnBorrar.addEventListener("click", borrarHandle);
         divGasto.appendChild(btnBorrar);
 
         elem.appendChild(divGasto);
@@ -149,7 +152,7 @@ function EditarHandle() {
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha (fecha);
 
-        let etiquetasCopia = [...this.gasto.etiquetas]; //Preguntar Antonio
+        let etiquetasCopia = [...this.gasto.etiquetas];
 
         for (let etiqueta of etiquetasCopia) {
             this.gasto.borrarEtiquetas(etiqueta);
@@ -161,7 +164,7 @@ function EditarHandle() {
 
 function BorrarHandle(){
     this.handleEvent = function(){
-        this.gasto.borrarGasto(this.gasto.id)
+        gp.borrarGasto(this.gasto.id)
         repintar();
     }
 }
