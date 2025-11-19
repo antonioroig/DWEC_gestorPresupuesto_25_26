@@ -37,6 +37,15 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
             etiquetaSpan.classList.add('gasto-etiquetas-etiqueta');
             etiquetaSpan.textContent = etiqueta;
             etiquetas.appendChild(etiquetaSpan);
+
+        
+        //Borrar Etiquetas
+        let manejadorBorrarEtiqueta = new BorrarEtiquetasHandle();
+        manejadorBorrarEtiqueta.gasto = datosGasto; 
+        manejadorBorrarEtiqueta.etiqueta = etiqueta; 
+
+        
+        etiquetaSpan.addEventListener("click", manejadorBorrarEtiqueta);
         }
     }
 
@@ -68,7 +77,13 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
     botonBorrar.addEventListener("click", manejadorBorrar);
 
     bloqueGasto.appendChild(botonBorrar);
+
+    /*Borrar Etiquetas*/
+
+    
 }
+
+
 
 
 
@@ -203,9 +218,18 @@ function BorrarHandle(){}
  }
 
 
-function borrarEtiquetasHandle(){
+function BorrarEtiquetasHandle(){
 
 }
+
+BorrarEtiquetasHandle.prototype.handleEvent = function(evento){
+
+this.gasto.borrarEtiquetas(this.etiqueta)
+
+repintar();
+
+}
+
 
 export{
     mostrarDatoEnId,
@@ -215,8 +239,8 @@ export{
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
-    //  BorrarHandle,
-    borrarEtiquetasHandle
+    BorrarHandle,
+    BorrarEtiquetasHandle
 }
 
 import * as gP from './gestionPresupuesto.js';
