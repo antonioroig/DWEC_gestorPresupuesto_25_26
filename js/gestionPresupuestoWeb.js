@@ -39,14 +39,19 @@ function mostrarGastoWeb(idElemento , gasto){
 
     let divEtiquetas = document.createElement("div");
     divEtiquetas.classList.add("gasto-etiquetas");
+
     if (Array.isArray(gasto.etiquetas)) {
-    for (let i = 0; i < gasto.etiquetas.length; i++) {
-        let spanEtiqueta = document.createElement("span");
-        spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
-        spanEtiqueta.textContent = gasto.etiquetas[i];
-        divEtiquetas.appendChild(spanEtiqueta);
-        }
+
+        gasto.etiquetas.forEach(etiqueta => {
+            let spanEtiqueta = document.createElement("span");
+            spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
+            spanEtiqueta.textContent = etiqueta;
+
+            spanEtiqueta.addEventListener("click", new BorrarEtiquetasHandle(gasto, etiqueta));
+            divEtiquetas.appendChild(spanEtiqueta);
+        });
     }
+
     divGasto.appendChild(divEtiquetas);
     elemento.appendChild(divGasto);
 
