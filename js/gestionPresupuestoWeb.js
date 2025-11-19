@@ -202,6 +202,16 @@ EditarHandle.prototype.handleEvent = function () {
   repintar();
 };
 
+export function BorrarHandle() {}
+
+BorrarHandle.prototype.handleEvent = function () {
+  if (!this.gasto) return;
+
+  gp.borrarGasto(this.gasto.id);
+  repintar();
+};
+
+
 //boton act presupuest
 const botonPresupuesto = document.getElementById("actualizarpresupuesto");
 if (botonPresupuesto) {
