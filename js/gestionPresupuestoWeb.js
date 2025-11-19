@@ -112,8 +112,7 @@ export function repintar() {
   if (!contenedorListado) return;
   contenedorListado.innerHTML = "";
 
-  const gastos = gp.listarGastos();
-  gastos.forEach((gasto) => {
+ gp.listarGastos().forEach(gasto => {
     mostrarGastoWeb("listado-gastos-completo", gasto);
   });
 
@@ -127,13 +126,36 @@ export function actualizarPresupuestoWeb() {
   gp.actualizarPresupuesto(presupuesto);
   repintar();
 }
+
+export function nuevoGastoWeb() {
+  const desc = prompt("Descripción del gasto:");
+  const valorStr = prompt("Valor del gasto:");
+  const fechaStr = prompt("Fecha (yyyy-mm-dd):");
+  const etiquetasStr = prompt("Etiquetas separadas por comas (eti1,eti2,eti3):");
+
+  const valorNum = Number(valorStr);
+
+  let etiquetas = [];
+  if (etiquetasStr && etiquetasStr.trim() !== "") {
+    etiquetas = etiquetasStr.split(",")
+    .map(e => e.trim());
+  }
+
+  const nuevo = new gp.CrearGasto(desc, valorNum, fechaStr, ...etiquetas);
+  gp.anyadirGasto(nuevo);
+  repintar();
+}
 //boton act presupuest
 const botonPresupuesto = document.getElementById("actualizarpresupuesto");
 if (botonPresupuesto) {
   botonPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 }
 
-//botonAnyadir.addEventListener("click", nuevoGastoWeb)
+const botonAnyadir = document.getElementById("anyadirgasto");
+if (botonAnyadir) {
+
+  botonAnyadir.addEventListener("click", nuevoGastoWeb);
+}
 
 
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
