@@ -7,53 +7,60 @@ function mostrarDatoEnId(idElemento, valor) {
   }
 }
 
-function mostrarGastoWeb(idElemento, gasto) {
-  const elemento = document.getElementById(idElemento);
-  if (!elemento) return;
+function mostrarGastoWeb(idContenedor, datosGasto) {
+    let contenedor = document.getElementById(idContenedor);
 
-  const divGasto = document.createElement("div");
-  divGasto.classList.add("gasto");
+    let bloqueGasto = document.createElement('div');
+    bloqueGasto.classList.add('gasto');
+    contenedor.appendChild(bloqueGasto);
 
-  const divDescripcion = document.createElement("div");
-  divDescripcion.classList.add("gasto-descripcion");
-  divDescripcion.textContent = gasto.descripcion;
-  divGasto.appendChild(divDescripcion);
+    let descripcion = document.createElement('div');
+    descripcion.classList.add('gasto-descripcion');
+    descripcion.textContent = datosGasto.descripcion;
+    bloqueGasto.appendChild(descripcion);
 
-  const divFecha = document.createElement("div");
-  divFecha.classList.add("gasto-fecha");
-  divFecha.textContent = new Date(gasto.fecha).toISOString().split("T")[0];
-  divGasto.appendChild(divFecha);
+    let fecha = document.createElement('div');
+    fecha.classList.add('gasto-fecha');
+    fecha.textContent = datosGasto.fecha;
+    bloqueGasto.appendChild(fecha);
 
-  const divValor = document.createElement("div");
-  divValor.classList.add("gasto-valor");
-  divValor.textContent = gasto.valor;
-  divGasto.appendChild(divValor);
+    let valor = document.createElement('div');
+    valor.classList.add('gasto-valor');
+    valor.textContent = datosGasto.valor;
+    bloqueGasto.appendChild(valor);
 
-  const divEtiquetas = document.createElement("div");
-  divEtiquetas.classList.add("gasto-etiquetas");
+    let etiquetas = document.createElement('div');
+    etiquetas.classList.add('gasto-etiquetas');
+    bloqueGasto.appendChild(etiquetas);
 
-  if (Array.isArray(gasto.etiquetas)) {
-    gasto.etiquetas.forEach(et => {
-      const spanEtiqueta = document.createElement("span");
-      spanEtiqueta.classList.add("gasto-etiquetas-etiqueta");
-      spanEtiqueta.textContent = et;
-      divEtiquetas.appendChild(spanEtiqueta);
-    });
-  }
+    if (datosGasto.etiquetas && datosGasto.etiquetas.length > 0) {
+        for (let etiqueta of datosGasto.etiquetas) {
+            let etiquetaSpan = document.createElement('span');
+            etiquetaSpan.classList.add('gasto-etiquetas-etiqueta');
+            etiquetaSpan.textContent = etiqueta;
+            etiquetas.appendChild(etiquetaSpan);
 
-  divGasto.appendChild(divEtiquetas);
-  elemento.appendChild(divGasto);
+       
+        }
+    }
 
-  let btnEditar = document.createElement("button");
-  btnEditar.textContent = "Editar";
-  btnEditar.classList.add ("gasto-editar");
 
-  let manejadorEditar = new EditarHandle();
-  manejadorEditar.gasto = gasto;
 
-  btnEditar.addEventListener("click", manejadorEditar)
-  divGasto.appendChild(btnEditar)
-  
+    let botonEditar = document.createElement("button");
+    botonEditar.textContent = "Editar";
+
+    botonEditar.classList.add("gasto-editar");
+
+    let manejadorEditar = new EditarHandle();
+    manejadorEditar.gasto = datosGasto;
+
+    botonEditar.addEventListener("click", manejadorEditar);
+
+    bloqueGasto.appendChild(botonEditar);
+
+
+
+   
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
@@ -87,24 +94,25 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
   elemento.appendChild(divAgrupacion);
 
 }
-function repintar(){
-  let presupuesto = gp.mostrarPresupuesto();
-  mostrarDatoEnId("presupuesto", presupuesto);
+function repintar() {
+    let presupuesto = gp.mostrarPresupuesto();
+    mostrarDatoEnId("presupuesto", presupuesto);
 
-  let gastoTotal = gp.calcularTotalGastos();
-  mostrarDatoEnId("gastos-totales", gastoTotal);
+    let gastoTotal = gp.calcularTotalGastos();
+    mostrarDatoEnId("gastos-totales", gastoTotal);
 
-  let balanceTotal = gp.calcularBalance();
-  mostrarDatoEnId("balance-total", balanceTotal);
+    let balanceTotal = gp.calcularBalance();
+    mostrarDatoEnId("balance-total", balanceTotal);
 
-  document.getElementById("listado-gastos-completo").innerHtml = "";
+    const contenedor = document.getElementById("listado-gastos-completo");
+    contenedor.innerHTML = "";
 
-  let gastosCompletos = gp.listarGastos();
-  for (let gasto of gastosCompletos)
-  {
-    mostrarDatoEnId("listado-gastos-completo", gasto);
-  }
+    let gastosCompletos = gp.listarGastos();
+    for (let gasto of gastosCompletos) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
 }
+
 
 let btnAcualizar = document.getElementById("actualizarpresupuesto");
 btnAcualizar.addEventListener("click", actualizarPresupuestoWeb);
@@ -148,7 +156,7 @@ function EditarHandle(){}
   this.gasto.actualizarDescripcion(descripcion);
   this.gasto.actualizarValor(valor);
   this.gasto.actualizarFecha(fecha);
-  this.gasto.actualizarValor(etiquetas);
+  this.gasto.anyadirEtiquetas(etiquetas);
 
   repintar();
 }
