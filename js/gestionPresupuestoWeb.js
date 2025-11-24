@@ -147,6 +147,10 @@ function nuevoGastoWeb(){
     repintar();
 }
 
+function nueovoGastoWebFormulario(evento){
+
+}
+
 function EditarHandle(){
 
         this.handleEvent = function(event){
@@ -192,6 +196,9 @@ let botonActualizar = document.getElementById("actualizarpresupuesto");
 botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
 let botonAnyadir = document.getElementById("anyadirgasto");
 botonAnyadir.addEventListener("click", nuevoGastoWeb);
+let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirFormulario.addEventListener("click", nueovoGastoWebFormulario);
+
     
 export{
     mostrarDatoEnId,
@@ -201,5 +208,6 @@ export{
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
-    BorrarHandle
+    BorrarHandle,
+    nueovoGastoWebFormulario
 }
