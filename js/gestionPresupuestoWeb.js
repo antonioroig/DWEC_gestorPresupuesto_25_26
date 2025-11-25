@@ -111,7 +111,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
  }
  function nuevoGastoWeb(){
+    let descripcion
+    let valor
+    let fecha
+    let etiquetas
 
+    descripcion = prompt("Introduce una descripcion")
+    valor = Number(prompt("introduce un valor"));
+    fecha = prompt("Introduce una fecha válida yyyy-mm-dd")
+    etiquetas = prompt("Introduce las etiquetas deseadas separadas por comas")
+
+    
  }
 function actualizarPresupuestoWeb(){
     
