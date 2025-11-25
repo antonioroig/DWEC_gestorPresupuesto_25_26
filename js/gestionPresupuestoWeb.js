@@ -115,8 +115,15 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
  }
 function actualizarPresupuestoWeb(){
     
+    let presupuesto = Number(prompt("introduce el presupuesto"));
+    gP.actualizarPresupuesto(presupuesto);
+
+    repintar();
 
 }
+let botonActu = document.getElementById("actualizarpresupuesto")
+botonActu.addEventListener("click",actualizarPresupuestoWeb);
+
 function EditarHandle(){
 
 }
