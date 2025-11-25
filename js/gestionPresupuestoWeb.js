@@ -147,7 +147,54 @@ function nuevoGastoWeb(){
     repintar();
 }
 
-function nueovoGastoWebFormulario(evento){
+function nueovoGastoWebFormulario(event){
+
+    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+
+    event.target.setAttribute("disabled", "");
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+
+    let botonEnviar = formulario.querySelector("button");
+    let botonCancelar = formulario.querySelector(".cancelar");
+
+    let manejadorCancelar = new CancelarHandle();
+
+    botonCancelar.addEventListener("click", manejadorCancelar);
+
+    botonEnviar.addEventListener("click", botonCrearFormulario);
+
+    botonAnyadirFormulario.removeAttribute("disabled");
+
+}
+
+function botonCrearFormulario(event){
+
+    event.preventDefault();
+
+    let descripcion = event.currentTarget.elements["descripcion"].value;
+
+    let valor = event.currentTarget.elements["valor"].value;
+
+    let fecha = event.currentTarget.elements["fecha"].value;
+
+    let etiquetas = event.currentTarget.elemens["etiquetas"].value;
+
+    let arrayEtiquetas = etiquetas.split(",");
+
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, arrayEtiquetas);
+
+    gP.anyadirGasto(gasto);
+
+    repintar();
+}
+
+function CancelarHandle(){
+
+    this.handleEvent = function(){
+
+    }
 
 }
 
