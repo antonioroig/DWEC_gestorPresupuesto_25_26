@@ -120,6 +120,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     valor = Number(prompt("introduce un valor"));
     fecha = prompt("Introduce una fecha válida yyyy-mm-dd")
     etiquetas = prompt("Introduce las etiquetas deseadas separadas por comas")
+    etiquetas = etiquetas.split(",")
+
+    let GastoNuevo = new gP.CrearGasto(descripcion,valor,fecha.etiquetas)
+    gP.anyadirGasto(GastoNuevo);
+    repintar();
 
     
  }
@@ -135,7 +140,7 @@ let botonActu = document.getElementById("actualizarpresupuesto")
 botonActu.addEventListener("click",actualizarPresupuestoWeb);
 
 function EditarHandle(){
-
+    
 }
 function BorrarEtiquetasHandle(){
 
