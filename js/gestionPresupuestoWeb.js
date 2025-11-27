@@ -27,20 +27,35 @@ function mostrarGastoWeb(idElemento, gasto) {
         valorDiv.textContent = gasto.valor;
         gastoDiv.appendChild(valorDiv);
 
-        let etiquetasDiv = document.createElement("div");
-        etiquetasDiv.className = "gasto-etiquetas";
+        let divEtiquetas = document.createElement("div");
+        divEtiquetas.className = "gasto-etiquetas";
 
-        if (Array.isArray(gasto.etiquetas)) {
-            gasto.etiquetas.forEach(etiqueta => {
-                let span = document.createElement("span");
-                span.className = "gasto-etiquetas-etiqueta";
-                span.textContent = etiqueta;
-                etiquetasDiv.appendChild(span);
-                etiquetasDiv.appendChild(document.createElement("br"));
-            });
+           if (Array.isArray(gasto.etiquetas)) {
+        for (let i = 0; i < gasto.etiquetas.length; i++) {
+            let span = document.createElement("span");
+            span.className = "gasto-etiquetas-etiqueta";
+            span.textContent = gasto.etiquetas[i];
+        
+
+            divEtiquetas.appendChild(span);
+            let br = document.createElement("br");
+            divEtiquetas.appendChild(br);
         }
+    }
+    
+    let btnEditar = document.createElement("button");
+    btnEditar.className = "gasto-editar";
+    btnEditar.type = "button";
+    btnEditar.textContent = "Editar";
 
-        gastoDiv.appendChild(etiquetasDiv);
+    let editarHandle = new EditarHandle();
+    editarHandle.gasto = gasto;
+    btnEditar.addEventListener("click", editarHandle);
+    gastoDiv.appendChild(btnEditar);
+
+   
+
+        gastoDiv.appendChild(divEtiquetas);
 
         elem.appendChild(gastoDiv);
         elem.appendChild(document.createElement("br"));
