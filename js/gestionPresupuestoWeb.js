@@ -43,7 +43,12 @@ function mostrarGastoWeb(idElemento, gasto) {
         }
     }
     
-    let btnEditar = document.createElement("button");
+  
+        gastoDiv.appendChild(divEtiquetas);
+
+        elem.appendChild(gastoDiv);
+        elem.appendChild(document.createElement("br"));
+          let btnEditar = document.createElement("button");
     btnEditar.className = "gasto-editar";
     btnEditar.type = "button";
     btnEditar.textContent = "Editar";
@@ -53,12 +58,15 @@ function mostrarGastoWeb(idElemento, gasto) {
     btnEditar.addEventListener("click", editarHandle);
     gastoDiv.appendChild(btnEditar);
 
-   
+    let btnBorrar = document.createElement("button");
+    btnBorrar.className = "gasto-borrar";
+    btnBorrar.type = "button";
+    btnBorrar.textContent = "Borrar";
 
-        gastoDiv.appendChild(divEtiquetas);
-
-        elem.appendChild(gastoDiv);
-        elem.appendChild(document.createElement("br"));
+    let borrarHandle = new BorrarHandle();
+    borrarHandle.gasto = gasto;
+    btnBorrar.addEventListener("click", borrarHandle);
+    gastoDiv.appendChild(btnBorrar);
 
     } else {
         alert(`El elemento ${idElemento} no existe`);
