@@ -145,15 +145,15 @@ function EditarHandle() {
         let arrayEtiquetas
         let etiquetas
         let descripcion = prompt("Ingrese la nueva descripción", this.gasto.descripcion)
-        if(descripcion != null && descripcion != ""){
-        this.gasto.actualizarDescripcion(descripcion)
+        if (descripcion != null && descripcion != "") {
+            this.gasto.actualizarDescripcion(descripcion)
         }
         let valor = Number(prompt("Ingrese el nuevo valor del gasto", this.gasto.valor))
-        if(valor != null && valor != ""){
-        this.gasto.actualizarValor(valor)
+        if (valor != null && valor != "") {
+            this.gasto.actualizarValor(valor)
         }
         let fecha = prompt("Ingrese la nueva fecha con formato yyyy-mm-dd", (new Date(this.gasto.fecha)).toISOString().slice(0, 10))
-        if(fecha != null && fecha != ""){
+        if (fecha != null && fecha != "") {
             this.gasto.actualizarFecha(fecha)
         }
         etiquetas = prompt("Ingrese las etiquetas que quiera añadir al gasto separadas por una coma sin espacios")
@@ -164,16 +164,42 @@ function EditarHandle() {
         repintar()
     }
 }
-function BorrarHandle(){
-    this.handleEvent = function(){
+function BorrarHandle() {
+    this.handleEvent = function () {
         presupuesto.borrarGasto(this.gasto.id)
         repintar()
     }
 }
-function BorrarEtiquetasHandle(){
-    this.handleEvent = function(){
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function () {
         this.gasto.borrarEtiquetas(this.etiqueta)
         repintar()
+    }
+}
+function nuevoGastoWebFormulario() {
+    let contenedor = document.getElementById("controlesprincipales")
+    if (!contenedor.querySelector("form")) {
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true)
+        let formulario = plantillaFormulario.querySelector("form")
+        formulario.addEventListener("submit", formSubmitHandler)
+        contenedor.appendChild(formulario)
+    }
+}
+function formSubmitHandler(event) {
+    event.preventDefault()
+    let form = event.target
+    let descripcion = form.querySelector("#descripcion").value
+    let valor = form.querySelector("#valor").value
+    let fecha = form.querySelector("#fecha").value
+    let etiqueta = form.querySelector("#etiquetas").value
+    etiqueta = etiqueta.split(",")
+    if(descripcion && valor && fecha && etiqueta){
+        let gasto = new presupuesto.CrearGasto(descripcion, valor, fecha, etiqueta)
+        gasto = JSON.stringify(gasto)
+        alert(gasto)
+    }
+    else{
+        alert("Nos embargaron")
     }
 }
 export {
@@ -182,5 +208,6 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    nuevoGastoWebFormulario
 }

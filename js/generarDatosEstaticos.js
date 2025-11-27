@@ -60,3 +60,4 @@ presupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", datosAgrupadosAnyo, 
 document.getElementById("actualizarpresupuesto").addEventListener("click", presupuestoWeb.actualizarPresupuestoWeb)
 
 document.getElementById("anyadirgasto").addEventListener("click", presupuestoWeb.nuevoGastoWeb)
+document.getElementById("anyadirgasto-formulario").addEventListener("click", presupuestoWeb.nuevoGastoWebFormulario)
