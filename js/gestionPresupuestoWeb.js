@@ -83,8 +83,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     manejadorBorrar.gasto = gasto;
     botonBorrar.addEventListener("click", manejadorBorrar);
     divGasto.appendChild(botonBorrar);
-
-    
 }
 
 //función para mostrar gastos agrupados en web
@@ -209,7 +207,7 @@ function repintar(){
 
 function BorrarHandle(){
 
-    this.handleEvent = function(evento){
+    this.handleEvent = function(event){
         gestionPresupuesto.borrarGasto(this.gasto.id);
         repintar();
     }
@@ -217,10 +215,22 @@ function BorrarHandle(){
 
 function BorrarEtiquetasHandle() {
 
-    this.handleEvent = function(evento) {
+    this.handleEvent = function(event) {
         this.gasto.borrarEtiquetas(this.etiqueta);
         repintar();
     }
+}
+
+let anyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+anyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
+
+function nuevoGastoWebFormulario (event){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    
+    var formulario = plantillaFormulario.querySelector("form");
+    let botnesPrincipales = document.getElementById("controlesprincipales");
+    botnesPrincipales.appendChild(formulario);
+    
 }
 
 
