@@ -147,25 +147,26 @@ function nuevoGastoWeb(){
     repintar();
 }
 
-function nueovoGastoWebFormulario(event){
+function nuevoGastoWebFormulario(event){
 
-    let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+    let divControles = document.getElementById("controlesprincipales");
 
-    event.target.setAttribute("disabled", "");
+    event.target.setAttribute("disabled", true);
 
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
 
-    let botonEnviar = formulario.querySelector("button");
-    let botonCancelar = formulario.querySelector(".cancelar");
+    divControles.append(plantillaFormulario);
+
+    let botonCancelar = formulario.querySelector("button.cancelar");
 
     let manejadorCancelar = new CancelarHandle();
 
+    manejadorCancelar.form = formulario;
+
     botonCancelar.addEventListener("click", manejadorCancelar);
 
-    botonEnviar.addEventListener("click", botonCrearFormulario);
-
-    botonAnyadirFormulario.removeAttribute("disabled");
+    formulario.addEventListener("submit", botonCrearFormulario);
 
 }
 
@@ -179,7 +180,7 @@ function botonCrearFormulario(event){
 
     let fecha = event.currentTarget.elements["fecha"].value;
 
-    let etiquetas = event.currentTarget.elemens["etiquetas"].value;
+    let etiquetas = event.currentTarget.elements["etiquetas"].value;
 
     let arrayEtiquetas = etiquetas.split(",");
 
@@ -188,12 +189,15 @@ function botonCrearFormulario(event){
     gP.anyadirGasto(gasto);
 
     repintar();
+
+    let botonAnyadir = document.getElementById("anyadirgasto-formulario");
+
+    botonAnyadir.setAttribute("disabled", false);
 }
 
 function CancelarHandle(){
-
-    this.handleEvent = function(){
-
+    this.handleEvent = function(event){
+        this.form.remove();
     }
 
 }
@@ -244,7 +248,7 @@ botonActualizar.addEventListener("click", actualizarPresupuestoWeb);
 let botonAnyadir = document.getElementById("anyadirgasto");
 botonAnyadir.addEventListener("click", nuevoGastoWeb);
 let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
-botonAnyadirFormulario.addEventListener("click", nueovoGastoWebFormulario);
+botonAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
     
 export{
@@ -256,5 +260,5 @@ export{
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    nueovoGastoWebFormulario
+    nuevoGastoWebFormulario
 }
