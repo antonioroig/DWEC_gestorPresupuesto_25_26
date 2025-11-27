@@ -162,7 +162,10 @@ function EditarHandle(){
  }
 }
 function BorrarEtiquetasHandle(){
-
+  this.handleEvent = function(){
+      gP.borrarGasto(this.gasto.id)
+      repintar();
+  }
 }
 export{
     mostrarDatoEnId,
