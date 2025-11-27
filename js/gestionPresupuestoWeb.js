@@ -43,7 +43,7 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
         let manejadorBorrarEtiqueta = new BorrarEtiquetasHandle();
         manejadorBorrarEtiqueta.gasto = datosGasto; 
         manejadorBorrarEtiqueta.etiqueta = etiqueta; 
-
+            
         
         etiquetaSpan.addEventListener("click", manejadorBorrarEtiqueta);
         }
@@ -78,7 +78,6 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
 
     bloqueGasto.appendChild(botonBorrar);
 
-    /*Borrar Etiquetas*/
 
     
 }
@@ -220,15 +219,16 @@ function BorrarHandle(){}
 
 function BorrarEtiquetasHandle(){
 
+  this.handleEvent = function(evento){
+
+  this.gasto.borrarEtiquetas(this.etiqueta)
+
+  repintar();
+
+  }
 }
 
-BorrarEtiquetasHandle.prototype.handleEvent = function(evento){
 
-this.gasto.borrarEtiquetas(this.etiqueta)
-
-repintar();
-
-}
 
 
 export{
