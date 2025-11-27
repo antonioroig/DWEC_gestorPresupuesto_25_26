@@ -230,7 +230,27 @@ function nuevoGastoWebFormulario (event){
     var formulario = plantillaFormulario.querySelector("form");
     let botnesPrincipales = document.getElementById("controlesprincipales");
     botnesPrincipales.appendChild(formulario);
-    
+
+    formulario.addEventListener("submit", manejadoraEnviarFormulario);
+}
+
+function manejadoraEnviarFormulario(event){
+    event.preventDefault();
+
+    let form = event.currentTarget; 
+    let descripcion = form.elements.descripcion.value.trim();
+    let valor = Number(form.elements.valor.value);
+    let fecha = form.elements.fecha.value;
+    let etiquetas = form.elements.etiquetas.value.split(",").map(e => e.trim());
+
+    let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+    gestionPresupuesto.anyadirGasto(gasto);
+
+    repintar();
+
+    form.remove();
+    let activarBoton = document.getElementById("anyadirgasto-formulario");
+    activarBoton.removeAttribute("disabled");
 }
 
 
