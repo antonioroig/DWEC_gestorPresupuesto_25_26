@@ -48,6 +48,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     } else {
         alert(`El elemento ${idElemento} no existe`);
     }
+
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -161,11 +162,18 @@ function EditarHandle(){
     repintar();
  }
 }
-function BorrarEtiquetasHandle(){
+function BorrarHandle(){
   this.handleEvent = function(){
       gP.borrarGasto(this.gasto.id)
       repintar();
   }
+}
+
+function BorrarEtiquetasHandle(){
+    this.handleEvent = function(){
+        this.gasto.borrarEtiquetas(this.etiqueta)
+        repintar();        
+    }
 }
 export{
     mostrarDatoEnId,
@@ -175,5 +183,6 @@ export{
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     EditarHandle,
+    BorrarHandle,
     BorrarEtiquetasHandle
 }
