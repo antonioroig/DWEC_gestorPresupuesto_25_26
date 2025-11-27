@@ -105,7 +105,7 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 
     let lCompGastos = gP.listarGastos();
     for(let gasto of lCompGastos){
-        mostrarGastoWeb(gasto,"listado-gastos-completo")
+        mostrarGastoWeb("listado-gastos-completo",gasto)
     }
 
 
@@ -122,12 +122,16 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
     etiquetas = prompt("Introduce las etiquetas deseadas separadas por comas")
     etiquetas = etiquetas.split(",")
 
-    let GastoNuevo = new gP.CrearGasto(descripcion,valor,fecha.etiquetas)
+    let GastoNuevo = new gP.CrearGasto(descripcion,valor,fecha,...etiquetas)
     gP.anyadirGasto(GastoNuevo);
     repintar();
 
     
  }
+
+ let btnAnyadirGasto = document.getElementById("anyadirgasto");
+ btnAnyadirGasto.addEventListener("click",nuevoGastoWeb);
+
 function actualizarPresupuestoWeb(){
     
     let presupuesto = Number(prompt("introduce el presupuesto"));
@@ -140,7 +144,22 @@ let botonActu = document.getElementById("actualizarpresupuesto")
 botonActu.addEventListener("click",actualizarPresupuestoWeb);
 
 function EditarHandle(){
-    
+     this.handleEvent = function() {
+     let descripcion, valor, fecha, etiquetas;
+     
+     descripcion = prompt("Introduce una descripción nueva para el gasto.", this.gasto.descripcion);
+     valor = Number(prompt("Introduce un valor nuevo para el gasto.", this.gasto.valor));
+     fecha = prompt("Introduce una fecha nueva con formato yyyy-mm-dd para el gasto.", this.gasto.fecha);
+     etiquetas = prompt("Introduce las etiquetas nuevas con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.", this.gasto.etiquetas.toString());
+     etiquetas = etiquetas.split(",");
+
+     this.gasto.actualizarValor(valor);
+     this.gasto.actualizarDescripcion(descripcion);
+     this.gasto.actualizarFecha (fecha);
+
+
+    repintar();
+ }
 }
 function BorrarEtiquetasHandle(){
 
