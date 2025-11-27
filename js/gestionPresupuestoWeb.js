@@ -30,18 +30,21 @@ function mostrarGastoWeb(idElemento, gasto) {
         let divEtiquetas = document.createElement("div");
         divEtiquetas.className = "gasto-etiquetas";
 
-           if (Array.isArray(gasto.etiquetas)) {
-        for (let i = 0; i < gasto.etiquetas.length; i++) {
-            let span = document.createElement("span");
-            span.className = "gasto-etiquetas-etiqueta";
-            span.textContent = gasto.etiquetas[i];
-        
+             if (Array.isArray(gasto.etiquetas)) {
+      for (let i = 0; i < gasto.etiquetas.length; i++) {
+          let span = document.createElement("span");
+          span.className = "gasto-etiquetas-etiqueta";
+          span.textContent = gasto.etiquetas[i];
+          let borrarEtiquetas = new BorrarEtiquetasHandle();
+          borrarEtiquetas.gasto = gasto;
+          borrarEtiquetas.etiqueta = gasto.etiquetas[i];
+          span.addEventListener("click", borrarEtiquetas);
 
-            divEtiquetas.appendChild(span);
-            let br = document.createElement("br");
-            divEtiquetas.appendChild(br);
-        }
-    }
+          divEtiquetas.appendChild(span);
+          let br = document.createElement("br");
+          divEtiquetas.appendChild(br);
+      }
+  }
     
   
         gastoDiv.appendChild(divEtiquetas);
