@@ -145,11 +145,28 @@ function BorrarEtiquetasHandle(){
         repintar()  
     }
 }
+function nuevoGastoWebFormulario(){
+    let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
+    botonAñadirForm.addEventListener("click", function(event){
+        let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
+        var formulario = clonForm.querySelector("form");
+        let botonEnvio = formulario.querySelector("button")
+        let divBotones = document.getElementById("controlesprincipales")
+        divBotones.append(clonForm)
+        botonEnvio.addEventListener("submit", manejaSubmit)
+    })
+}
+
+function manejaSubmit(event){
+    event.preventDefault();
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    nuevoGastoWebFormulario
 }

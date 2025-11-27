@@ -19,10 +19,15 @@ function elementWithClass(element, clase){
     }
 }
 function buttonWithClass(clase){
-    let boton = document.createElement("button")
-    boton.setAttribute("type", "button")
-    boton.setAttribute("class", `${clase}`)
-    return boton
+    if (clase == "")
+        return
+    if(typeof clase === `string`)
+    {
+        let boton = document.createElement("button")
+        boton.setAttribute("type", "button")
+        boton.setAttribute("class", `${clase}`)
+        return boton
+    }
 }
 function formatDate(date){
     let fecha = new Date(date).toISOString()
