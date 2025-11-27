@@ -183,7 +183,18 @@ function BorrarEtiquetasHandle(){
 function nuevoGastoWebFormulario(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     var formulario = plantillaFormulario.querySelector("form");
+    let descripcion, valor, fecha, etiquetas;
 
+    descripcion = formulario.elements["descripcion"].value;;
+    valor = formulario.elements["valor"].value;
+    fecha = formulario.elements["fecha"].value;
+    etiquetas = formulario.elements["etiquetas"].value;
+    etiquetas = etiquetas.split(",")
+
+    let gastoNuevo = new gp.CrearGasto(descripcion, valor, fecha, etiquetas)
+    gp.anyadirGasto(gastoNuevo);
+    
+    repintar();
 }
 function manejarSubmit(evento){
     evento.preventDefault()
