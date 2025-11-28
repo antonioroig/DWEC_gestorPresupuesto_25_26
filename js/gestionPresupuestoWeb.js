@@ -57,6 +57,8 @@ function mostrarGastoWeb(idElemento, gastos){
         objManejadorBorrado.gasto = gasto
         botonBorrarGasto.addEventListener("click", objManejadorBorrado)
         divEti.append(botonBorrarGasto)
+        let botonEditarFormulario = Utils.buttonWithClass("gasto-editar-formulario")
+        //botonEditarFormulario
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -154,7 +156,9 @@ function nuevoGastoWebFormulario(){
             return
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let divBotones = document.getElementById("controlesprincipales")
-        divBotones.append(clonForm)
+        let formulario = clonForm.querySelector("form")
+        divBotones.append(formulario)
+        formulario.addEventListener("submit", manejaSubmit)
         let botonEnviar = document.querySelector(`[type="submit"]`);
         botonEnviar.addEventListener("click", manejaSubmit)
         let botonCancelar = document.forms[0].getElementsByClassName("cancelar")
@@ -186,7 +190,6 @@ function manejaSubmit(event){
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
     botonAñadirForm.removeAttribute("disabled")
     repintar()
-
 }
 
 export{

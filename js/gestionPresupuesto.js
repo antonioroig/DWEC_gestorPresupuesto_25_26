@@ -185,8 +185,7 @@ Etiquetas:\n${desplegable}`)
                 {
                     valorTotal += gastos[i].valor
                 }
-                valorTotal = valorTotal.toFixed(2)
-                return Math.floor(parseFloat(valorTotal));
+                return (valorTotal);
             }
             function calcularBalance()
             {
