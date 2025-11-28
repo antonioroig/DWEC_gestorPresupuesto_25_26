@@ -57,6 +57,21 @@ function mostrarGastoWeb(idElemento, gasto){
         objBorrar.gasto = gasto[i];
         botonBorrar.addEventListener("click", objBorrar);
         divgasto.appendChild(botonBorrar);
+
+        let botonEditarFormulario = document.createElement("button");
+        botonEditarFormulario.setAttribute("type", "button");
+        botonEditarFormulario.className = "gasto-editar-formulario";
+        botonEditarFormulario.innerHTML = "Editar (formulario)";
+        let objEditarFormulario = new EditarHandleFormulario();
+        objEditarFormulario.gasto = gasto[i];
+        botonEditarFormulario.addEventListener("click", function(){
+            let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+            let formulario = plantillaFormulario.querySelector("form");
+            formulario.addEventListener("submit", objEditarFormulario); 
+            divgasto.append(formulario);
+            botonEditarFormulario.disabled = true;
+        });
+        divgasto.appendChild(botonEditarFormulario);
     }
 }
 
@@ -148,6 +163,26 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+function EditarHandleFormulario(){
+    this.handleEvent = function(event){ 
+        let descripcion = event.currentTarget["descripcion"].value;
+        let valor = Number(event.currentTarget["valor"].value);
+        let fecha = event.currentTarget["fecha"].value;
+        let etiquetas = event.currentTarget["etiquetas"].value;
+        
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(etiquetas);
+
+        console.log("EditarHandleFormulario");
+
+        event.currentTarget.disabled = false;
+        repintar();
+        event.currentTarget.remove();
+    }
+}
+
 document.getElementById("anyadirgasto-formulario").addEventListener("click", function(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     let formulario = plantillaFormulario.querySelector("form");
@@ -185,5 +220,6 @@ export{
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    EditarHandleFormulario
 }
