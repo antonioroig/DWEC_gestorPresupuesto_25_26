@@ -15,9 +15,15 @@ form, .gasto {
     border: 1px solid #555555;
     padding: 0.5em;
 }
-
+form{
+    width:50%
+}
+form>div:nth-child(3){
+    width: 25%;
+}
 .form-control {
     margin: 0.5em 0;
+    width: 80%;
 }
 
 .form-control label {
