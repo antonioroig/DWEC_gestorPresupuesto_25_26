@@ -147,28 +147,44 @@ function BorrarEtiquetasHandle(){
         repintar()  
     }
 }
-function nuevoGastoWebFormulario(){
+function nuevoGastoWebFormulario(){    
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
-    botonAñadirForm.addEventListener("click", function(event){
-    let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
-    let divBotones = document.getElementById("controlesprincipales")
-    divBotones.append(clonForm)
-    let botonEnviar = document.querySelector(`[type="submit"]`);
-    botonEnviar.addEventListener("click", manejaSubmit)
+    botonAñadirForm.addEventListener("click", function(event){    
+        if(document.forms.length > 0)
+            return
+        let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
+        let divBotones = document.getElementById("controlesprincipales")
+        divBotones.append(clonForm)
+        let botonEnviar = document.querySelector(`[type="submit"]`);
+        botonEnviar.addEventListener("click", manejaSubmit)
+        let botonCancelar = document.forms[0].getElementsByClassName("cancelar")
+        let manejadorCancelar = new ManejaCancelar
+        botonCancelar[0].addEventListener("click", manejadorCancelar)
+        botonAñadirForm.setAttribute("disabled", "true")
     })
 }
-
+function ManejaCancelar(event){
+    this.handleEvent=function(e){
+        let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
+        botonAñadirForm.removeAttribute("disabled")
+        console.log("formulario cancelado")
+        repintar()
+    }
+}
 function manejaSubmit(event){
     event.preventDefault();
     let form = document.forms[0]
     let concepto = form[0].value;
     let valorTotal = form[1].value;
+    valorTotal = +valorTotal
     let fechaDelGasto = new Date();
     fechaDelGasto = form[2].value
     let etiquetasGasto = form[3].value;
     let arrayEtiquetas = etiquetasGasto.split(",")
     let nuevoGasto = new gestionPresupuesto.CrearGasto(concepto, valorTotal, fechaDelGasto, ...arrayEtiquetas)
     gestionPresupuesto.anyadirGasto(nuevoGasto)
+    let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
+    botonAñadirForm.removeAttribute("disabled")
     repintar()
 
 }
