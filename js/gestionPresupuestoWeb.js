@@ -58,7 +58,12 @@ function mostrarGastoWeb(idElemento, gastos){
         botonBorrarGasto.addEventListener("click", objManejadorBorrado)
         divEti.append(botonBorrarGasto)
         let botonEditarFormulario = Utils.buttonWithClass("gasto-editar-formulario")
-        //botonEditarFormulario
+        botonEditarFormulario.setAttribute("type", "submit")
+        botonEditarFormulario.innerText = "Editar (formulario)"
+        let objManEdiFor = new EditarHandleFormulario();
+        objManEdiFor.gasto = gasto
+        botonEditarFormulario.addEventListener("click", objManEdiFor)
+        divEti.append(botonEditarFormulario)
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -149,6 +154,17 @@ function BorrarEtiquetasHandle(){
         repintar()  
     }
 }
+
+
+function EditarHandleFormulario(){
+    this.handleEvent = function(e){
+        let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
+        let formulario = clonForm.querySelector("form")
+    }
+}
+
+
+
 function nuevoGastoWebFormulario(){    
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
     botonAñadirForm.addEventListener("click", function(event){    
