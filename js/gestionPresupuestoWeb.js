@@ -179,6 +179,27 @@ let objAnyadir = {
 };
 botonAnyadir.addEventListener("click", objAnyadir);
 
+function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let formulario = plantillaFormulario.querySelector("form");
+    let div = document.getElementById("controlesprincipales");
+
+    div.appendChild(formulario);
+    
+    formulario.addEventListener("submit", function(event){
+        event.preventDefault();
+
+        let descripcion = formulario.elements.descripcion.value;
+        let valor = formulario.elements.valor.value;
+        let fecha = formulario.elements.fecha.value;
+        let etiquetas = formulario.etiquetas.value;
+
+
+    });
+    
+
+}
+
 function EditarHandle(gasto){
     this.gasto = gasto;
     this.handleEvent = function(event){
@@ -219,6 +240,7 @@ export{
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
+    nuevoGastoWebFormulario,
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle
