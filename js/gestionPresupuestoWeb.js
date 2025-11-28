@@ -148,6 +148,28 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+document.getElementById("anyadirgasto-formulario").addEventListener("click", function mostarFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let formulario = plantillaFormulario.querySelector("form");
+    formulario.addEventListener("submit", nuevoGastoWebFormulario);
+    document.getElementById("controlesprincipales").append(formulario);
+    document.getElementById("anyadirgasto-formulario").disabled = true;
+});
+
+
+function nuevoGastoWebFormulario(event){
+    event.preventDefault(); // no enviar
+    let descripcion = event.currentTarget["descripcion"].value;
+    let valor = Number(event.currentTarget["valor"].value);
+    let fecha = event.currentTarget["fecha"].value;
+    let etiquetas = event.currentTarget["etiquetas"].value;
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+    document.getElementById("anyadirgasto-formulario").disabled = false;
+    gP.anyadirGasto(gasto);
+    repintar();
+    event.currentTarget.remove();
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -157,5 +179,6 @@ export{
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario
 }
