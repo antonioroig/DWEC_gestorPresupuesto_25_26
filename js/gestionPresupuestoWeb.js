@@ -88,6 +88,8 @@ function repintar(){
     let titulo = document.createElement("h1")
     titulo.innerText = "Gastos Filtrados"
     divGastosCompletos.append(titulo)
+    let form = document.forms[0]
+    form.remove()
 }
 function actualizarPresupuestoWeb(){
     let botonPresupuesto = document.getElementById("actualizarpresupuesto")
@@ -148,20 +150,26 @@ function BorrarEtiquetasHandle(){
 function nuevoGastoWebFormulario(){
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
     botonAñadirForm.addEventListener("click", function(event){
-        let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
-        let divBotones = document.getElementById("controlesprincipales")
-        divBotones.append(clonForm)
-        var formulario = clonForm.querySelector("form");
-        formulario.setAttribute("name", "form-anyadir-gasto");
-        let botonEnvio = formulario.querySelector("button")
-        botonEnvio.addEventListener("submit", manejaSubmit)
+    let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
+    let divBotones = document.getElementById("controlesprincipales")
+    divBotones.append(clonForm)
+    let botonEnviar = document.querySelector(`[type="submit"]`);
+    botonEnviar.addEventListener("click", manejaSubmit)
     })
 }
 
 function manejaSubmit(event){
     event.preventDefault();
-    let form = document.forms["form-anyadir-gasto"]
-    let descripcion = form[0].value
+    let form = document.forms[0]
+    let concepto = form[0].value;
+    let valorTotal = form[1].value;
+    let fechaDelGasto = new Date();
+    fechaDelGasto = form[2].value
+    let etiquetasGasto = form[3].value;
+    let arrayEtiquetas = etiquetasGasto.split(",")
+    let nuevoGasto = new gestionPresupuesto.CrearGasto(concepto, valorTotal, fechaDelGasto, ...arrayEtiquetas)
+    gestionPresupuesto.anyadirGasto(nuevoGasto)
+    repintar()
 
 }
 
