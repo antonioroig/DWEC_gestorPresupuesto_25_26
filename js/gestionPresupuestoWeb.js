@@ -22,7 +22,7 @@ function mostrarGastoWeb(idCont, gasto) {
         botonB.addEventListener("click", new BorrarEtiquetaHandle(gasto, et));
         span.appendChild(botonB);
         divEtiq.appendChild(span);
-    });
+    })
 
     const botonEditar = document.createElement("button"); botonEditar.className="gasto-editar"; botonEditar.textContent="Editar";
     botonEditar.addEventListener("click", new EditarHandle(gasto));
@@ -73,7 +73,7 @@ function EditarHandle(gasto) {
         gasto.actualizarFecha(fecha);
         gasto.reemplazarEtiquetas(etiq);
         repintar();
-    };
+    }
 }
 
 function BorrarHandle(gasto) { 
@@ -81,7 +81,7 @@ function BorrarHandle(gasto) {
     this.handleEvent=()=>{ 
         L.borrarGasto(gasto.id); 
         repintar(); 
-    }; 
+    } 
 }
 
 function BorrarEtiquetaHandle(gasto, etiq) { 
@@ -90,11 +90,63 @@ function BorrarEtiquetaHandle(gasto, etiq) {
     this.handleEvent=()=>{ 
         gasto.borrarEtiquetas(etiq); 
         repintar(); 
-    }; 
+    } 
 }
 
-document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
-document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
+function nuevoGastoWebFormulario() {
+            let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+            
+            const botonGuardar = plantillaFormulario.querySelector(".boton-guardar-gasto-form");
 
-export { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle };
-export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle };
+            botonGuardar.addEventListener("click", (e) => {
+                const formContainer = e.target.closest('.gasto-formulario-dinamico'); 
+                if (!formContainer) return;
+
+                const descInput = formContainer.querySelector('input[name="descripcion"]');
+                const valorInput = formContainer.querySelector('input[name="valor"]');
+                const fechaInput = formContainer.querySelector('input[name="fecha"]');
+                const etiquetasInput = formContainer.querySelector('input[name="etiquetas"]');
+
+                if (!descInput.value || !valorInput.value || !fechaInput.value) {
+                    alert("Por favor, rellena todos los campos obligatorios.");
+                    return;
+                }
+                
+                const valorNumerico = Number(valorInput.value);
+                if (isNaN(valorNumerico)) {
+                    alert("El valor debe ser un número válido.");
+                    return;
+                }
+
+                const g = new L.CrearGasto(
+                    descInput.value,
+                    valorNumerico,
+                    fechaInput.value,
+                    etiquetasInput.value.split(",").map(e=>e.trim()).filter(e=>e.length > 0)
+                );
+                
+                L.anyadirGasto(g);
+                repintar();
+                
+                formContainer.remove();
+            });
+
+
+            const contenedor = document.getElementById("contenedor-formularios-gasto");
+
+            if (contenedor) {
+                contenedor.appendChild(plantillaFormulario);
+            } else {
+                console.error("Error: No se encontró el contenedor de formularios.");
+            }            
+        }
+
+
+        document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
+        document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
+        document.getElementById("anyadirgasto-formulario")?.addEventListener("click", nuevoGastoWebFormulario);
+
+        
+        export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle, nuevoGastoWebFormulario, CancelarHandle };
+
+const BotonAnyadirFormulario = document.createElement("button", BotonAnyadirFormulario.className("anyadirgasto-formulario"));
