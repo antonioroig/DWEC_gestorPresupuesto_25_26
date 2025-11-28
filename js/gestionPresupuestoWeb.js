@@ -194,6 +194,8 @@ function botonEnviarFormulario(event){
 
     let valor = event.currentTarget.elements["valor"].value;
 
+    valor = Number(valor);
+
     let fecha = event.currentTarget.elements["fecha"].value;
 
     let etiquetas = event.currentTarget.elements["etiquetas"].value;
@@ -204,20 +206,30 @@ function botonEnviarFormulario(event){
 
     gP.anyadirGasto(gasto);
 
+    event.currentTarget.remove();
+
     repintar();
 
     let botonAnyadir = document.getElementById("anyadirgasto-formulario");
-
     botonAnyadir.removeAttribute("disabled");
+    
 }
 
 function CancelarHandle(){
+    
     this.handleEvent = function(event){
         let botonAnyadir = document.getElementById("anyadirgasto-formulario");
         botonAnyadir.removeAttribute("disabled");
         this.form.remove();
     }
 }
+
+function CancelarHandleFormulario(){
+    this.handleEvent = function(event){
+        this.form.remove();
+    }
+}
+
 
 function EditarHandle(){
 
@@ -258,8 +270,20 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+function EnviarHandle(){
+    this.handleEvent = function(event){
+        this.gasto.actualizarDescripcion(this.formulario.elements["descripcion"].value);
+        this.gasto.actualizarValor(this.formulario.elements["valor"].value);
+        this.gasto.actualizarFecha(this.formulario.elements["fecha"].value);
+        this.gasto.anyadirEtiquetas(this.formulario.elements["etiquetas"].value.split(","));
+        repintar();
+    }
+}
+
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
+        
+        event.target.setAttribute("disabled", true);
 
         let fecha = new Date(this.gasto.fecha);
 
@@ -273,6 +297,22 @@ function EditarHandleFormulario(){
         this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
         event.target.append(this.form);
+
+        let manejadorEnviar = new EnviarHandle();
+
+        manejadorEnviar.gasto = this.gasto;
+        manejadorEnviar.formulario = this.form;
+
+        this.form.querySelector("submit", manejadorEnviar);
+
+        let botonCancelar = this.form.querySelector("button.cancelar")
+
+        let manejadorCancelar = new CancelarHandleFormulario();
+
+        manejadorCancelar.form = this.form;
+
+        botonCancelar.addEventListener("click", manejadorCancelar);
+
     }
 }
 
