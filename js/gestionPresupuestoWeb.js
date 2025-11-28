@@ -149,16 +149,20 @@ function nuevoGastoWebFormulario(){
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
     botonAñadirForm.addEventListener("click", function(event){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
-        var formulario = clonForm.querySelector("form");
-        let botonEnvio = formulario.querySelector("button")
         let divBotones = document.getElementById("controlesprincipales")
         divBotones.append(clonForm)
+        var formulario = clonForm.querySelector("form");
+        formulario.setAttribute("name", "form-anyadir-gasto");
+        let botonEnvio = formulario.querySelector("button")
         botonEnvio.addEventListener("submit", manejaSubmit)
     })
 }
 
 function manejaSubmit(event){
     event.preventDefault();
+    let form = document.forms["form-anyadir-gasto"]
+    let descripcion = form[0].value
+
 }
 
 export{
