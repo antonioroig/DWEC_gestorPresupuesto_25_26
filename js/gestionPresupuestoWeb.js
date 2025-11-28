@@ -148,12 +148,17 @@ function BorrarEtiquetasHandle(){
     }
 }
 
-document.getElementById("anyadirgasto-formulario").addEventListener("click", function mostarFormulario(){
+document.getElementById("anyadirgasto-formulario").addEventListener("click", function(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     let formulario = plantillaFormulario.querySelector("form");
     formulario.addEventListener("submit", nuevoGastoWebFormulario);
     document.getElementById("controlesprincipales").append(formulario);
     document.getElementById("anyadirgasto-formulario").disabled = true;
+
+    formulario.getElementsByClassName("cancelar")[0].addEventListener("click", function(){
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+        formulario.remove();
+    });
 });
 
 
