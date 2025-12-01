@@ -58,10 +58,11 @@ function mostrarGastoWeb(idElemento, gastos){
         botonBorrarGasto.addEventListener("click", objManejadorBorrado)
         divEti.append(botonBorrarGasto)
         let botonEditarFormulario = Utils.buttonWithClass("gasto-editar-formulario")
-        botonEditarFormulario.setAttribute("type", "submit")
+        botonEditarFormulario.setAttribute("type", "click")
         botonEditarFormulario.innerText = "Editar (formulario)"
         let objManEdiFor = new EditarHandleFormulario();
         objManEdiFor.gasto = gasto
+        objManEdiFor.divGasto = divGasto
         botonEditarFormulario.addEventListener("click", objManEdiFor)
         divEti.append(botonEditarFormulario)
     }
@@ -160,6 +161,23 @@ function EditarHandleFormulario(){
     this.handleEvent = function(e){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
+        this.divGasto.append(formulario)
+        formulario.style="display:flex; flex-direction:column"
+        formulario[0].value = this.gasto.descripcion
+        formulario[1].value = this.gasto.valor
+        console.log(fecha)
+        formulario[2].value = Utils.formatDate(this.gasto.fecha)
+        formulario[3].value = this.gasto.etiquetas
+        console.log(formulario[0].value)
+        formulario.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.gasto.actualizarDescripcion(formulario[0].value)
+            this.gasto.actualizarValor(formulario[1].value)
+            this.gasto.actualizarFecha(formulario[2].value)
+            this.gasto.etiquetas = formulario[3].value.split(",")
+
+            repintar()
+        })
     }
 }
 
