@@ -74,7 +74,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     } else {
         alert(`El elemento ${idElemento} no existe`);
     }
-
+    
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -184,7 +184,7 @@ function EditarHandle(){
      this.gasto.actualizarDescripcion(descripcion);
      this.gasto.actualizarFecha (fecha);
 
-
+    this.gasto.anyadirEtiquetas(...etiquetas)
     repintar();
  }
 }
