@@ -53,12 +53,8 @@ function mostrarGastoWeb(idElemento, gasto) {
         spanEtiqueta.addEventListener("click", manejadorEtiqueta);
 
         divEtiquetas.appendChild(spanEtiqueta);
-    });
-}
-
-
-
-
+        });
+    }
     divGasto.appendChild(divEtiquetas);
     elemento.appendChild(divGasto);
 
@@ -83,6 +79,18 @@ function mostrarGastoWeb(idElemento, gasto) {
     manejadorBorrar.gasto = gasto;
     botonBorrar.addEventListener("click", manejadorBorrar);
     divGasto.appendChild(botonBorrar);
+
+    // boton editar formulario
+    let botonEditarGastoFormulario = document.createElement("button");
+    botonEditarGastoFormulario.type = "button";
+    botonEditarGastoFormulario.textContent = "Editar (formulario)";
+    botonEditarGastoFormulario.classList.add("gasto-editar-formulario");
+
+    let manejadorEditarGF = new EditarHandleFormulario();
+    manejadorEditarGF.gasto = gasto;
+    botonEditarGastoFormulario.addEventListener("click", manejadorEditarGF);
+    divGasto.appendChild(botonEditarGastoFormulario);
+    
 }
 
 //función para mostrar gastos agrupados en web
@@ -276,6 +284,37 @@ function botonCancelarHandle(){
         activarBoton.removeAttribute("disabled", true);
         repintar();
     }
+}
+
+//editar EditarHandleFormulario de gastos
+
+function EditarHandleFormulario(){
+    this.handleEvent = function(event){
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        let form = plantillaFormulario.querySelector("form");
+
+        let controlesPrincipales = event.currentTarget.closest(".gasto");
+        controlesPrincipales.appendChild(form);
+
+        // let descripcion = form.elements.descripcion.value.trim();
+        // let valor = Number(form.elements.valor.value);
+        // let fecha = form.elements.fecha.value;
+        // let etiquetas = form.elements.etiquetas.value.split(",").map(e => e.trim());
+
+        form.elements.descripcion.value = this.gasto.descripcion;
+        form.elements.valor.value = this.gasto.valor;
+        form.elements.fecha.value = new Date(this.gasto.fecha).toISOString().slice(0,10);
+        form.elements.etiquetas.value = this.gasto.etiquetas.join(", ");
+        
+        form.remove();
+        repintar();
+
+    }
+    // // botón cancelar
+    //     let botonCancelar = form.querySelector(".cancelar");
+    //     let manejadorCancelar = new botonCancelarHandle();
+    //     botonCancelar.addEventListener("click", manejadorCancelar);
+
 }
 
 
