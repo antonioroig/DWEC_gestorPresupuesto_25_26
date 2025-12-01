@@ -91,6 +91,9 @@ function mostrarGastoWeb(idElemento, gastos){
         manejadorEditarFormulario.form = formulario;
 
         botonEditarFormulario.addEventListener("click", manejadorEditarFormulario);
+        botonEditarFormulario.addEventListener("click", function(){
+            cajaGrande.append(formulario);
+        })
 
         cajaGrande.append(botonEditarFormulario);
 
@@ -301,8 +304,6 @@ function EditarHandleFormulario(){
         this.form.elements["fecha"].value = `${year}-${month}-${day}`;
         this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
-        event.target.append(this.form);
-
         let manejadorEnviar = new EnviarHandle();
 
         manejadorEnviar.gasto = this.gasto;
@@ -318,7 +319,7 @@ function EditarHandleFormulario(){
         manejadorCancelar.boton = event.target;
 
         botonCancelar.addEventListener("click", manejadorCancelar);
-
+    
     }
 }
 
@@ -329,7 +330,6 @@ botonAnyadir.addEventListener("click", nuevoGastoWeb);
 let botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
 botonAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
-    
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
