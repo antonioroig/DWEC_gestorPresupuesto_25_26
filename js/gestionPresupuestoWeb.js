@@ -134,7 +134,7 @@ function nuevoGastoWeb() {
     etiquetas = prompt("Introduce las etiquetas correspondientes con formato etiqueta1,etiqueta2,etiqueta3 para para el gasto.");
     etiquetas = etiquetas.split(",");
 
-    let nuevoGasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+    let nuevoGasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gp.anyadirGasto(nuevoGasto);
     repintar();
 }
@@ -155,13 +155,8 @@ function EditarHandle() {
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha (fecha);
+        this.gasto.anyadirEtiquetas(...etiquetas);
 
-        let etiquetasCopia = [...this.gasto.etiquetas];
-
-        for (let etiqueta of etiquetasCopia) {
-            this.gasto.borrarEtiquetas(etiqueta);
-        }
-        this.gasto.anyadirEtiquetas(etiquetas);
         repintar();
     }
 }
