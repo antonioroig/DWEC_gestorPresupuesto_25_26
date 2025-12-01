@@ -224,16 +224,27 @@ function BorrarEtiquetasHandle() {
 let anyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
 anyadirGastoFormulario.addEventListener('click', nuevoGastoWebFormulario);
 
-function nuevoGastoWebFormulario (event){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    
-    var formulario = plantillaFormulario.querySelector("form");
-    let botnesPrincipales = document.getElementById("controlesprincipales");
-    botnesPrincipales.appendChild(formulario);
+function nuevoGastoWebFormulario(event) {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let formulario = plantillaFormulario.querySelector("form");
 
+    let controlesPrincipales = document.getElementById("controlesprincipales");
+    controlesPrincipales.appendChild(formulario);
+
+    // manejador de enviar
     formulario.addEventListener("submit", manejadoraEnviarFormulario);
+
+    // cancelar
+    let botonCancelar = formulario.querySelector(".cancelar");
+    let manejadorCancelar = new botonCancelarHandle();
+    botonCancelar.addEventListener("click", manejadorCancelar);
+
+    // desactivar el botón principal mientras el formulario está visible
+    let activarBoton = document.getElementById("anyadirgasto-formulario");
+    activarBoton.setAttribute("disabled", true);
 }
 
+//enviar
 function manejadoraEnviarFormulario(event){
     event.preventDefault();
 
@@ -246,14 +257,26 @@ function manejadoraEnviarFormulario(event){
     let gasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gestionPresupuesto.anyadirGasto(gasto);
 
-    repintar();
-
     form.remove();
     let activarBoton = document.getElementById("anyadirgasto-formulario");
-    activarBoton.removeAttribute("disabled");
+    activarBoton.removeAttribute("disabled", true);
+    repintar();
+    
 }
 
 
+function botonCancelarHandle(){
+
+    this.handleEvent = function(event){
+        let from = event.currentTarget.closest("form");
+        if(from){
+            from.remove();
+        }
+        let activarBoton = document.getElementById("anyadirgasto-formulario");
+        activarBoton.removeAttribute("disabled", true);
+        repintar();
+    }
+}
 
 
 export {
