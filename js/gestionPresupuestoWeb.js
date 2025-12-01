@@ -76,6 +76,11 @@ botonBorrar.addEventListener("click", manejadorBorrar);
 divGasto.appendChild(botonBorrar);
 contenedor.appendChild(divGasto);
 
+let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+let formulario = plantillaFormulario.querySelector("form");
+let divControlesPrincipales = document.getElementById("controlesprincipales");
+
+divControlesPrincipales.appendChild(formulario);
 
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -180,8 +185,7 @@ let objAnyadir = {
 botonAnyadir.addEventListener("click", objAnyadir);
 
 function nuevoGastoWebFormulario(){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-    let formulario = plantillaFormulario.querySelector("form");
+
     let div = document.getElementById("controlesprincipales");
 
     div.appendChild(formulario);
@@ -229,7 +233,7 @@ function BorrarEtiquetasHandle(gasto, etiqueta){
     this.gasto = gasto;
     this.etiqueta = etiqueta;
     this.handleEvent = function(event){
-        this.gasto.borrarEtiquetas(this.etiqueta);
+        this.gasto.borrarEtiquetas(this.etiqueta); 
         repintar();
     }
 }
