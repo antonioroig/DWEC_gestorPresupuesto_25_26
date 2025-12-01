@@ -260,6 +260,56 @@ if (botonAnyadir) {
   botonAnyadir.addEventListener("click", nuevoGastoWeb);
 }
 
+const botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+if (botonAnyadirFormulario) {
+  botonAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
+}
+
+
+export function nuevoGastoWebFormulario(event){
+
+  const boton = event.currentTarget
+  let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+  var formulario = plantillaFormulario.querySelector("form");
+ 
+  function manejarSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+
+
+  const descripcion = form.elements.descripcion.value;
+  const valor = parseFloat(form.elements.valor.value);
+  const fecha = form.elements.fecha.value;
+  const etiquetas = form.elements.etiquetas.value;
+
+  const valorNum = Number(valor);
+
+  let etiquetasArray = [];
+  if (etiquetas && etiquetas.trim() !== "") {
+    etiquetasArray = etiquetas.split(",").map(e => e.trim()).filter(e => e !== "");
+  }
+
+  const nuevo = new gp.CrearGasto(
+    descripcion,
+    valorNum,
+    fecha,
+    ...etiquetasArray
+  );
+  gp.anyadirGasto(nuevo);
+
+  repintar();
+
+  const botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+  if (botonAnyadirFormulario) {
+    botonAnyadirFormulario.removeAttribute("disabled");
+  }
+
+  form.remove();
+  }
+  formulario.addEventListener("submit", manejarSubmit);
+  boton.setAttribute("disabled", "disabled");
+  document.getElementById("controlesprincipales").append(plantillaFormulario);
+}
 
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
 ponerTituloAntesDe("listado-gastos-filtrado-2", "Gastos filtrados 2");
