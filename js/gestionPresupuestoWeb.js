@@ -70,6 +70,12 @@ function mostrarGastoWeb(idElemento, gasto){
             formulario.addEventListener("submit", objEditarFormulario); 
             divgasto.append(formulario);
             botonEditarFormulario.disabled = true;
+
+            let botonCancelar = formulario.getElementsByClassName("cancelar")[0];
+            botonCancelar.addEventListener("click", function(){
+                formulario.remove();
+                botonEditarFormulario.disabled = false;
+            });
         });
         divgasto.appendChild(botonEditarFormulario);
     }
