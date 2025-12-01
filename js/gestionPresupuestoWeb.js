@@ -226,6 +226,7 @@ function CancelarHandle(){
 
 function CancelarHandleFormulario(){
     this.handleEvent = function(event){
+        this.boton.removeAttribute("disabled");
         this.form.remove();
     }
 }
@@ -273,9 +274,13 @@ function BorrarEtiquetasHandle(){
 function EnviarHandle(){
     this.handleEvent = function(event){
         this.gasto.actualizarDescripcion(this.formulario.elements["descripcion"].value);
-        this.gasto.actualizarValor(this.formulario.elements["valor"].value);
+        let valor = Number(this.formulario.elements["valor"].value);
+        this.gasto.actualizarValor(valor);
         this.gasto.actualizarFecha(this.formulario.elements["fecha"].value);
-        this.gasto.anyadirEtiquetas(this.formulario.elements["etiquetas"].value.split(","));
+        let stringEtiqueta = this.formulario.elements["etiquetas"].value;
+        console.log(stringEtiqueta);
+        let arrayEtiqueta = stringEtiqueta.split(",");
+        this.gasto.anyadirEtiquetas(...arrayEtiqueta);
         repintar();
     }
 }
@@ -303,13 +308,14 @@ function EditarHandleFormulario(){
         manejadorEnviar.gasto = this.gasto;
         manejadorEnviar.formulario = this.form;
 
-        this.form.querySelector("submit", manejadorEnviar);
+        this.form.addEventListener("submit", manejadorEnviar);
 
         let botonCancelar = this.form.querySelector("button.cancelar")
 
         let manejadorCancelar = new CancelarHandleFormulario();
 
         manejadorCancelar.form = this.form;
+        manejadorCancelar.boton = event.target;
 
         botonCancelar.addEventListener("click", manejadorCancelar);
 
