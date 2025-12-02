@@ -1,5 +1,27 @@
 import * as gp from './gestionPresupuesto.js'
 
+
+function nuevoGastoWebFormulario() {
+    let boton = document.getElementById("anyadirgasto-formulario")
+    boton.addEventListener("click", function(e) {
+        boton.disabled = true;
+        let template = document.getElementById("formulario-template");
+        let clone = template.content.cloneNode(true);
+        let form = clone.firstElementChild;
+        let cancel = form.querySelector(".cancelar");
+
+        let manejarCancelar = new ManejarCancelar();
+        manejarCancelar.element = form;
+        cancel.addEventListener("click", manejarCancelar);
+
+        let div = document.getElementById("controlesprincipales");
+        div.append(form);
+    })
+}
+
+
+
+
 function repintar() {
     mostrarDatoEnId("presupuesto", gp.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gp.calcularTotalGastos())
@@ -37,35 +59,12 @@ function NuevoGastoWeb() {
     }
 }
 
-
-
-function nuevoGastoWebFormulario() {
-    let boton = document.getElementById("anyadirgasto-formulario")
-    boton.addEventListener("click", function(e) {
-        boton.setAttribute("disabled", true)
-        let fragment = new DocumentFragment();
-
-        let template = document.getElementById("formulario-template")
-        let clone = template.content.cloneNode(true)
-
-        fragment.append(clone)
-
-        let cancel = clone.querySelector(".cancelar")
-        console.log(cancel);
-        cancel.setAttribute("id", "cancelarGasto")
-        // cancel.addEventListener("click", ManejarCancelar())
-        
-
-        let div = document.getElementById("controlesprincipales")
-        div.append(fragment)
-    })
-    
-}
-
 function ManejarCancelar() {
     this.handleEvent = function(e) {
-        let boton = document.getElementById("cancelarGasto");
-        boton.setAttribute("disabled", false)
+        let boton = document.getElementById("anyadirgasto-formulario");
+        boton.disabled = false;
+
+        this.element.remove();     
     }
 }
 
