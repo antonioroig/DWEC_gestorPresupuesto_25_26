@@ -287,36 +287,57 @@ function botonCancelarHandle(){
 }
 
 //editar EditarHandleFormulario de gastos
-
-function EditarHandleFormulario(){
-    this.handleEvent = function(event){
+function EditarHandleFormulario() {
+    this.handleEvent = function(event) {
+        // clonar plantilla
         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
         let form = plantillaFormulario.querySelector("form");
 
-        let controlesPrincipales = event.currentTarget.closest(".gasto");
-        controlesPrincipales.appendChild(form);
+        // insertar dentro del gasto correspondiente
+        let divGasto = event.currentTarget.closest(".gasto");
+        divGasto.appendChild(form);
 
-        // let descripcion = form.elements.descripcion.value.trim();
-        // let valor = Number(form.elements.valor.value);
-        // let fecha = form.elements.fecha.value;
-        // let etiquetas = form.elements.etiquetas.value.split(",").map(e => e.trim());
+        // desactivar el botón de editar mientras el formulario está visible
+        let botonEditar = event.currentTarget;
+        botonEditar.setAttribute("disabled", true);
 
+        // rellenar valores actuales
         form.elements.descripcion.value = this.gasto.descripcion;
         form.elements.valor.value = this.gasto.valor;
         form.elements.fecha.value = new Date(this.gasto.fecha).toISOString().slice(0,10);
         form.elements.etiquetas.value = this.gasto.etiquetas.join(", ");
-        
-        form.remove();
-        repintar();
 
+        // guardar referencia al gasto
+        let gasto = this.gasto;
+
+        // manejador de enviar
+        form.addEventListener("submit", function(ev) {
+            ev.preventDefault();
+
+            let descripcion = form.elements.descripcion.value.trim();
+            let valor = Number(form.elements.valor.value);
+            let fecha = form.elements.fecha.value;
+            let etiquetas = form.elements.etiquetas.value.split(",").map(e => e.trim());
+
+            gasto.actualizarDescripcion(descripcion);
+            gasto.actualizarValor(valor);
+            gasto.actualizarFecha(fecha);
+            gasto.etiquetas = [];
+            gasto.anyadirEtiquetas(...etiquetas);
+
+            form.remove();
+            botonEditar.removeAttribute("disabled");
+            repintar();
+        });
+
+        // botón cancelar
+        let botonCancelar = form.querySelector(".cancelar");
+        botonCancelar.addEventListener("click", () => {
+            form.remove();
+            botonEditar.removeAttribute("disabled");
+        });
     }
-    // // botón cancelar
-    //     let botonCancelar = form.querySelector(".cancelar");
-    //     let manejadorCancelar = new botonCancelarHandle();
-    //     botonCancelar.addEventListener("click", manejadorCancelar);
-
 }
-
 
 export {
     mostrarDatoEnId,
