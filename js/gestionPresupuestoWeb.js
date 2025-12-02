@@ -231,6 +231,71 @@ function BorrarEtiquetasHandle(){
 
 
 
+function nuevoGastoWebFormulario(evento){
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+
+    let formulario = plantillaFormulario.querySelector("form");
+
+
+    let botonAnyadir = document.getElementById("anyadirgasto-formulario");
+    botonAnyadir.setAttribute("disabled", "true");
+
+   
+    formulario.addEventListener("submit", function(evento){
+        evento.preventDefault(); 
+
+        let form = evento.currentTarget;
+
+        
+        let descripcion = form.querySelector("input[name='descripcion']").value;
+        let valor = Number(form.querySelector("input[name='valor']").value);
+        let fecha = form.querySelector("input[name='fecha']").value;
+        let etiquetas = form.querySelector("input[name='etiquetas']").value.split(",");
+
+       
+        let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+        
+        gP.anyadirGasto(gasto);
+
+        
+        repintar();
+
+        botonAnyadir.removeAttribute("disabled");
+
+        form.remove();
+    });
+
+    
+    let botonCancelar = formulario.querySelector("button.cancelar");
+
+    let manejadorCancelar = new CancelarFormularioHandle();
+    manejadorCancelar.formulario = formulario;
+    manejadorCancelar.botonAnyadir = botonAnyadir;
+
+    botonCancelar.addEventListener("click", manejadorCancelar);
+
+   
+    document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+}
+
+function CancelarFormularioHandle(){}
+
+CancelarFormularioHandle.prototype.handleEvent = function(evento){
+
+    
+    this.formulario.remove();
+
+    
+    this.botonAnyadir.removeAttribute("disabled");
+};
+
+let btnAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+btnAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -240,7 +305,8 @@ export{
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    nuevoGastoWebFormulario
 }
 
 import * as gP from './gestionPresupuesto.js';
