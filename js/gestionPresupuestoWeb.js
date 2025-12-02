@@ -37,6 +37,38 @@ function NuevoGastoWeb() {
     }
 }
 
+
+
+function nuevoGastoWebFormulario() {
+    let boton = document.getElementById("anyadirgasto-formulario")
+    boton.addEventListener("click", function(e) {
+        boton.setAttribute("disabled", true)
+        let fragment = new DocumentFragment();
+
+        let template = document.getElementById("formulario-template")
+        let clone = template.content.cloneNode(true)
+
+        fragment.append(clone)
+
+        let cancel = clone.querySelector(".cancelar")
+        console.log(cancel);
+        cancel.setAttribute("id", "cancelarGasto")
+        // cancel.addEventListener("click", ManejarCancelar())
+        
+
+        let div = document.getElementById("controlesprincipales")
+        div.append(fragment)
+    })
+    
+}
+
+function ManejarCancelar() {
+    this.handleEvent = function(e) {
+        let boton = document.getElementById("cancelarGasto");
+        boton.setAttribute("disabled", false)
+    }
+}
+
 function EditarHandle() {
     this.handleEvent = function(e) {
         let desc = prompt(`Inserta el concepto general del gasto:`, this.gasto.descripcion);
@@ -190,5 +222,6 @@ export {
     mostrarGastosAgrupadosWeb,
     repintar,
     ActualizarPresupuestoWeb,
-    NuevoGastoWeb
+    NuevoGastoWeb,
+    nuevoGastoWebFormulario
 }
