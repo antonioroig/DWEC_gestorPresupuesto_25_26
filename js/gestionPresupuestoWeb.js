@@ -62,6 +62,7 @@ function mostrarGastoWeb(idElemento, gastos){
         botonEditarFormulario.innerText = "Editar (formulario)"
         let objManEdiFor = new EditarHandleFormulario();
         objManEdiFor.gasto = gasto
+        objManEdiFor.divGasto = divGasto
         botonEditarFormulario.addEventListener("click", objManEdiFor)
         divEti.append(botonEditarFormulario)
     }
@@ -160,10 +161,27 @@ function EditarHandleFormulario(){
     this.handleEvent = function(e){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
+        formulario[0].value = this.gasto.descripcion
+        formulario[1].value = this.gasto.valor
+        formulario[2].value = Utils.formatDate(this.gasto.fecha)
+        formulario[3].value = this.gasto.etiquetas
+        this.divGasto.append(formulario)
+        let manejadorSubmit = new EditarSubmit
+        manejadorSubmit.formulario = formulario
+        manejadorSubmit.gasto = this.gasto
+        formulario.addEventListener("submit", manejadorSubmit)
+        let botonenviar = formulario.querySelector(`[type="submit"]`)
+        botonenviar.addEventListener("click", manejadorSubmit)
     }
 }
 
-
+function EditarSubmit(){
+    this.handleEvent = function(e){
+        e.preventDefault()
+        this.gasto.valor = this.formulario[0].value
+        repintar()
+    }
+}
 
 function nuevoGastoWebFormulario(){    
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
