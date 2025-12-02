@@ -188,10 +188,10 @@ function nuevoGastoWebFormulario(event) {
     formulario.addEventListener("submit", formSubmitHandler)
 
     let botonCancelar = formulario.querySelector(".cancelar")
-    botonCancelar.addEventListener("click", function () {
-        boton.disabled = false
-        formulario.remove()
-    })
+    let manejadorCancelar = new ManejarCancelar()
+    manejadorCancelar.form = formulario
+    manejadorCancelar.boton = boton
+    botonCancelar.addEventListener("click", manejadorCancelar)
     contenedor.appendChild(formulario)
 }
 function formSubmitHandler(event) {
@@ -211,6 +211,12 @@ function formSubmitHandler(event) {
     repintar()
     document.getElementById("anyadirgasto-formulario").disabled = false
     form.remove()
+}
+function ManejarCancelar(){
+    this.handleEvent = function () {
+        this.form.remove()
+        this.boton.disabled = false
+    }
 }
 export {
     mostrarDatoEnId,
