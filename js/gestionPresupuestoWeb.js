@@ -129,7 +129,7 @@ function actualizarPresupuestoWeb() {
     presupuesto.actualizarPresupuesto(nuevoPresupuesto)
     repintar()
 }
-function nuevoGastoWeb(event) {
+function nuevoGastoWeb() {
     let descripcion = prompt("Ingrese la descripción del nuevo gasto")
     let valor = prompt("Ingrese el valor del nuevo gasto")
     valor = Number(valor)
@@ -158,8 +158,9 @@ function EditarHandle() {
         }
         etiquetas = prompt("Ingrese las etiquetas que quiera añadir al gasto separadas por una coma sin espacios")
         arrayEtiquetas = etiquetas.split(",")
-        if (etiquetas != "") {
-            this.gasto.anyadirEtiquetas(arrayEtiquetas)
+
+        if (etiquetas !== "") {
+            this.gasto.anyadirEtiquetas(...arrayEtiquetas)
         }
         repintar()
     }
@@ -176,31 +177,40 @@ function BorrarEtiquetasHandle() {
         repintar()
     }
 }
-function nuevoGastoWebFormulario() {
+function nuevoGastoWebFormulario(event) {
     let contenedor = document.getElementById("controlesprincipales")
-    if (!contenedor.querySelector("form")) {
-        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true)
-        let formulario = plantillaFormulario.querySelector("form")
-        formulario.addEventListener("submit", formSubmitHandler)
-        contenedor.appendChild(formulario)
-    }
+    let boton = event.currentTarget
+    boton.disabled = true
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true)
+    let formulario = plantillaFormulario.querySelector("form")
+
+    formulario.addEventListener("submit", formSubmitHandler)
+
+    let botonCancelar = formulario.querySelector(".cancelar")
+    botonCancelar.addEventListener("click", function () {
+        boton.disabled = false
+        formulario.remove()
+    })
+    contenedor.appendChild(formulario)
 }
 function formSubmitHandler(event) {
     event.preventDefault()
     let form = event.target
+    let boton = event.currentTarget
+    console.log(boton)
     let descripcion = form.querySelector("#descripcion").value
     let valor = form.querySelector("#valor").value
+    valor = Number(valor)
     let fecha = form.querySelector("#fecha").value
     let etiqueta = form.querySelector("#etiquetas").value
     etiqueta = etiqueta.split(",")
-    if(descripcion && valor && fecha && etiqueta){
-        let gasto = new presupuesto.CrearGasto(descripcion, valor, fecha, etiqueta)
-        gasto = JSON.stringify(gasto)
-        alert(gasto)
-    }
-    else{
-        alert("Nos embargaron")
-    }
+
+    let nuevoGasto = new presupuesto.CrearGasto(descripcion, valor, fecha, ...etiqueta)
+    presupuesto.anyadirGasto(nuevoGasto)
+    repintar()
+    document.getElementById("anyadirgasto-formulario").disabled = false
+    form.remove()
 }
 export {
     mostrarDatoEnId,
