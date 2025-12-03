@@ -1,12 +1,5 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
-let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-let formulario = plantillaFormulario.querySelector("form");
-
-let divControlesPrincipales = document.getElementById("controlesprincipales");
-divControlesPrincipales.appendChild(formulario);
-
-
 function mostrarDatoEnId(idElemento,valor){
     let elem = document.getElementById(idElemento);
 
@@ -187,23 +180,37 @@ botonAnyadir.addEventListener("click", objAnyadir);
 
 function nuevoGastoWebFormulario(){
 
-    let div = document.getElementById("controlesprincipales");
+    let botonForm = document.getElementById("anyadirgasto-formulario");
+    botonForm.disabled = true;
 
-    div.appendChild(formulario);
+    let formExistente = document.querySelector("#controlesprincipales form");
+    if (formExistente) formExistente.remove();
+
+    let plantilla = document.getElementById("formulario-template").content.cloneNode(true);
+    let formulario = plantilla.querySelector("form");
+
+    let contenedor = document.getElementById("controlesprincipales");
+    contenedor.appendChild(formulario);
     
     formulario.addEventListener("submit", function(event){
         event.preventDefault();
 
         let descripcion = formulario.elements.descripcion.value;
-        let valor = formulario.elements.valor.value;
+        let valor = parseFloat(formulario.elements.valor.value);
         let fecha = formulario.elements.fecha.value;
         let etiquetas = formulario.etiquetas.value;
 
+        let etiquetasOrdenadas = etiquetas.split(',');
+        let nuevoGasto = new gestionPresupuesto.CrearGasto(descripcion,valor, fecha, ...etiquetasOrdenadas);
 
+        gestionPresupuesto.anyadirGasto(nuevoGasto);
+        repintar();
+        formulario.remove();
+        botonForm.disabled = false;
     });
-    
-
 }
+document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
+
 
 function EditarHandle(gasto){
     this.gasto = gasto;
