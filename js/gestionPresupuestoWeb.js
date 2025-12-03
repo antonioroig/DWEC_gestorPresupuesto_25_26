@@ -1,25 +1,72 @@
 import * as gp from './gestionPresupuesto.js'
 
-
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
     boton.addEventListener("click", function(e) {
         boton.disabled = true;
-        let template = document.getElementById("formulario-template");
-        let clone = template.content.cloneNode(true);
-        let form = clone.firstElementChild;
+        let form = cloneTemplate();
         let cancel = form.querySelector(".cancelar");
-
+        
         let manejarCancelar = new ManejarCancelar();
         manejarCancelar.element = form;
         cancel.addEventListener("click", manejarCancelar);
+        
+        let nuevoGasto = new NuevoGastoFormulario()
+        form.addEventListener("submit", nuevoGasto)
 
         let div = document.getElementById("controlesprincipales");
         div.append(form);
     })
 }
 
+function NuevoGastoFormulario() {
+    this.handleEvent = function(e) {
+        e.preventDefault();
+        let desc = document.getElementById("descripcion").value
+        let valor = document.getElementById("valor").value
+        valor = Number(valor);
+        let fecha = document.getElementById("fecha").value
+        let etiquetas = document.getElementById("etiquetas").value
 
+        let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas)
+        gp.anyadirGasto(gasto)
+        console.log(gp.listarGastos());
+        repintar()
+    }
+}
+
+
+
+function EditarHandle() {
+    this.handleEvent = function(e) {
+        let desc = prompt(`Inserta el concepto general del gasto:`, this.gasto.descripcion);
+        this.gasto.actualizarDescripcion(desc)
+        let precio = Number(prompt(`Inserta el precio`, this.gasto.valor));
+        this.gasto.actualizarValor(precio)
+        let oldFecha = new Date(this.gasto.fecha).toISOString().replace("/", "-").split("T")[0]
+        let fecha = prompt(`Inserta la fecha`, oldFecha);
+        fecha = new Date(fecha)
+        this.gasto.actualizarFecha(fecha)
+        let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, this.gasto.etiquetas);
+        if (etiquetas === "") {
+            this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
+            repintar();
+            return;
+        }
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
+        etiquetas = etiquetas.split(',')
+        this.gasto.anyadirEtiquetas(etiquetas);
+        repintar();
+    }
+}
+
+// Función propia para clonar rápido el template
+function cloneTemplate() {
+    let template = document.getElementById("formulario-template");
+    let clone = template.content.cloneNode(true);
+    let form = clone.firstElementChild;
+    return form;
+}
 
 
 function repintar() {
@@ -63,33 +110,10 @@ function ManejarCancelar() {
     this.handleEvent = function(e) {
         let boton = document.getElementById("anyadirgasto-formulario");
         boton.disabled = false;
-
         this.element.remove();     
     }
 }
 
-function EditarHandle() {
-    this.handleEvent = function(e) {
-        let desc = prompt(`Inserta el concepto general del gasto:`, this.gasto.descripcion);
-        this.gasto.actualizarDescripcion(desc)
-        let precio = Number(prompt(`Inserta el precio`, this.gasto.valor));
-        this.gasto.actualizarValor(precio)
-        let oldFecha = new Date(this.gasto.fecha).toISOString().replace("/", "-").split("T")[0]
-        let fecha = prompt(`Inserta la fecha`, oldFecha);
-        fecha = new Date(fecha)
-        this.gasto.actualizarFecha(fecha)
-        let etiquetas = prompt(`Inserta las etiquetas (separadas por coma)`, this.gasto.etiquetas);
-        if (etiquetas === "") {
-            this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
-            repintar();
-            return;
-        }
-        this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
-        etiquetas = etiquetas.split(',')
-        this.gasto.anyadirEtiquetas(etiquetas);
-        repintar();
-    }
-}
 
 function BorrarHandle() {
     this.handleEvent = function(e) {
