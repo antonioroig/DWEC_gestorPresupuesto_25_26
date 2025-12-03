@@ -263,7 +263,22 @@ function EditarHandleFormulario() {
        contenedor.appendChild(formulario)
     }
 }
+function EnviarHandleFormulario(){
+    this.handleEvent = function (event){
+        event.preventDefault()
 
+        let formulario = event.target
+        console.log(formulario)
+
+        this.gasto.descripcion = formulario.querySelector("#descripcion").value
+        this.gasto.valor = formulario.querySelector("#valor").value
+        this.gasto.fecha = formulario.querySelector("#fecha").value
+        this.gasto.etiquetas = formulario.querySelector("#etiquetas").value.split(",")
+
+        console.log(this.gasto.etiquetas)
+        repintar()
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
