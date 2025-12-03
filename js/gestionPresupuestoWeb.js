@@ -63,9 +63,8 @@ function mostrarGastoWeb(idElemento, gastos){
         let objManEdiFor = new EditarHandleFormulario();
         objManEdiFor.gasto = gasto
         objManEdiFor.divGasto = divGasto
-        objManEdiFor.divGasto = divGasto
         botonEditarFormulario.addEventListener("click", objManEdiFor)
-        divEti.append(botonEditarFormulario)
+        divGasto.append(botonEditarFormulario)
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -164,9 +163,15 @@ function EditarHandleFormulario(){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
         this.divGasto.append(formulario)
-        let botoneditarForm = this.divGasto.querySelector(`[type="click"]`)
-        botoneditarForm.setAttribute("disabled", "true")
+        let botonEditarForm = this.divGasto.querySelector(`[type="click"]`)
+        botonEditarForm.setAttribute("disabled", "true")
         formulario.style="display:flex; flex-direction:column"
+        let botonEditarCancelar = formulario.getElementsByClassName("cancelar")
+        botonEditarCancelar[0].addEventListener("click", (e)=>{
+            e.preventDefault()
+            botonEditarForm.removeAttribute("disabled")
+            formulario.remove()
+        })
         formulario[0].value = this.gasto.descripcion
         formulario[1].value = this.gasto.valor
         console.log(fecha)
@@ -184,13 +189,7 @@ function EditarHandleFormulario(){
     }
 }
 
-function EditarSubmit(){
-    this.handleEvent = function(e){
-        e.preventDefault()
-        this.gasto.valor = this.formulario[0].value
-        repintar()
-    }
-}
+
 
 function nuevoGastoWebFormulario(){    
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
@@ -214,7 +213,6 @@ function ManejaCancelar(event){
     this.handleEvent=function(e){
         let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
         botonAñadirForm.removeAttribute("disabled")
-        console.log("formulario cancelado")
         repintar()
     }
 }
