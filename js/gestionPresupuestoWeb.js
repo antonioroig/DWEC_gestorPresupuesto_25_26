@@ -97,7 +97,8 @@ function repintar(){
     titulo.innerText = "Gastos Filtrados"
     divGastosCompletos.append(titulo)
     let form = document.forms[0]
-    form.remove()
+    if(form != undefined)
+        form.remove()
 }
 function actualizarPresupuestoWeb(){
     let botonPresupuesto = document.getElementById("actualizarpresupuesto")
@@ -162,20 +163,24 @@ function EditarHandleFormulario(){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
         this.divGasto.append(formulario)
-        formulario.style="display:flex; flex-direction:column"
+        formulario.style="display:flex; flex-direction:column; flex-basis: 100%;"
+        let botonForm = this.divGasto.getElementsByClassName("gasto-editar-formulario")
+        this.divGasto.style = "flex-wrap: wrap;"
+        botonForm[0].setAttribute("disabled", "true")
         formulario[0].value = this.gasto.descripcion
         formulario[1].value = this.gasto.valor
-        console.log(fecha)
         formulario[2].value = Utils.formatDate(this.gasto.fecha)
         formulario[3].value = this.gasto.etiquetas
         console.log(formulario[0].value)
+        let botonCancel = this.divGasto.getElementsByClassName("cancelar")
+        let objCancelar = new ManejaCancelar
+        botonCancel[0].addEventListener("click", objCancelar)
         formulario.addEventListener("submit", (e) => {
             e.preventDefault();
             this.gasto.actualizarDescripcion(formulario[0].value)
-            this.gasto.actualizarValor(formulario[1].value)
+            this.gasto.actualizarValor(parseFloat(formulario[1].value))
             this.gasto.actualizarFecha(formulario[2].value)
             this.gasto.etiquetas = formulario[3].value.split(",")
-
             repintar()
         })
     }
@@ -205,7 +210,6 @@ function ManejaCancelar(event){
     this.handleEvent=function(e){
         let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
         botonAñadirForm.removeAttribute("disabled")
-        console.log("formulario cancelado")
         repintar()
     }
 }
