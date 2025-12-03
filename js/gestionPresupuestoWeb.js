@@ -1,5 +1,12 @@
 import * as gestionPresupuesto from './gestionPresupuesto.js';
 
+let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+let formulario = plantillaFormulario.querySelector("form");
+
+let divControlesPrincipales = document.getElementById("controlesprincipales");
+divControlesPrincipales.appendChild(formulario);
+
+
 function mostrarDatoEnId(idElemento,valor){
     let elem = document.getElementById(idElemento);
 
@@ -75,12 +82,6 @@ botonBorrar.addEventListener("click", manejadorBorrar);
 
 divGasto.appendChild(botonBorrar);
 contenedor.appendChild(divGasto);
-
-let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-let formulario = plantillaFormulario.querySelector("form");
-let divControlesPrincipales = document.getElementById("controlesprincipales");
-
-divControlesPrincipales.appendChild(formulario);
 
 }
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
