@@ -4,7 +4,7 @@
 // TODO: Variable global
 var presupuesto = 0
 var gastos = []
-var idGasto = 1
+var idGasto = 0
 
 function actualizarPresupuesto(nuevoPresupuesto) {
     // TODO
