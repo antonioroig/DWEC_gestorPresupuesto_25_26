@@ -234,48 +234,49 @@ function ManejarCancelar() {
 }
 function EditarHandleFormulario() {
     this.handleEvent = function (event) {
-       let contenedor = event.target.parentElement
-       let boton = event.target
-       boton.disabled = true
+        let contenedor = event.target.parentElement
+        let boton = event.target
+        boton.disabled = true
 
-       let formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form")
+        let formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form")
 
-       let descripcion = formulario.querySelector("#descripcion")
-       let valor = formulario.querySelector("#valor")
-       let fecha = formulario.querySelector("#fecha")
-       let etiquetas = formulario.querySelector("#etiquetas")
-       let cancelar = formulario.querySelector(".cancelar")
+        let descripcion = formulario.querySelector("#descripcion")
+        let valor = formulario.querySelector("#valor")
+        let fecha = formulario.querySelector("#fecha")
+        //    let etiquetas = formulario.querySelector("#etiquetas")
+        let cancelar = formulario.querySelector(".cancelar")
 
-       descripcion.value = this.gasto.descripcion
-       valor.value = this.gasto.valor
-       fecha.value = new Date(this.gasto.fecha).toISOString().slice(0,10)
-       etiquetas.value = this.gasto.etiquetas
+        descripcion.value = this.gasto.descripcion
+        valor.value = this.gasto.valor
+        fecha.value = new Date(this.gasto.fecha).toISOString().slice(0, 10)
+        //    etiquetas.value = this.gasto.etiquetas
 
-       let manejadorEnvioFormulario = new EnviarHandleFormulario()
-       manejadorEnvioFormulario.gasto = this.gasto
-       formulario.addEventListener("submit", manejadorEnvioFormulario)
+        let manejadorEnvioFormulario = new EnviarHandleFormulario()
+        manejadorEnvioFormulario.gasto = this.gasto
+        formulario.addEventListener("submit", manejadorEnvioFormulario)
 
-       let manejadorCancelar = new ManejarCancelar()
-       manejadorCancelar.boton = boton
-       manejadorCancelar.form = formulario
-       cancelar.addEventListener("click", manejadorCancelar)
-       
-       contenedor.appendChild(formulario)
+        let manejadorCancelar = new ManejarCancelar()
+        manejadorCancelar.boton = boton
+        manejadorCancelar.form = formulario
+        cancelar.addEventListener("click", manejadorCancelar)
+
+        contenedor.appendChild(formulario)
     }
 }
-function EnviarHandleFormulario(){
-    this.handleEvent = function (event){
+function EnviarHandleFormulario() {
+    this.handleEvent = function (event) {
         event.preventDefault()
 
         let formulario = event.target
-        console.log(formulario)
 
-        this.gasto.descripcion = formulario.querySelector("#descripcion").value
-        this.gasto.valor = formulario.querySelector("#valor").value
-        this.gasto.fecha = formulario.querySelector("#fecha").value
-        this.gasto.etiquetas = formulario.querySelector("#etiquetas").value.split(",")
+        this.gasto.actualizarDescripcion(formulario.querySelector("#descripcion").value)
+        this.gasto.actualizarValor(Number(formulario.querySelector("#valor").value))
+        this.gasto.actualizarFecha(formulario.querySelector("#fecha").value)
+        let etiquetas = formulario.querySelector("#etiquetas").value
+        if (etiquetas.length > 0) {
+            this.gasto.anyadirEtiquetas(etiquetas.split(","))
+        }
 
-        console.log(this.gasto.etiquetas)
         repintar()
     }
 }
