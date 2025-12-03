@@ -26,7 +26,7 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             if (key === "etiquetas") {
                 const divEtiquetas = document.createElement("div")
                 divEtiquetas.classList.add(`gasto-${key}`)
-                divEtiquetas.textContent = `${key}:`
+                // divEtiquetas.textContent = `${key}:`
                 divGasto.appendChild(divEtiquetas)
 
                 gastoFiltrado[key].forEach(etiqueta => {
@@ -42,14 +42,18 @@ function mostrarGastoWeb(idElemento, listaGastos) {
                     divEtiquetas.appendChild(document.createElement("br"))
                 })
             } else if (key !== "fecha") {
-                const divProp = document.createElement("div")
-                divProp.classList.add(`gasto-${key}`)
-                divProp.textContent = `${gastoFiltrado[key]}`
-                divGasto.appendChild(divProp)
+                if (key !== "id") {
+                    const divProp = document.createElement("div")
+                    divProp.classList.add(`gasto-${key}`)
+                    divProp.textContent = `${gastoFiltrado[key]}`
+                    divGasto.appendChild(divProp)
+                }
+
             } else {
                 const divFecha = document.createElement("div")
                 divFecha.classList.add(`gasto-${key}`)
-                divFecha.textContent = `${key}: ${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`
+                // divFecha.textContent = `${key}: ${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`
+                divFecha.textContent = `${(new Date(gastoFiltrado[key])).toISOString().slice(0, 10)}`
                 divGasto.appendChild(divFecha)
             }
         }
@@ -71,6 +75,16 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             manejadorBorrar.gasto = gasto
             botonBorrar.addEventListener("click", manejadorBorrar)
             divGasto.appendChild(botonBorrar)
+
+            const botonEditarFormulario = document.createElement("button")
+            botonEditarFormulario.type = "button"
+            botonEditarFormulario.classList.add("gasto-editar-formulario")
+            botonEditarFormulario.textContent = "Editar (formulario)"
+            let manejadorEditarFormulario = new EditarHandleFormulario()
+            manejadorEditarFormulario.gasto = gasto
+            botonEditarFormulario.addEventListener("click", manejadorEditarFormulario)
+            divGasto.appendChild(botonEditarFormulario)
+
         }
 
         contenedor.appendChild(divGasto)
@@ -212,7 +226,7 @@ function formSubmitHandler(event) {
     document.getElementById("anyadirgasto-formulario").disabled = false
     form.remove()
 }
-function ManejarCancelar(){
+function ManejarCancelar() {
     this.handleEvent = function () {
         this.form.remove()
         this.boton.disabled = false
