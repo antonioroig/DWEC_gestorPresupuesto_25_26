@@ -76,6 +76,16 @@ export function mostrarGastoWeb(idElemento, gasto) {
 
   btnEditar.addEventListener("click", handleEditar);
   wrap.appendChild(btnEditar);
+
+  const btnEditarFormulario = document.createElement("button");
+  btnEditarFormulario.type = "button";
+  btnEditarFormulario.className = "gasto-editar-formulario";
+  btnEditarFormulario.textContent = "Editar (formulario)";
+
+  const handleEditarForm = new EditarHandleFormulario();
+  handleEditarForm.gasto = gasto;
+  btnEditarFormulario.addEventListener("click", handleEditarForm);
+  wrap.appendChild(btnEditarFormulario);
   cont.appendChild(wrap);
 }
 
@@ -266,45 +276,45 @@ if (botonAnyadirFormulario) {
 }
 
 
-export function nuevoGastoWebFormulario(event){
+export function nuevoGastoWebFormulario(event) {
 
   const boton = event.currentTarget
   let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
   var formulario = plantillaFormulario.querySelector("form");
- 
+
   function manejarSubmit(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
+    event.preventDefault();
+    const form = event.currentTarget;
 
 
-  const descripcion = form.elements.descripcion.value;
-  const valor = parseFloat(form.elements.valor.value);
-  const fecha = form.elements.fecha.value;
-  const etiquetas = form.elements.etiquetas.value;
+    const descripcion = form.elements.descripcion.value;
+    const valor = parseFloat(form.elements.valor.value);
+    const fecha = form.elements.fecha.value;
+    const etiquetas = form.elements.etiquetas.value;
 
-  const valorNum = Number(valor);
+    const valorNum = Number(valor);
 
-  let etiquetasArray = [];
-  if (etiquetas && etiquetas.trim() !== "") {
-    etiquetasArray = etiquetas.split(",").map(e => e.trim()).filter(e => e !== "");
-  }
+    let etiquetasArray = [];
+    if (etiquetas && etiquetas.trim() !== "") {
+      etiquetasArray = etiquetas.split(",").map(e => e.trim()).filter(e => e !== "");
+    }
 
-  const nuevo = new gp.CrearGasto(
-    descripcion,
-    valorNum,
-    fecha,
-    ...etiquetasArray
-  );
-  gp.anyadirGasto(nuevo);
+    const nuevo = new gp.CrearGasto(
+      descripcion,
+      valorNum,
+      fecha,
+      ...etiquetasArray
+    );
+    gp.anyadirGasto(nuevo);
 
-  repintar();
+    repintar();
 
-  const botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
-  if (botonAnyadirFormulario) {
-    botonAnyadirFormulario.removeAttribute("disabled");
-  }
+    const botonAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+    if (botonAnyadirFormulario) {
+      botonAnyadirFormulario.removeAttribute("disabled");
+    }
 
-  form.remove();
+    form.remove();
   }
   formulario.addEventListener("submit", manejarSubmit);
   boton.setAttribute("disabled", "disabled");
