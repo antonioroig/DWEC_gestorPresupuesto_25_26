@@ -58,10 +58,11 @@ function mostrarGastoWeb(idElemento, gastos){
         botonBorrarGasto.addEventListener("click", objManejadorBorrado)
         divEti.append(botonBorrarGasto)
         let botonEditarFormulario = Utils.buttonWithClass("gasto-editar-formulario")
-        botonEditarFormulario.setAttribute("type", "submit")
+        botonEditarFormulario.setAttribute("type", "click")
         botonEditarFormulario.innerText = "Editar (formulario)"
         let objManEdiFor = new EditarHandleFormulario();
         objManEdiFor.gasto = gasto
+        objManEdiFor.divGasto = divGasto
         objManEdiFor.divGasto = divGasto
         botonEditarFormulario.addEventListener("click", objManEdiFor)
         divEti.append(botonEditarFormulario)
@@ -97,7 +98,8 @@ function repintar(){
     titulo.innerText = "Gastos Filtrados"
     divGastosCompletos.append(titulo)
     let form = document.forms[0]
-    form.remove()
+    if(form != undefined)
+        form.remove()
 }
 function actualizarPresupuestoWeb(){
     let botonPresupuesto = document.getElementById("actualizarpresupuesto")
@@ -135,7 +137,7 @@ function EditarHandle(){
         let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${this.gasto.etiquetas}`)
         let arrayEtiquetas = etiquetasGasto.split(",")
         this.gasto.actualizarDescripcion(concepto)
-        this.gasto.actualizarValor(valorTotal)
+        this.gasto.actualizarValor(parseFloat(valorTotal))
         this.gasto.actualizarFecha(fechaDelGasto)
         this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
         this.gasto.anyadirEtiquetas(...arrayEtiquetas)
@@ -161,17 +163,24 @@ function EditarHandleFormulario(){
     this.handleEvent = function(e){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
+        this.divGasto.append(formulario)
+        let botoneditarForm = this.divGasto.querySelector(`[type="click"]`)
+        botoneditarForm.setAttribute("disabled", "true")
+        formulario.style="display:flex; flex-direction:column"
         formulario[0].value = this.gasto.descripcion
         formulario[1].value = this.gasto.valor
+        console.log(fecha)
         formulario[2].value = Utils.formatDate(this.gasto.fecha)
         formulario[3].value = this.gasto.etiquetas
-        this.divGasto.append(formulario)
-        let manejadorSubmit = new EditarSubmit
-        manejadorSubmit.formulario = formulario
-        manejadorSubmit.gasto = this.gasto
-        formulario.addEventListener("submit", manejadorSubmit)
-        let botonenviar = formulario.querySelector(`[type="submit"]`)
-        botonenviar.addEventListener("click", manejadorSubmit)
+        console.log(formulario[0].value)
+        formulario.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.gasto.actualizarDescripcion(formulario[0].value)
+            this.gasto.actualizarValor(parseFloat(formulario[1].value))
+            this.gasto.actualizarFecha(formulario[2].value)
+            this.gasto.etiquetas = formulario[3].value.split(",")
+            repintar()
+        })
     }
 }
 
