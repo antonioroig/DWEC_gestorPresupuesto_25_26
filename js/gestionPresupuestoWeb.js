@@ -67,6 +67,13 @@ function mostrarGastoWeb(idElemento, gasto){
         botonEditarFormulario.addEventListener("click", function(){
             let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
             let formulario = plantillaFormulario.querySelector("form");
+            formulario.elements["descripcion"].value = gasto[i].descripcion;
+            formulario.elements["valor"].value = gasto[i].valor;
+            let nuevaFecha = new Date(gasto[i].fecha);
+            
+            let mes = String(nuevaFecha.getMonth() + 1).padStart(2, '0'); // si no tiene 2 caracteres añade 0 al inicio
+            let dia = String(nuevaFecha.getDate()).padStart(2, '0'); // si no tiene 2 caracteres añade 0 al inicio
+            formulario.elements["fecha"].value = nuevaFecha.getFullYear() + "-" + mes + "-" + dia;
             formulario.addEventListener("submit", objEditarFormulario); 
             divgasto.append(formulario);
             botonEditarFormulario.disabled = true;
