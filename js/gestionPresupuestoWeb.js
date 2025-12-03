@@ -302,7 +302,6 @@ function EditarHandleFormulario(){
         this.form.elements["descripcion"].value = this.gasto.descripcion;
         this.form.elements["valor"].value = this.gasto.valor;
         this.form.elements["fecha"].value = `${year}-${month}-${day}`;
-        this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
         let manejadorEnviar = new EnviarHandle();
 
