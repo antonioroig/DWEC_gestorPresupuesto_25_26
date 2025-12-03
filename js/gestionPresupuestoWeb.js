@@ -3,7 +3,8 @@ import * as gp from './gestionPresupuesto.js'
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
     boton.addEventListener("click", function(e) {
-        boton.disabled = true;
+        // boton.disabled = "true";
+        boton.setAttribute("disabled", true)
         let form = cloneTemplate();
         let cancel = form.querySelector(".cancelar");
         
@@ -30,11 +31,19 @@ function NuevoGastoFormulario() {
 
         let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas)
         gp.anyadirGasto(gasto)
-        console.log(gp.listarGastos());
+        let boton = document.getElementById("anyadirgasto-formulario")
+        boton.disabled = false
+        boton.removeAttribute("disable")
         repintar()
     }
 }
 
+function EditarHandleFormulario() {
+
+    this.handleEvent = (e) => {
+
+    }
+}
 
 
 function EditarHandle() {
@@ -110,7 +119,9 @@ function ManejarCancelar() {
     this.handleEvent = function(e) {
         let boton = document.getElementById("anyadirgasto-formulario");
         boton.disabled = false;
-        this.element.remove();     
+        boton.removeAttribute("disable")
+        this.element.remove();
+        repintar()
     }
 }
 
@@ -181,7 +192,6 @@ function mostrarGastoWeb(id, gasto) {
             etiqueta.append(br)
         }
 
-        // crear boton
         let btn = document.createElement("button")
         btn.setAttribute("class", "gasto-editar")
         btn.setAttribute("type", "button")
@@ -190,6 +200,8 @@ function mostrarGastoWeb(id, gasto) {
     
         let objManejador = new EditarHandle();
         objManejador.gasto = obj;
+        objManejador.div = mainDiv
+
         btn.addEventListener("click", objManejador)
         mainDiv.append(btn);
 
@@ -202,7 +214,15 @@ function mostrarGastoWeb(id, gasto) {
         let objManejadorDelete = new BorrarHandle();
         objManejadorDelete.gasto = obj;
         btnDel.addEventListener("click", objManejadorDelete)
+
+        // Nuevo botón para editar
+        let btnEditNew = document.createElement("button")
+        btnEditNew.setAttribute("class", "gasto-editar-formulario")
+        btnEditNew.setAttribute("type", "button")
+        btnEditNew.textContent = "Editar (formulario)"
+
         mainDiv.append(btnDel);
+        mainDiv.append(btnEditNew)
         idElement.append(mainDiv)
     }
 }
