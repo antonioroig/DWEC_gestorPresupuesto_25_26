@@ -64,7 +64,7 @@ function mostrarGastoWeb(idElemento, gastos){
         objManEdiFor.gasto = gasto
         objManEdiFor.divGasto = divGasto
         botonEditarFormulario.addEventListener("click", objManEdiFor)
-        divEti.append(botonEditarFormulario)
+        divGasto.append(botonEditarFormulario)
     }
 }
 function  mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
@@ -97,6 +97,8 @@ function repintar(){
     titulo.innerText = "Gastos Filtrados"
     divGastosCompletos.append(titulo)
     let form = document.forms[0]
+    if(form != undefined)
+        form.remove()
     if(form != undefined)
         form.remove()
 }
@@ -136,7 +138,7 @@ function EditarHandle(){
         let etiquetasGasto = prompt("Ingrese las referencias que quiere que contenga su gasto",  `${this.gasto.etiquetas}`)
         let arrayEtiquetas = etiquetasGasto.split(",")
         this.gasto.actualizarDescripcion(concepto)
-        this.gasto.actualizarValor(valorTotal)
+        this.gasto.actualizarValor(parseFloat(valorTotal))
         this.gasto.actualizarFecha(fechaDelGasto)
         this.gasto.borrarEtiquetas(...this.gasto.etiquetas)
         this.gasto.anyadirEtiquetas(...arrayEtiquetas)
@@ -163,10 +165,18 @@ function EditarHandleFormulario(){
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let formulario = clonForm.querySelector("form")
         this.divGasto.append(formulario)
+        let botonEditarForm = this.divGasto.querySelector(`[type="click"]`)
+        botonEditarForm.setAttribute("disabled", "true")
         formulario.style="display:flex; flex-direction:column; flex-basis: 100%;"
         let botonForm = this.divGasto.getElementsByClassName("gasto-editar-formulario")
         this.divGasto.style = "flex-wrap: wrap;"
         botonForm[0].setAttribute("disabled", "true")
+        let botonEditarCancelar = formulario.getElementsByClassName("cancelar")
+        botonEditarCancelar[0].addEventListener("click", (e)=>{
+            e.preventDefault()
+            botonEditarForm.removeAttribute("disabled")
+            formulario.remove()
+        })
         formulario[0].value = this.gasto.descripcion
         formulario[1].value = this.gasto.valor
         formulario[2].value = Utils.formatDate(this.gasto.fecha)
@@ -178,7 +188,7 @@ function EditarHandleFormulario(){
         formulario.addEventListener("submit", (e) => {
             e.preventDefault();
             this.gasto.actualizarDescripcion(formulario[0].value)
-            this.gasto.actualizarValor(parseFloat(formulario[1].value))
+            this.gasto.actualizarValor(formulario[1].value)
             this.gasto.actualizarFecha(formulario[2].value)
             this.gasto.etiquetas = formulario[3].value.split(",")
             repintar()

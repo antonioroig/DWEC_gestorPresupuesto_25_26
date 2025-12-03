@@ -1,12 +1,9 @@
 function divWithClass(clase){
     if (clase == "")
         return
-    if(typeof clase === `string`)
-    {
-        let newDiv = document.createElement("div")
-        newDiv.setAttribute("class",`${clase}`)
-        return newDiv
-    }
+    let newDiv = document.createElement("div")
+    newDiv.setAttribute("class",`${clase}`)
+    return newDiv
 }
 function elementWithClass(element, clase){
     if (clase == "" || element == "")

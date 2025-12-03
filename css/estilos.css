@@ -18,12 +18,12 @@ form, .gasto {
 form{
     width:50%
 }
-form>div:nth-child(3){
+/* form>div:nth-child(3){
     width: 25%;
-}
+} */
 .form-control {
     margin: 0.5em 0;
-    width: 80%;
+    width: 100%;
 }
 
 .form-control label {
