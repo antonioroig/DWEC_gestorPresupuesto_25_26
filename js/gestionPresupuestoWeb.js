@@ -215,17 +215,16 @@ function submithandled(event){
     let form = event.currentTarget;
     
     let desc = form.elements["descripcion"].value.trim();
-    let val = form.elements["valor"].value.trim();
+    let val = Number(form.elements["valor"].value.trim());
     let fec = form.elements["fecha"].value.trim();
-    let etiq = form.elements["etiquetas"].value.split(',').map(e => e.trim());
+    let etiq = form.elements["etiquetas"].value.split(',');
 
     let gasto = new gp.CrearGasto(desc,val,fec,...etiq);
     gp.anyadirGasto(gasto);
     repintar();
-    // document.getElementById("anyadirgasto-formulario").disabled = false; 
-    btnAnyGasFor.disabled = true;
+    btnAnyGasFor.disabled = false;
     //hay que eliminar el formulario alintroducir un nuevo gasto?
-    // form.remove();
+    form.remove();
 }
 function CancelHandled(){
     this.handleEvent = function(event){
@@ -233,8 +232,7 @@ function CancelHandled(){
         // repintar();
         // this.boton.disabled = false;
         btnAnyGasFor.disabled = false;
-    }
-    
+    }    
 }
 
 export{
