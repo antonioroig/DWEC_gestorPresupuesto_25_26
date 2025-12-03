@@ -67,7 +67,16 @@ function mostrarGastoWeb (idElemento, gasto){
     objBor.gasto = gasto;
     botonBo.addEventListener("click", objBor);
     divGasto.append(botonBo);
-   
+
+    let btnEdiForm = document.createElement("button");
+    btnEdiForm.type = "button";
+    btnEdiForm.textContent = "Editar (Formulario)";
+    btnEdiForm.classList.add("gasto-editar-formulario")
+    
+    let obEdtForm = new EditarHandleformulario();
+    obEdtForm.gasto = gasto;
+    btnEdiForm.addEventListener(obEdtForm);
+    divGasto.append(btnEdiForm);   
 }
     
 function mostrarGastosAgrupadosWeb (idElemento,agrup,periodo){
@@ -234,6 +243,8 @@ function CancelHandled(){
         btnAnyGasFor.disabled = false;
     }    
 }
+
+
 
 export{
     mostrarDatoEnId,
