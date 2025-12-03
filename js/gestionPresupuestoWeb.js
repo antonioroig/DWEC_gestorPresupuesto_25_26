@@ -188,7 +188,7 @@ function EditarHandleFormulario(){
         formulario.addEventListener("submit", (e) => {
             e.preventDefault();
             this.gasto.actualizarDescripcion(formulario[0].value)
-            this.gasto.actualizarValor(formulario[1].value)
+            this.gasto.actualizarValor(parseFloat(formulario[1].value))
             this.gasto.actualizarFecha(formulario[2].value)
             this.gasto.etiquetas = formulario[3].value.split(",")
             repintar()
