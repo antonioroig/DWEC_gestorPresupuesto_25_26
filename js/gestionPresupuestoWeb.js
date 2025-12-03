@@ -191,11 +191,27 @@ function BorrarEtiquetasHandle(){}
     repintar();
   }
 
+  function nuevoGastoWebFormulario(){
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    
+  }
+const form = document.getElementById("form-control");
+form.addEventListener("submit", function(event){
+  if(!form.checkValidity()){
+    event.preventDefault();
+    form.reportValidity();
+    return;
+  }
+  event.preventDefault();
+  
+})
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar, 
     actualizarPresupuestoWeb,
-    nuevoGastoWeb
+    nuevoGastoWeb,
+    nuevoGastoWebFormulario
 }
