@@ -181,6 +181,62 @@ function BorrarEtiquetasHandle(){
     }
 }
 
+let btnAnyGasFor = document.getElementById("anyadirgasto-formulario");
+btnAnyGasFor.addEventListener("click",nuevoGastoWebFormulario);
+
+function nuevoGastoWebFormulario (){
+    
+    btnAnyGasFor.disabled = true;
+    //coje la plantilla y la clona con todos los descendientes que tiene
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    //no quier todos los elementos del template
+    //selecciono solo el formilario
+    //uso querySelector ya que es el primer y unico form dentro del template
+    let formulario = plantillaFormulario.querySelector("form");
+    
+    formulario.addEventListener("submit",submithandled);//subhand es la manejadora del evento submit que todavia no he creado
+    
+    let btnCancelar = formulario.querySelector("button.cancelar");
+    let objCancelar = new CancelHandled();
+
+    objCancelar.formulario = formulario;
+
+    btnCancelar.addEventListener("click",objCancelar);
+
+    let controles = document.getElementById("controlesprincipales");
+    controles.append(plantillaFormulario);
+}
+
+
+
+//creo la funcion manejadora del evento submit alojada en nuevoGastoWebFormulario
+function submithandled(event){
+    event.preventDefault();
+    let form = event.currentTarget;
+    
+    let desc = form.elements["descripcion"].value.trim();
+    let val = form.elements["valor"].value.trim();
+    let fec = form.elements["fecha"].value.trim();
+    let etiq = form.elements["etiquetas"].value.split(',').map(e => e.trim());
+
+    let gasto = new gp.CrearGasto(desc,val,fec,...etiq);
+    gp.anyadirGasto(gasto);
+    repintar();
+    // document.getElementById("anyadirgasto-formulario").disabled = false; 
+    btnAnyGasFor.disabled = true;
+    //hay que eliminar el formulario alintroducir un nuevo gasto?
+    // form.remove();
+}
+function CancelHandled(){
+    this.handleEvent = function(event){
+        this.formulario.remove();
+        // repintar();
+        // this.boton.disabled = false;
+        btnAnyGasFor.disabled = false;
+    }
+    
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
