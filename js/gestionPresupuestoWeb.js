@@ -236,6 +236,7 @@ function nuevoGastoWebFormulario(){
     let btnCancelar = formulario.querySelector(".cancelar");
     
     let cancelarGasto = new CancelarFormularioHandle();
+    cancelarGasto.botonAnyadirGastoForm = document.getElementById('anyadirgasto-formulario');
     btnCancelar.addEventListener("click", cancelarGasto)
 
 }
@@ -248,10 +249,10 @@ btnNewGasto.addEventListener("click", nuevoGastoWebFormulario);
 function submitHand(event){
     event.preventDefault();
     let form = event.currentTarget;
-    let descripcion = form.elements("descripcion").value.trim();
-    let valor = form.elements("valor").value.trim();
-    let fecha = form.elements("fecha").value.trim();
-    let etiquetas = form.elements("etiquetas").value.split(', ');
+    let descripcion = form.elements["descripcion"].value.trim();
+    let valor = Number(form.elements["valor"].value.trim());
+    let fecha = form.elements["fecha"].value.trim();
+    let etiquetas = form.elements["etiquetas"].value.split(',');
 
     let gasto = new gp.CrearGasto(descripcion, valor, fecha, ... etiquetas);
     gp.anyadirGasto(gasto);
@@ -268,8 +269,7 @@ function CancelarFormularioHandle() {
         if(formulario){
             formulario.remove();
         }
-        let btn = document.getElementById("anyadirGasto-formulario");
-        this.btn.disabled = false;//boton no btn
+        this.botonAnyadirGastoForm.disabled = false;
         repintar();
     }
 }
