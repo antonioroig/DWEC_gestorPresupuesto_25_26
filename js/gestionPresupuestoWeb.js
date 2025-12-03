@@ -130,7 +130,7 @@ function nuevoGastoWeb(){
     if (valor != NaN)
         valor = Number(valor);
     etiquetas = etiquetas.split(",");
-    let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gP.anyadirGasto(gasto);
     repintar();
 }
@@ -144,13 +144,13 @@ function EditarHandle(){
         let valor = prompt("Introduce el valor");
         let fecha = prompt("Introduce la fecha");
         let etiquetas = prompt("Introduce las etiquetas");
+        etiquetas = etiquetas.split(",");
         if (valor != NaN)
             valor = Number(valor);
-        etiquetas = etiquetas.split(","); 
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarFecha(fecha);
-        this.gasto.anyadirEtiquetas(etiquetas);
+        this.gasto.anyadirEtiquetas(...etiquetas);
         repintar();
     }
 }
@@ -175,13 +175,12 @@ function EditarHandleFormulario(){
         let valor = Number(event.currentTarget["valor"].value);
         let fecha = event.currentTarget["fecha"].value;
         let etiquetas = event.currentTarget["etiquetas"].value;
-        
+        etiquetas = etiquetas.split(",");
+
         this.gasto.actualizarDescripcion(descripcion);
         this.gasto.actualizarValor(valor);
         this.gasto.actualizarFecha(fecha);
-        this.gasto.anyadirEtiquetas(etiquetas);
-
-        console.log("EditarHandleFormulario");
+        this.gasto.anyadirEtiquetas(...etiquetas);
 
         event.currentTarget.disabled = false;
         repintar();
@@ -209,7 +208,8 @@ function nuevoGastoWebFormulario(event){
     let valor = Number(event.currentTarget["valor"].value);
     let fecha = event.currentTarget["fecha"].value;
     let etiquetas = event.currentTarget["etiquetas"].value;
-    let gasto = new gP.CrearGasto(descripcion, valor, fecha, etiquetas);
+    etiquetas = etiquetas.split(",");
+    let gasto = new gP.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     document.getElementById("anyadirgasto-formulario").disabled = false;
     gP.anyadirGasto(gasto);
     repintar();
