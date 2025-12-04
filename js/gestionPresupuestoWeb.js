@@ -191,6 +191,11 @@ function nuevoGastoWebFormulario(){
 
     let contenedor = document.getElementById("controlesprincipales");
     contenedor.appendChild(formulario);
+
+     let botonCancelar = formulario.querySelector("button.cancelar");
+     let manejadorCancelar = new CancelarHandle(formulario, botonForm);
+
+     botonCancelar.addEventListener("click", manejadorCancelar);
     
     formulario.addEventListener("submit", function(event){
         event.preventDefault();
@@ -245,6 +250,16 @@ function BorrarEtiquetasHandle(gasto, etiqueta){
         repintar();
     }
 }
+function CancelarHandle(formulario, botonForm) {
+    this.formulario = formulario;
+    this.botonForm = botonForm;
+
+    this.handleEvent = function(event) {
+        this.formulario.remove();
+        this.botonForm.disabled = false;
+    }
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -255,5 +270,6 @@ export{
     nuevoGastoWebFormulario,
     EditarHandle,
     BorrarHandle,
-    BorrarEtiquetasHandle
+    BorrarEtiquetasHandle,
+    CancelarHandle
 };
