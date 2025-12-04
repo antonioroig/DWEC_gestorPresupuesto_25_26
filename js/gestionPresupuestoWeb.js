@@ -17,7 +17,7 @@ function mostrarGastoWeb(idCont, gasto) {
     const divValor = document.createElement("div"); divValor.className = "gasto-valor"; divValor.textContent = gasto.valor;
 
     const divEtiq = document.createElement("div"); divEtiq.className = "gasto-etiquetas";
-    const etiquetas = Array.isArray(gasto.etiquetas) ? gasto.etiquetas : [];
+    const etiquetas = gasto.etiquetas;
     etiquetas.forEach(et=>{
         const span = document.createElement("span"); span.className="gasto-etiquetas-etiqueta"; span.textContent=et;
         
@@ -34,7 +34,7 @@ function mostrarGastoWeb(idCont, gasto) {
 
     const botonEditarFormulario = document.createElement("button"); 
     botonEditarFormulario.className="gasto-editar-formulario"; 
-    botonEditarFormulario.textContent="Editar (formulario)";
+    botonEditarFormulario.textContent="Editar Gasto)";
     botonEditarFormulario.addEventListener("click", new EditarHandleFormulario(gasto)); 
 
     divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario);
