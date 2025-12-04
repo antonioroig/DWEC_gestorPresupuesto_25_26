@@ -9,6 +9,7 @@ function nuevoGastoWebFormulario() {
         
         let manejarCancelar = new ManejarCancelar();
         manejarCancelar.element = form;
+        manejarCancelar.anyadir = true
         cancel.addEventListener("click", manejarCancelar);
         
         let nuevoGasto = new NuevoGastoFormulario()
@@ -44,6 +45,7 @@ function EditarHandleFormulario() {
         let cancel = form.querySelector(".cancelar");
         let manejarCancelar = new ManejarCancelar();
         manejarCancelar.element = form;
+        manejarCancelar.edit = this.element;
         cancel.addEventListener("click", manejarCancelar);
 
         form.querySelector("#descripcion").value = this.gasto.descripcion
@@ -81,11 +83,19 @@ function EditarHandleFormulario() {
 
 function ManejarCancelar() {
     this.handleEvent = function(e) {
-        let boton = document.getElementById("anyadirgasto-formulario");
-        boton.disabled = false;
-        boton.removeAttribute("disable")
+        console.log(this.anyadir);
+        if (this.anyadir) {
+            let boton = document.getElementById("anyadirgasto-formulario");
+            boton.disabled = false;
+            boton.removeAttribute("disable")
+            this.element.remove();
+        }
+        if (this.edit) {
+            this.edit.disabled = false
+            this.edit.removeAttribute("disable")
+        }
         this.element.remove();
-        repintar()
+
     }
 }
 
