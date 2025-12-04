@@ -214,10 +214,22 @@ function nuevoGastoWebFormulario(){
         etiquetas = etiquetas.split(",")
 
         let gastoNuevo = new gP.CrearGasto(descripcion, valor, fecha, ...etiquetas);
-        gP.anyadirGasto(gastoNuevo);
-        repintar();
+        gP.anyadirGasto(gastoNuevo)
+        repintar()
 
-    })
+        document.getElementById("anyadirgasto-formulario").disabled = false
+        
+        
+       })
+
+       let botonCancelar = formulario.querySelector("button.cancelar");
+       function CancelarHandle(event){
+        
+       }
+     botonCancelar.addEventListener("click",CancelarHandle)
+
+   
+
        
 
 
