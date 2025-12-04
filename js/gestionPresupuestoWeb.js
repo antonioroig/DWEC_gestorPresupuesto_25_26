@@ -212,6 +212,11 @@ function nuevoGastoWebFormulario(){
         let fecha = event.currentTarget.fecha.value;
         let etiquetas = event.currentTarget.etiquetas.value;
         etiquetas = etiquetas.split(",")
+
+        let gastoNuevo = new gP.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+        gP.anyadirGasto(gastoNuevo);
+        repintar();
+
     })
        
 
