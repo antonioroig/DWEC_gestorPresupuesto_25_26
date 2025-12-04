@@ -176,23 +176,27 @@ function BorrarEtiquetasHandle(){
 }
 
 function nuevoGastoWebFormulario(){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    var formulario = plantillaFormulario.querySelector("form");
-    let descripcion, valor, fecha, etiquetas;
-
-    descripcion = formulario.elements["descripcion"].value;;
-    valor = formulario.elements["valor"].value;
-    fecha = formulario.elements["fecha"].value;
-    etiquetas = formulario.elements["etiquetas"].value;
-    etiquetas = etiquetas.split(",")
-
-    let gastoNuevo = new gp.CrearGasto(descripcion, valor, fecha, etiquetas)
-    gp.anyadirGasto(gastoNuevo);
+    var formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
     
-    repintar();
+
+    let controlesPrincipales = document.getElementById("controlesprincipales");
+
 }
+let btnAnyGastoFrom = document.getElementById("anyadirgasto-formulario");
+btnAnyGastoFrom.addEventListener("click", nuevoGastoWebFormulario);
+
 function manejarSubmit(evento){
     evento.preventDefault()
+
+    let desc, valor , fecha, eti;
+    desc = formulario.querySelector("#descripcion");
+    valor = Number(formulario.querySelector("#valor"));
+    fecha = formulario.querySelector("#fecha");
+    eti = formulario.querySelector("#etiquetas");
+    eti = eti.split(",")
+
+    let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas)
+    gp.anyadirGasto(gasto);
 }
 
 export {
