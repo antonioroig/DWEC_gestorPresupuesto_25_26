@@ -206,9 +206,14 @@ function nuevoGastoWebFormulario(){
     var formulario = plantillaFormulario.querySelector("form");
      formulario.addEventListener("submit", function(event){
      event.preventDefault();
-    
-
+     
+        let descripcion = event.currentTarget.descripcion.value;
+        let valor = Number(event.currentTarget.valor.value);
+        let fecha = event.currentTarget.fecha.value;
+        let etiquetas = event.currentTarget.etiquetas.value;
+        etiquetas = etiquetas.split(",")
     })
+       
 
 
 
