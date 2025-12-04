@@ -3,7 +3,6 @@ import * as gp from './gestionPresupuesto.js'
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
     boton.addEventListener("click", function(e) {
-        // boton.disabled = "true";
         boton.setAttribute("disabled", true)
         let form = cloneTemplate();
         let cancel = form.querySelector(".cancelar");
@@ -41,7 +40,44 @@ function NuevoGastoFormulario() {
 function EditarHandleFormulario() {
 
     this.handleEvent = (e) => {
+        
+        let form = cloneTemplate()
+        let cancel = form.querySelector(".cancelar");
+        let manejarCancelar = new ManejarCancelar();
+        manejarCancelar.element = form;
+        cancel.addEventListener("click", manejarCancelar);
 
+        form.querySelector("#descripcion").value = this.gasto.descripcion
+
+        form.querySelector("#valor").value = this.gasto.valor
+
+        
+        let newDate = new Date(this.gasto.fecha);
+        let day   = String(newDate.getDate()).padStart(2, '0');
+        let month = String(newDate.getMonth() + 1).padStart(2, '0');
+        let year  = newDate.getFullYear();
+        
+        form.querySelector("#fecha").value = `${year}-${month}-${day}`;
+        form.querySelector("#etiquetas").value = this.gasto.etiquetas;
+        
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            let desc = form.querySelector("#descripcion").value;
+            let valor = form.querySelector("#valor").value;
+            valor = Number(valor);
+            let fecha = form.querySelector("#fecha").value;
+            let etiquetas = form.querySelector("#etiquetas").value;
+
+            this.gasto.actualizarDescripcion(desc);
+            this.gasto.actualizarValor(valor)
+            this.gasto.actualizarFecha(fecha);
+            let tags = etiquetas.split(",")
+            this.gasto.anyadirEtiquetas(...tags);
+            repintar()
+        })
+
+        this.div.append(form)
     }
 }
 
@@ -214,6 +250,7 @@ function mostrarGastoWeb(id, gasto) {
         let objManejadorDelete = new BorrarHandle();
         objManejadorDelete.gasto = obj;
         btnDel.addEventListener("click", objManejadorDelete)
+        mainDiv.append(btnDel);
 
         // Nuevo botón para editar
         let btnEditNew = document.createElement("button")
@@ -221,7 +258,11 @@ function mostrarGastoWeb(id, gasto) {
         btnEditNew.setAttribute("type", "button")
         btnEditNew.textContent = "Editar (formulario)"
 
-        mainDiv.append(btnDel);
+        let newHandleEdit = new EditarHandleFormulario();
+        newHandleEdit.gasto = obj;
+        newHandleEdit.div = mainDiv;
+        btnEditNew.addEventListener("click", newHandleEdit)
+
         mainDiv.append(btnEditNew)
         idElement.append(mainDiv)
     }
