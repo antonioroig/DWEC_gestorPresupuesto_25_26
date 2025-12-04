@@ -22,10 +22,9 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetasArgs) {
     
     let tags = etiquetasArgs.flat();
     if (tags.length === 1 && Array.isArray(tags[0])) {
-         tags = tags[0];
+        tags = tags[0];
     }
     
-    // Aseguramos que todas las etiquetas sean strings válidos y TRIMEADOS
     this.etiquetas = tags
         .filter(e => e !== null && e !== undefined && typeof e === 'string')
         .map(e => e.trim())
@@ -49,13 +48,9 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetasArgs) {
         }
     });
     
-    // *** CORRECCIÓN CRÍTICA: Lógica de borrado simplificada y robusta ***
     this.borrarEtiquetas = (...aBorrar) => { 
-        // Normalizamos las etiquetas que se desean borrar
+        
         const tagsToDelete = aBorrar.map(t => String(t).trim());
-
-        // Filtramos para mantener solo las etiquetas que NO están en la lista de borrado.
-        // Esto garantiza que si se intenta borrar 'comida' (con espacios), funcione.
         this.etiquetas = this.etiquetas.filter(existingTag => {
             return !tagsToDelete.includes(existingTag); 
         });
@@ -90,7 +85,6 @@ let gastos = [
     new CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", "seguros")
 ];
 
-// Asignación de IDs y control de índice
 gastos.forEach((g, i) => g.id = i);
 let idGasto = gastos.length;
 
