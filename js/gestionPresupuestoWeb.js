@@ -38,9 +38,8 @@ function NuevoGastoFormulario() {
 }
 
 function EditarHandleFormulario() {
-
-    this.handleEvent = (e) => {
-        
+    this.handleEvent = (e) => {      
+        this.element.setAttribute("disabled", true)  
         let form = cloneTemplate()
         let cancel = form.querySelector(".cancelar");
         let manejarCancelar = new ManejarCancelar();
@@ -51,7 +50,6 @@ function EditarHandleFormulario() {
 
         form.querySelector("#valor").value = this.gasto.valor
 
-        
         let newDate = new Date(this.gasto.fecha);
         let day   = String(newDate.getDate()).padStart(2, '0');
         let month = String(newDate.getMonth() + 1).padStart(2, '0');
@@ -62,7 +60,6 @@ function EditarHandleFormulario() {
         
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            
             let desc = form.querySelector("#descripcion").value;
             let valor = form.querySelector("#valor").value;
             valor = Number(valor);
@@ -80,6 +77,18 @@ function EditarHandleFormulario() {
         this.div.append(form)
     }
 }
+
+
+function ManejarCancelar() {
+    this.handleEvent = function(e) {
+        let boton = document.getElementById("anyadirgasto-formulario");
+        boton.disabled = false;
+        boton.removeAttribute("disable")
+        this.element.remove();
+        repintar()
+    }
+}
+
 
 
 function EditarHandle() {
@@ -151,15 +160,7 @@ function NuevoGastoWeb() {
     }
 }
 
-function ManejarCancelar() {
-    this.handleEvent = function(e) {
-        let boton = document.getElementById("anyadirgasto-formulario");
-        boton.disabled = false;
-        boton.removeAttribute("disable")
-        this.element.remove();
-        repintar()
-    }
-}
+
 
 
 function BorrarHandle() {
@@ -258,9 +259,11 @@ function mostrarGastoWeb(id, gasto) {
         btnEditNew.setAttribute("type", "button")
         btnEditNew.textContent = "Editar (formulario)"
 
+
         let newHandleEdit = new EditarHandleFormulario();
         newHandleEdit.gasto = obj;
         newHandleEdit.div = mainDiv;
+        newHandleEdit.element = btnEditNew
         btnEditNew.addEventListener("click", newHandleEdit)
 
         mainDiv.append(btnEditNew)
