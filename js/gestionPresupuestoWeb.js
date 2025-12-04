@@ -177,26 +177,33 @@ function BorrarEtiquetasHandle(){
 
 function nuevoGastoWebFormulario(){
     var formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
-    
+    btnAnyGastoFrom.disabled = true;
+    formulario.addEventListener("submit", manejarSubmit)
 
     let controlesPrincipales = document.getElementById("controlesprincipales");
-
+    controlesPrincipales.appendChild(formulario);
 }
 let btnAnyGastoFrom = document.getElementById("anyadirgasto-formulario");
 btnAnyGastoFrom.addEventListener("click", nuevoGastoWebFormulario);
 
-function manejarSubmit(evento){
-    evento.preventDefault()
+function manejarSubmit(event){
+    let formulario, desc, valor , fecha, eti;
 
-    let desc, valor , fecha, eti;
+    event.preventDefault()    
+    formulario = event.currentTarget;
+
     desc = formulario.querySelector("#descripcion");
     valor = Number(formulario.querySelector("#valor"));
     fecha = formulario.querySelector("#fecha");
     eti = formulario.querySelector("#etiquetas");
     eti = eti.split(",")
 
-    let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas)
+    let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas);
     gp.anyadirGasto(gasto);
+
+    repintar()
+
+    btnAnyGastoFrom.disabled = false;
 }
 
 export {
