@@ -192,20 +192,28 @@ function BorrarEtiquetasHandle(){}
   }
 
   function nuevoGastoWebFormulario(){
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
-    var formulario = plantillaFormulario.querySelector("form");
-    
-  }
-const form = document.getElementById("form-control");
-form.addEventListener("submit", function(event){
-  if(!form.checkValidity()){
-    event.preventDefault();
-    form.reportValidity();
-    return;
-  }
-  event.preventDefault();
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let form = plantillaFormulario.querySelector("form");
+    document.getElementById("controlesprincipales").appendChild(form)
+  form.addEventListener("submit", function(event){
   
+  event.preventDefault();
+  let miform = event.currentTarget;
+  let des = miform.elements.descripcion
+  let val = miform.elements.valor
+  let fech = miform.elements.fecha
+  let etiq = miform.elements.etiquetas.split(",")
+
+  let gasto = new gp.CrearGasto(des, val, fech, etiq)
+
+  gp.anyadirGasto(gasto);
+
+  repintar();
+  
+  document.getElementById("anyadirgasto-formulario").disable(false);
 })
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
