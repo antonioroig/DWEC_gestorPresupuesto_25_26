@@ -229,14 +229,9 @@ function nuevoGastoWebFormulario(){
        botonCancelar.addEventListener("click", cancelarHandle)
     
        event.currentTarget.disabled = true
-       
     
-
-   
-
-       
-
-
+     document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+    
 
 }
 
