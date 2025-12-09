@@ -222,11 +222,15 @@ function nuevoGastoWebFormulario(){
         
        })
 
-       let botonCancelar = formulario.querySelector("button.cancelar");
-       function CancelarHandle(event){
-        
-       }
-     botonCancelar.addEventListener("click",CancelarHandle)
+       let botonCancelar = formulario.querySelector("button.cancelar")
+       let cancelarHandle = new CancelarHandle()
+       cancelarHandle.formulario = formulario
+       cancelarHandle.boton = event.currentTarget
+       botonCancelar.addEventListener("click", cancelarHandle)
+    
+       event.currentTarget.disabled = true
+       
+    
 
    
 
