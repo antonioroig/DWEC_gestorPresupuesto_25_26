@@ -181,9 +181,9 @@ function EditarHandleFormulario(){
         formulario[1].value = this.gasto.valor
         formulario[2].value = Utils.formatDate(this.gasto.fecha)
         formulario[3].value = this.gasto.etiquetas
-        console.log(formulario[0].value)
         let botonCancel = this.divGasto.getElementsByClassName("cancelar")
         let objCancelar = new ManejaCancelar
+        objCancelar.formulario = formulario
         botonCancel[0].addEventListener("click", objCancelar)
         formulario.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -212,6 +212,7 @@ function nuevoGastoWebFormulario(){
         botonEnviar.addEventListener("click", manejaSubmit)
         let botonCancelar = document.forms[0].getElementsByClassName("cancelar")
         let manejadorCancelar = new ManejaCancelar
+        manejadorCancelar.formulario = formulario
         botonCancelar[0].addEventListener("click", manejadorCancelar)
         botonAñadirForm.setAttribute("disabled", "true")
     })
@@ -220,7 +221,11 @@ function ManejaCancelar(event){
     this.handleEvent=function(e){
         let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
         botonAñadirForm.removeAttribute("disabled")
-        repintar()
+        if(this.formulario)
+        {
+            this.formulario.remove()
+        }
+        // repintar()
     }
 }
 function manejaSubmit(event){
@@ -228,7 +233,7 @@ function manejaSubmit(event){
     let form = document.forms[0]
     let concepto = form[0].value;
     let valorTotal = form[1].value;
-    valorTotal = +valorTotal
+    valorTotal = +valorTotal;
     let fechaDelGasto = new Date();
     fechaDelGasto = form[2].value
     let etiquetasGasto = form[3].value;
