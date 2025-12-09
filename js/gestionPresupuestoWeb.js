@@ -36,6 +36,7 @@ function mostrarGastoWeb (idElemento, gasto){
     divGasto.append(divEtiquetas);
     if (gasto.etiquetas && gasto.etiquetas.length > 0) {
         for (let i = 0; i < gasto.etiquetas.length ; i++){
+            // gasto.etiquetas = gasto.etiquetas.filter(etiqueta => etiqueta.trim() !== "");
             let spanEtiqueta = document.createElement ('span');
             spanEtiqueta.classList.add('gasto-etiquetas-etiqueta');
             spanEtiqueta.textContent = gasto.etiquetas[i];
@@ -75,7 +76,7 @@ function mostrarGastoWeb (idElemento, gasto){
     
     let obEdtForm = new EditarHandleformulario();
     obEdtForm.gasto = gasto;
-    btnEdiForm.addEventListener(obEdtForm);
+    btnEdiForm.addEventListener("click",obEdtForm);
     divGasto.append(btnEdiForm);   
 }
     
@@ -196,7 +197,7 @@ btnAnyGasFor.addEventListener("click",nuevoGastoWebFormulario);
 function nuevoGastoWebFormulario (){
     
     btnAnyGasFor.disabled = true;
-    //coje la plantilla y la clona con todos los descendientes que tiene
+    //coge la plantilla y la clona con todos los descendientes que tiene
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     //no quier todos los elementos del template
     //selecciono solo el formilario
@@ -207,9 +208,7 @@ function nuevoGastoWebFormulario (){
     
     let btnCancelar = formulario.querySelector("button.cancelar");
     let objCancelar = new CancelHandled();
-
     objCancelar.formulario = formulario;
-
     btnCancelar.addEventListener("click",objCancelar);
 
     let controles = document.getElementById("controlesprincipales");
@@ -232,20 +231,80 @@ function submithandled(event){
     gp.anyadirGasto(gasto);
     repintar();
     btnAnyGasFor.disabled = false;
-    //hay que eliminar el formulario alintroducir un nuevo gasto?
+
     form.remove();
 }
 function CancelHandled(){
     this.handleEvent = function(event){
         this.formulario.remove();
-        // repintar();
-        // this.boton.disabled = false;
         btnAnyGasFor.disabled = false;
+        if (this.botonEditar) {
+            this.botonEditar.disabled = false;
+        }
     }    
 }
 
+function EditarHandleformulario(){
+    this.handleEvent= function(event){
+        let boton = event.currentTarget;
+        boton.disabled = true;
 
+        let divGasto = event.target.closest(".gasto");  
 
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);        
+        let formulario = plantillaFormulario.querySelector("form");
+
+        formulario.elements["descripcion"].value =this.gasto.descripcion;
+        formulario.elements["valor"].value =this.gasto.valor;
+        formulario.elements["fecha"].value =this.gasto.obtenerPeriodoAgrupacion("dia");
+        
+        if(this.gasto.etiquetas){
+            formulario.elements["etiquetas"].value = this.gasto.etiquetas.join(' ');            
+        }
+
+        let objSubForm = new SubmithandledForm();
+        objSubForm.gasto = this.gasto;    
+        formulario.addEventListener("submit",objSubForm);//subhand es la manejadora del evento submit que todavia no he creado
+        
+        let btnCancelar = formulario.querySelector("button.cancelar");
+        let objCancelar = new CancelHandled();
+
+        objCancelar.formulario = formulario;
+        objCancelar.botonEditar = boton; 
+
+        btnCancelar.addEventListener("click",objCancelar);                
+       
+        divGasto.append(formulario);
+    
+    }
+    
+}
+
+function SubmithandledForm(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let formulario = event.currentTarget;
+
+        let nDesc = formulario.elements["descripcion"].value;
+        this.gasto.actualizarDescripcion(nDesc);
+
+        let nVal = Number(formulario.elements["valor"].value);
+        this.gasto.actualizarValor(nVal);
+
+        let nFec = formulario.elements["fecha"].value;
+        this.gasto.actualizarFecha(nFec);
+
+        let nEti = formulario.elements["etiquetas"].value
+        this.gasto.borrarEtiquetas(...this.gasto.etiquetas);
+        // nEti = nEti.Trim();
+        console.log(nEti)
+        if(nEti.length > 0){
+            nEti = nEti.trim()
+            this.gasto.anyadirEtiquetas(...nEti.split(' '));
+        }
+        repintar();        
+    }
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
