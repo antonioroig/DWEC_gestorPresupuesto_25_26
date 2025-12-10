@@ -277,6 +277,14 @@ function EditarHandleFormulario(){
                 let fecha = event.currentTarget.fecha.value
                 let etiquetas = event.currentTarget.etiquetas.value.split(",")
                 
+                this.gasto.actualizarDescripcion(descripcion)
+                this.gasto.actualizarValor(valor)
+                this.gasto.actualizarFecha(fecha)
+                this.gasto.anyadirEtiquetas(...etiquetas);
+                
+                repintar();
+
+
                 }
             }
     }
