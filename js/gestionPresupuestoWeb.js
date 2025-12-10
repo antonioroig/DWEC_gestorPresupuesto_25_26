@@ -45,42 +45,43 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
             manejadorBorrarEtiquetas.etiqueta = etiqueta;
 
             etiquetaSpan.addEventListener("click", manejadorBorrarEtiquetas);
-
-       
         }
     }
 
-
-
     let botonEditar = document.createElement("button");
     botonEditar.textContent = "Editar";
-
     botonEditar.classList.add("gasto-editar");
 
     let manejadorEditar = new EditarHandle();
     manejadorEditar.gasto = datosGasto;
 
     botonEditar.addEventListener("click", manejadorEditar);
-
     bloqueGasto.appendChild(botonEditar);
-
-
 
     let botonBorrar = document.createElement("button");
     botonBorrar.textContent = "Borrar";
-
     botonBorrar.classList.add("gasto-borrar");
 
     let manejadorBorrar = new BorrarHandle();
     manejadorBorrar.gasto = datosGasto;
 
     botonBorrar.addEventListener("click", manejadorBorrar);
-
     bloqueGasto.appendChild(botonBorrar);
 
+    let botonEditarFormulario = document.createElement("button");
+    botonEditarFormulario.textContent = "Editar (formulario)";
+    botonEditarFormulario.classList.add("gasto-editar-formulario");
+    botonEditarFormulario.type = "button";
 
-   
+    botonEditarFormulario.addEventListener("click", function() {
+        let manejadorEditarFormulario = new EditarHandleFormulario();
+        manejadorEditarFormulario.gasto = datosGasto;
+        manejadorEditarFormulario.handleEvent({ currentTarget: botonEditarFormulario });
+    });
+
+    bloqueGasto.appendChild(botonEditarFormulario);
 }
+
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
   const elemento = document.getElementById(idElemento);
