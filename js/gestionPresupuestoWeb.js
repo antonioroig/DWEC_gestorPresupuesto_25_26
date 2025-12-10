@@ -55,17 +55,6 @@ export function mostrarGastoWeb(idElemento, gasto) {
   });
   wrap.appendChild(etq);
 
-  const btnBorrar = document.createElement("button");
-  btnBorrar.type = "button";
-  btnBorrar.className = "gasto-borrar";
-  btnBorrar.textContent = "Borrar";
-
-  const handleBorrar = new BorrarHandle();
-  handleBorrar.gasto = gasto;
-
-  btnBorrar.addEventListener("click", handleBorrar);
-  wrap.appendChild(btnBorrar);
-
   const btnEditar = document.createElement("button");
   btnEditar.type = "button";
   btnEditar.className = "gasto-editar";
@@ -76,6 +65,17 @@ export function mostrarGastoWeb(idElemento, gasto) {
 
   btnEditar.addEventListener("click", handleEditar);
   wrap.appendChild(btnEditar);
+
+  const btnBorrar = document.createElement("button");
+  btnBorrar.type = "button";
+  btnBorrar.className = "gasto-borrar";
+  btnBorrar.textContent = "Borrar";
+
+  const handleBorrar = new BorrarHandle();
+  handleBorrar.gasto = gasto;
+
+  btnBorrar.addEventListener("click", handleBorrar);
+  wrap.appendChild(btnBorrar);
 
   const btnEditarFormulario = document.createElement("button");
   btnEditarFormulario.type = "button";
@@ -149,7 +149,8 @@ EditarHandleFormulario.prototype.handleEvent = function (event) {
     this.gasto.anyadirEtiquetas(...etiquetasArray);
 
     repintar();
-  };
+    form.remove();
+  }
 
   const submitHandler = new EditarSubmitHandleFormulario();
   submitHandler.gasto = this.gasto;
@@ -163,14 +164,22 @@ EditarHandleFormulario.prototype.handleEvent = function (event) {
 
   botonCancelar.addEventListener("click", cancelarHandler);
 
-  
+
   boton.setAttribute("disabled", "disabled");
+const gastoDiv = boton.parentNode;
+gastoDiv.appendChild(plantillaFormulario);
+}
 
+export function CancelarHandleFormulario() { }
 
-  document
-    .getElementById("controlesprincipales")
-    .append(plantillaFormulario);
-};
+CancelarHandleFormulario.prototype.handleEvent = function (event) {
+  if (this.formulario) {
+    this.formulario.remove();
+  }
+  if (this.boton) {
+    this.boton.removeAttribute("disabled");
+  }
+}
 
 
 export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
@@ -349,7 +358,6 @@ if (botonPresupuesto) {
 
 const botonAnyadir = document.getElementById("anyadirgasto");
 if (botonAnyadir) {
-
   botonAnyadir.addEventListener("click", nuevoGastoWeb);
 }
 
@@ -400,6 +408,13 @@ export function nuevoGastoWebFormulario(event) {
     form.remove();
   }
   formulario.addEventListener("submit", manejarSubmit);
+  const btnCancelar = formulario.querySelector("button.cancelar");
+  const cancelarHandler = new CancelarHandleFormulario();
+  cancelarHandler.formulario = formulario;
+  cancelarHandler.boton = boton;
+
+  btnCancelar.addEventListener("click", cancelarHandler);
+
   boton.setAttribute("disabled", "disabled");
   document.getElementById("controlesprincipales").append(plantillaFormulario);
 }
