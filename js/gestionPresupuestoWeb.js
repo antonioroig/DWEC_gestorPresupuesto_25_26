@@ -65,6 +65,15 @@ function mostrarGastoWeb(idElemento, gasto) {
         btnBorrar.addEventListener("click", borrarHandle);
         divGasto.appendChild(btnBorrar);
 
+        let btnEditarForm = document.createElement("button");
+        btnEditarForm.className = "gasto-editar-formulario";
+        btnEditarForm.type = "button";
+        btnEditarForm.textContent = "Editar (formulario)";
+        let editarForm = new EditarHandleFormulario();
+        editarForm.gasto = gasto;
+        btnEditarForm.addEventListener("click", editarForm);
+        divGasto.appendChild(btnEditarForm);
+
         elem.appendChild(divGasto);
 
         let br = document.createElement("br");
@@ -214,6 +223,12 @@ function CancelarHandle(){
     this.handleEvent = function () {
         this.form.remove();
         this.btn.disabled = false;
+    }
+}
+
+function EditarHandleFormulario(){
+    this.handleEvent = function(){
+        
     }
 }
 
