@@ -287,6 +287,17 @@ function EditarHandleFormulario(){
 
                 }
             }
+                    let submitHandle = new SubmitEditarHandle()
+                     submitHandle.gasto = this.gasto
+                     formulario.addEventListener("submit", submitHandle)
+        
+                    let botonCancelar = formulario.querySelector("button.cancelar")
+                    let cancelarHandle = new CancelarHandle();
+                    cancelarHandle.formulario = formulario;
+                    cancelarHandle.boton = event.currentTarget;
+                    botonCancelar.addEventListener("click", cancelarHandle)
+        
+
     }
 }
 
