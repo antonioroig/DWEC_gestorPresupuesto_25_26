@@ -254,7 +254,21 @@ function nuevoGastoWebFormulario(){
 let anyadirForm = document.getElementById("anyadirgasto-formulario");
 anyadirForm.addEventListener("click", nuevoGastoWebFormulario);
 
+function EditarHandleFormulario(){
+    this.handleEvent = function(event){
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        
+        
+        var formulario = plantillaFormulario.querySelector("form");
+        
+       
+        formulario.querySelector("#descripcion").value = this.gasto.descripcion
+        formulario.querySelector("#valor").value = this.gasto.valor
+        formulario.querySelector("#fecha").value = this.gasto.fecha
+        formulario.querySelector("#etiquetas").value = this.gasto.etiquetas.join(",")
 
+    }
+}
 
 export{
     mostrarDatoEnId,
@@ -267,6 +281,8 @@ export{
     BorrarHandle,
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
-    CancelarHandle
+    CancelarHandle,
+    EditarHandleFormulario
+    
     
 }
