@@ -79,11 +79,5 @@ gW.mostrarGastosAgrupadosWeb("agrupacion-mes", aGastosMes, "mes");
 let aGastosAnyo = gp.agruparGastos("anyo")
 gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", aGastosAnyo, "año");
 
-
-// /////////////////
-// gp.actualizarPresupuesto(99500);
-
-// const presActual = gp.mostrarPresupuesto();
-// gW.mostrarDatoEnId("presupuesto", presActual);
-
-// repintar();
+let btnAnyGastoFrom = document.getElementById("anyadirgasto-formulario");
+btnAnyGastoFrom.addEventListener("click", gW.nuevoGastoWebFormulario);
