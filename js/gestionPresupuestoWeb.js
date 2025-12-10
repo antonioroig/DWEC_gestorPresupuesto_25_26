@@ -215,6 +215,11 @@ EnviarNuevoGastoHandle.prototype.handleEvent = function(event){
   
   document.getElementById("anyadirgasto-formulario").disabled = false;
 }
+function CancelarHandle(){}
+CancelarHandle.prototype.handleEvent = function(){
+  this.formulario.remove();
+  this.boton.disabled = false;
+}
 
 export {
     mostrarDatoEnId,
