@@ -43,8 +43,8 @@ function mostrarGastoWeb(idElemento, gasto) {
           divEtiquetas.appendChild(span);
           let br = document.createElement("br");
           divEtiquetas.appendChild(br);
+        }
       }
-  }
     
   
         gastoDiv.appendChild(divEtiquetas);
@@ -59,6 +59,16 @@ function mostrarGastoWeb(idElemento, gasto) {
     let editarHandle = new EditarHandle();
     editarHandle.gasto = gasto;
     btnEditar.addEventListener("click", editarHandle);
+    gastoDiv.appendChild(btnEditar);
+
+     let btnEditarForm = document.createElement("button");
+    btnEditarForm.className = "gasto-editar-formulario";
+    btnEditarForm.type = "button";
+    btnEditarForm.textContent = "Editar (formulario)";
+
+      let editarHandleForm = new EditarHandleFormulario();
+    editarHandleForm.gasto = gasto;
+    btnEditar.addEventListener("click", EditarHandleFormulario);
     gastoDiv.appendChild(btnEditar);
 
     let btnBorrar = document.createElement("button");
@@ -230,11 +240,18 @@ function nuevoGastoWebFormulario(){
     
        event.currentTarget.disabled = true
     
-     document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+     document.getElementById("controlesprincipales").appendChild(plantillaFormulario)
     
 
 }
 
+let anyadirForm = document.getElementById("anyadirgasto-formulario");
+anyadirForm.addEventListener("click", nuevoGastoWebFormulario);
+
+
+function EditarHandleFormulario(){
+
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -245,5 +262,6 @@ export{
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    EditarHandleFormulario
 }
