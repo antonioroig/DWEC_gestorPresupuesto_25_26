@@ -187,18 +187,18 @@ let btnAnyGastoFrom = document.getElementById("anyadirgasto-formulario");
 btnAnyGastoFrom.addEventListener("click", nuevoGastoWebFormulario);
 
 function manejarSubmit(event){
-    let formulario, desc, valor , fecha, eti;
+    let formulario, desc, valor, fecha, eti;
 
     event.preventDefault()    
     formulario = event.currentTarget;
 
-    desc = formulario.querySelector("#descripcion");
-    valor = Number(formulario.querySelector("#valor"));
-    fecha = formulario.querySelector("#fecha");
-    eti = formulario.querySelector("#etiquetas");
+    desc = formulario.querySelector("#descripcion").value;
+    valor = Number(formulario.querySelector("#valor").value);
+    fecha = formulario.querySelector("#fecha").value;
+    eti = formulario.querySelector("#etiquetas").value;
     eti = eti.split(",")
 
-    let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas);
+    let gasto = new gp.CrearGasto(desc, valor, fecha, ...eti);
     gp.anyadirGasto(gasto);
 
     repintar()
