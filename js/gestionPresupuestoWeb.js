@@ -88,6 +88,89 @@ export function mostrarGastoWeb(idElemento, gasto) {
   wrap.appendChild(btnEditarFormulario);
   cont.appendChild(wrap);
 }
+export function EditarHandleFormulario() { }
+
+EditarHandleFormulario.prototype.handleEvent = function (event) {
+  if (!this.gasto) return;
+
+  const boton = event.currentTarget;
+
+  let plantillaFormulario = document
+    .getElementById("formulario-template")
+    .content
+    .cloneNode(true);
+
+  const formulario = plantillaFormulario.querySelector("form");
+
+  formulario.elements.descripcion.value = this.gasto.descripcion ?? "";
+
+  formulario.elements.valor.value = this.gasto.valor;
+
+  let fechaISO;
+  if (typeof this.gasto.fecha === "number") {
+    fechaISO = new Date(this.gasto.fecha).toISOString().slice(0, 10);
+  } else {
+    fechaISO = this.gasto.fecha || "";
+  }
+  formulario.elements.fecha.value = fechaISO;
+
+  let etiquetasTexto = "";
+  if (Array.isArray(this.gasto.etiquetas)) {
+    etiquetasTexto = this.gasto.etiquetas.join(",");
+  }
+  formulario.elements.etiquetas.value = etiquetasTexto;
+
+  function EditarSubmitHandleFormulario() { }
+
+  EditarSubmitHandleFormulario.prototype.handleEvent = function (event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    const descripcion = form.elements.descripcion.value;
+    const valor = form.elements.valor.value;
+    const fecha = form.elements.fecha.value;
+    const etiquetas = form.elements.etiquetas.value;
+
+    const valorNum = Number(valor);
+
+    let etiquetasArray = [];
+    if (etiquetas && etiquetas.trim() !== "") {
+      etiquetasArray = etiquetas
+        .split(",")
+        .map(e => e.trim())
+        .filter(e => e !== "");
+    }
+
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarValor(valorNum);
+    this.gasto.actualizarFecha(fecha);
+
+    this.gasto.borrarEtiquetas(...(this.gasto.etiquetas || []));
+    this.gasto.anyadirEtiquetas(...etiquetasArray);
+
+    repintar();
+  };
+
+  const submitHandler = new EditarSubmitHandleFormulario();
+  submitHandler.gasto = this.gasto;
+
+  formulario.addEventListener("submit", submitHandler);
+
+  const botonCancelar = formulario.querySelector("button.cancelar");
+  const cancelarHandler = new CancelarHandleFormulario();
+  cancelarHandler.formulario = formulario;
+  cancelarHandler.boton = boton;
+
+  botonCancelar.addEventListener("click", cancelarHandler);
+
+  
+  boton.setAttribute("disabled", "disabled");
+
+
+  document
+    .getElementById("controlesprincipales")
+    .append(plantillaFormulario);
+};
 
 
 export function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo = "mes") {
@@ -280,7 +363,7 @@ export function nuevoGastoWebFormulario(event) {
 
   const boton = event.currentTarget
   let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
-  var formulario = plantillaFormulario.querySelector("form");
+  const formulario = plantillaFormulario.querySelector("form");
 
   function manejarSubmit(event) {
     event.preventDefault();
@@ -288,7 +371,7 @@ export function nuevoGastoWebFormulario(event) {
 
 
     const descripcion = form.elements.descripcion.value;
-    const valor = parseFloat(form.elements.valor.value);
+    const valor = parseFloat(form.elements.valor.value); //mirar
     const fecha = form.elements.fecha.value;
     const etiquetas = form.elements.etiquetas.value;
 
