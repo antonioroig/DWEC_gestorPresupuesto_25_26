@@ -296,7 +296,9 @@ function EditarHandleFormulario(){
                     cancelarHandle.formulario = formulario;
                     cancelarHandle.boton = event.currentTarget;
                     botonCancelar.addEventListener("click", cancelarHandle)
-        
+                
+                    event.currentTarget.disabled = true
+                    event.currentTarget.parentElement.appendChild(formulario)
 
     }
 }
