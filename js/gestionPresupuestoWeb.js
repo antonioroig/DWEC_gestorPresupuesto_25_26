@@ -266,7 +266,19 @@ function EditarHandleFormulario(){
         formulario.querySelector("#valor").value = this.gasto.valor
         formulario.querySelector("#fecha").value = this.gasto.fecha
         formulario.querySelector("#etiquetas").value = this.gasto.etiquetas.join(",")
-
+            
+            function SubmitEditarHandle(){
+                
+                this.handleEvent = function(event){
+                event.preventDefault()
+                
+                let descripcion = event.currentTarget.descripcion.value
+                let valor = Number(event.currentTarget.valor.value)
+                let fecha = event.currentTarget.fecha.value
+                let etiquetas = event.currentTarget.etiquetas.value.split(",")
+                
+                }
+            }
     }
 }
 
