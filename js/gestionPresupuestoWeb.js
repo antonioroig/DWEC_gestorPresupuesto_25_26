@@ -282,7 +282,7 @@ function nuevoGastoWebFormulario(evento){
 
     let manejadorCancelar = new CancelarFormularioHandle();
     manejadorCancelar.formulario = formulario;
-    manejadorCancelar.botonAnyadir = botonAnyadir;
+    manejadorCancelar.botonAnyadirGastoForm = botonAnyadir;
 
     botonCancelar.addEventListener("click", manejadorCancelar);
     
@@ -292,16 +292,16 @@ function nuevoGastoWebFormulario(evento){
 
 
 function CancelarFormularioHandle(){
-
    this.handleEvent = function(event) {
         let formulario = event.currentTarget.closest("form");
         if(formulario){
             formulario.remove();
         }
-        this.botonAnyadirGastoForm.disabled = false;
+        this.botonAnyadirGastoForm.disabled = false; 
         repintar();
     }
 }
+
 
 
 
