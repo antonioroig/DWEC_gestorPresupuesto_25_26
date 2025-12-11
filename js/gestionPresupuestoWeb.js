@@ -242,7 +242,22 @@ function EditarHandleFormulario(){
 
     }
 }
+function SubmitHandleFormulario() {
+    this.handleEvent = function (event) {
+        event.preventDefault()
+        let formulario = event.target;
 
+        this.gasto.actualizarDescripcion(formulario.querySelector("#descripcion").value);
+        this.gasto.actualizarValor(Number(formulario.querySelector("#valor").value));
+        this.gasto.actualizarFecha(formulario.querySelector("#fecha").value);
+        let etiquetas = formulario.querySelector("#etiquetas").value;
+        if (etiquetas.length > 0) {
+            this.gasto.anyadirEtiquetas(etiquetas.split(","));
+        }
+
+        repintar()
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
