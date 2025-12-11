@@ -228,18 +228,25 @@ function CancelarHandle(){
 
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
-        let formulario, descripcion, valor, fecha, etiquetas;        
+        let formulario, descripcion, valor, fecha;
+        let contenedor = event.target.parentElement;
+        let btn = event.target;
+        btn.disabled = true;
+
         formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
         descripcion = formulario.querySelector("#descripcion");
         valor = formulario.querySelector("#valor");
         fecha = formulario.querySelector("#fecha");
-        etiquetas = formulario.querySelector("#etiquetas");
 
         descripcion.value = this.gasto.descripcion
         valor.value = this.gasto.valor
         fecha.value = new Date(this.gasto.fecha).toISOString().slice(0, 10)
-        etiquetas.value = this.gasto.etiquetas;
 
+        let HandleSubmit = new SubmitHandleFormulario();
+        HandleSubmit.gasto = this.gasto;
+        formulario.addEventListener("submit", HandleSubmit);
+
+        contenedor.appendChild(formulario);
     }
 }
 function SubmitHandleFormulario() {
