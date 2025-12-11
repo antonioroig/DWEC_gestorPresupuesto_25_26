@@ -227,8 +227,19 @@ function CancelarHandle(){
 }
 
 function EditarHandleFormulario(){
-    this.handleEvent = function(){
-        
+    this.handleEvent = function(event){
+        let formulario, descripcion, valor, fecha, etiquetas;        
+        formulario = document.getElementById("formulario-template").content.cloneNode(true).querySelector("form");
+        descripcion = formulario.querySelector("#descripcion");
+        valor = formulario.querySelector("#valor");
+        fecha = formulario.querySelector("#fecha");
+        etiquetas = formulario.querySelector("#etiquetas");
+
+        descripcion.value = this.gasto.descripcion
+        valor.value = this.gasto.valor
+        fecha.value = new Date(this.gasto.fecha).toISOString().slice(0, 10)
+        etiquetas.value = this.gasto.etiquetas;
+
     }
 }
 
