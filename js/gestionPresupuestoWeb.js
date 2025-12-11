@@ -228,7 +228,7 @@ function CancelarHandle(){
 
 function EditarHandleFormulario(){
     this.handleEvent = function(event){
-        let formulario, descripcion, valor, fecha;
+        let formulario, descripcion, valor, fecha, cancelar;
         let contenedor = event.target.parentElement;
         let btn = event.target;
         btn.disabled = true;
@@ -237,14 +237,20 @@ function EditarHandleFormulario(){
         descripcion = formulario.querySelector("#descripcion");
         valor = formulario.querySelector("#valor");
         fecha = formulario.querySelector("#fecha");
+        cancelar = formulario.querySelector(".cancelar");
 
         descripcion.value = this.gasto.descripcion
         valor.value = this.gasto.valor
         fecha.value = new Date(this.gasto.fecha).toISOString().slice(0, 10)
 
-        let HandleSubmit = new SubmitHandleFormulario();
-        HandleSubmit.gasto = this.gasto;
-        formulario.addEventListener("submit", HandleSubmit);
+        let handleSubmit = new SubmitHandleFormulario();
+        handleSubmit.gasto = this.gasto;
+        formulario.addEventListener("submit", handleSubmit);
+
+        let handleCancelar = new CancelarHandle();
+        handleCancelar.btn = btn;
+        handleCancelar.form = formulario;
+        cancelar.addEventListener("click", handleCancelar);  
 
         contenedor.appendChild(formulario);
     }
