@@ -271,6 +271,14 @@ Etiquetas:${this.formatearGastos()}`
     this.id = null;
 }
 
+function transformarListadoEtiquetas(etiquetas) {
+    // split para transformar etiquetas en un array, con unos caracteres puntuales
+    let regex = new RegExp(/\W/, "gm");
+    let arr = etiquetas.split(regex)
+    return arr
+}
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -285,5 +293,6 @@ export {
     calcularTotalGastos,    
     calcularBalance,
     agruparGastos,
-    filtrarGastos
+    filtrarGastos,
+    transformarListadoEtiquetas
 }
