@@ -310,6 +310,47 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
 }
 
 
+function filtrarGastosWeb() {
+    this.handleEvent = function(e) {
+        e.preventDefault();
+
+        let obj = {}
+        let desc = document.getElementById("formulario-filtrado-descripcion").value || null
+        if (desc) {
+            obj.descripcionContiene = desc;
+        }
+        
+        let fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value || null
+        if (fechaDesde) {
+            obj.fechaDesde = fechaDesde
+        }
+
+        let fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value || null
+        if (fechaHasta) {
+            obj.fechaHasta = fechaHasta
+        }
+        
+        let valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value || null
+        if(valorMaximo) {
+            obj.valorMaximo = valorMaximo
+        }
+
+        let valorMinimo = document.getElementById("formulario-filtrado-valor-minimo").value || null
+        if (valorMinimo) {
+            obj.valorMinimo = valorMinimo
+        }
+
+        let etiquetas = document.getElementById("formulario-filtrado-etiquetas-tiene").value || null
+        if (etiquetas) {
+            etiquetas = gp.transformarListadoEtiquetas(etiquetas)
+            obj.etiquetasTiene = etiquetas;
+        }
+
+        let filtrado = gp.filtrarGastos(obj)
+        mostrarGastoWeb("listado-gastos-completo", filtrado)
+    }
+}
+
 
 
 
@@ -320,5 +361,6 @@ export {
     repintar,
     ActualizarPresupuestoWeb,
     NuevoGastoWeb,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastosWeb
 }
