@@ -223,6 +223,26 @@ function nuevoGastoWebFormulario(event){
     event.currentTarget.remove();
 }
 
+function filtrarGastosWeb(){
+    this.handleEvent = function(event){
+        event.preventDefault();
+        let form = event.target;
+        let descripcion = form.elements("formulario-filtrado-descripcion").value;
+        let valMinimo = form.elements("formulario-filtrado-valor-minimo").value;
+        let valMaximo = form.elements("formulario-filtrado-valor-maximo").value;
+        let fechaInicial = form.elements("formulario-filtrado-fecha-desde").value;
+        let fechaFinal = form.elements("formulario-filtrado-fecha-hasta").value;
+        let etiquetas = form.elements("formulario-filtrado-etiquetas-tiene").value;
+
+        // voy por 
+        // Si el campo formulario-filtrado-etiquetas-tiene tiene datos, 
+        // llamar a la función transformarListadoEtiquetas (recordad que está en el paquete gestionpresupuesto.js) 
+        // para que devuelva un array de etiquetas válidas.
+    }
+}
+
+document.getElementById("formulario-filtrado").addEventListener("submit", new filtrarGastosWeb());
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -234,5 +254,6 @@ export{
     BorrarHandle,
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    filtrarGastosWeb
 }
