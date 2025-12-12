@@ -245,6 +245,32 @@ function manejaSubmit(event){
     repintar()
 }
 
+function filtrarGastosWeb(){
+    let formulario = document.getElementById("formulario-filtrado")
+    formulario.addEventListener("submit", function(e){
+        e.preventDefault();
+        let filtro = {}
+        if(formulario[3].value != "")
+            filtro.fechaDesde = new Date(formulario[3].value)
+        if(formulario[4].value != "")
+            filtro.fechaHasta = new Date(formulario[4].value)
+        if(formulario[1].value != "")
+            filtro.valorMinimo = Number(formulario[1].value)
+        if(formulario[2].value != "")
+            filtro.valorMaximo = formulario[2].value
+        if(formulario[0].value != "")
+            filtro.descripcionContiene = formulario[0].value
+        if(formulario[5].value != "")
+            filtro.etiquetasTiene = gestionPresupuesto.transformarListadoEtiquetas(formulario[5].value)
+        if(filtro == {})
+            return
+        let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtro)
+        console.log(gastosFiltrados)
+        mostrarGastoWeb("listado-gastos-completos", gastosFiltrados)
+    })
+    
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -252,5 +278,6 @@ export{
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastosWeb
 }
