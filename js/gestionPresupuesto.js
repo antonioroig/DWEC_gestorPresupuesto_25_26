@@ -274,9 +274,10 @@ Etiquetas:${this.formatearGastos()}`
 function transformarListadoEtiquetas(etiquetas) {
     // split para transformar etiquetas en un array, con unos caracteres puntuales
     let regex = new RegExp(/\W/, "gm");
-    let arr = etiquetas.split(regex)
-    return arr
+    let tags = etiquetas.split(regex);
+    return tags.filter(tag => tag  != "")
 }
+
 
 
 
