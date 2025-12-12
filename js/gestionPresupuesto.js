@@ -233,6 +233,11 @@ function agruparGastos(periodo, etiquetas, fechadesde, fechahasta)
     return objetoVacio;
 }
 
+function transformarListadoEtiquetas(stringEtiqueta){
+    
+    return stringEtiqueta.split(/[,;:\.\s]+/gi);
+
+}
 /*
 let gasto1 = new CrearGasto("Gasto 1");
 let gasto2 = new CrearGasto("Gasto 2", 23.55);
@@ -273,5 +278,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
