@@ -218,6 +218,33 @@ function botonEnviarFormulario(event){
     
 }
 
+function filtrarGastosWeb(){
+
+    let formulario = document.getElementById("formulario-filtrado");
+
+    formulario.addEventListener("submit", (event) => {
+        event.preventDefault;
+
+        let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+        let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
+        let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
+        let fechaInicial = formulario.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaFinal = formulario.elements["formulario-filtrado-hasta"].value;
+        let etiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+    
+        valorMinimo = Number(valorMinimo);
+        valorMaximo = Number(valorMaximo);
+
+        let arrayEtiqueta = gP.transformarListadoEtiquetas(etiquetas);
+    
+        mostrarGastoWeb("listado-gastos-completo", gP.filtrarGastos({fechaDesde: fechaInicial, fechaHasta: fechaFinal, valorMinimo: valorMinimo, 
+            valorMaximo: valorMaximo, descripcionContiene: descripcion, etiquetasTiene: arrayEtiqueta}));
+    })
+
+    
+
+}
+
 function CancelarHandle(){
     
     this.handleEvent = function(event){
@@ -338,5 +365,6 @@ export{
     nuevoGastoWeb,
     EditarHandle,
     BorrarHandle,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastosWeb
 }
