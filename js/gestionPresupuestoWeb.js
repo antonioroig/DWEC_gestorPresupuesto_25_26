@@ -311,15 +311,16 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
 
 
 function filtrarGastosWeb() {
-    this.handleEvent = function(e) {
+    let form = document.getElementById("formulario-filtrado")
+    console.log(form);
+    form.addEventListener("submit", function(e) {
         e.preventDefault();
-
         let obj = {}
         let desc = document.getElementById("formulario-filtrado-descripcion").value || null
         if (desc) {
             obj.descripcionContiene = desc;
         }
-        
+
         let fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value || null
         if (fechaDesde) {
             obj.fechaDesde = fechaDesde
@@ -329,7 +330,7 @@ function filtrarGastosWeb() {
         if (fechaHasta) {
             obj.fechaHasta = fechaHasta
         }
-        
+
         let valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value || null
         if(valorMaximo) {
             obj.valorMaximo = valorMaximo
@@ -346,13 +347,13 @@ function filtrarGastosWeb() {
             obj.etiquetasTiene = etiquetas;
         }
 
-        let filtrado = gp.filtrarGastos(obj)
-        mostrarGastoWeb("listado-gastos-completo", filtrado)
-    }
+        console.log(gp.filtrarGastos(obj));
+        let gastosFiltrados = gp.filtrarGastos(obj)
+        let div = document.getElementById("listado-gastos-completo")
+        div.textContent = ''
+        mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
+    })
 }
-
-
-
 
 export {
     mostrarDatoEnId,
