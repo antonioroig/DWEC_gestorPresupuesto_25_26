@@ -226,18 +226,34 @@ function nuevoGastoWebFormulario(event){
 function filtrarGastosWeb(){
     this.handleEvent = function(event){
         event.preventDefault();
+        document.getElementById("listado-gastos-completo").innerHTML = "";
         let form = event.target;
-        let descripcion = form.elements("formulario-filtrado-descripcion").value;
-        let valMinimo = form.elements("formulario-filtrado-valor-minimo").value;
-        let valMaximo = form.elements("formulario-filtrado-valor-maximo").value;
-        let fechaInicial = form.elements("formulario-filtrado-fecha-desde").value;
-        let fechaFinal = form.elements("formulario-filtrado-fecha-hasta").value;
-        let etiquetas = form.elements("formulario-filtrado-etiquetas-tiene").value;
+        let descripcion = form.elements["formulario-filtrado-descripcion"].value;
+        let valMinimo = form.elements["formulario-filtrado-valor-minimo"].value;
+        let valMaximo = form.elements["formulario-filtrado-valor-maximo"].value;
+        let fechaInicial = form.elements["formulario-filtrado-fecha-desde"].value;
+        let fechaFinal = form.elements["formulario-filtrado-fecha-hasta"].value;
+        let etiquetas = form.elements["formulario-filtrado-etiquetas-tiene"].value;
 
-        // voy por 
-        // Si el campo formulario-filtrado-etiquetas-tiene tiene datos, 
-        // llamar a la función transformarListadoEtiquetas (recordad que está en el paquete gestionpresupuesto.js) 
-        // para que devuelva un array de etiquetas válidas.
+        let obj = {descripcionContiene: descripcion, fechaDesde: fechaInicial, fechaHasta: fechaFinal};
+
+        if (valMinimo.length > 0)
+            obj.valorMinimo = Number(valMinimo); 
+
+        if (valMaximo.length > 0)
+            obj.valorMaximo = Number(valMaximo);
+
+        if (etiquetas.length > 0)
+            obj.etiquetasTiene = gP.transformarListadoEtiquetas(etiquetas);
+
+        let gastos;
+        if (obj.length == 0) {
+            gastos = gP.listarGastos();
+        } else {
+            gastos = gP.filtrarGastos(obj);
+        }
+
+        mostrarGastoWeb("listado-gastos-completo", gastos);
     }
 }
 
