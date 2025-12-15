@@ -174,29 +174,29 @@ function filtrarGastos(objeto)
     if (objeto.valorMinimo != undefined)
     {
         arrayCopia = arrayCopia.filter(function(gasto){
-            return gasto.valor >= objeto.valorMinimo;
+            return Number(gasto.valor) >= objeto.valorMinimo;
         })
     }
     if (objeto.valorMaximo != undefined)
     {
         arrayCopia = arrayCopia.filter(function(gasto){
-            return gasto.valor <= objeto.valorMaximo;
+            return Number(gasto.valor) <= objeto.valorMaximo;
         })
     }
-    if (objeto.descripcionContiene != undefined)
+    if (objeto.descripcionContiene !== undefined && objeto.descripcionContiene.length > 0)
     {
         arrayCopia = arrayCopia.filter(function(gasto){
             let arrayDescripcion = gasto.descripcion.split(" ");
             for (let i = 0; i < arrayDescripcion.length; i++)
-                return arrayDescripcion[i].toLowerCase() == objeto.descripcionContiene.toLowerCase();
+                return arrayDescripcion[i].toLowerCase().includes(objeto.descripcionContiene.toLowerCase());
         })
     }
-    if (objeto.etiquetasTiene != undefined)
+    if (objeto.etiquetasTiene !== undefined && objeto.etiquetasTiene.length > 0)
     {
         arrayCopia = arrayCopia.filter(function(gasto){
             for (let i = 0; i < objeto.etiquetasTiene.length; i++)
             {
-                if(gasto.etiquetas != undefined && gasto.etiquetas.length > 0)
+                if(gasto.etiquetas !== undefined && gasto.etiquetas.length > 0)
                 {
                     let j = 0;
                     while (j < gasto.etiquetas.length)

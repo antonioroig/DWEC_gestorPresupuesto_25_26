@@ -60,6 +60,8 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
 //TOTAL DE GASTOS AGRUPADOS POR AÑO
 gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año");
 
+gPw.filtrarGastosWeb();
+
 
 
 

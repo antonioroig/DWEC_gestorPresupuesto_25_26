@@ -11,6 +11,7 @@ function mostrarGastoWeb(idElemento, gastos){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
     let formulario = plantillaFormulario.querySelector("form");
     let elemento = document.getElementById(idElemento);
+    elemento.innerHTML = "";
     for(let i = 0; i < gastos.length; i++){
         let gasto = gastos[i];
         let cajaGrande = document.createElement("div");
@@ -223,25 +224,28 @@ function filtrarGastosWeb(){
     let formulario = document.getElementById("formulario-filtrado");
 
     formulario.addEventListener("submit", (event) => {
-        event.preventDefault;
 
-        let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
-        let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
-        let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
-        let fechaInicial = formulario.elements["formulario-filtrado-fecha-desde"].value;
-        let fechaFinal = formulario.elements["formulario-filtrado-hasta"].value;
-        let etiquetas = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
-    
-        valorMinimo = Number(valorMinimo);
-        valorMaximo = Number(valorMaximo);
+        event.preventDefault();
 
-        let arrayEtiqueta = gP.transformarListadoEtiquetas(etiquetas);
-    
-        mostrarGastoWeb("listado-gastos-completo", gP.filtrarGastos({fechaDesde: fechaInicial, fechaHasta: fechaFinal, valorMinimo: valorMinimo, 
-            valorMaximo: valorMaximo, descripcionContiene: descripcion, etiquetasTiene: arrayEtiqueta}));
+        let objeto = new Object();
+
+        if (formulario.elements["formulario-filtrado-descripcion"].value != "")
+            objeto.descripcionContiene = formulario.elements["formulario-filtrado-descripcion"].value;
+        if (formulario.elements["formulario-filtrado-valor-minimo"].value != "")
+            objeto.valorMinimo = Number(formulario.elements["formulario-filtrado-valor-minimo"].value);
+        if (formulario.elements["formulario-filtrado-valor-maximo"].value != "")
+        objeto.valorMaximo = Number(formulario.elements["formulario-filtrado-valor-maximo"].value);
+        if (formulario.elements["formulario-filtrado-fecha-desde"].value != "")
+        objeto.fechaDesde = new Date(formulario.elements["formulario-filtrado-fecha-desde"].value);
+        if (formulario.elements["formulario-filtrado-fecha-hasta"].value != "")
+            objeto.fechaHasta = new Date(formulario.elements["formulario-filtrado-fecha-hasta"].value);
+        if (formulario.elements["formulario-filtrado-etiquetas-tiene"].value != "")
+            objeto.etiquetasTiene = gP.transformarListadoEtiquetas(formulario.elements["formulario-filtrado-etiquetas-tiene"].value);
+
+        let gastosFiltrados = gP.filtrarGastos(objeto);
+
+        mostrarGastoWeb("listado-gastos-completo", gastosFiltrados);
     })
-
-    
 
 }
 
