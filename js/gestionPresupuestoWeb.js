@@ -90,12 +90,13 @@ function repintar(){
     mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos()) 
     mostrarDatoEnId("balance-total",  gestionPresupuesto.calcularBalance())
+    let divFiltrado = document.getElementById("listado-gastos-filtrados-1")
     let divGastosCompletos = document.getElementById("listado-gastos-completo")
     divGastosCompletos.innerHTML = ""
     mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
     let titulo = document.createElement("h1")
     titulo.innerText = "Gastos Filtrados"
-    divGastosCompletos.append(titulo)
+    divFiltrado.append(titulo)
     let form = document.forms[0]
     if(form != undefined)
         form.remove()
@@ -266,6 +267,8 @@ function filtrarGastosWeb(){
             return
         let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtro)
         console.log(gastosFiltrados)
+        let divGastosCompletos = document.getElementById("listado-gastos-completo")
+        divGastosCompletos.remove()
         mostrarGastoWeb("listado-gastos-completos", gastosFiltrados)
     })
     

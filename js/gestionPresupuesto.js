@@ -198,7 +198,7 @@ Etiquetas:\n${desplegable}`)
                     return gastos;
 
                 let resultados = [...gastos];
-
+                console.log(resultados)
                 let fechaDesdeFiltro = new Date(filtro.fechaDesde);
                 let fechaHastaFiltro = new Date(filtro.fechaHasta); 
                 fechaDesdeFiltro = Date.parse(fechaDesdeFiltro);
@@ -251,9 +251,9 @@ Etiquetas:\n${desplegable}`)
                             }
                             resultados = resultados.filter(item => item.etiquetas.some(etiqueta => tags.includes(etiqueta)));
                         }
-                        return resultados;
 
-                    }
+                return resultados;
+                }
 
             function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
             {

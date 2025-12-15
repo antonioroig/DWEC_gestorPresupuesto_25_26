@@ -30,21 +30,35 @@ gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo", gastosCompletos
 
 let titulo = document.createElement("h1")
 titulo.innerText = "Gastos Filtrados"
-let divGastosCompletos = document.getElementById("listado-gastos-completo")
-divGastosCompletos.append(titulo)
+// let divGastosCompletos = document.getElementById("listado-gastos-completo")
+// divGastosCompletos.append(titulo)
 
 let filtroFecha = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"}
 let gastosFiltradosFecha = gestionPresupuesto.filtrarGastos(filtroFecha)
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltradosFecha)
+let divFiltrado1 = document.getElementById("listado-gastos-filtrado-1")
+divFiltrado1.prepend(titulo)
 
 let gastosFiltradosPrecioMinimo = gestionPresupuesto.filtrarGastos({valorMinimo: 50})
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastosFiltradosPrecioMinimo)
+let divFiltrado2 = document.getElementById("listado-gastos-filtrado-2")
+let titulo2 = document.createElement("h1")
+titulo2.innerText = titulo.innerText + " por valor mínimo"
+divFiltrado2.prepend(titulo2)
 
 let gastosFiltradosPrecioMinimoEtiqueta = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene: ["seguros"]})
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastosFiltradosPrecioMinimoEtiqueta)
+let divFiltrado3 = document.getElementById("listado-gastos-filtrado-3")
+let titulo3 = document.createElement("h1")
+titulo3.innerText = titulo.innerText + " por valor mínimo y etiquetas"
+divFiltrado3.prepend(titulo3)
 
 let gastosFiltradosPrecioMaximoEtiquetas = gestionPresupuesto.filtrarGastos({valorMaximo : 50, etiquetasTiene: ["comida", "transporte"]})
 gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosFiltradosPrecioMaximoEtiquetas)
+let divFiltrado4 = document.getElementById("listado-gastos-filtrado-4")
+let titulo4 = document.createElement("h1")
+titulo4.innerText = titulo.innerText + " por valor máximo y etiquetas"
+divFiltrado4.prepend(titulo4)
 
 let gastosAgrupadosDia = gestionPresupuesto.agruparGastos("dia")
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", gastosAgrupadosDia, "día")
