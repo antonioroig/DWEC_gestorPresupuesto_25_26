@@ -88,3 +88,4 @@ let manejadorAnyadirGasto = new gpw.NuevoGastoWeb()
 anyadirGastoBtn.addEventListener("click", manejadorAnyadirGasto)
 
 gpw.nuevoGastoWebFormulario()
+gpw.filtrarGastosWeb()

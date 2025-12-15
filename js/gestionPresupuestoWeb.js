@@ -83,7 +83,6 @@ function EditarHandleFormulario() {
 
 function ManejarCancelar() {
     this.handleEvent = function(e) {
-        console.log(this.anyadir);
         if (this.anyadir) {
             let boton = document.getElementById("anyadirgasto-formulario");
             boton.disabled = false;
@@ -95,7 +94,6 @@ function ManejarCancelar() {
             this.edit.removeAttribute("disable")
         }
         this.element.remove();
-
     }
 }
 
@@ -310,9 +308,9 @@ function mostrarGastosAgrupadosWeb(id, agrup, periodo) {
 }
 
 
+// document.addEventListener("DOMContentLoaded", filtrarGastosWeb);
 function filtrarGastosWeb() {
     let form = document.getElementById("formulario-filtrado")
-    console.log(form);
     form.addEventListener("submit", function(e) {
         e.preventDefault();
         let obj = {}
