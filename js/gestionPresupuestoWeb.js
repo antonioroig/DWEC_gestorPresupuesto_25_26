@@ -268,8 +268,8 @@ function filtrarGastosWeb(){
         let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtro)
         console.log(gastosFiltrados)
         let divGastosCompletos = document.getElementById("listado-gastos-completo")
-        divGastosCompletos.remove()
-        mostrarGastoWeb("listado-gastos-completos", gastosFiltrados)
+        divGastosCompletos.innerHTML = ""
+        mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
     })
     
 }
