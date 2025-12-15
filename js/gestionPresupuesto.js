@@ -198,7 +198,6 @@ Etiquetas:\n${desplegable}`)
                     return gastos;
 
                 let resultados = [...gastos];
-                console.log(resultados)
                 let fechaDesdeFiltro = new Date(filtro.fechaDesde);
                 let fechaHastaFiltro = new Date(filtro.fechaHasta); 
                 fechaDesdeFiltro = Date.parse(fechaDesdeFiltro);

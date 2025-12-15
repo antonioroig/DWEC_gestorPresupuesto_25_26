@@ -90,7 +90,7 @@ function repintar(){
     mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto())
     mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos()) 
     mostrarDatoEnId("balance-total",  gestionPresupuesto.calcularBalance())
-    let divFiltrado = document.getElementById("listado-gastos-filtrados-1")
+    let divFiltrado = document.getElementById("listado-gastos-filtrado-1")
     let divGastosCompletos = document.getElementById("listado-gastos-completo")
     divGastosCompletos.innerHTML = ""
     mostrarGastoWeb("listado-gastos-completo", gestionPresupuesto.listarGastos())
@@ -202,8 +202,6 @@ function EditarHandleFormulario(){
 function nuevoGastoWebFormulario(){    
     let botonAñadirForm = document.getElementById("anyadirgasto-formulario")
     botonAñadirForm.addEventListener("click", function(event){    
-        if(document.forms.length > 0)
-            return
         let clonForm = document.getElementById("formulario-template").content.cloneNode(true);
         let divBotones = document.getElementById("controlesprincipales")
         let formulario = clonForm.querySelector("form")
@@ -266,7 +264,6 @@ function filtrarGastosWeb(){
         if(filtro == {})
             return
         let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtro)
-        console.log(gastosFiltrados)
         let divGastosCompletos = document.getElementById("listado-gastos-completo")
         divGastosCompletos.innerHTML = ""
         mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
