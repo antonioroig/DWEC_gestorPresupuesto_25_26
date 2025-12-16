@@ -144,6 +144,17 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fechaDesde = null, fecha
     }, {});
 }
 
+function transformarListadoEtiquetas(etiquetasTiene){
+    if(etiquetasTiene == null || etiquetasTiene.length == 0)
+        return [];
+    
+    return etiquetasTiene.match(/[^,.:;\s]/);
+}
+
+function filtrarGastosWeb(){
+
+}
+
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -154,5 +165,7 @@ export {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas,
+    filtrarGastosWeb
 };
