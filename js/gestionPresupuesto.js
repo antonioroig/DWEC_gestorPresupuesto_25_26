@@ -147,11 +147,21 @@ function agruparGastos(periodo = 'mes', etiquetas = [], fechaDesde = null, fecha
 function transformarListadoEtiquetas(etiquetasTiene){
     if(etiquetasTiene == null || etiquetasTiene.length == 0)
         return [];
-    
-    return etiquetasTiene.match(/[^,.:;\s]/);
+
+    return etiquetasTiene.split(/[,.:;\s]+/);
 }
 
-function filtrarGastosWeb(){
+function filtrarGastosWeb(evento){
+    evento.preventDefault();
+    
+    const descripcion = document.getElementById("formulario-filtrado-descripcion").value.trim();
+    const valorMinimo = document.getElementById("formulario-filtrado-valor-minimo").value;
+    const valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value;
+    const fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+    const fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+    const etiquetasInput = document.getElementById("formulario-filtrado-etiquetas-tiene").value.trim();
+
+    const filtro = {};
 
 }
 
