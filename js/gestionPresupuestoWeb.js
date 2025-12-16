@@ -280,6 +280,38 @@ function EnviarHandleFormulario() {
         repintar()
     }
 }
+function filtrarGastoWeb(event) {
+    event.preventDefault()
+    const descripcionContiene = document.getElementById("formulario-filtrado-descripcion").value;
+    const valorMinimo = document.getElementById("formulario-filtrado-valor-minimo").value;
+    const valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value;
+    const fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+    const fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+    const etiquetasTexto = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+
+    let etiquetasTiene = []
+
+    if(etiquetasTexto){
+        etiquetasTiene = presupuesto.transformarListadoEtiquetas(etiquetasTexto)
+    }
+    let filtros = {}
+
+    if(descripcionContiene){filtros.descripcionContiene = descripcionContiene}
+    if(valorMinimo){filtros.valorMinimo = valorMinimo}
+    if(valorMaximo){filtros.valorMaximo = valorMaximo}
+    if(fechaDesde){filtros.fechaDesde = fechaDesde}
+    if(fechaHasta){filtros.fechaHasta = fechaHasta}
+    if(etiquetasTiene.length > 0){filtros.etiquetasTiene = etiquetasTiene}
+
+    let gastosFiltrados = presupuesto.filtrarGastos(filtros)
+    
+    if(filtros){
+        mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
+    }
+    else{
+        mostrarGastoWeb("listado-gastos-completo", presupuesto.gasto)
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -287,5 +319,6 @@ export {
     repintar,
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastoWeb
 }

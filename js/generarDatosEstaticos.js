@@ -61,3 +61,4 @@ document.getElementById("actualizarpresupuesto").addEventListener("click", presu
 
 document.getElementById("anyadirgasto").addEventListener("click", presupuestoWeb.nuevoGastoWeb)
 document.getElementById("anyadirgasto-formulario").addEventListener("click", presupuestoWeb.nuevoGastoWebFormulario)
+document.getElementById("formulario-filtrado").addEventListener("submit", presupuestoWeb.filtrarGastoWeb)
