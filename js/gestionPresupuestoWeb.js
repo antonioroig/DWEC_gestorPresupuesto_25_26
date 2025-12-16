@@ -272,7 +272,7 @@ function SubmitHandleFormulario() {
     }
     function filtrarGastosWeb(){
         let formFilt = document.getElementById("formulario-filtrado");
-        let descripcion, vMin, vMax, fDesde, fHasta, etiquetasTiene;
+        let descripcion, vMin, vMax, fDesde, fHasta, etiquetas;
 
         formFilt.preventDefault();
         descripcion = formFilt.querySelector("#formulario-filtrado-descripcion");
@@ -280,9 +280,29 @@ function SubmitHandleFormulario() {
         vMax = formFilt.querySelector("#formulario-filtrado-valor-maximo");
         fDesde = formFilt.querySelector("#formulario-filtrado-fecha-desde");
         fHasta = formFilt.querySelector("#formulario-filtrado-fecha-hasta");
-        etiquetasTiene = formFilt.querySelector("#formulario-filtrado-etiquetas-tiene");
+        etiquetas = formFilt.querySelector("#formulario-filtrado-etiquetas-tiene");
 
-        
+        let filtro = {};
+
+        if(descripcion){
+            filtro.descripcionContiene = descripcion
+        }
+        if(vMin){
+            filtro.valorMinimo = descripcion
+        }
+        if(vMax){
+            filtro.valorMaximo = descripcion
+        }
+        if(fDesde){
+            filtro.fechaDesde = descripcion
+        }
+        if(fHasta){
+            filtro.fechaHasta = descripcion
+        }
+        if(etiquetas){
+            filtro.etiquetasTiene = gp.transformarListadoEtiquetas(etiquetas);
+        }
+        gp.filtrarGastos(filtro);
     }
 }
 export {
