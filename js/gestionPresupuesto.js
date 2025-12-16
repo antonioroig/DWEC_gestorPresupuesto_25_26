@@ -252,12 +252,9 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta){
 }
 
 function transformarListadoEtiquetas(etiq) {
-  if (!etiq) return [];
-
-  const partes = etiq
-    .split(/[,\.\:;\s]+/);
-
-  return partes.filter(p => p.length > 0);
+//   if (!etiq) return [];
+  let partes = etiq.split(/[,\.\:;\s]+/);
+  return partes;
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.

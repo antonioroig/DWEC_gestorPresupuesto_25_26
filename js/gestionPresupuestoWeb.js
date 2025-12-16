@@ -336,6 +336,35 @@ function CancelarFormularioHandle() {
     }
 }
 
+///aqui
+
+function filtrarGastosWeb(event) {
+  event.preventDefault();
+
+  let desc = document.getElementById("formulario-filtrado-descripcion").value;
+  let valmin = document.getElementById("formulario-filtrado-valor-minimo").value;
+  let valmax = document.getElementById("formulario-filtrado-valor-maximo").value;
+  let fechdesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+  let fechahasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+  let etiq = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+
+  const filtro = {};
+
+  if (desc) filtro.descripcionContiene = desc;
+
+  if (valmin !== "") filtro.valorMinimo = Number(valmin);
+  if (valmax !== "") filtro.valorMaximo = Number(valmax);
+
+  if (fechdesde) filtro.fechaDesde = fechdesde;   
+  if (fechahasta) filtro.fechaHasta = fechahasta;   
+
+  if (etiq && etiq.trim() !== "") {
+    filtro.etiquetasTiene = transformarListadoEtiquetas(etiq);
+  }
+
+  repintar();
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
