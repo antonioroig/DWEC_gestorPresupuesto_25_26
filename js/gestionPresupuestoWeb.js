@@ -218,6 +218,21 @@ CancelarHandle.prototype.handleEvent = function(){
   this.formulario.remove();
   this.boton.disabled = false;
 }
+function EditarHandleFormulario() {}
+
+EditarHandleFormulario.prototype.handleEvent = function(evento) {
+};
+
+let botonEditarFormulario = document.createElement("button");
+botonEditarFormulario.textContent = "Editar (formulario)";
+botonEditarFormulario.classList.add("gasto-editar-formulario");
+botonEditarFormulario.type = "button";
+
+let manejadorEditarFormulario = new EditarHandleFormulario();
+manejadorEditarFormulario.gasto = datosGasto;
+
+botonEditarFormulario.addEventListener("click", manejadorEditarFormulario);
+bloqueGasto.appendChild(botonEditarFormulario);
 
 export {
     mostrarDatoEnId,
