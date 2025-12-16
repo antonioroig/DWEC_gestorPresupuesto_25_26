@@ -271,6 +271,17 @@ function SubmitHandleFormulario() {
         repintar()
     }
     function filtrarGastosWeb(){
+        let formFilt = document.getElementById("formulario-filtrado");
+        let descripcion, vMin, vMax, fDesde, fHasta, etiquetasTiene;
+        
+        formFilt.preventDefault();
+        descripcion = formFilt.querySelector("#formulario-filtrado-descripcion");
+        vMin = formFilt.querySelector("#formulario-filtrado-valor-minimo");
+        vMax = formFilt.querySelector("#formulario-filtrado-valor-maximo");
+        fDesde = formFilt.querySelector("#formulario-filtrado-fecha-desde");
+        fHasta = formFilt.querySelector("#formulario-filtrado-fecha-hasta");
+        etiquetasTiene = formFilt.querySelector("#formulario-filtrado-etiquetas-tiene");
+
         
     }
 }
