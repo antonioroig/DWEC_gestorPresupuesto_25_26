@@ -270,6 +270,9 @@ function SubmitHandleFormulario() {
 
         repintar()
     }
+    function filtrarGastosWeb(){
+        
+    }
 }
 export {
     mostrarDatoEnId,
