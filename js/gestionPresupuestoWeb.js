@@ -273,7 +273,7 @@ function SubmitHandleFormulario() {
     function filtrarGastosWeb(){
         let formFilt = document.getElementById("formulario-filtrado");
         let descripcion, vMin, vMax, fDesde, fHasta, etiquetasTiene;
-        
+
         formFilt.preventDefault();
         descripcion = formFilt.querySelector("#formulario-filtrado-descripcion");
         vMin = formFilt.querySelector("#formulario-filtrado-valor-minimo");

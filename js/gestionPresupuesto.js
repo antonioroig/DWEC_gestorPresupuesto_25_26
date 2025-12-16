@@ -194,9 +194,9 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     return resultado;
 }
 
-function transformarListadoEtiquetas(etiquetasTiene){
-    etiquetasTiene = etiquetasTiene.split(/[,.:;\s]+/);
-    return etiquetasTiene;
+function transformarListadoEtiquetas(etiquetasTexto){
+    etiquetasTexto = etiquetasTexto.split(/[,\.:;\s]+/);
+    return etiquetasTexto;
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
