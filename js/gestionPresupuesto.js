@@ -144,7 +144,11 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
     return reducido
 }
 function transformarListadoEtiquetas(texto){
-
+    let etiquetas = []
+    if(texto){
+        etiquetas = texto.split(/[,.\.;:\s]+/)
+    }
+    return etiquetas
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
