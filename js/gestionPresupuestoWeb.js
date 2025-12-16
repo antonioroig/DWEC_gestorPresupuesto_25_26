@@ -263,7 +263,26 @@ EditarHandleFormulario.prototype.handleEvent = function(evento){
   evento.currentTarget.parentNode.appendChild(plantillaFormulario);
 }
 
+function nuevoGastoWebFormulario(evento){
+  let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+  let formulario = plantillaFormulario.querySelector("form");
 
+  let manejadorSubmit = new EnviarNuevoGastoHandle();
+  formulario.addEventListener("submit", manejadorSubmit);
+
+  let botonCancelar = formulario.querySelector("button.cancelar");
+  let manejadorCancelar = new CancelarHandle();
+  manejadorCancelar.formulario = formulario;
+  manejadorCancelar.boton = evento.currentTarget;
+  botonCancelar.addEventListener("click", manejadorCancelar);
+
+  evento.currentTarget.disabled = true;
+
+  document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+}
+
+let btnAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
+btnAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
 export {
     mostrarDatoEnId,
