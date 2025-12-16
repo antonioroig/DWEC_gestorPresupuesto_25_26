@@ -302,7 +302,15 @@ function SubmitHandleFormulario() {
         if(etiquetas){
             filtro.etiquetasTiene = gp.transformarListadoEtiquetas(etiquetas);
         }
-        gp.filtrarGastos(filtro);
+        
+        let filtrado = gp.filtrarGastos(filtro);
+
+        if(filtro){
+            mostrarGastoWeb("listado-gastos-completo", filtrado);
+        }
+        else{
+            mostrarGastoWeb("listado-gastos-completo", presupuesto.gasto);
+        }
     }
 }
 export {
