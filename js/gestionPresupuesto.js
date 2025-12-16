@@ -22,7 +22,7 @@ function mostrarPresupuesto() {
 }
 
 // Constructor para crear gastos
-function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
+function CrearGasto(descripcion, valor, fecha, ...etiquetasRecibidas) {
     this.descripcion = descripcion;
 
     if (valor >= 0 && !isNaN(valor)) {
@@ -35,20 +35,20 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
     if (!isNaN(fechaValida)) {
         this.fecha = fechaValida;
     } else {
-        this.fecha = Date.now(); 
+        this.fecha = Date.now();
     }
 
-//etiquetas
+    //etiquetas
     this.etiquetas = [];
 
-    for(let i=0; i < etiquetasRecibidas.length; i++){
+    for (let i = 0; i < etiquetasRecibidas.length; i++) {
         let etiqueta = etiquetasRecibidas[i];
-        if(!this.etiquetas.includes(etiqueta)){
+        if (!this.etiquetas.includes(etiqueta)) {
             this.etiquetas.push(etiqueta);
         }
     }
 
-    this.mostrarGasto = function(){
+    this.mostrarGasto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     }
 
@@ -77,21 +77,21 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
         }
     };
 
-    this.actualizarFecha = function (nuevaFecha){
+    this.actualizarFecha = function (nuevaFecha) {
         let nuevaConvertida = Date.parse(nuevaFecha);
-        if(!isNaN(nuevaConvertida)){
+        if (!isNaN(nuevaConvertida)) {
             this.fecha = nuevaConvertida;
         }
     }
-    
-    
+
+
     this.anyadirEtiquetas = function (...nuevasEtiquetas) {
-            for (let i = 0; i < nuevasEtiquetas.length; i++) {
-                let etiqueta = nuevasEtiquetas[i];
-                if (!this.etiquetas.includes(etiqueta)) {
-                    this.etiquetas.push(etiqueta);
-                }
+        for (let i = 0; i < nuevasEtiquetas.length; i++) {
+            let etiqueta = nuevasEtiquetas[i];
+            if (!this.etiquetas.includes(etiqueta)) {
+                this.etiquetas.push(etiqueta);
             }
+        }
     };
 
     this.borrarEtiquetas = function (...etiquetasABorrar) {
@@ -117,22 +117,22 @@ function CrearGasto(descripcion, valor, fecha, ... etiquetasRecibidas) {
         return "";
     };
 }
-function listarGastos(){
+function listarGastos() {
     return gastos;
 }
 
-function anyadirGasto(gasto){
+function anyadirGasto(gasto) {
     gasto.id = idGasto;
-    idGasto ++;
+    idGasto++;
     gastos.push(gasto);
 }
 
-function borrarGasto(id){
+function borrarGasto(id) {
     let resultado = [];
-    for(let i=0; i < gastos.length; i++){
+    for (let i = 0; i < gastos.length; i++) {
         let gastoActual = gastos[i];
 
-        if(gastoActual.id != id){
+        if (gastoActual.id != id) {
             resultado.push(gastoActual);
         }
     }
@@ -140,18 +140,18 @@ function borrarGasto(id){
 }
 
 function calcularTotalGastos() {
-    let total = 0; 
+    let total = 0;
 
     for (let i = 0; i < gastos.length; i++) {
-        let gastoActual = gastos[i];       
-        total = total + gastoActual.valor; 
+        let gastoActual = gastos[i];
+        total = total + gastoActual.valor;
     }
 
-    return total; 
+    return total;
 
 }
 
-function calcularBalance(){
+function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
@@ -161,8 +161,8 @@ function filtrarGastos(filtros = {}) {
         const valor = gasto.valor;
         const descripcion = gasto.descripcion.toLowerCase();
         // const etiquetas = gasto.etiquetas.map(e => e.toLowerCase());
-        const etiquetas = gasto.etiquetas.map(function(e){
-                                                return e.toLowerCase();
+        const etiquetas = gasto.etiquetas.map(function (e) {
+            return e.toLowerCase();
         })
 
         let desde = null;
@@ -225,7 +225,7 @@ function filtrarGastos(filtros = {}) {
 function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde = null, fechaHasta = null) {
     const resultado = {};
     let desde = null;
-    let hasta = Date.now(); 
+    let hasta = Date.now();
 
     if (fechaDesde) {
         desde = Date.parse(fechaDesde);
@@ -243,10 +243,10 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde = null, fecha
         if (hasta !== null && gasto.fecha > hasta) continue;
 
         if (etiquetas.length > 0) {
-            const etiquetasGasto = gasto.etiquetas.map(function(e) {
+            const etiquetasGasto = gasto.etiquetas.map(function (e) {
                 return e.toLowerCase();
             });
-            const etiquetasFiltro = etiquetas.map(function(e) {
+            const etiquetasFiltro = etiquetas.map(function (e) {
                 return e.toLowerCase();
             });
 
@@ -271,21 +271,30 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde = null, fecha
 
     return resultado;
 }
+function transformarListadoEtiquetas(texto) {
+    if (typeof texto !== "string") return [];
+
+    return texto
+        .split(/[,\.;:\s]+/g)
+        .map(e => e.trim())
+        .filter(e => e.length > 0);
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
-export   {
+export {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
-    listarGastos, 
-    anyadirGasto, 
-    borrarGasto, 
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 
 }
