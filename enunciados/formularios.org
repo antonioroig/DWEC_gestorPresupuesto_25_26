@@ -125,7 +125,7 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón ~anyadirgasto-formulario~ del código HTML. Realizará las siguientes tareas:
      - Crear una copia del formulario web definido en la plantilla HTML. El [[https://es.javascript.info/template-element#insertando-template][código a utilizar]] es el siguiente:
        #+begin_src javascript
-         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+         let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
        #+end_src
        Desde este momento, la variable ~plantillaFormulario~ almacena un nuevo [[https://es.javascript.info/modifying-document#document-fragment][fragmento de documento]] correspondiente al elemento ~<template>~. Posteriormente lo añadiremos a la página y se insertará su contenido (el elemento ~<form>~ que hay en su interior).
      - Acceder al elemento ~<form>~ dentro de ese fragmento de documento. Para ello podemos utilizar por ejemplo:
