@@ -84,7 +84,7 @@ CrearGasto.prototype.actualizarValor = function (nuevoValor) {
   if (typeof nuevoValor === "number" && nuevoValor >= 0) {
     this.valor = nuevoValor;
   }
-  return this.valor; 
+  return this.valor;
 };
 
 function listarGastos() {
@@ -235,8 +235,13 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) 
   }, {});
 }
 
-function transformarListadoEtiquetas() {
-
+function transformarListadoEtiquetas(texto) {
+  if (!texto || typeof texto !== "string") return [];
+  const partes = texto
+    .split(/[,\.:;\s]+/)
+    .map(t => t.trim())
+    .filter(t => t !== "");
+  return partes;
 }
 
 
@@ -244,15 +249,15 @@ function transformarListadoEtiquetas() {
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
 export {
-    mostrarPresupuesto,
-    actualizarPresupuesto,
-    CrearGasto,
-    listarGastos,
-    anyadirGasto,
-    borrarGasto,
-    calcularTotalGastos,
-    calcularBalance,
-    filtrarGastos,
-    agruparGastos,
-    transformarListadoEtiquetas
+  mostrarPresupuesto,
+  actualizarPresupuesto,
+  CrearGasto,
+  listarGastos,
+  anyadirGasto,
+  borrarGasto,
+  calcularTotalGastos,
+  calcularBalance,
+  filtrarGastos,
+  agruparGastos,
+  transformarListadoEtiquetas
 }
