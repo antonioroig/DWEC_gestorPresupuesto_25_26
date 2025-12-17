@@ -362,6 +362,61 @@ function SubmitEditarFormularioHandle() {
     }
 }
 
+function filtrarGastosWeb(evento) {
+    evento.preventDefault();
+
+    let filtros = {};
+
+    let valorMin = document.getElementById("formulario-filtrado-valor-minimo").value;
+    if (valorMin !== "") {
+        filtros.valorMinimo = Number(valorMin);
+    }
+
+    let valorMax = document.getElementById("formulario-filtrado-valor-maximo").value;
+    if (valorMax !== "") {
+        filtros.valorMaximo = Number(valorMax);
+    }
+
+    let fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+    if (fechaDesde !== "") {
+        filtros.fechaDesde = fechaDesde;
+    }
+
+    let fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+    if (fechaHasta !== "") {
+        filtros.fechaHasta = fechaHasta;
+    }
+
+
+    let descripcion = document.getElementById("formulario-filtrado-descripcion").value;
+    if (descripcion !== "") {
+        filtros.descripcionContiene = descripcion;
+    }
+
+    let etiquetasTexto = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+    if (etiquetasTexto !== "") {
+        filtros.etiquetasTiene = gP.transformarListadoEtiquetas(etiquetasTexto);
+    }
+
+    let gastosFiltrados = gP.filtrarGastos(filtros);
+
+    let contenedor = document.getElementById("listado-gastos-completo");
+    contenedor.innerHTML = "";
+
+    for (let gasto of gastosFiltrados) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
+    
+}
+document.addEventListener("submit", function (evento) {
+    if (evento.target.id === "formulario-filtrado") {
+        filtrarGastosWeb(evento);
+    }
+});
+
+
+
+
 
 
 export{
@@ -374,7 +429,8 @@ export{
     EditarHandle,
     BorrarHandle,
     BorrarEtiquetasHandle,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastosWeb
 }
 
 import * as gP from './gestionPresupuesto.js';
