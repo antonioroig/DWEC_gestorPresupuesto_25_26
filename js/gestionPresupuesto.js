@@ -177,9 +177,7 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     let gastosFiltrados = filtrarGastos(filtro);
   
     let resultado = gastosFiltrados.reduce((acc, gasto) => {
-        console.log(gasto)
         let clave = gasto.obtenerPeriodoAgrupacion(periodo);
-        console.log(clave)
 
         if (!acc[clave]) {
             acc[clave] = gasto.valor;
@@ -194,9 +192,12 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
     return resultado;
 }
 
-function transformarListadoEtiquetas(etiquetasTexto){
-    etiquetasTexto = etiquetasTexto.split(/[,\.:;\s]+/);
-    return etiquetasTexto;
+function transformarListadoEtiquetas(etiquetasTexto){    
+    let etiquetasTrans = [];
+    if(etiquetasTexto){
+        etiquetasTrans = etiquetasTexto.split(/[,\.:;\s]+/);
+    }
+    return etiquetasTrans;
 }
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado

@@ -81,3 +81,6 @@ gW.mostrarGastosAgrupadosWeb("agrupacion-anyo", aGastosAnyo, "año");
 
 let btnAnyGastoFrom = document.getElementById("anyadirgasto-formulario");
 btnAnyGastoFrom.addEventListener("click", gW.nuevoGastoWebFormulario);
+
+let formFiltrado = document.getElementById("formulario-filtrado");
+formFiltrado.addEventListener("submit", gW.filtrarGastosWeb);
