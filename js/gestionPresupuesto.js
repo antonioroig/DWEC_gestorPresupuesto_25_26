@@ -235,6 +235,9 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) 
   }, {});
 }
 
+function transformarListadoEtiquetas() {
+
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -250,5 +253,6 @@ export {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos 
+    agruparGastos,
+    transformarListadoEtiquetas
 }
