@@ -7,6 +7,7 @@ function mostrarDatoEnId(valor, idElemento) {
 
 function mostrarGastoWeb(idElemento, gastos) {
     let elem = document.getElementById(idElemento);
+    elem.innerHTML = "";
     for (let j = 0; j < gastos.length; j++) {
         let g = document.createElement("div");
         g.classList.add("gasto");
@@ -244,9 +245,34 @@ function CancelarFormularioHandle() {
     };
 }
 
+function filtrarGastosWeb(){
+    let formulario = document.getElementById("formulario-filtrado")
+    formulario.addEventListener("submit", (event) =>{
+        event.preventDefault();
+        let descipcion = document.getElementById("formulario-filtrado-descripcion").value;
+        let valorMin = Number(document.getElementById("formulario-filtrado-valor-minimo").value);
+        let valorMax = Number(document.getElementById("formulario-filtrado-valor-maximo").value);
+        let fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+        let fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+        let etiquetasTiene = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+        if (etiquetasTiene.length > 0){
+            etiquetasTiene = Js1.transformarListadoEtiquetas(etiquetasTiene);
+        }
+        let arrGastos = Js1.filtrarGastos({
+            fechaDesde:fechaDesde,
+            fechaHasta: fechaHasta,
+            valorMinimo: valorMin,
+            valorMaximo: valorMax,
+            descripcionContiene: descipcion,
+            etiquetasTiene: etiquetasTiene
+        })
+        mostrarGastoWeb("listado-gastos-completo", arrGastos);
+    })
+}
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    filtrarGastosWeb
 }
