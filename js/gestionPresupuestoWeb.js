@@ -295,6 +295,8 @@ function filtrarGastoWeb(event) {
         etiquetasTiene = presupuesto.transformarListadoEtiquetas(etiquetasTexto)
     }
     let filtros = {}
+    
+    
 
     if(descripcionContiene){filtros.descripcionContiene = descripcionContiene}
     if(valorMinimo){filtros.valorMinimo = valorMinimo}
@@ -303,13 +305,13 @@ function filtrarGastoWeb(event) {
     if(fechaHasta){filtros.fechaHasta = fechaHasta}
     if(etiquetasTiene.length > 0){filtros.etiquetasTiene = etiquetasTiene}
 
-    let gastosFiltrados = presupuesto.filtrarGastos(filtros)
+    let gastosFiltrados = presupuesto.filtrarGastos(filtros)    
     
     if(filtros){
         mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
     }
     else{
-        mostrarGastoWeb("listado-gastos-completo", presupuesto.gasto)
+        mostrarGastoWeb("listado-gastos-completo", presupuesto.listarGastos())
     }
 }
 export {
