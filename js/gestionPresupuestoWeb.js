@@ -256,7 +256,7 @@ function filtrarGastosWeb(){
         if(formulario[1].value != "")
             filtro.valorMinimo = Number(formulario[1].value)
         if(formulario[2].value != "")
-            filtro.valorMaximo = formulario[2].value
+            filtro.valorMaximo = Number(formulario[2].value)
         if(formulario[0].value != "")
             filtro.descripcionContiene = formulario[0].value
         if(formulario[5].value != "")
