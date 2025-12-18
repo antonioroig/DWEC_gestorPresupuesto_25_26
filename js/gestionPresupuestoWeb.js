@@ -456,6 +456,12 @@ export function filtrarGastosWeb(event) {
   })
 }
 
+const formFiltrado = document.getElementById("formulario-filtrado");
+if (formFiltrado) {
+  formFiltrado.addEventListener("submit", filtrarGastosWeb);
+}
+
+
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
 ponerTituloAntesDe("listado-gastos-filtrado-2", "Gastos filtrados 2");
 ponerTituloAntesDe("listado-gastos-filtrado-3", "Gastos filtrados 3");
