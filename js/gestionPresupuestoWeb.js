@@ -419,6 +419,43 @@ export function nuevoGastoWebFormulario(event) {
   document.getElementById("controlesprincipales").append(plantillaFormulario);
 }
 
+export function filtrarGastosWeb(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+
+  const descripcion = form.elements["formulario-filtrado-descripcion"].value.trim();
+  const valorMinimoStr = form.elements["formulario-filtrado-valor-minimo"].value;
+  const valorMaximoStr = form.elements["formulario-filtrado-valor-maximo"].value;
+  const fechaDesde = form.elements["formulario-filtrado-fecha-desde"].value;
+  const fechaHasta = form.elements["formulario-filtrado-fecha-hasta"].value;
+  const etiquetasTexto = form.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+  const filtros = {};
+
+  if (descripcion !== "") filtros.descripcionContiene = descripcion;
+
+  if (valorMinimoStr !== "") filtros.valorMinimo = Number(valorMinimoStr);
+  if (valorMaximoStr !== "") filtros.valorMaximo = Number(valorMaximoStr);
+
+  if (fechaDesde !== "") filtros.fechaDesde = fechaDesde;
+  if (fechaHasta !== "") filtros.fechaHasta = fechaHasta;
+
+  if (etiquetasTexto.trim() !== "") {
+    filtros.etiquetasTiene = gp.transformarListadoEtiquetas(etiquetasTexto);
+  }
+
+  const gastosFiltrados = gp.filtrarGastos(filtros);
+
+  const contenedorListado = document.getElementById("listado-gastos-completo");
+  if (!contenedorListado) return;
+
+  contenedorListado.innerHTML = "";
+  gastosFiltrados.forEach(gasto => {
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  })
+}
+
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
 ponerTituloAntesDe("listado-gastos-filtrado-2", "Gastos filtrados 2");
 ponerTituloAntesDe("listado-gastos-filtrado-3", "Gastos filtrados 3");
