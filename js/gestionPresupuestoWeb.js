@@ -20,9 +20,7 @@ function mostrarGastoWeb(idCont, gasto) {
     const etiquetas = gasto.etiquetas;
     etiquetas.forEach(et=>{
         const span = document.createElement("span"); span.className="gasto-etiquetas-etiqueta"; span.textContent=et;
-        
         span.addEventListener("click", new BorrarEtiquetaHandle(gasto, et));
-        
         divEtiq.appendChild(span);
     });
 
@@ -38,6 +36,7 @@ function mostrarGastoWeb(idCont, gasto) {
     botonEditarFormulario.addEventListener("click", new EditarHandleFormulario(gasto)); 
 
     divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario);
+    cont.appendChild(divG);
     return divG;
 }
 
@@ -46,10 +45,7 @@ function mostrarGastosWeb(gastos, id) {
     if (contenedor) {
         contenedor.innerHTML = '';
         gastos.forEach(gasto => {
-            const gastoElement = mostrarGastoWeb(id, gasto);
-            if(gastoElement){
-                contenedor.appendChild(gastoElement)
-            }
+            mostrarGastoWeb(id, gasto);
         })
     }
 }
@@ -124,6 +120,49 @@ function nuevoGastoWeb() {
     const g = new L.CrearGasto(desc, val, fecha, etiq);
     L.anyadirGasto(g);
     repintar();
+}
+
+function filtrarGastosWeb(evento){
+    evento.preventDefault();
+    
+    const descripcion = document.getElementById("formulario-filtrado-descripcion").value.trim();
+    const valorMinimo = document.getElementById("formulario-filtrado-valor-minimo").value;
+    const valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value;
+    const fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
+    const fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
+    const etiquetasInput = document.getElementById("formulario-filtrado-etiquetas-tiene").value.trim();
+
+    const filtro = {};
+
+    if(descripcion){
+        filtro.descripcionContiene = descripcion; 
+    }
+    if(valorMinimo){
+        filtro.valorMinimo = parseFloat(valorMinimo);
+    }
+    if(valorMaximo){
+        filtro.valorMaximo = parseFloat(valorMaximo);
+    }
+    if(fechaDesde){
+        filtro.fechaDesde = fechaDesde;
+    }
+    if(fechaHasta){
+        filtro.fechaHasta = fechaHasta;
+    }
+
+    const etiquetasProcesadas = L.transformarListadoEtiquetas(etiquetasInput);
+    if(etiquetasProcesadas.length > 0){
+        filtro.etiquetasTiene = etiquetasProcesadas;
+    }
+
+    const gastosFiltrados = L.filtrarGastos(filtro);
+
+    const contenedor = document.getElementById("listado-gastos-completo");
+    contenedor.innerHTML = "";
+
+    gastosFiltrados.forEach(gasto => {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    });
 }
 
 function EditarHandle(gasto) {
@@ -285,12 +324,15 @@ function EditarHandleFormulario(gasto) {
     }
 }
 
-
-
 document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario")?.addEventListener("click", nuevoGastoWebFormulario);
 
+const formularioFiltrado = document.getElementById("formulario-filtrado");
+if(formularioFiltrado) {
+    formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
+}
+
 window.addEventListener('DOMContentLoaded', repintar);
 
-export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle, nuevoGastoWebFormulario, CancelarHandle, EditarHandleFormulario };
+export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle, nuevoGastoWebFormulario, CancelarHandle, EditarHandleFormulario, filtrarGastosWeb };

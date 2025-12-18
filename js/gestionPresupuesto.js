@@ -5,7 +5,6 @@ function actualizarPresupuesto(cantidad) {
         presupuesto = cantidad;
         return presupuesto;
     } else {
-        console.error("Error: El presupuesto debe ser un número no negativo");
         return -1;
     }
 }
@@ -17,7 +16,6 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion, valor, fecha, ...etiquetasArgs) {
     this.descripcion = descripcion;
     this.valor = (!isNaN(parseFloat(valor)) && parseFloat(valor) >= 0) ? parseFloat(valor) : 0;
-    
     this.fecha = fecha ? Date.parse(fecha) : Date.now();
     
     let tags = etiquetasArgs.flat();
@@ -49,7 +47,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetasArgs) {
     });
     
     this.borrarEtiquetas = (...aBorrar) => { 
-        
         const tagsToDelete = aBorrar.map(t => String(t).trim());
         this.etiquetas = this.etiquetas.filter(existingTag => {
             return !tagsToDelete.includes(existingTag); 
@@ -148,21 +145,7 @@ function transformarListadoEtiquetas(etiquetasTiene){
     if(etiquetasTiene == null || etiquetasTiene.length == 0)
         return [];
 
-    return etiquetasTiene.split(/[,.:;\s]+/);
-}
-
-function filtrarGastosWeb(evento){
-    evento.preventDefault();
-    
-    const descripcion = document.getElementById("formulario-filtrado-descripcion").value.trim();
-    const valorMinimo = document.getElementById("formulario-filtrado-valor-minimo").value;
-    const valorMaximo = document.getElementById("formulario-filtrado-valor-maximo").value;
-    const fechaDesde = document.getElementById("formulario-filtrado-fecha-desde").value;
-    const fechaHasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
-    const etiquetasInput = document.getElementById("formulario-filtrado-etiquetas-tiene").value.trim();
-
-    const filtro = {};
-
+    return etiquetasTiene.split(/[,.:;\s]+/).filter(e => e.length > 0);
 }
 
 export {
@@ -176,6 +159,5 @@ export {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas,
-    filtrarGastosWeb
+    transformarListadoEtiquetas
 };
