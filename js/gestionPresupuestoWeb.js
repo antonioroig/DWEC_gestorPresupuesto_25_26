@@ -348,22 +348,34 @@ function filtrarGastosWeb(event) {
   let fechahasta = document.getElementById("formulario-filtrado-fecha-hasta").value;
   let etiq = document.getElementById("formulario-filtrado-etiquetas-tiene").value;
 
-  const filtro = {};
+  let filtro = {};
 
   if (desc) filtro.descripcionContiene = desc;
 
   if (valmin !== "") filtro.valorMinimo = Number(valmin);
   if (valmax !== "") filtro.valorMaximo = Number(valmax);
 
-  if (fechdesde) filtro.fechaDesde = fechdesde;   
-  if (fechahasta) filtro.fechaHasta = fechahasta;   
+  if (fechdesde) filtro.fechaDesde = fechdesde;
+  if (fechahasta) filtro.fechaHasta = fechahasta;
 
   if (etiq && etiq.trim() !== "") {
-    filtro.etiquetasTiene = transformarListadoEtiquetas(etiq);
+    filtro.etiquetasTiene = gp.transformarListadoEtiquetas(etiq);
   }
 
-  repintar();
+  let gastosFiltrados = gp.filtrarGastos(filtro);
+
+  let listaGastos = document.getElementById("listado-gastos-completo");
+  if (listaGastos) {
+    listaGastos.textContent = "";
+  }
+
+  for (let i = 0; i < gastosFiltrados.length; i++) {
+    mostrarGastoWeb("listado-gastos-completo", gastosFiltrados[i]);
+  }
 }
+
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 
 export{
     mostrarDatoEnId,
