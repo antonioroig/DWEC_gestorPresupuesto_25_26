@@ -328,6 +328,61 @@ function EditarHandleFormulario(gasto){
         });
     }
 }
+function filtrarGastosWeb(event){
+    event.preventDefault();
+
+    let formulario = event.currentTarget;
+
+    let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+    let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
+    let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
+    let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+    let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+    let etiquetasTexto = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+
+    valorMinimo = valorMinimo !== "" ? parseFloat(valorMinimo) : undefined;
+    valorMaximo = valorMaximo !== "" ? parseFloat(valorMaximo) : undefined;
+
+    let etiquetas = undefined;
+    if (etiquetasTexto && etiquetasTexto.trim() !== "") {
+        etiquetas = gestionPresupuesto.transformarListadoEtiquetas(etiquetasTexto);
+    }
+
+    let contenedor = document.getElementById("listado-gastos-completo");
+    contenedor.innerHTML = "";
+
+    if (
+        descripcion === "" &&
+        valorMinimo === undefined &&
+        valorMaximo === undefined &&
+        fechaDesde === "" &&
+        fechaHasta === "" &&
+        !etiquetas
+    ) {
+        gestionPresupuesto.listarGastos().forEach(gasto => {
+            mostrarGastoWeb("listado-gastos-completo", gasto);
+        });
+        return;
+    }
+
+    let filtro = {
+        descripcionContiene: descripcion !== "" ? descripcion : undefined,
+        valorMinimo: valorMinimo,
+        valorMaximo: valorMaximo,
+        fechaDesde: fechaDesde !== "" ? fechaDesde : undefined,
+        fechaHasta: fechaHasta !== "" ? fechaHasta : undefined,
+        etiquetasTiene: etiquetas
+    };
+
+    let gastosFiltrados = gestionPresupuesto.filtrarGastos(filtro);
+
+    gastosFiltrados.forEach(gasto => {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    });
+}
+
+
+document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 
 export{
     mostrarDatoEnId,
@@ -341,5 +396,6 @@ export{
     BorrarHandle,
     BorrarEtiquetasHandle,
     CancelarHandle,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    filtrarGastosWeb
 };
