@@ -214,6 +214,11 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) 
     return agrupado;
 }
 
+function transformarListadoEtiquetas(etiquetasString) {
+  let etiquetas = etiquetasString.split(/[,.:;\s]+/);
+  etiquetas = etiquetas.filter(etiqueta => etiqueta !== "");
+  return etiquetas;
+}
 
 
 
@@ -234,5 +239,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    CrearGasto
+    CrearGasto,
+    transformarListadoEtiquetas
 }
