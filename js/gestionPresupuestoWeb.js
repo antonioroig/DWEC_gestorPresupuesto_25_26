@@ -284,6 +284,12 @@ function nuevoGastoWebFormulario(evento){
 let btnAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
 btnAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
+function filtrarGastosWeb(evento) {
+  evento.preventDefault();
+  
+  let formulario = evento.currentTarget;
+
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -292,5 +298,6 @@ export {
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    filtrarGastosWeb
 }
