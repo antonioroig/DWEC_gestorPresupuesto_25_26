@@ -21,7 +21,7 @@ function mostrarGastoWeb(idContenedor, datosGasto) {
 
     let fecha = document.createElement('div');
     fecha.classList.add('gasto-fecha');
-    fecha.textContent = datosGasto.fecha;
+    fecha.textContent = new Date(datosGasto.fecha).toLocaleDateString();
     bloqueGasto.appendChild(fecha);
 
     let valor = document.createElement('div');
@@ -284,12 +284,65 @@ function nuevoGastoWebFormulario(evento){
 let btnAnyadirFormulario = document.getElementById("anyadirgasto-formulario");
 btnAnyadirFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
-function filtrarGastosWeb(evento) {
-  evento.preventDefault();
+function filtrarGastosWeb(event) {
+  event.preventDefault();
   
-  let formulario = evento.currentTarget;
-
+  let formulario = event.currentTarget;
+  
+  let descripcion = formulario.elements["formulario-filtrado-descripcion"].value;
+  let valorMinimo = formulario.elements["formulario-filtrado-valor-minimo"].value;
+  let valorMaximo = formulario.elements["formulario-filtrado-valor-maximo"].value;
+  let fechaDesde = formulario.elements["formulario-filtrado-fecha-desde"].value;
+  let fechaHasta = formulario.elements["formulario-filtrado-fecha-hasta"].value;
+  let etiquetasTexto = formulario.elements["formulario-filtrado-etiquetas-tiene"].value;
+  
+  valorMinimo = valorMinimo !== "" ? parseFloat(valorMinimo) : undefined;
+  valorMaximo = valorMaximo !== "" ? parseFloat(valorMaximo) : undefined;
+  
+  let etiquetas = undefined;
+  if (etiquetasTexto && etiquetasTexto.trim() !== "") {
+    etiquetas = gp.transformarListadoEtiquetas(etiquetasTexto);
+  }
+  
+  let contenedor = document.getElementById("listado-gastos-completo");
+  contenedor.innerHTML = "";
+  
+  if (
+    descripcion === "" &&
+    valorMinimo === undefined &&
+    valorMaximo === undefined &&
+    fechaDesde === "" &&
+    fechaHasta === "" &&
+    !etiquetas
+  ) {
+    gp.listarGastos().forEach(gasto => {
+      mostrarGastoWeb("listado-gastos-completo", gasto);
+    });
+    return;
+  }
+  
+  let filtro = {
+    descripcionContiene: descripcion !== "" ? descripcion : undefined,
+    valorMinimo: valorMinimo,
+    valorMaximo: valorMaximo,
+    fechaDesde: fechaDesde !== "" ? fechaDesde : undefined,
+    fechaHasta: fechaHasta !== "" ? fechaHasta : undefined,
+    etiquetasTiene: etiquetas
+  };
+  
+  let gastosFiltrados = gp.filtrarGastos(filtro);
+  
+  gastosFiltrados.forEach(gasto => {
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+  });
 }
+
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+if (formularioFiltrado) {
+  formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
+}
+// cmentario por que no me deja hacer cmmit
+function hola(){}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
