@@ -63,7 +63,7 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año
 gPw.filtrarGastosWeb();
 
 let botonGuardar = document.getElementById("guardar-gastos");
-botonGuardar.addEventListener("click", gPw.guardarGastoWeb);
+botonGuardar.addEventListener("click", gPw.guardarGastosWeb);
 
 
 

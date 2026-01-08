@@ -253,7 +253,7 @@ function guardarGastosWeb(){
 
     let gastos = gP.listarGastos();
 
-    return GestorGastosDWEC = localStorage.setItem("gastos", JSON.stringify(gastos));
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(gastos));
 
 }
 
