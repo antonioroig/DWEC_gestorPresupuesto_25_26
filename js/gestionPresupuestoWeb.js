@@ -391,6 +391,15 @@ function filtrarGastosWeb()
 }
 filtrarGastosWeb();
 
+function guardarGastosWeb(){
+    let listaGastos = gP.listarGastos();
+    
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(listaGastos));
+}
+
+document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
+
+
 export
 {
     mostrarDatoEnId,
