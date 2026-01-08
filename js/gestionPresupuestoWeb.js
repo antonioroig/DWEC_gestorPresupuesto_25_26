@@ -402,6 +402,9 @@ document.getElementById("guardar-gastos").addEventListener("click", guardarGasto
 function cargarGastosWeb(){
 
     let gastosRecuperados = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+    if (gastosRecuperados === null) {
+        gastosRecuperados = [];
+    }
     gP.cargarGastos(gastosRecuperados);
     repintar();
 }
