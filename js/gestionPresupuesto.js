@@ -280,6 +280,32 @@ function transformarListadoEtiquetas(texto) {
         .filter(e => e.length > 0);
 }
 
+function cargarGastos(gastosAlmacenamiento) {
+    // gastosAlmacenamiento es un array de objetos "planos"
+    // No tienen acceso a los métodos creados con "CrearGasto":
+    // "anyadirEtiquetas", "actualizarValor",...
+    // Solo tienen guardadas sus propiedades: descripcion, valor, fecha y etiquetas
+
+    // Reseteamos la variable global "gastos"
+    gastos = [];
+    // Procesamos cada gasto del listado pasado a la función
+    for (let g of gastosAlmacenamiento) {
+        // Creamos un nuevo objeto mediante el constructor
+        // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarVal    or",...
+        // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
+        let gastoRehidratado = new CrearGasto();
+        // Copiamos los datos del objeto guardado en el almacenamiento
+        // al gasto rehidratado
+        Object.assign(gastoRehidratado, g);
+        // Ahora "gastoRehidratado" tiene las propiedades del gasto
+        // almacenado y además tiene acceso a los métodos de "CrearGasto"
+
+        // Añadimos el gasto rehidratado a "gastos"
+        gastos.push(gastoRehidratado)
+    }
+}
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -295,6 +321,6 @@ export {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
-
+    transformarListadoEtiquetas,
+    cargarGastos
 }
