@@ -65,6 +65,10 @@ gPw.filtrarGastosWeb();
 let botonGuardar = document.getElementById("guardar-gastos");
 botonGuardar.addEventListener("click", gPw.guardarGastosWeb);
 
+let botonCargar = document.getElementById("cargar-gastos");
+botonCargar.addEventListener("click", gPw.cargarGastosWeb);
+
+
 
 
 

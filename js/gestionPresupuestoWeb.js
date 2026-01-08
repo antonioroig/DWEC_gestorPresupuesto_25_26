@@ -255,10 +255,18 @@ function guardarGastosWeb(){
 
     localStorage.setItem("GestorGastosDWEC", JSON.stringify(gastos));
 
+
 }
 
 function cargarGastosWeb(){
 
+    if(localStorage.getItem("GestorGastosDWEC") != undefined)
+        gP.cargarGastos(JSON.parse(localStorage.getItem("GestorGastosDWEC")));
+    else{
+        gP.cargarGastos([]);
+    }
+
+    repintar();
 }
 
 function CancelarHandle(){
