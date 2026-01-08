@@ -238,6 +238,22 @@ function transformarListadoEtiquetas(stringEtiqueta){
     return stringEtiqueta.split(/[,;:\.\s]+/gi);
 
 }
+
+function cargarGastos(arrayGastos){
+
+    gastos = [];
+
+    for (let g of arrayGastos) {
+
+        let gastoRehidratado = new CrearGasto(g.descripcion, g.valor, g.fecha, g.etiquetas);
+
+        Object.assign(gastoRehidratado, g);
+
+        gastos.push(gastoRehidratado)
+    }
+
+}
+
 /*
 let gasto1 = new CrearGasto("Gasto 1");
 let gasto2 = new CrearGasto("Gasto 2", 23.55);
@@ -279,5 +295,6 @@ export   {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos
 }

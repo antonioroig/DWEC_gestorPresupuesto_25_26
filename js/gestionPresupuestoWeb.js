@@ -249,6 +249,18 @@ function filtrarGastosWeb(){
 
 }
 
+function guardarGastosWeb(){
+
+    let gastos = gP.listarGastos();
+
+    return GestorGastosDWEC = localStorage.setItem("gastos", JSON.stringify(gastos));
+
+}
+
+function cargarGastosWeb(){
+
+}
+
 function CancelarHandle(){
     
     this.handleEvent = function(event){
@@ -370,5 +382,7 @@ export{
     EditarHandle,
     BorrarHandle,
     nuevoGastoWebFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb, 
+    cargarGastosWeb
 }
