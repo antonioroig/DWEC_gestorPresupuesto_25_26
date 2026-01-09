@@ -270,11 +270,18 @@ function filtrarGastosWeb(){
     })
 }
 
-
+function guardarGastosWeb(){
+    let boton = document.getElementById("guardar-gastos");
+    boton.addEventListener("click", (event) =>{
+        let gastos = Js1.listarGastos();
+        localStorage.setItem('GestorGastosDWEC', JSON.stringify(gastos));
+    })
+}
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb
 }
