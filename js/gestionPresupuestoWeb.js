@@ -361,12 +361,8 @@ function cargarGastosWeb() {
     const button = document.getElementById("cargar-gastos")
     button.addEventListener("click", ()=> {
         const gastos = localStorage.getItem("GestorGastosDWEC")
-        console.log(gastos);
         if (gastos == null || gastos == undefined || gastos == []) {
-            let getGastos = gp.listarGastos()
-            for (let g of getGastos) {
-                gp.borrarGasto(g.id)
-            }
+            gp.cargarGastos([])
             repintar()
             return;
         }
