@@ -270,6 +270,8 @@ function filtrarGastosWeb(){
     })
 }
 
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
