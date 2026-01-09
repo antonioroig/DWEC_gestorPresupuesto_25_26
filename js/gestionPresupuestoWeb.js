@@ -380,10 +380,19 @@ function filtrarGastosWeb(event){
         mostrarGastoWeb("listado-gastos-completo", gasto);
     });
 }
-
-
 document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 
+function guardarGastosWeb(){
+    
+}
+
+document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
+
+function cargarGastosWeb(){
+
+}
+
+document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -397,5 +406,7 @@ export{
     BorrarEtiquetasHandle,
     CancelarHandle,
     EditarHandleFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 };
