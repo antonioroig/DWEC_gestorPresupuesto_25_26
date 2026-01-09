@@ -382,8 +382,13 @@ function filtrarGastosWeb(event){
 }
 document.getElementById("formulario-filtrado").addEventListener("submit", filtrarGastosWeb);
 
-function guardarGastosWeb(){
-    
+function guardarGastosWeb(event) {
+    event.preventDefault();
+
+    let gastos = gestionPresupuesto.listarGastos();
+    let gastosString = JSON.stringify(gastos);
+
+    localStorage.setItem("GestorGastosDWEC", gastosString);
 }
 
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
