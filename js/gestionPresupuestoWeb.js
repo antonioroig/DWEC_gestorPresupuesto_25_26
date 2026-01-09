@@ -169,8 +169,6 @@ function NuevoGastoWeb() {
 }
 
 
-
-
 function BorrarHandle() {
     this.handleEvent = function(e) {
         gp.borrarGasto(this.gasto.id)
@@ -184,10 +182,6 @@ function BorrarEtiquetasHandle() {
         repintar();
     }
 }
-
-
-
-// Old Functions
 
 function mostrarDatoEnId(id, valor) {
     let tag = document.getElementById(id);
@@ -353,6 +347,36 @@ function filtrarGastosWeb() {
     })
 }
 
+
+function guardarGastosWeb() {
+    const button = document.getElementById("guardar-gastos");
+    button.addEventListener("click", () => {
+        const gastos = gp.listarGastos()
+        localStorage.setItem("GestorGastosDWEC", JSON.stringify(gastos))
+    })
+
+}
+
+function cargarGastosWeb() {
+    const button = document.getElementById("cargar-gastos")
+    button.addEventListener("click", ()=> {
+        const gastos = localStorage.getItem("GestorGastosDWEC")
+        console.log(gastos);
+        if (gastos == null || gastos == undefined || gastos == []) {
+            let getGastos = gp.listarGastos()
+            for (let g of getGastos) {
+                gp.borrarGasto(g.id)
+            }
+            repintar()
+            return;
+        }
+        gp.cargarGastos(JSON.parse(gastos))
+        repintar()
+    })
+
+}
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -361,5 +385,7 @@ export {
     ActualizarPresupuestoWeb,
     NuevoGastoWeb,
     nuevoGastoWebFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 }

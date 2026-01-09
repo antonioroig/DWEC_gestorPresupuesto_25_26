@@ -89,3 +89,6 @@ anyadirGastoBtn.addEventListener("click", manejadorAnyadirGasto)
 
 gpw.nuevoGastoWebFormulario()
 gpw.filtrarGastosWeb()
+
+gpw.guardarGastosWeb()
+gpw.cargarGastosWeb()
