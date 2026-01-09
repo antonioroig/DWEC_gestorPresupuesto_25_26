@@ -392,6 +392,24 @@ function guardarGastosWeb() {
     );
 }
 
+
+let btnCargarGastos = document.getElementById("cargar-gastos");
+btnCargarGastos.addEventListener("click", cargarGastosWeb);
+
+function cargarGastosWeb(){
+    let gastosJSON = localStorage.getItem("GestorGastosDWEC");
+    let gastosArray;
+
+    if(gastosJSON === null){
+        gastosArray = [];
+    }else{
+        gastosArray = JSON.parse(gastosJSON);
+        
+    }
+    gestionPresupuesto.cargarGastos(gastosArray);
+    repintar();
+    
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
