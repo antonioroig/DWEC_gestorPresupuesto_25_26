@@ -238,12 +238,6 @@ function cargarGastos(gastosAlmacenamiento) {
         gastos.push(gastoRehidratado)
     }
 }
-
-function guardarGastosWeb(){
-    localStorage.GestorGastosDWEC = JSON.stringify(listarGastos());
-}
-
-
     
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -263,6 +257,5 @@ export   {
     agruparGastos,
     copiarArray,
     transformarListadoEtiquetas,
-    cargarGastos,
-    guardarGastosWeb
+    cargarGastos
 }

@@ -57,4 +57,6 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes");
 
 gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año");
 
-document.getElementById("guardar-gastos").addEventListener("click", gP.guardarGastosWeb);
+document.getElementById("guardar-gastos").addEventListener("click", gPw.guardarGastosWeb);
+
+document.getElementById("cargar-gastos").addEventListener("click", gPw.cargarGastosWeb);

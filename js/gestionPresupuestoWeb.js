@@ -259,6 +259,20 @@ function filtrarGastosWeb(){
 
 document.getElementById("formulario-filtrado").addEventListener("submit", new filtrarGastosWeb());
 
+function guardarGastosWeb(){
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(gP.listarGastos()));
+}
+
+function cargarGastosWeb(){
+    let gastos = localStorage.getItem("GestorGastosDWEC");
+    if (gastos != null)
+        gastos = JSON.parse(gastos);
+    else 
+        gastos = [];
+    gP.cargarGastos(gastos);
+    repintar();
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -271,5 +285,7 @@ export{
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
     EditarHandleFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 }
