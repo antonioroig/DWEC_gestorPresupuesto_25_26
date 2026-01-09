@@ -380,7 +380,17 @@ function filtrarGastosWeb(event) {
         mostrarGastoWeb("listado-gastos-completo", gasto);
     }
 }
+let btnGuardarGasto = document.getElementById("guardar-gastos");
 
+btnGuardarGasto.addEventListener("click", guardarGastosWeb);
+
+function guardarGastosWeb() {
+    let gastos = gestionPresupuesto.listarGastos();
+    localStorage.setItem(
+        "GestorGastosDWEC",
+        JSON.stringify(gastos)
+    );
+}
 
 export {
     mostrarDatoEnId,
