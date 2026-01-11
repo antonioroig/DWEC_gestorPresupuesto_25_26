@@ -377,15 +377,36 @@ function filtrarGastosWeb(event) {
 let formularioFiltrado = document.getElementById("formulario-filtrado");
 formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 
-function guardarGastoWeb(){
-    let gastos = listarGastos();               
+function guardarGastosWeb(){
+    let gastos = gp.listarGastos();               
     let gastosStr = JSON.stringify(gastos);   
     localStorage.setItem("GestorGastosDWEC", gastosStr);
 }
+
+let btnGuardarGastos = document.getElementById("guardar-gastos")
+btnGuardarGastos.addEventListener("click", guardarGastosWeb);
+
+function cargarGastosWeb() {
+    let gastosStr = localStorage.getItem("GestorGastosDWEC");
+
+    if (gastosStr === null) {
+        gp.cargarGastos([]);  
+    } else {
+        let gastos = JSON.parse(gastosStr); 
+        gp.cargarGastos(gastos);            
+    }
+
+    repintar(); 
+}
+
+let btnCargarGastos = document.getElementById("cargar-gastos");
+btnCargarGastos.addEventListener("click", cargarGastosWeb);
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    actualizarPresupuestoWeb
+    actualizarPresupuestoWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 }
