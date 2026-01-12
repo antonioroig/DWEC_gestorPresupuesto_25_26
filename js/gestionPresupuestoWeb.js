@@ -342,12 +342,15 @@ if (formularioFiltrado) {
   formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 }
 function guardarGastosWeb(){
-  let botonGuardarGasto = formulario.querySelector("guardar-gasto");
-  let manejadorGuardarGasto = new GuardarGastoHandle();
-  manejadorGuardarGasto.formulario = formulario;
-  manejadorGuardarGasto.boton = evento.currentTarget;
-  botonGuardarGasto.addEventListener("click", manejadorGuardarGasto);
+
+  let gastosListar = gp.listarGastos();
+  let gastosCargar = JSON.stringify(gastosListar);
+  localStorage.setItem('GestorGastosDWEC', gastosCargar);
+
 }
+  let botonGuardarGasto = document.getElementById("guardar-gastos");
+  botonGuardarGasto.addEventListener("click", guardarGastosWeb);
+
 function cargarGastosWeb(){
 
 }
