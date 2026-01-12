@@ -360,6 +360,20 @@ function guardarGastosWeb(){
     // alert(JSON.stringify(gastosList));
 }
 
+let cargar = document.getElementById("cargar-gastos");
+cargar.addEventListener("click",cargarGastosWeb);
+
+function cargarGastosWeb(){
+    let storedGastos = JSON.parse(localStorage.getItem('GestorGastosDWEC'));
+
+    if(storedGastos === null){
+        storedGastos = [];
+    }
+
+    gp.cargarGastos(storedGastos);
+    repintar();
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
