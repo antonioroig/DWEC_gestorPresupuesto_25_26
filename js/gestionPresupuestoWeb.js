@@ -351,6 +351,15 @@ function filtrarGastosWeb(event){
         
 }
 
+let guardar = document.getElementById("guardar-gastos");
+guardar.addEventListener("click",guardarGastosWeb);
+
+function guardarGastosWeb(){
+    let gastosList = gp.listarGastos();
+    localStorage.setItem('GestorGastosDWEC',JSON.stringify(gastosList));    
+    // alert(JSON.stringify(gastosList));
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
