@@ -317,7 +317,21 @@ function filtrarGastoWeb(event) {
 function guardarGastoWeb(){
     localStorage.setItem("GestorGastosDWEC", JSON.stringify(presupuesto.listarGastos()))
 }
-
+function cargarGastoWeb(){
+    // let gastosGuardados = JSON.parse(localStorage.getItem("GestorGastosDEWC"))
+    let gastosGuardados = localStorage.getItem("GestorGastosDWEC")
+    gastosGuardados = JSON.parse(gastosGuardados)
+    console.log(gastosGuardados);
+    
+    if(!gastosGuardados){
+        presupuesto.cargarGastos([])
+        repintar()
+    }
+    else{
+        presupuesto.cargarGastos(gastosGuardados)
+        repintar()
+    }
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -327,5 +341,6 @@ export {
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
     filtrarGastoWeb,
-    guardarGastoWeb
+    guardarGastoWeb,
+    cargarGastoWeb
 }
