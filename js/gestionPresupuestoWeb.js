@@ -305,6 +305,15 @@ function EditarHandleFormulario(){
     }
 }
 
+function guardarGastosWeb() {
+   
+    localStorage.setItem('GestorGastosDWEC', JSON.stringify(gP.listarGastos()));
+}
+function cargarGastosWeb() {
+  
+}
+let botonGuardar =document.getElementById("guardar-gastos")
+botonGuardar.addEventListener("click",guardarGastosWeb)
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -317,7 +326,9 @@ export{
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
     CancelarHandle,
-    EditarHandleFormulario
+    EditarHandleFormulario,
+    guardarGastosWeb,
+    cargarGastosWeb
     
     
 }
