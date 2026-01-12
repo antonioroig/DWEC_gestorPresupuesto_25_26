@@ -414,7 +414,38 @@ document.addEventListener("submit", function (evento) {
     }
 });
 
+function guardarGastosWeb() {
+   
+   let gastos = gP.listarGastos();
+    let gastosJSON = JSON.stringify(gastos);
+    localStorage.setItem("GestorGastosDWEC", gastosJSON);
+}
+let btnGuardar = document.getElementById("guardar-gastos");
+btnGuardar.addEventListener("click", guardarGastosWeb);
 
+
+function cargarGastosWeb() {
+    let datos = localStorage.getItem("GestorGastosDWEC");
+
+    let gastosAlmacenados;
+    if (datos) {
+        gastosAlmacenados = JSON.parse(datos);
+    } else {
+        gastosAlmacenados = [];
+    }
+
+    gP.cargarGastos(gastosAlmacenados);
+    repintar();
+}
+document.addEventListener("DOMContentLoaded", function () {
+    
+    let btnCargar = document.getElementById("cargar-gastos");
+
+    
+    if (btnCargar) {
+        btnCargar.addEventListener("click", cargarGastosWeb);
+    }
+});
 
 
 
@@ -430,7 +461,9 @@ export{
     BorrarHandle,
     BorrarEtiquetasHandle,
     nuevoGastoWebFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 }
 
 import * as gP from './gestionPresupuesto.js';
