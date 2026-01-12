@@ -148,6 +148,21 @@ function transformarListadoEtiquetas(etiquetasTiene){
     return etiquetasTiene.split(/[,.:;\s]+/).filter(e => e.length > 0);
 }
 
+function cargarGastos(gastosAlmacenamiento) {
+    gastos = [];
+
+    for (let g of gastosAlmacenamiento) {
+        let gastoRehidratado = new CrearGasto();
+
+        Object.assign(gastoRehidratado, g);
+        
+        gastos.push(gastoRehidratado)
+    }
+}
+    
+
+
+
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -159,5 +174,6 @@ export {
     calcularBalance,
     filtrarGastos,
     agruparGastos,
-    transformarListadoEtiquetas
+    transformarListadoEtiquetas,
+    cargarGastos,
 };

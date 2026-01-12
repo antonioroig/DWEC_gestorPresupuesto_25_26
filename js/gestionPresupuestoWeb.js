@@ -324,9 +324,34 @@ function EditarHandleFormulario(gasto) {
     }
 }
 
+function guardarGastosWeb(){
+    const gastosActuales = L.listarGastos();
+    const gastosString = JSON.stringify(gastosActuales);
+    localStorage.setItem("GestorGastosDWEC", gastosString);
+    console.log("Gastos guardados corractamente");
+
+}
+function cargarGastosWeb() {
+    const gastosString = localStorage.getItem("GestorGastosDWEC");
+    
+    let gastosRecuperados = [];
+    
+    if (gastosString) {
+        gastosRecuperados = JSON.parse(gastosString);
+    }
+    
+    L.cargarGastos(gastosRecuperados);
+    
+    repintar();
+    
+    console.log("Gastos cargados y repintados.");
+}
+
 document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario")?.addEventListener("click", nuevoGastoWebFormulario);
+document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
+document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
 
 const formularioFiltrado = document.getElementById("formulario-filtrado");
 if(formularioFiltrado) {
