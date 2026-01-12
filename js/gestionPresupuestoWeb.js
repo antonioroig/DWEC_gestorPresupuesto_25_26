@@ -316,6 +316,13 @@ function filtrarGastosWeb(event) {
         mostrarGastoWeb("listado-gastos-completo", gasto);
     }
 }
+
+function guardarGastosWeb(){
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(gp.listarGastos()));
+}
+let btnGuardarGastos = document.getElementById("guardar-gastos");
+btnGuardarGastos.addEventListener("click", guardarGastosWeb);
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
