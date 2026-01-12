@@ -314,6 +314,10 @@ function filtrarGastoWeb(event) {
         mostrarGastoWeb("listado-gastos-completo", presupuesto.listarGastos())
     }
 }
+function guardarGastoWeb(){
+    localStorage.setItem("GestorGastosDWEC", JSON.stringify(presupuesto.listarGastos()))
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -322,5 +326,6 @@ export {
     actualizarPresupuestoWeb,
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
-    filtrarGastoWeb
+    filtrarGastoWeb,
+    guardarGastoWeb
 }
