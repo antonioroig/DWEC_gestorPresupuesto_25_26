@@ -437,15 +437,9 @@ function cargarGastosWeb() {
     gP.cargarGastos(gastosAlmacenados);
     repintar();
 }
-document.addEventListener("DOMContentLoaded", function () {
-    
-    let btnCargar = document.getElementById("cargar-gastos");
+let btnCargar = document.getElementById("cargar-gastos");
+btnCargar.addEventListener("click", cargarGastosWeb);
 
-    
-    if (btnCargar) {
-        btnCargar.addEventListener("click", cargarGastosWeb);
-    }
-});
 
 
 
