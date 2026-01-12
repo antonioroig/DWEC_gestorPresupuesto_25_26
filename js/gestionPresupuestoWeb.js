@@ -341,8 +341,16 @@ let formularioFiltrado = document.getElementById("formulario-filtrado");
 if (formularioFiltrado) {
   formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 }
-// cmentario por que no me deja hacer cmmit
-function hola(){}
+function guardarGastosWeb(){
+  let botonGuardarGasto = formulario.querySelector("guardar-gasto");
+  let manejadorGuardarGasto = new GuardarGastoHandle();
+  manejadorGuardarGasto.formulario = formulario;
+  manejadorGuardarGasto.boton = evento.currentTarget;
+  botonGuardarGasto.addEventListener("click", manejadorGuardarGasto);
+}
+function cargarGastosWeb(){
+
+}
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -352,5 +360,7 @@ export {
     nuevoGastoWeb,
     nuevoGastoWebFormulario,
     EditarHandleFormulario,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb,
+    cargarGastosWeb
 }
