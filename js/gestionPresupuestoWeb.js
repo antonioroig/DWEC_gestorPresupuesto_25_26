@@ -468,6 +468,20 @@ function guardarGastosWeb() {
   const texto = JSON.stringify(gastos);     
   localStorage.setItem(CLAVE_LOCALSTORAGE, texto);
 }
+function cargarGastosWeb() {
+  const texto = localStorage.getItem(CLAVE_LOCALSTORAGE);
+
+  if (texto === null) {
+
+    gp.cargarGastos([]);
+  } else {
+
+    const gastosPlanos = JSON.parse(texto);
+    gp.cargarGastos(gastosPlanos);
+  }
+
+  repintar();
+}
 
 
 
