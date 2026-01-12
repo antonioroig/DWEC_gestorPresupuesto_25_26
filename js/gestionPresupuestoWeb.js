@@ -461,6 +461,16 @@ if (formFiltrado) {
   formFiltrado.addEventListener("submit", filtrarGastosWeb);
 }
 
+const CLAVE_LOCALSTORAGE = "GestorGastosDWEC";
+
+function guardarGastosWeb() {
+  const gastos = gp.listarGastos();              
+  const texto = JSON.stringify(gastos);     
+  localStorage.setItem(CLAVE_LOCALSTORAGE, texto);
+}
+
+
+
 
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
 ponerTituloAntesDe("listado-gastos-filtrado-2", "Gastos filtrados 2");
