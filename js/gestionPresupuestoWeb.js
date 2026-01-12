@@ -483,7 +483,15 @@ function cargarGastosWeb() {
   repintar();
 }
 
+const botonGuardar = document.getElementById("guardar-gastos");
+if (botonGuardar) {
+  botonGuardar.addEventListener("click", guardarGastosWeb);
+}
 
+const botonCargar = document.getElementById("cargar-gastos");
+if (botonCargar) {
+  botonCargar.addEventListener("click", cargarGastosWeb);
+}
 
 
 ponerTituloAntesDe("listado-gastos-filtrado-1", "Gastos filtrados 1");
