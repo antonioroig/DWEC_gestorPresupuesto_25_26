@@ -71,11 +71,11 @@ botonCargar.addEventListener("click", gPw.cargarGastosWeb);
 //ACTIVIDAD API
 
 let gastos = [];
-let gasto1 = new CrearGasto("Hola que tal", 17.21, "11-11-2001", ["comida", "hoguera"]);
-let gasto2 = new CrearGasto("Hola que tal", 90.52, "11-11-2001", ["arma"]);
-let gasto3 = new CrearGasto("Hola que tal", 19.12, "11-11-2001", ["comida", "casa"]);
-let gasto4 = new CrearGasto("Hola que tal", 43.00, "11-11-2001", ["electrodoméstico", "luz"]);
-let gasto5 = new CrearGasto("Hola que tal", 27.76, "11-11-2001", ["comida", "hoguera"]);
+let gasto1 = new gP.CrearGasto("Hola que tal", 17.21, "11-11-2001", ["comida", "hoguera"]);
+let gasto2 = new gP.CrearGasto("Hola que tal", 90.52, "11-11-2001", ["arma"]);
+let gasto3 = new gP.CrearGasto("Hola que tal", 19.12, "11-11-2001", ["comida", "casa"]);
+let gasto4 = new gP.CrearGasto("Hola que tal", 43.00, "11-11-2001", ["electrodoméstico", "luz"]);
+let gasto5 = new gP.CrearGasto("Hola que tal", 27.76, "11-11-2001", ["comida", "hoguera"]);
 gastos.push(gasto1);
 gastos.push(gasto2);
 gastos.push(gasto3);

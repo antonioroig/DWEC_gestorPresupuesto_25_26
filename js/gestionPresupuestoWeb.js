@@ -88,7 +88,7 @@ function mostrarGastoWeb(idElemento, gastos){
 
         let manejadorBorrarApi = new BorrarApiHandle();
 
-        manejadorBorrarApi.id = gasto.id;
+        manejadorBorrarApi.gasto = gasto;
 
         botonBorrarApi.addEventListener("click", manejadorBorrarApi);
         botonBorrarApi.addEventListener("click", function(){
@@ -204,6 +204,33 @@ function nuevoGastoWebFormulario(event){
 
     formulario.addEventListener("submit", botonEnviarFormulario);
 
+    let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+
+    botonEnviarApi.addEventListener("click", function(){
+
+        let gastoDatos = new gP.CrearGasto(event.currentTarget.elements["description"].value, event.currentTarget.elements["valor"].value, event.currentTarget.elements["fecha"].value, event.currentTarget.elements["etiquetas"].value)
+        
+        let options = {
+            method: "POST",
+            header: {
+                'Context-Type': 'application/json'
+            },
+            body: JSON.stringify(gastoDatos)
+        }
+
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+        .then(response => console.log(response))
+        .then(data => console.log(data));
+
+        cargarGastosApi();
+    })
+
+    let manejadorEnviarApi = new EditarHandleFormulario();
+
+    manejadorEnviarApi.form = formulario;
+
+    botonEnviarApi.addEventListener("click", manejadorEnviarApi);
+
 }
 
 function botonEnviarFormulario(event){
@@ -293,11 +320,21 @@ function cargarGastosApi(){
 
     let nombreUsuario = document.getElementById("nombre_usuario").value;
 
-    let gastos = fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+    async function cargar(){
+    
+        let response = await fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+                
+        let gastos = await response.json();
 
-    gP.cargarGastos(gastos);
+        console.log(gastos);
 
-    repintar();
+        gP.cargarGastos(gastos);
+
+        repintar();
+    }
+
+    cargar()
+
 }
 
 function CancelarHandle(){
@@ -400,12 +437,40 @@ function EditarHandleFormulario(){
         manejadorCancelar.boton = event.target;
 
         botonCancelar.addEventListener("click", manejadorCancelar);
+
+        let gastoDatos = new gP.CrearGasto(this.gasto.descripcion, this.gasto.valor, this.gasto.fecha, this.gasto.etiquetas)
+
+        let options = {
+            method: "PUT", 
+            header: {
+                'Context-Type': 'application/json'
+            },
+            body: JSON.stringify(gastoDatos)
+        }
+
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
+
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.id}`, options)
+        .then(response => response.json())
+        .then(data => console.log(data));
     
     }
 }
 
 function BorrarApiHandle(){
     this.handleEvent = function(event){
+
+        let options = {
+            method: "DELETE"
+        }
+
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
+
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.id}`, options)
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+        cargarGastosApi();
 
     }
 }
