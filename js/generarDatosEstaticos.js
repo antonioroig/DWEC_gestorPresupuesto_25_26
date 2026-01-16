@@ -68,6 +68,23 @@ botonGuardar.addEventListener("click", gPw.guardarGastosWeb);
 let botonCargar = document.getElementById("cargar-gastos");
 botonCargar.addEventListener("click", gPw.cargarGastosWeb);
 
+//ACTIVIDAD API
+
+let gastos = [];
+let gasto1 = new CrearGasto("Hola que tal", 17.21, "11-11-2001", ["comida", "hoguera"]);
+let gasto2 = new CrearGasto("Hola que tal", 90.52, "11-11-2001", ["arma"]);
+let gasto3 = new CrearGasto("Hola que tal", 19.12, "11-11-2001", ["comida", "casa"]);
+let gasto4 = new CrearGasto("Hola que tal", 43.00, "11-11-2001", ["electrodoméstico", "luz"]);
+let gasto5 = new CrearGasto("Hola que tal", 27.76, "11-11-2001", ["comida", "hoguera"]);
+gastos.push(gasto1);
+gastos.push(gasto2);
+gastos.push(gasto3);
+gastos.push(gasto4);
+gastos.push(gasto5);
+
+let botonCargarApi = document.getElementById("cargar-gastos-api");
+botonCargarApi.addEventListener("click", gPw.cargarGastosApi);
+
 
 
 
