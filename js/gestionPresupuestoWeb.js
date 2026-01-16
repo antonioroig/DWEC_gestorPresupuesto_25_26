@@ -1,5 +1,8 @@
 import * as gp from './gestionPresupuesto.js'
 
+let usuarioAPI = "";
+const url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/lates/`
+
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
     boton.addEventListener("click", function(e) {
@@ -269,6 +272,17 @@ function mostrarGastoWeb(id, gasto) {
         btnEditNew.addEventListener("click", newHandleEdit)
 
         mainDiv.append(btnEditNew)
+
+
+        // Nuevos botones API
+        let btnBorrarAPI = document.createElement("button")
+        btnBorrarAPI.setAttribute("class", "gasto-borrar-api")
+        btnBorrarAPI.setAttribute("type", "button")
+        btnBorrarAPI.textContent = "Borrar (API)"
+        mainDiv.append(btnBorrarAPI)
+        
+        // TODO : CREAR MANEJADOR DE EVENTO
+
         idElement.append(mainDiv)
     }
 }
@@ -375,7 +389,8 @@ function cargarGastosApi() {
     this.handleEvent = function(e) {
         e.preventDefault();
         const user = document.getElementById("nombre-usuario").value;
-        const url = new URL(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/lates/${user}`)
+        usuarioAPI = user;
+        const newUrl = `${url}${user}`
         const response = fetch(url)
         if (!response.ok) {
             console.error("ERROR EN LA PETICION")
@@ -383,6 +398,29 @@ function cargarGastosApi() {
         const data = response.json()
         gp.cargarGastos(data)
         repintar()
+    }
+}
+
+function BorrarGastoApi() {
+    this.handleEvent = function(e) {
+        e.preventDefault();
+        const newUrl = url+usuarioAPI
+        fetch(newUrl, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        // Llamar a cargar gastos api ????????
+        cargarGastosApi()
+
+        repintar()
+    }
+}
+
+function enviarGastoApi() {
+    this.handleEvent = function(e) {
+        e.preventDefault();
     }
 }
 
