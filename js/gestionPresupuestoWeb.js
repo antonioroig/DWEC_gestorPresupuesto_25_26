@@ -369,7 +369,21 @@ function cargarGastosWeb() {
         gp.cargarGastos(JSON.parse(gastos))
         repintar()
     })
+}
 
+function cargarGastosApi() {
+    this.handleEvent = function(e) {
+        e.preventDefault();
+        const user = document.getElementById("nombre-usuario").value;
+        const url = new URL(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/lates/${user}`)
+        const response = fetch(url)
+        if (!response.ok) {
+            console.error("ERROR EN LA PETICION")
+        }
+        const data = response.json()
+        gp.cargarGastos(data)
+        repintar()
+    }
 }
 
 
@@ -383,5 +397,6 @@ export {
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 }
