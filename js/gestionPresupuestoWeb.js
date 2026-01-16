@@ -1,7 +1,7 @@
 import * as gp from './gestionPresupuesto.js'
 
 let usuarioAPI = "";
-const url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/lates/`
+const url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/`
 
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
@@ -37,6 +37,23 @@ function NuevoGastoFormulario() {
         let boton = document.getElementById("anyadirgasto-formulario")
         boton.disabled = false
         boton.removeAttribute("disable")
+
+        let enviarApi = document.querySelector(".gasto-enviar-api")
+        enviarApi.addEventListener("click", function(e) {
+            e.preventDefault();
+            console.log(":)");
+            const urlFinal = url+usuarioAPI
+            const data = fetch(urlFinal, {
+                methid: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(this.gasto)
+            })
+            //???
+            cargarGastosApi()
+        })
+
         repintar()
     }
 }
@@ -385,21 +402,39 @@ function cargarGastosWeb() {
     })
 }
 
+
+let btnCargarGastosApi = document.getElementById("cargar-datos-api")
+let handleCargar = new cargarGastosApi()
+btnCargarGastosApi.addEventListener("click", handleCargar)
+
 function cargarGastosApi() {
-    this.handleEvent = function(e) {
+    this.handleEvent = async function(e) {
         e.preventDefault();
+        console.log("Cargar Gastos API");
         const user = document.getElementById("nombre-usuario").value;
         usuarioAPI = user;
         const newUrl = `${url}${user}`
-        const response = fetch(url)
+        console.log(newUrl);
+        const response = await fetch(newUrl, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "User-Agent": "insomnia/11.2.0"
+            }
+        })
+
+        console.log(response);
         if (!response.ok) {
             console.error("ERROR EN LA PETICION")
         }
-        const data = response.json()
+        const data = await response.json()
         gp.cargarGastos(data)
         repintar()
     }
 }
+
+
 
 function BorrarGastoApi() {
     this.handleEvent = function(e) {
@@ -418,12 +453,11 @@ function BorrarGastoApi() {
     }
 }
 
-function enviarGastoApi() {
-    this.handleEvent = function(e) {
-        e.preventDefault();
-    }
-}
 
+
+function editarGastoApi() {
+
+}
 
 export {
     mostrarDatoEnId,
