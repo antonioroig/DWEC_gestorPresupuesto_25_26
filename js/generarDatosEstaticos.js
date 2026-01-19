@@ -60,3 +60,5 @@ gPw.mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año
 document.getElementById("guardar-gastos").addEventListener("click", gPw.guardarGastosWeb);
 
 document.getElementById("cargar-gastos").addEventListener("click", gPw.cargarGastosWeb);
+
+document.getElementById("cargar-gastos-api").addEventListener("click", gPw.cargarGastosApi)

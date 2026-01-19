@@ -58,6 +58,13 @@ function mostrarGastoWeb(idElemento, gasto){
         botonBorrar.addEventListener("click", objBorrar);
         divgasto.appendChild(botonBorrar);
 
+        let botonBorrarApi = document.createElement("button");
+        botonBorrarApi.setAttribute("type", "button");
+        botonBorrarApi.className = "gasto-borrar-api";
+        botonBorrarApi.innerHTML = "Borrar (API)";
+        botonBorrarApi.addEventListener("click", borrarGastoApi);
+        divgasto.appendChild(botonBorrarApi);
+
         let botonEditarFormulario = document.createElement("button");
         botonEditarFormulario.setAttribute("type", "button");
         botonEditarFormulario.className = "gasto-editar-formulario";
@@ -273,6 +280,39 @@ function cargarGastosWeb(){
     repintar();
 }
 
+function cargarGastosApi(){
+    let nombreUsuario = document.getElementById("nombre_usuario").value;
+    if (nombreUsuario.length == 0)
+        throw new Error("No has escrito un nombre de usuario.");
+    let options = {
+        method: "GET"
+    }
+    fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+    .then(respuesta => {
+        if (respuesta.ok)
+            return respuesta.json();
+        else
+            throw new Error("Error con la API");
+    })
+    .then(gastos => {
+        if (gastos.length > 0){
+            gP.cargarGastos(gastos);
+            repintar();
+        }
+        else
+            console.log("No hay gastos con ese nombre de usuario.");
+    })
+    .catch(error => console.error("ERROR: ", error));
+}
+
+function borrarGastoApi(){
+    this.handleEvent = function(evento){
+        let nombreUsuario = evento.nombre_usuario;
+        let idGasto = evento.id;
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`, options)
+    }
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -287,5 +327,6 @@ export{
     EditarHandleFormulario,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 }
