@@ -56,27 +56,29 @@ Para poder realizar esta práctica será necesario *instalar el siguiente softwa
     El archivo ~js/generarDatosEstaticos.js~ se utilizará para crear unos gastos iniciales para poder hacer *pruebas durante el desarrollo* (para que no aparezca la aplicación vacía). Por tanto, en una aplicación en producción *no sería necesario*: el archivo HTML funcionaría cargando el archivo ~/js/gestionPresupuestoWeb.js~ directamente.
     
 *** API
-    La API que se utilizará está disponible en esta URL: https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest. Se trata de una API [[https://en.wikipedia.org/wiki/Create,_read,_update_and_delete][CRUD]] para *gestionar el listado de gastos* de un conjunto de usuarios.
+    La API que se utilizará está disponible en esta URL: https://gestion-presupuesto-api.onrender.com. Se trata de una API [[https://en.wikipedia.org/wiki/Create,_read,_update_and_delete][CRUD]] para *gestionar el listado de gastos* de un conjunto de usuarios.
+
+    La API ha sido refactorizada y ahora utiliza *Express.js* como framework web y *MongoDB* como base de datos, alojada en *Render.com*. Esta nueva versión ofrece mejor mantenibilidad y costos más bajos en comparación con la versión anterior basada en AWS Lambda y Claudia.
 
     La API dispone de las siguientes *URLs*:
-    - ~/{USUARIO}~ - Permitirá leer el *listado de gastos* de un usuario y *crear* nuevos gastos. El parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales. Por ejemplo, en mi caso trabajaría con https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/antonioroig.
-    - ~/{USUARIO}/{GASTOID}~ - Permitirá leer *un determinado gasto* indicando su ~id~, así como *modificar* y *borrar* dicho gasto. De nuevo, el parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales, mientras que el parámetro ~{GASTOID}~ deberá sustituirse por el ~id~ del gasto que se quiera acceder. Por ejemplo, en mi caso, para acceder al gasto *0* utilizaría la URL https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/antonioroig/0.
+    - ~/api/{USUARIO}~ - Permitirá leer el *listado de gastos* de un usuario y *crear* nuevos gastos. El parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales. Por ejemplo, en mi caso trabajaría con https://gestion-presupuesto-api.onrender.com/api/antonioroig.
+    - ~/api/{USUARIO}/{GASTOID}~ - Permitirá leer *un determinado gasto* indicando su ~id~, así como *modificar* y *borrar* dicho gasto. De nuevo, el parámetro ~{USUARIO}~ deberá sustituirse por tu *nombre+primer apellido*, sin espacios ni caracteres especiales, mientras que el parámetro ~{GASTOID}~ deberá sustituirse por el ~id~ del gasto que se quiera acceder. Por ejemplo, en mi caso, para acceder a un gasto utilizaría la URL https://gestion-presupuesto-api.onrender.com/api/antonioroig/550e8400-e29b-41d4-a716-446655440001.
 
     Sobre las URLs indicadas se podrán ejecutar las siguientes *peticiones HTTP*:
-    - ~GET /{USUARIO}~ - La API devolverá un *array* con el listado de gastos del usuario. Cada elemento del array será un *objeto gasto*.
-    - ~POST /{USUARIO}~ - Al hacer una petición de este tipo se deberán *enviar los datos del gasto* que se quiera crear.
-    - ~GET /{USUARIO}/{GASTOID}~ - La API devolverá un *objeto* con los datos del gasto correspondiente al ~id~ indicado en ~GASTOID~.
-    - ~PUT/{USUARIO}/{GASTOID}~ - La API *actualizará* el gasto indicado en ~GASTOID~ con los datos que se envíen.
-    - ~DELETE /{USUARIO}/{GASTOID}~ - La API *borrará* el gasto indicado en ~GASTOID~.
+    - ~GET /api/{USUARIO}~ - La API devolverá un *array* con el listado de gastos del usuario. Cada elemento del array será un *objeto gasto*.
+    - ~POST /api/{USUARIO}~ - Al hacer una petición de este tipo se deberán *enviar los datos del gasto* que se quiera crear.
+    - ~GET /api/{USUARIO}/{GASTOID}~ - La API devolverá un *objeto* con los datos del gasto correspondiente al ~id~ indicado en ~GASTOID~.
+    - ~PUT /api/{USUARIO}/{GASTOID}~ - La API *actualizará* el gasto indicado en ~GASTOID~ con los datos que se envíen.
+    - ~DELETE /api/{USUARIO}/{GASTOID}~ - La API *borrará* el gasto indicado en ~GASTOID~.
     
     #+begin_quote
     ¡IMPORTANTE! La API será compartida por todas las personas que estén realizando la práctica, por lo que cada persona deberá realizar las operaciones y pruebas *exclusivamente* sobre su *identificador de usuario*. Se debe evitar en todo momento borrar o modificar datos de otras personas o poner textos o contenido inadecuado.
     #+end_quote
 
-    Para los interesados en el código de la API (hecha con NodeJS, [[https://www.claudiajs.com/][ClaudiaJS]] y alojada en AWS), está disponible en el siguiente repositorio: https://github.com/pedroprieto/practica_dwec_gestor_presupuesto_api_server
+    Para los interesados en el código de la API (hecha con *Express.js*, *Node.js* y *MongoDB*, alojada en *Render.com*), está disponible en el siguiente repositorio: https://github.com/antonioroig/practica_dwec_gestor_presupuesto_api_server-master
 
     #+begin_quote
-    *¡IMPORTANTE!* La funcionalidad de interactuar con la API es *independiente* de la *gestión de gastos locales* que hemos hecho hasta ahora. Al crear gastos a través de la API, el servidor *asignará un id* de manera automática a cada gasto. Dícho ~id~ tendrá un formato distinto del utilizado hasta ahora (que era un ~id~ basada en números correlativos).
+    *¡IMPORTANTE!* La funcionalidad de interactuar con la API es *independiente* de la *gestión de gastos locales* que hemos hecho hasta ahora. Al crear gastos a través de la API, el servidor *asignará un id* de manera automática a cada gasto. Dícho ~id~ tendrá un formato distinto del utilizado hasta ahora (que era un ~id~ basada en números correlativos). El nuevo formato es un *UUID* generado aleatoriamente.
 
     Los *gastos creados de manera local* (como los 6 gastos de ejemplo que se cargan al arrancar la aplicación) *no son accesibles ni se pueden editar o borrar a través de la API*. Por tanto, para *borrar* un gasto a través de la API habrá que *crearlo* previamente a través de la API.
 
