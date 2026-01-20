@@ -2,6 +2,7 @@
 import * as presupuesto from './gestionPresupuesto.js'
 
 let numeroFiltro = 0
+const urlApi = "https://gestion-presupuesto-api.onrender.com/api/"
 
 function mostrarDatoEnId(idElemento, valor) {
     document.getElementById(idElemento).innerHTML = valor
@@ -291,45 +292,61 @@ function filtrarGastoWeb(event) {
 
     let etiquetasTiene = []
 
-    if(etiquetasTexto){
+    if (etiquetasTexto) {
         etiquetasTiene = presupuesto.transformarListadoEtiquetas(etiquetasTexto)
     }
     let filtros = {}
-    
-    
 
-    if(descripcionContiene){filtros.descripcionContiene = descripcionContiene}
-    if(valorMinimo){filtros.valorMinimo = valorMinimo}
-    if(valorMaximo){filtros.valorMaximo = valorMaximo}
-    if(fechaDesde){filtros.fechaDesde = fechaDesde}
-    if(fechaHasta){filtros.fechaHasta = fechaHasta}
-    if(etiquetasTiene.length > 0){filtros.etiquetasTiene = etiquetasTiene}
 
-    let gastosFiltrados = presupuesto.filtrarGastos(filtros)    
-    
-    if(filtros){
+
+    if (descripcionContiene) { filtros.descripcionContiene = descripcionContiene }
+    if (valorMinimo) { filtros.valorMinimo = valorMinimo }
+    if (valorMaximo) { filtros.valorMaximo = valorMaximo }
+    if (fechaDesde) { filtros.fechaDesde = fechaDesde }
+    if (fechaHasta) { filtros.fechaHasta = fechaHasta }
+    if (etiquetasTiene.length > 0) { filtros.etiquetasTiene = etiquetasTiene }
+
+    let gastosFiltrados = presupuesto.filtrarGastos(filtros)
+
+    if (filtros) {
         mostrarGastoWeb("listado-gastos-completo", gastosFiltrados)
     }
-    else{
+    else {
         mostrarGastoWeb("listado-gastos-completo", presupuesto.listarGastos())
     }
 }
-function guardarGastoWeb(){
+function guardarGastoWeb() {
     localStorage.setItem("GestorGastosDWEC", JSON.stringify(presupuesto.listarGastos()))
 }
-function cargarGastoWeb(){
+function cargarGastoWeb() {
     // let gastosGuardados = JSON.parse(localStorage.getItem("GestorGastosDEWC"))
     let gastosGuardados = localStorage.getItem("GestorGastosDWEC")
     gastosGuardados = JSON.parse(gastosGuardados)
     console.log(gastosGuardados);
-    
-    if(!gastosGuardados){
+
+    if (!gastosGuardados) {
         presupuesto.cargarGastos([])
         repintar()
     }
-    else{
+    else {
         presupuesto.cargarGastos(gastosGuardados)
         repintar()
+    }
+}
+function cargarGastosApi() {
+    let usuario = document.getElementById("nombre_usuario").value
+    if (usuario) {
+        fetch(urlApi + usuario, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => presupuesto.cargarGastos(data))
+            .then(() => repintar())
+            .catch(error => console.error(error.message))
+    }
+    else{
+        alert("Introduzca un nombre de usuario")
     }
 }
 export {
@@ -342,5 +359,6 @@ export {
     nuevoGastoWebFormulario,
     filtrarGastoWeb,
     guardarGastoWeb,
-    cargarGastoWeb
+    cargarGastoWeb,
+    cargarGastosApi
 }

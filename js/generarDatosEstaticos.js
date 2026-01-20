@@ -64,3 +64,4 @@ document.getElementById("anyadirgasto-formulario").addEventListener("click", pre
 document.getElementById("formulario-filtrado").addEventListener("submit", presupuestoWeb.filtrarGastoWeb)
 document.getElementById("guardar-gastos").addEventListener("click", presupuestoWeb.guardarGastoWeb)
 document.getElementById("cargar-gastos").addEventListener("click", presupuestoWeb.cargarGastoWeb)
+document.getElementById("cargar-gastos-api").addEventListener("click", presupuestoWeb.cargarGastosApi)
