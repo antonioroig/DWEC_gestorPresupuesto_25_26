@@ -425,11 +425,11 @@ btnGuardar.addEventListener("click", guardarGastosWeb);
 
 
 function cargarGastosWeb() {
-    let datos = localStorage.getItem("GestorGastosDWEC");
+    let gastos = localStorage.getItem("GestorGastosDWEC");
 
     let gastosAlmacenados;
-    if (datos) {
-        gastosAlmacenados = JSON.parse(datos);
+    if (gastos) {
+        gastosAlmacenados = JSON.parse(gastos);
     } else {
         gastosAlmacenados = [];
     }
