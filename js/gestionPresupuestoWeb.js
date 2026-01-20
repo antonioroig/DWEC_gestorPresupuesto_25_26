@@ -86,6 +86,11 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             botonEditarFormulario.addEventListener("click", manejadorEditarFormulario)
             divGasto.appendChild(botonEditarFormulario)
 
+            const botonBorrarApi = document.createElement("button")
+            botonBorrarApi.type = "button"
+            botonBorrarApi.textContent = "Borrar (API)"
+            divGasto.appendChild(botonBorrarApi)
+
         }
 
         contenedor.appendChild(divGasto)
