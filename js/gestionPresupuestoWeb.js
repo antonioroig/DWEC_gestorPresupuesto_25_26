@@ -89,6 +89,8 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             const botonBorrarApi = document.createElement("button")
             botonBorrarApi.type = "button"
             botonBorrarApi.textContent = "Borrar (API)"
+            botonBorrarApi.classList.add("gasto-borrar-api")
+            
             divGasto.appendChild(botonBorrarApi)
 
         }
