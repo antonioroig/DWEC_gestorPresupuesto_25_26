@@ -1,0 +1,50 @@
+[33m704b5d0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m manejador de eventos
+[33m0189859[m evento del formulario submit
+[33mbacbdff[m Añadido elementos en interaccion HTML
+[33m86d259b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge branch 'main' of https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26
+[33m5018f9e[m[33m ([m[1;31mprofesor/main[m[33m)[m Modif. Formularios
+[33m9e144cd[m Pr. Forms
+[33m40b1d2b[m Funcon Borrar Etiquetas Handle echa
+[33m824441a[m Funcion Borrar Handle asociada al btn
+[33mba6b13f[m modificacion en repintar para que pase los test estaba mal
+[33mf4d84d6[m boton editar y su manejador de eventos
+[33m6a8a42c[m Funcion editar handle a medias me falta poner boton a todos los gastos
+[33m973e752[m Funcion nuevoGastoWeb echaaaa
+[33ma086eae[m boton nuevo gasto
+[33m4c1c712[m funcion repintar
+[33m063633e[m funcion aculizar presupuesto
+[33m07a7f6d[m Lisener de actualizar presupuesto
+[33m1cb42ef[m Merge branch 'main' of https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26
+[33m326ed1f[m pr. Eventos
+[33m9a768fc[m agrupacion de gastos generar datos esteticos
+[33m8dc43ab[m funcion mostrar gastos agupados
+[33m4335e7e[m filtrado de mostarr gastos web en generar datos esteticos
+[33m565e525[m Listado completo generrar datos esteticos
+[33m6890517[m Funcion mostrar gastos web
+[33me81d82f[m Generar datos estaticos objetos hasta no usar mostrar id
+[33m434d9d7[m pasar test mostrsr id a medias
+[33mf6230ae[m funcion mostrar datos en idsolucionado ç
+[33m9810c0e[m funcion mostrar datos en id
+[33m616b3f3[m Merge branch 'main' of https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26
+[33m370adb1[m Pr 4. Interacción HTML
+[33m88d0f2d[m terminado
+[33m7ee2b39[m Funcion agrupar a medias
+[33mae3929a[m Filtrar gasto terminado
+[33m2ef2c3b[m funcion filtrar fechadesde y fechahasta
+[33mfb319cb[m funcion filtrar gastos empezada
+[33m43cd969[m Metodo obtenerPeriodoAgrupacion terminado
+[33m262b3f8[m Funcion obtener periodo de agrupacion a medias
+[33m0a131d2[m Implmentacion de funciones vacias y en el archivo export
+[33maf90693[m tMerge branch 'main' of https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26
+[33mf0417cc[m pr Intro JS III
+[33mec00664[m Solucion para pasar el test1 definitiva
+[33m94799e2[m Funcion de calcular Balance
+[33ma8f6a94[m Funcion de calcular total gasto
+[33m4896ddf[m Funcion borrar gasto
+[33m4a032fb[m Funcion añadirgasto  realizada
+[33m3403842[m Funcion Constructora con sus metodos
+[33m0707290[m Funcion ListarGastos terminada y varables locales declaradas
+[33m9a58e48[m Actualizar repositorio
+[33m2591733[m Merge branch 'main' of https://github.com/antonioroig/DWEC_gestorPresupuesto_25_26
+[33m9cd19dd[m arreglamos test2 mostrarGastoCompleto
+[33md0d5532[m test 2 arreglado
