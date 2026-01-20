@@ -76,6 +76,18 @@ function mostrarGastoWeb(idElemento , gasto){
     botonBorrar.addEventListener("click", borrarHandler);
     divGasto.appendChild(botonBorrar);
 
+
+    let botonBorrarApi = document.createElement("button");
+    botonBorrarApi.type = "button";
+    botonBorrarApi.classList.add("gasto-borrar-api");
+    botonBorrarApi.textContent = "Borrar (API)";
+
+    let borrarApiHandler = new BorrarApiHandle(gasto);
+    botonBorrarApi.addEventListener("click", borrarApiHandler);
+
+    divGasto.appendChild(botonBorrarApi);
+
+
     let botonEditarForm = document.createElement("button");
     botonEditarForm.type = "button";
     botonEditarForm.classList.add("gasto-editar-formulario");
@@ -275,6 +287,32 @@ function BorrarHandle(gasto) {
         repintar();
     };
 }
+
+
+function BorrarApiHandle(gasto) {
+  this.gasto = gasto;
+
+  this.handleEvent = async function () {
+    const usuario = document.getElementById("nombre_usuario").value.trim();
+
+    if (!usuario) {
+      alert("Introduce el usuario (API) en el cuadro de texto.");
+      return;
+    }
+
+    const url = `https://gestion-presupuesto-api.onrender.com/api/${usuario}/${this.gasto.id}`;
+
+    const resp = await fetch(url, { method: "DELETE" });
+
+    if (!resp.ok) {
+      alert("No se ha podido borrar en la API. ¿Seguro que este gasto viene de la API y no es local?");
+      return;
+    }
+
+    cargarGastosApi();
+  };
+}
+
 
 function BorrarEtiquetasHandle(gasto, etiqueta){
     this.gasto = gasto;
