@@ -338,6 +338,12 @@ function cargarGastosWeb() {
 }
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener("click", cargarGastosWeb);
+
+function cargarGastosApi(){
+
+}
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click", cargarGastosApi);
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
