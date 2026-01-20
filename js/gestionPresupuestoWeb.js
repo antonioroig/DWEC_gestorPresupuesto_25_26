@@ -3,6 +3,7 @@ import * as presupuesto from './gestionPresupuesto.js'
 
 let numeroFiltro = 0
 const urlApi = "https://gestion-presupuesto-api.onrender.com/api/"
+let usuario = ""
 
 function mostrarDatoEnId(idElemento, valor) {
     document.getElementById(idElemento).innerHTML = valor
@@ -90,7 +91,9 @@ function mostrarGastoWeb(idElemento, listaGastos) {
             botonBorrarApi.type = "button"
             botonBorrarApi.textContent = "Borrar (API)"
             botonBorrarApi.classList.add("gasto-borrar-api")
-            
+            let manejadorBorrarApi = new BorrarApiHandle()
+            manejadorBorrarApi.gasto = gasto
+            botonBorrarApi.addEventListener("click", manejadorBorrarApi)
             divGasto.appendChild(botonBorrarApi)
 
         }
@@ -341,7 +344,8 @@ function cargarGastoWeb() {
     }
 }
 function cargarGastosApi() {
-    let usuario = document.getElementById("nombre_usuario").value
+    actualizarUsuario()
+    
     if (usuario) {
         fetch(urlApi + usuario, {
             method: "GET",
@@ -354,6 +358,20 @@ function cargarGastosApi() {
     }
     else{
         alert("Introduzca un nombre de usuario")
+    }
+}
+function actualizarUsuario(){
+    usuario = document.getElementById("nombre_usuario").value
+}
+function BorrarApiHandle(){
+    this.handleEvent = function(event){
+        event.preventDefault()
+        actualizarUsuario()
+        fetch(urlApi+"/"+usuario+this.gasto.id,{
+            method: "DELETE"})
+        .then(res => console.log(res.message))
+        .then(() => cargarGastosApi())
+        .catch(err => console.error(err.message))
     }
 }
 export {
