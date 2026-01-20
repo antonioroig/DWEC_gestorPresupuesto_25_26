@@ -402,6 +402,39 @@ function cargarGastosWeb() {
 let btnCargarGastos = document.getElementById("cargar-gastos");
 btnCargarGastos.addEventListener("click", cargarGastosWeb);
 
+
+async function cargarGastosApi() {
+    const usuario = document.getElementById("nombre_usuario").value.trim();
+
+    if (!usuario) {
+        alert("Introduce tu usuario (nombre+apellido, sin espacios ni acentos).");
+        return;
+    }
+
+    const url = `https://gestion-presupuesto-api.onrender.com/api/${usuario}`;
+
+    const resp = await fetch(url);
+    if (!resp.ok) {
+        alert("Error al cargar los gastos desde la API.");
+        return;
+    }
+
+    const gastosApi = await resp.json();
+
+    const adaptados = gastosApi.map(g => ({
+        ...g,
+        id: g.gastoId ?? g.id,
+    }));
+
+    gp.cargarGastos(adaptados);
+    repintar();
+}
+
+let btnCargarGastosApi = document.getElementById("cargar-gastos-api");
+btnCargarGastosApi.addEventListener("click", cargarGastosApi);
+
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
