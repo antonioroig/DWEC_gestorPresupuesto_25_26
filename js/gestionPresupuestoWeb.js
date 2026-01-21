@@ -199,8 +199,23 @@ function BorrarHandle() {
 }
 function BorrarEtiquetasHandle() {
     this.handleEvent = function () {
-        this.gasto.borrarEtiquetas(this.etiqueta)
-        repintar()
+        if (!this.gasto.gastoId) {
+            this.gasto.borrarEtiquetas(this.etiqueta)
+            repintar()
+        }
+        else {
+            let indiceEtiqueta = this.gasto.etiquetas.indexOf(this.etiqueta)
+            this.gasto.etiquetas.splice(indiceEtiqueta, 1)
+            let gastoEditado = this.gasto
+            gastoEditado = JSON.stringify(gastoEditado)
+
+            fetch(urlApi + "/" + usuario + "/" + this.gasto.gastoId, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: gastoEditado
+            })
+                .then(() => cargarGastosApi())
+        }
     }
 }
 function nuevoGastoWebFormulario(event) {
@@ -427,7 +442,7 @@ function EnviarApiEditarHandleFormulario() {
         gastoEditado.etiquetas = this.gasto.etiquetas
         let etiquetasNuevas = form.querySelector("#etiquetas").value
         etiquetasNuevas = etiquetasNuevas.split(",")
-        
+
         if (etiquetasNuevas.length > 0) {
             etiquetasNuevas.forEach(etiqueta => {
                 gastoEditado.etiquetas.push(etiqueta)
