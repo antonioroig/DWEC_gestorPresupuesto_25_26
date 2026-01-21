@@ -1,7 +1,7 @@
 import * as gp from './gestionPresupuesto.js'
 
 let usuarioAPI = "";
-const url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/`
+const url = `https://gestion-presupuesto-api.onrender.com/api/`
 
 function nuevoGastoWebFormulario() {
     let boton = document.getElementById("anyadirgasto-formulario")
@@ -20,6 +20,38 @@ function nuevoGastoWebFormulario() {
 
         let div = document.getElementById("controlesprincipales");
         div.append(form);
+
+        let enviarApi = form.querySelector(".gasto-enviar-api")
+        enviarApi.addEventListener("click", async function(e) {
+            e.preventDefault();
+
+            let desc = document.getElementById("descripcion").value
+            let valor = document.getElementById("valor").value
+            valor = Number(valor);
+            let fecha = document.getElementById("fecha").value
+            let etiquetas = document.getElementById("etiquetas").value
+
+            let gasto = {
+                descripcion: desc,
+                valor,
+                fecha,
+                etiquetas: [etiquetas]
+            }
+            const urlFinal = url+usuarioAPI;
+            const data = await fetch(urlFinal, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(gasto)
+            })
+            if (!data.ok) {
+                console.error("ERROR EN LA PETICION")
+            }
+            const json = await data.json();
+            cargarGastosApi()
+            repintar()
+        })
     })
 }
 
@@ -37,23 +69,6 @@ function NuevoGastoFormulario() {
         let boton = document.getElementById("anyadirgasto-formulario")
         boton.disabled = false
         boton.removeAttribute("disable")
-
-        let enviarApi = document.querySelector(".gasto-enviar-api")
-        enviarApi.addEventListener("click", function(e) {
-            e.preventDefault();
-            console.log(":)");
-            const urlFinal = url+usuarioAPI
-            const data = fetch(urlFinal, {
-                methid: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(this.gasto)
-            })
-            //???
-            cargarGastosApi()
-        })
-
         repintar()
     }
 }
@@ -296,6 +311,9 @@ function mostrarGastoWeb(id, gasto) {
         btnBorrarAPI.setAttribute("class", "gasto-borrar-api")
         btnBorrarAPI.setAttribute("type", "button")
         btnBorrarAPI.textContent = "Borrar (API)"
+        let borrarAPI = new BorrarGastoApi()
+        borrarAPI.gasto = gasto[0];
+        btnBorrarAPI.addEventListener("click", borrarAPI)
         mainDiv.append(btnBorrarAPI)
         
         // TODO : CREAR MANEJADOR DE EVENTO
@@ -370,7 +388,6 @@ function filtrarGastosWeb() {
             obj.etiquetasTiene = etiquetas;
         }
 
-        console.log(gp.filtrarGastos(obj));
         let gastosFiltrados = gp.filtrarGastos(obj)
         let div = document.getElementById("listado-gastos-completo")
         div.textContent = ''
@@ -403,18 +420,13 @@ function cargarGastosWeb() {
 }
 
 
-let btnCargarGastosApi = document.getElementById("cargar-datos-api")
-let handleCargar = new cargarGastosApi()
-btnCargarGastosApi.addEventListener("click", handleCargar)
+    let btnCargarGastosApi = document.getElementById("cargar-datos-api")
+    btnCargarGastosApi.addEventListener("click", cargarGastosApi)
 
-function cargarGastosApi() {
-    this.handleEvent = async function(e) {
-        e.preventDefault();
-        console.log("Cargar Gastos API");
+async function cargarGastosApi() {
         const user = document.getElementById("nombre-usuario").value;
         usuarioAPI = user;
-        const newUrl = `${url}${user}`
-        console.log(newUrl);
+        const newUrl = `${url}${user}`;
         const response = await fetch(newUrl, {
             method: 'GET',
             headers: {
@@ -423,33 +435,33 @@ function cargarGastosApi() {
                 "User-Agent": "insomnia/11.2.0"
             }
         })
-
-        console.log(response);
         if (!response.ok) {
             console.error("ERROR EN LA PETICION")
         }
-        const data = await response.json()
+    
+        const data = await response.json();
         gp.cargarGastos(data)
         repintar()
     }
-}
 
 
 
 function BorrarGastoApi() {
-    this.handleEvent = function(e) {
+    this.handleEvent = async function(e) {
         e.preventDefault();
-        const newUrl = url+usuarioAPI
-        fetch(newUrl, {
+        let id = this.gasto.gastoId;
+        const newUrl = url+usuarioAPI+"/"+id
+        const response = await fetch(newUrl, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json"
             }
         });
-        // Llamar a cargar gastos api ????????
+        if (!response.ok) {
+            console.log("error");
+        }
+        const data = response.json();
         cargarGastosApi()
-
-        repintar()
     }
 }
 
@@ -457,6 +469,8 @@ function BorrarGastoApi() {
 
 function editarGastoApi() {
 
+
+    cargarGastosApi();
 }
 
 export {

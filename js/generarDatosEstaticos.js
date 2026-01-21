@@ -92,3 +92,4 @@ gpw.filtrarGastosWeb()
 
 gpw.guardarGastosWeb()
 gpw.cargarGastosWeb()
+gpw.cargarGastosApi()
