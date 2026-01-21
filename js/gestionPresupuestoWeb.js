@@ -94,6 +94,39 @@ function EditarHandleFormulario() {
         
         form.querySelector("#fecha").value = `${year}-${month}-${day}`;
         form.querySelector("#etiquetas").value = this.gasto.etiquetas;
+
+        
+        let btnEnviarApi = form.querySelector(".gasto-enviar-api");
+        console.log(btnEnviarApi);
+        btnEnviarApi.addEventListener("click", async (e) => {
+            e.preventDefault();
+            let desc = form.querySelector("#descripcion").value;
+            let valor = form.querySelector("#valor").value;
+            valor = Number(valor);
+            let fecha = form.querySelector("#fecha").value;
+            let etiquetas = form.querySelector("#etiquetas").value;
+            const body = {
+                descripcion: desc,
+                valor,
+                fecha,
+                etiquetas
+            }
+            console.log(body);
+            const finalUrl = url+usuarioAPI+"/"+this.gasto.gastoId
+            let response = await fetch(finalUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+            })
+            if (!response.ok) {
+                console.log("error editando");
+            }
+            let data = await response.json();
+            console.log(data);
+            cargarGastosApi()
+        })
         
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -312,11 +345,12 @@ function mostrarGastoWeb(id, gasto) {
         btnBorrarAPI.setAttribute("type", "button")
         btnBorrarAPI.textContent = "Borrar (API)"
         let borrarAPI = new BorrarGastoApi()
-        borrarAPI.gasto = gasto[0];
+        borrarAPI.gasto = obj;
         btnBorrarAPI.addEventListener("click", borrarAPI)
         mainDiv.append(btnBorrarAPI)
         
         // TODO : CREAR MANEJADOR DE EVENTO
+
 
         idElement.append(mainDiv)
     }
@@ -420,8 +454,8 @@ function cargarGastosWeb() {
 }
 
 
-    let btnCargarGastosApi = document.getElementById("cargar-datos-api")
-    btnCargarGastosApi.addEventListener("click", cargarGastosApi)
+let btnCargarGastosApi = document.getElementById("cargar-datos-api")
+btnCargarGastosApi.addEventListener("click", cargarGastosApi)
 
 async function cargarGastosApi() {
         const user = document.getElementById("nombre-usuario").value;
@@ -465,13 +499,6 @@ function BorrarGastoApi() {
     }
 }
 
-
-
-function editarGastoApi() {
-
-
-    cargarGastosApi();
-}
 
 export {
     mostrarDatoEnId,
