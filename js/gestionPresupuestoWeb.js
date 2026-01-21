@@ -63,8 +63,8 @@ function NuevoGastoFormulario() {
         valor = Number(valor);
         let fecha = document.getElementById("fecha").value
         let etiquetas = document.getElementById("etiquetas").value
-
-        let gasto = new gp.CrearGasto(desc, valor, fecha, etiquetas)
+        let tags = etiquetas.split(",")
+        let gasto = new gp.CrearGasto(desc, valor, fecha, ...tags)
         gp.anyadirGasto(gasto)
         let boton = document.getElementById("anyadirgasto-formulario")
         boton.disabled = false
@@ -97,7 +97,7 @@ function EditarHandleFormulario() {
 
         
         let btnEnviarApi = form.querySelector(".gasto-enviar-api");
-        console.log(btnEnviarApi);
+
         btnEnviarApi.addEventListener("click", async (e) => {
             e.preventDefault();
             let desc = form.querySelector("#descripcion").value;
@@ -105,13 +105,14 @@ function EditarHandleFormulario() {
             valor = Number(valor);
             let fecha = form.querySelector("#fecha").value;
             let etiquetas = form.querySelector("#etiquetas").value;
+            let tags = etiquetas.split(",")
             const body = {
                 descripcion: desc,
                 valor,
                 fecha,
-                etiquetas
+                etiquetas: tags
             }
-            console.log(body);
+
             const finalUrl = url+usuarioAPI+"/"+this.gasto.gastoId
             let response = await fetch(finalUrl, {
                 method: "PUT",
@@ -121,10 +122,9 @@ function EditarHandleFormulario() {
                 body: JSON.stringify(body)
             })
             if (!response.ok) {
-                console.log("error editando");
+                console.error("error editando");
             }
             let data = await response.json();
-            console.log(data);
             cargarGastosApi()
         })
         
@@ -492,7 +492,7 @@ function BorrarGastoApi() {
             }
         });
         if (!response.ok) {
-            console.log("error");
+            console.error("error");
         }
         const data = response.json();
         cargarGastosApi()
