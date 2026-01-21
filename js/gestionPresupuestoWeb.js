@@ -23,7 +23,7 @@ function mostrarGastoWeb(idElemento, listaGastos) {
         const gastoFiltrado = Object.fromEntries(
             Object.entries(gasto).filter(([k, v]) => typeof v !== "function")
         )
-        
+
         for (let key in gastoFiltrado) {
             if (key === "etiquetas") {
                 const divEtiquetas = document.createElement("div")
@@ -44,7 +44,7 @@ function mostrarGastoWeb(idElemento, listaGastos) {
                     divEtiquetas.appendChild(document.createElement("br"))
                 })
             } else if (key !== "fecha") {
-                
+
                 if (key !== "id" && key !== "gastoId" && key !== "usuario") {
                     const divProp = document.createElement("div")
                     divProp.classList.add(`gasto-${key}`)
@@ -243,7 +243,7 @@ function formSubmitHandler(event) {
     form.remove()
 }
 function ManejarCancelar() {
-    this.handleEvent = function () {
+    this.handleEvent = function (event) {
         this.form.remove()
         this.boton.disabled = false
     }
@@ -259,14 +259,12 @@ function EditarHandleFormulario() {
         let descripcion = formulario.querySelector("#descripcion")
         let valor = formulario.querySelector("#valor")
         let fecha = formulario.querySelector("#fecha")
-        //    let etiquetas = formulario.querySelector("#etiquetas")
         let cancelar = formulario.querySelector(".cancelar")
-        let enviarApi = formulario.querySelector("gasto-enviar-api")
+        let enviarApi = formulario.querySelector(".gasto-enviar-api")
 
         descripcion.value = this.gasto.descripcion
         valor.value = this.gasto.valor
         fecha.value = new Date(this.gasto.fecha).toISOString().slice(0, 10)
-        //    etiquetas.value = this.gasto.etiquetas
 
         let manejadorEnvioFormulario = new EnviarHandleFormulario()
         manejadorEnvioFormulario.gasto = this.gasto
@@ -276,6 +274,11 @@ function EditarHandleFormulario() {
         manejadorCancelar.boton = boton
         manejadorCancelar.form = formulario
         cancelar.addEventListener("click", manejadorCancelar)
+
+        let manejadorEnviarApi = new EnviarApiEditarHandleFormulario()
+        manejadorEnviarApi.gasto = this.gasto
+        manejadorEnviarApi.formulario = formulario
+        enviarApi.addEventListener("click", manejadorEnviarApi)
 
         contenedor.appendChild(formulario)
     }
@@ -353,7 +356,7 @@ function cargarGastosApi() {
     actualizarUsuario()
 
     if (usuario) {
-        fetch(urlApi+"/"+ usuario, {
+        fetch(urlApi + "/" + usuario, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -373,7 +376,7 @@ function BorrarApiHandle() {
     this.handleEvent = function (event) {
         event.preventDefault()
         actualizarUsuario()
-        
+
         fetch(urlApi + "/" + usuario + "/" + this.gasto.gastoId, {
             method: "DELETE"
         })
@@ -387,7 +390,7 @@ function EnviarApiHandleFormulario() {
         event.preventDefault()
 
         let form = this.formulario
-        
+
         let descripcion = form.querySelector("#descripcion").value
         let valor = form.querySelector("#valor").value
         valor = Number(valor)
@@ -400,16 +403,45 @@ function EnviarApiHandleFormulario() {
 
         actualizarUsuario()
 
-        console.log(urlApi+"/"+usuario);
-        
+        console.log(urlApi + "/" + usuario);
 
-        fetch(urlApi+"/"+usuario,{
-            method:"POST",
-            headers:{"Content-Type": "application/json"},
+
+        fetch(urlApi + "/" + usuario, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: nuevoGastoJSON
-            
+
         })
         cargarGastosApi()
+    }
+}
+function EnviarApiEditarHandleFormulario() {
+    this.handleEvent = function (event) {
+        event.preventDefault()
+
+        let form = this.formulario
+        let gastoEditado = {}
+        gastoEditado.descripcion = form.querySelector("#descripcion").value
+        gastoEditado.valor = form.querySelector("#valor").value
+        gastoEditado.fecha = form.querySelector("#fecha").value
+        gastoEditado.etiquetas = this.gasto.etiquetas
+        let etiquetasNuevas = form.querySelector("#etiquetas").value
+        etiquetasNuevas = etiquetasNuevas.split(",")
+        
+        if (etiquetasNuevas.length > 0) {
+            etiquetasNuevas.forEach(etiqueta => {
+                gastoEditado.etiquetas.push(etiqueta)
+            });
+        }
+
+        gastoEditado = JSON.stringify(gastoEditado)
+        actualizarUsuario()
+        fetch(urlApi + "/" + usuario + "/" + this.gasto.gastoId, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: gastoEditado
+        })
+            .then(() => cargarGastosApi())
     }
 }
 export {
