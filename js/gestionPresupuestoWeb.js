@@ -2,7 +2,7 @@
 import * as presupuesto from './gestionPresupuesto.js'
 
 let numeroFiltro = 0
-const urlApi = "https://gestion-presupuesto-api.onrender.com/api/"
+const urlApi = "https://gestion-presupuesto-api.onrender.com/api"
 let usuario = ""
 
 function mostrarDatoEnId(idElemento, valor) {
@@ -23,7 +23,7 @@ function mostrarGastoWeb(idElemento, listaGastos) {
         const gastoFiltrado = Object.fromEntries(
             Object.entries(gasto).filter(([k, v]) => typeof v !== "function")
         )
-
+        
         for (let key in gastoFiltrado) {
             if (key === "etiquetas") {
                 const divEtiquetas = document.createElement("div")
@@ -44,7 +44,8 @@ function mostrarGastoWeb(idElemento, listaGastos) {
                     divEtiquetas.appendChild(document.createElement("br"))
                 })
             } else if (key !== "fecha") {
-                if (key !== "id") {
+                
+                if (key !== "id" && key !== "gastoId" && key !== "usuario") {
                     const divProp = document.createElement("div")
                     divProp.classList.add(`gasto-${key}`)
                     divProp.textContent = `${gastoFiltrado[key]}`
@@ -217,13 +218,17 @@ function nuevoGastoWebFormulario(event) {
     manejadorCancelar.form = formulario
     manejadorCancelar.boton = boton
     botonCancelar.addEventListener("click", manejadorCancelar)
+
+    let botonEnviarApi = formulario.querySelector(".gasto-enviar-api")
+    let manejadorEnviarApi = new EnviarApiHandleFormulario()
+    manejadorEnviarApi.formulario = formulario
+    botonEnviarApi.addEventListener("click", manejadorEnviarApi)
+
     contenedor.appendChild(formulario)
 }
 function formSubmitHandler(event) {
     event.preventDefault()
     let form = event.target
-    let boton = event.currentTarget
-    console.log(boton)
     let descripcion = form.querySelector("#descripcion").value
     let valor = form.querySelector("#valor").value
     valor = Number(valor)
@@ -256,6 +261,7 @@ function EditarHandleFormulario() {
         let fecha = formulario.querySelector("#fecha")
         //    let etiquetas = formulario.querySelector("#etiquetas")
         let cancelar = formulario.querySelector(".cancelar")
+        let enviarApi = formulario.querySelector("gasto-enviar-api")
 
         descripcion.value = this.gasto.descripcion
         valor.value = this.gasto.valor
@@ -345,9 +351,9 @@ function cargarGastoWeb() {
 }
 function cargarGastosApi() {
     actualizarUsuario()
-    
+
     if (usuario) {
-        fetch(urlApi + usuario, {
+        fetch(urlApi+"/"+ usuario, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -356,22 +362,54 @@ function cargarGastosApi() {
             .then(() => repintar())
             .catch(error => console.error(error.message))
     }
-    else{
+    else {
         alert("Introduzca un nombre de usuario")
     }
 }
-function actualizarUsuario(){
+function actualizarUsuario() {
     usuario = document.getElementById("nombre_usuario").value
 }
-function BorrarApiHandle(){
-    this.handleEvent = function(event){
+function BorrarApiHandle() {
+    this.handleEvent = function (event) {
         event.preventDefault()
         actualizarUsuario()
-        fetch(urlApi+"/"+usuario+this.gasto.id,{
-            method: "DELETE"})
-        .then(res => console.log(res.message))
-        .then(() => cargarGastosApi())
-        .catch(err => console.error(err.message))
+        
+        fetch(urlApi + "/" + usuario + "/" + this.gasto.gastoId, {
+            method: "DELETE"
+        })
+            .then(res => console.log(res.message))
+            .then(() => cargarGastosApi())
+            .catch(err => console.error(err.message))
+    }
+}
+function EnviarApiHandleFormulario() {
+    this.handleEvent = function (event) {
+        event.preventDefault()
+
+        let form = this.formulario
+        
+        let descripcion = form.querySelector("#descripcion").value
+        let valor = form.querySelector("#valor").value
+        valor = Number(valor)
+        let fecha = form.querySelector("#fecha").value
+        let etiqueta = form.querySelector("#etiquetas").value
+        etiqueta = etiqueta.split(",")
+
+        let nuevoGasto = new presupuesto.CrearGasto(descripcion, valor, fecha, ...etiqueta)
+        let nuevoGastoJSON = JSON.stringify(nuevoGasto)
+
+        actualizarUsuario()
+
+        console.log(urlApi+"/"+usuario);
+        
+
+        fetch(urlApi+"/"+usuario,{
+            method:"POST",
+            headers:{"Content-Type": "application/json"},
+            body: nuevoGastoJSON
+            
+        })
+        cargarGastosApi()
     }
 }
 export {
