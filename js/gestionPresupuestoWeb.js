@@ -32,10 +32,20 @@ function mostrarGastoWeb(idCont, gasto) {
 
     const botonEditarFormulario = document.createElement("button"); 
     botonEditarFormulario.className="gasto-editar-formulario"; 
-    botonEditarFormulario.textContent="Editar Gasto)";
+    botonEditarFormulario.textContent="Editar Gasto";
     botonEditarFormulario.addEventListener("click", new EditarHandleFormulario(gasto)); 
 
-    divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario);
+    const botonBorrarApi = document.createElement("button");
+    botonBorrarApi.className = ("gasto-borrar-api");
+    botonBorrarApi.textContent = "Borrar (API)";
+    botonBorrarApi.addEventListener("click", new BorrarApiHandle);
+
+    const botonCargarApi = document.createElement("button");
+    botonBorrarApi.className = ("cargar-gastos-api");
+    botonBorrarApi.textContent = "Cargar (API)";
+    botonBorrarApi.addEventListener("click", new cargarGastosApi);
+
+    divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario, botonBorrarApi,);
     cont.appendChild(divG);
     return divG;
 }
@@ -72,7 +82,7 @@ function mostrarGastosAgrupadosWeb(agrupacion, id, titulo) {
 
             const spanValor = document.createElement("span");
             spanValor.classList.add("agrupacion-dato-valor");
-            spanValor.textContent = agrupacion[periodo].toFixed(2) + " €";
+            spanValor.textContent = " / " + agrupacion[periodo].toFixed(2) + " €";
 
             divDato.append(spanClave, spanValor);
             divAgrupacion.appendChild(divDato);
@@ -313,6 +323,11 @@ function EditarHandleFormulario(gasto) {
 
         formulario.addEventListener("submit", (submitEvent) => SubmitEditHandle(submitEvent, this.gasto, formContainer, botonActivar));
         
+        const btnApi = formulario.querySelector(".gasto-enviar-api");
+        if(btnApi) {
+            btnApi.addEventListener("click", () => SubmitEditApiHandle(this.gasto, formulario, botonActivar, divGasto));
+        }
+
         const botonCancelar = formulario.querySelector("button.cancelar"); 
         if(botonCancelar) {
             const manejadorCancelar = new CancelarHandle(formContainer, botonActivar);
@@ -347,11 +362,56 @@ function cargarGastosWeb() {
     console.log("Gastos cargados y repintados.");
 }
 
+function cargarGastosApi() {
+    const usuario = document.getElementById("nombre_usuario").value.trim();
+
+    fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario)
+        .then(response => {
+            if (response.ok) return response.json();
+            throw new Error("Error al descargar datos");
+        })
+        .then(datos => {
+            L.cargarGastos(datos);
+            repintar();
+            console.log("Gastos de API cargados.");
+        })
+        .catch(err => alert("Error: " + err.message));
+}
+
+function BorrarApiHandle(gasto) { 
+    this.gasto = gasto; 
+    this.handleEvent = () => { 
+        const usuario = document.getElementById("nombre_usuario").value.trim();
+
+        if (!usuario) {
+            alert("Introduce tu usuario.");
+            return;
+        }
+
+        if(!confirm("¿Seguro que quieres borrar este gasto de la API?")) return;
+
+        fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + this.gasto.id, { 
+            method: 'DELETE' 
+        })
+        .then(response => {
+            if (response.ok) {
+                cargarGastosApi();
+            } else {
+                alert("Error al borrar en la API");
+            }
+        })
+        .catch(err => alert("Error: " + err));
+    } 
+}
+
+
+
 document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
 document.getElementById("anyadirgasto-formulario")?.addEventListener("click", nuevoGastoWebFormulario);
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+//document.getElementById("cargar-Gastos-Api").addEventListener("click", cargarGastosApi);
 
 const formularioFiltrado = document.getElementById("formulario-filtrado");
 if(formularioFiltrado) {
