@@ -38,12 +38,8 @@ function mostrarGastoWeb(idCont, gasto) {
     const botonBorrarApi = document.createElement("button");
     botonBorrarApi.className = ("gasto-borrar-api");
     botonBorrarApi.textContent = "Borrar (API)";
-    botonBorrarApi.addEventListener("click", new BorrarApiHandle);
+    botonBorrarApi.addEventListener("click", new BorrarApiHandle(gasto));
 
-    const botonCargarApi = document.createElement("button");
-    botonBorrarApi.className = ("cargar-gastos-api");
-    botonBorrarApi.textContent = "Cargar (API)";
-    botonBorrarApi.addEventListener("click", new cargarGastosApi);
 
     divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario, botonBorrarApi,);
     cont.appendChild(divG);
@@ -284,6 +280,11 @@ function nuevoGastoWebFormulario() {
 
     formulario.addEventListener("submit", (e) => SubmitAddHandle(e, botonActivar));
     
+    const btnApi = formulario.querySelector(".gasto-enviar-api");
+    if (btnApi) {
+        btnApi.addEventListener("click", (e) => SubmitAddApiHandle(e, formulario, botonActivar));
+    }
+
     const botonCancelar = formulario.querySelector("button.cancelar"); 
     if(botonCancelar) {
         const manejadorCancelar = new CancelarHandle(formContainer, botonActivar);
@@ -365,6 +366,10 @@ function cargarGastosWeb() {
 function cargarGastosApi() {
     const usuario = document.getElementById("nombre_usuario").value.trim();
 
+    // if (!usuario) {
+    //      alert("Introduce tu usuario en la casilla.");
+    //      return;
+    // }
     fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario)
         .then(response => {
             if (response.ok) return response.json();
@@ -404,6 +409,35 @@ function BorrarApiHandle(gasto) {
     } 
 }
 
+function SubmitEditApiHandle(gasto, form, botonActivar, divGasto) {
+    const usuario = document.getElementById("nombre_usuario").value.trim();
+
+    const desc = form.querySelector('input[name="descripcion"]').value;
+    const val = Number(form.querySelector('input[name="valor"]').value);
+    const fecha = form.querySelector('input[name="fecha"]').value;
+    const etiquetas = form.querySelector('input[name="etiquetas"]').value.split(",").map(e=>e.trim()).filter(e=>e);
+
+    const gastoEditado = {
+        descripcion: desc,
+        valor: val,
+        fecha: fecha,
+        etiquetas: etiquetas
+    };
+
+    fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + gasto.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(gastoEditado)
+    })
+    .then(res => {
+        if(!res.ok) throw new Error("Error al editar");
+        
+        divGasto.querySelector('.gasto-formulario-dinamico').remove();
+        botonActivar.disabled = false;
+        cargarGastosApi();
+    })
+    .catch(err => alert("Error: " + err));
+}
 
 
 document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
@@ -411,13 +445,12 @@ document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb
 document.getElementById("anyadirgasto-formulario")?.addEventListener("click", nuevoGastoWebFormulario);
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
-//document.getElementById("cargar-Gastos-Api").addEventListener("click", cargarGastosApi);
+document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
 
 const formularioFiltrado = document.getElementById("formulario-filtrado");
 if(formularioFiltrado) {
     formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 }
 
-window.addEventListener('DOMContentLoaded', repintar);
 
-export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle, nuevoGastoWebFormulario, CancelarHandle, EditarHandleFormulario, filtrarGastosWeb };
+export const Web = { mostrarDatoEnId, mostrarGastoWeb, repintar, actualizarPresupuestoWeb, nuevoGastoWeb, EditarHandle, BorrarHandle, BorrarEtiquetaHandle, nuevoGastoWebFormulario, CancelarHandle, EditarHandleFormulario, filtrarGastosWeb,};
