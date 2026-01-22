@@ -376,6 +376,7 @@ function cargarGastosApi() {
             headers: { "Content-Type": "application/json" },
         })
             .then(res => res.json())
+            // .then(data => console.log(data))
             .then(data => presupuesto.cargarGastos(data))
             .then(() => repintar())
             .catch(error => console.error(error.message))
@@ -411,7 +412,13 @@ function EnviarApiHandleFormulario() {
         valor = Number(valor)
         let fecha = form.querySelector("#fecha").value
         let etiqueta = form.querySelector("#etiquetas").value
-        etiqueta = etiqueta.split(",")
+        if (etiqueta === ""){
+            etiqueta = []
+        }
+        else{
+            etiqueta = etiqueta.split(",")
+        }
+        
 
         let nuevoGasto = new presupuesto.CrearGasto(descripcion, valor, fecha, ...etiqueta)
         let nuevoGastoJSON = JSON.stringify(nuevoGasto)
@@ -438,6 +445,7 @@ function EnviarApiEditarHandleFormulario() {
         let gastoEditado = {}
         gastoEditado.descripcion = form.querySelector("#descripcion").value
         gastoEditado.valor = form.querySelector("#valor").value
+        gastoEditado.valor = Number(gastoEditado.valor)
         gastoEditado.fecha = form.querySelector("#fecha").value
         gastoEditado.etiquetas = this.gasto.etiquetas
         let etiquetasNuevas = form.querySelector("#etiquetas").value
