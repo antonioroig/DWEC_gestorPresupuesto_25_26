@@ -558,7 +558,8 @@ async function enviarGastoApi(event) {
         let response = await fetch(url, options);
         if (!response.ok) throw new Error('Error en la petición');
         cargarGastosApi();
-        form.reset();
+        form.remove();
+        btnAnyadirgastoFormulario.disabled = false;
     }
 
     catch(error){
