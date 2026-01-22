@@ -62,7 +62,9 @@ function mostrarGastoWeb(idElemento, gasto){
         botonBorrarApi.setAttribute("type", "button");
         botonBorrarApi.className = "gasto-borrar-api";
         botonBorrarApi.innerHTML = "Borrar (API)";
-        botonBorrarApi.addEventListener("click", borrarGastoApi);
+        let objBorrarApi = new BorrarApiHandle();
+        objBorrarApi.gasto = gasto[i];
+        botonBorrarApi.addEventListener("click", objBorrarApi);
         divgasto.appendChild(botonBorrarApi);
 
         let botonEditarFormulario = document.createElement("button");
@@ -92,6 +94,13 @@ function mostrarGastoWeb(idElemento, gasto){
             });
         });
         divgasto.appendChild(botonEditarFormulario);
+
+        let btnEnviarApi = document.createElement("button");
+        btnEnviarApi.setAttribute("type", "button");
+        btnEnviarApi.innerHTML = "Enviar (API)";
+        btnEnviarApi.id = "gasto-enviar-api";
+        btnEnviarApi.addEventListener("click", function(){ añadirGasto(gasto[i]) });
+        divgasto.append(btnEnviarApi);
     }
 }
 
@@ -173,6 +182,21 @@ function BorrarHandle(){
     this.handleEvent = function(evento){
         gP.borrarGasto(this.gasto.id);
         repintar();
+    }
+}
+
+function BorrarApiHandle(){
+    this.handleEvent = function(evento){
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
+        if (nombreUsuario.length <= 0)
+            throw new Error("No has cargado los gastos de un usuario.");
+        let idGasto = this.gasto.gastoId;
+        let options = {
+            method: "DELETE"
+        };
+        fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${idGasto}`, options)
+        cargarGastosApi();
+        console.log(this.gasto.descripcion + " borrado de la API");
     }
 }
 
@@ -287,7 +311,7 @@ function cargarGastosApi(){
     let options = {
         method: "GET"
     }
-    fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+    fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
     .then(respuesta => {
         if (respuesta.ok)
             return respuesta.json();
@@ -305,12 +329,37 @@ function cargarGastosApi(){
     .catch(error => console.error("ERROR: ", error));
 }
 
-function borrarGastoApi(){
-    this.handleEvent = function(evento){
-        let nombreUsuario = evento.nombre_usuario;
-        let idGasto = evento.id;
-        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`, options)
+function añadirGasto(divgasto){
+    let nombreUsuario = document.getElementById("nombre_usuario").value;
+    let gasto = {
+        usuario: nombreUsuario,
+        gastoId: divgasto.id,
+        descripcion: divgasto.descripcion,
+        valor: divgasto.valor,
+        etiquetas: divgasto.etiquetas,
+        fecha: divgasto.fecha
+    };
+    if (nombreUsuario.length <= 0)
+        throw new Error("No has escrito un nombre de usuario.");
+    let options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(gasto)
     }
+    fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
+    .then(respuesta => {
+        if (respuesta.ok)
+            return respuesta.json();
+        else
+            throw new Error("Error con la API");
+    })
+    .then(gastos => {
+        cargarGastosApi();
+        console.log(gasto.descripcion + " añadido a la API");
+    })
+    .catch(error => console.error("ERROR: ", error));
 }
 
 export{
@@ -328,5 +377,6 @@ export{
     filtrarGastosWeb,
     guardarGastosWeb,
     cargarGastosWeb,
-    cargarGastosApi
+    cargarGastosApi,
+    añadirGasto
 }

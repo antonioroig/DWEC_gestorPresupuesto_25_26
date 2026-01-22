@@ -61,4 +61,4 @@ document.getElementById("guardar-gastos").addEventListener("click", gPw.guardarG
 
 document.getElementById("cargar-gastos").addEventListener("click", gPw.cargarGastosWeb);
 
-document.getElementById("cargar-gastos-api").addEventListener("click", gPw.cargarGastosApi)
+document.getElementById("cargar-gastos-api").addEventListener("click", gPw.cargarGastosApi);
