@@ -206,20 +206,34 @@ function nuevoGastoWebFormulario(event){
 
     let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
 
+    let descripcion = formulario.elements["descripcion"].value;
+
+    let valor = formulario.elements["valor"].value;
+
+    valor = Number(valor);
+
+    let fecha = formulario.elements["fecha"].value;
+
+    let etiquetas = formulario.elements["etiquetas"].value;
+
+    let arrayEtiquetas = etiquetas.split(",");
+
+    let gastoNuevo = new gP.CrearGasto(descripcion, valor, fecha, arrayEtiquetas);
+
     botonEnviarApi.addEventListener("click", function(){
 
-        let gastoDatos = new gP.CrearGasto(event.currentTarget.elements["description"].value, event.currentTarget.elements["valor"].value, event.currentTarget.elements["fecha"].value, event.currentTarget.elements["etiquetas"].value)
-        
+        let nombreUsuario = "juan"
+
         let options = {
             method: "POST",
-            header: {
+            headers: {
                 'Context-Type': 'application/json'
             },
-            body: JSON.stringify(gastoDatos)
+            body: JSON.stringify(gastoNuevo)
         }
 
-        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
-        .then(response => console.log(response))
+        fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
+        .then(response => response.json())
         .then(data => console.log(data));
 
         cargarGastosApi();
@@ -322,7 +336,7 @@ function cargarGastosApi(){
 
     async function cargar(){
     
-        let response = await fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`, options)
+        let response = await fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
                 
         let gastos = await response.json();
 
@@ -438,27 +452,46 @@ function EditarHandleFormulario(){
 
         botonCancelar.addEventListener("click", manejadorCancelar);
 
-        let gastoDatos = new gP.CrearGasto(this.gasto.descripcion, this.gasto.valor, this.gasto.fecha, this.gasto.etiquetas)
+        let botonEnviarApi = this.form.querySelector("button.gasto-enviar-api");
 
-        let options = {
-            method: "PUT", 
-            header: {
-                'Context-Type': 'application/json'
-            },
-            body: JSON.stringify(gastoDatos)
-        }
+        botonEnviarApi.addEventListener("click", () => {
 
-        let nombreUsuario = document.getElementById("nombre_usuario").value;
+            let descripcion = this.form.elements["descripcion"].value;
 
-        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.id}`, options)
-        .then(response => response.json())
-        .then(data => console.log(data));
-    
+            let valor = this.form.elements["valor"].value;
+
+            valor = Number(valor);
+
+            let date = this.form.elements["fecha"].value;
+
+            let etiquetas = this.form.elements["etiquetas"].value;
+
+            let arrayEtiquetas = etiquetas.split(",");
+
+            let gastoNuevo = new gP.CrearGasto(descripcion, valor, date, arrayEtiquetas);
+
+            let options = {
+                method: "PUT", 
+                headers: {
+                    'Context-Type': 'application/json'
+                },
+                body: JSON.stringify(gastoNuevo)
+            }
+
+            let nombreUsuario = document.getElementById("nombre_usuario").value;
+
+            fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${this.gasto.gastoId}`, options)
+            .then(response => response.json())
+            .then(data => console.log(data));
+        })
     }
+    
+    
 }
 
 function BorrarApiHandle(){
     this.handleEvent = function(event){
+        event.preventDefault();
 
         let options = {
             method: "DELETE"
@@ -466,7 +499,7 @@ function BorrarApiHandle(){
 
         let nombreUsuario = document.getElementById("nombre_usuario").value;
 
-        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${this.gasto.id}`, options)
+        fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${this.gasto.gastoId}`, options)
         .then(response => response.json())
         .then(data => console.log(data));
 
