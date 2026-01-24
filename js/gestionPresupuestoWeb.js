@@ -147,9 +147,14 @@ function repintar(){
     });
 
     let contenedorListado = document.getElementById("listado-gastos-completo");
-    let tituloAgrupaciones = document.createElement("h1");
-    tituloAgrupaciones.textContent = "Agrupaciones";
-    contenedorListado.insertAdjacentElement("afterend", tituloAgrupaciones);
+    let tituloAgrupaciones = document.getElementById("agrupaciones");
+
+    if (!tituloAgrupaciones) {
+        tituloAgrupaciones = document.createElement("h1");
+        tituloAgrupaciones.id = "agrupaciones";
+        tituloAgrupaciones.textContent = "Agrupaciones";
+        contenedorListado.insertAdjacentElement("afterend", tituloAgrupaciones);
+    }
 }
 
 function actualizarPresupuestoWeb(){
@@ -408,8 +413,39 @@ function cargarGastosWeb(event) {
     repintar();
 }
 
-
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
+
+async function cargarGastosApi() {
+    let nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+    let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+    
+    try{
+        let respuesta = await fetch(url);
+        if (!respuesta.ok) throw new Error("Error en la API");
+
+        let datosAPI = await respuesta.json();
+        console.log("Datos recibidos de la API:", datosAPI);
+
+        let datosFormateados = datosAPI.map(g => {
+            return {
+                ...g,
+                etiquetas: typeof g.etiquetas === 'string' 
+                    ? g.etiquetas.split(',').map(e => e.trim()) 
+                    : (g.etiquetas || []),
+                id: g.gastoId || g.id
+            };
+        });
+
+        gestionPresupuesto.cargarGastos(datosFormateados);
+        repintar();
+    }
+    catch (error)
+    {
+        console.error("Error:", error);
+    }
+}
+document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -425,5 +461,6 @@ export{
     EditarHandleFormulario,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 };
