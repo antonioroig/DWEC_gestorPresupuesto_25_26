@@ -373,7 +373,19 @@ function cargarGastosWeb(){
     gp.cargarGastos(storedGastos);
     repintar();
 }
+let btnCarGasApi = document.getElementById("cargar-gastos-api");
+btnCarGasApi.addEventListener("click",cargarGastosApi);
 
+async function cargarGastosApi(){
+    let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
+    let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`
+    let respuesta = await fetch(url);
+    if (!respuesta.ok) throw new Error('Error en la petición');
+    
+    let datos = await respuesta.json();
+    gp.cargarGastos(datos);
+    repintar();
+}
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
