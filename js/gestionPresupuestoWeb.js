@@ -341,7 +341,44 @@ function EditarHandleFormulario(gasto){
         formulario.elements.fecha.value = fechaFormateada; 
         formulario.elements.etiquetas.value = this.gasto.etiquetas.join(", "); 
         
-        divGasto.appendChild(plantilla); 
+        divGasto.appendChild(plantilla);
+
+        let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
+        botonEnviarApi.addEventListener("click", async () => {
+            let nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+            let idGasto = this.gasto.id; 
+            let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`;
+
+            let datosActualizados = {
+                descripcion: formulario.elements.descripcion.value,
+                valor: parseFloat(formulario.elements.valor.value),
+                fecha: formulario.elements.fecha.value,
+                etiquetas: formulario.elements.etiquetas.value
+            };
+
+            try {
+                let respuesta = await fetch(url, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosActualizados)
+                });
+
+                if (respuesta.ok){
+                    console.log("Gasto actualizado");
+                    formulario.remove();
+                    botonEditor.disabled = false;
+                    if (botonAnyadirFormulario){
+                        botonAnyadirFormulario.disabled = false;
+                    }
+                    await cargarGastosApi();
+                }
+                else{
+                    console.log("No se ha actualizado el gasto.")
+                }
+            } catch (error) {
+                console.error("Error PUT API:", error);
+            }
+        });
 
         let botonCancelar = formulario.querySelector("button.cancelar");
         
