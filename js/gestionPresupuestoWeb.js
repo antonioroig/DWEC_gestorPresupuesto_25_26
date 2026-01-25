@@ -82,6 +82,8 @@ function mostrarGastoWeb (idElemento, gasto){
     let objBorAPI = new BorrarHandleAPI();
     objBorAPI.gasto = gasto;
     btnBorrAPI.addEventListener("click", objBorAPI);
+
+    divGasto.append(btnBorrAPI);
     
     let obEdtForm = new EditarHandleformulario();
     obEdtForm.gasto = gasto;
@@ -399,14 +401,14 @@ async function cargarGastosApi(){
 function BorrarHandleAPI(){
     this.handleEvent = async function(event){
         let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
-        let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`;
+        let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}/${this.gasto.id}`;
         const options = {
             method: 'DELETE'
         };
 
-        let respuesta =  await fetch(url, options);
+        await fetch(url, options);
         
-        cargarGastosApi();
+        await cargarGastosApi();
     }
 }
 
