@@ -72,7 +72,16 @@ function mostrarGastoWeb (idElemento, gasto){
     let btnEdiForm = document.createElement("button");
     btnEdiForm.type = "button";
     btnEdiForm.textContent = "Editar (Formulario)";
-    btnEdiForm.classList.add("gasto-editar-formulario")
+    btnEdiForm.classList.add("gasto-editar-formulario");
+
+    let btnBorrAPI = document.createElement("button");
+    btnBorrAPI.type= "button";
+    btnBorrAPI.classList.add("gasto-borrar-api");
+    btnBorrAPI.textContent = "Borrar (API)";
+
+    let objBorAPI = new BorrarHandleAPI();
+    objBorAPI.gasto = gasto;
+    btnBorrAPI.addEventListener("click", objBorAPI);
     
     let obEdtForm = new EditarHandleformulario();
     obEdtForm.gasto = gasto;
@@ -210,13 +219,13 @@ function nuevoGastoWebFormulario (){
     let objCancelar = new CancelHandled();
     objCancelar.formulario = formulario;
     btnCancelar.addEventListener("click",objCancelar);
+    
+    let btnEnviAPI = formulario.querySelector(".gasto-enviar-api");
+    btnEnviAPI.addEventListener("click", enviarGastoApi);
 
     let controles = document.getElementById("controlesprincipales");
     controles.append(plantillaFormulario);
 }
-
-
-
 //creo la funcion manejadora del evento submit alojada en nuevoGastoWebFormulario
 function submithandled(event){
     event.preventDefault();
@@ -385,6 +394,44 @@ async function cargarGastosApi(){
     let datos = await respuesta.json();
     gp.cargarGastos(datos);
     repintar();
+}
+
+function BorrarHandleAPI(){
+    this.handleEvent = async function(event){
+        let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
+        let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`;
+        const options = {
+            method: 'DELETE'
+        };
+
+        let respuesta =  await fetch(url, options);
+        
+        cargarGastosApi();
+    }
+}
+
+async function enviarGastoApi(event) {
+    let formulario = event.currentTarget.closest("form");
+
+    let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
+    let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`;
+    
+    let descripcion = formulario.elements["descripcion"].value.trim();
+    let valor = Number(formulario.elements["valor"].value);
+    let fecha = formulario.elements["fecha"].value;
+    let etiquetas = formulario.elements["etiquetas"].value.split(/[, ]+/).map(e => e.trim()).filter(Boolean);
+
+let datos = { descripcion, valor, fecha, etiquetas };
+    const options = {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos) // Convertir objeto a JSON string
+    };
+    const response = await fetch(url, options);
+
+    cargarGastosApi();
 }
 export{
     mostrarDatoEnId,
