@@ -82,10 +82,18 @@ botonEditarFormulario.textContent = "Editar (Formulario)";
 botonEditarFormulario.classList.add("gasto-editar-formulario");
 
 let manejadorEditarFormulario = new EditarHandleFormulario(gasto);
-
 botonEditarFormulario.addEventListener("click", manejadorEditarFormulario);
-
 divGasto.appendChild(botonEditarFormulario);
+
+let botonBorrarApi = document.createElement("button");
+botonBorrarApi.type = 'button';
+botonBorrarApi.textContent = "Borrar (API)";
+botonBorrarApi.classList.add("gasto-borrar-api");
+
+let manejadorBorrarApi = new BorrarApiHandle(gasto);
+botonBorrarApi.addEventListener("click", manejadorBorrarApi);
+divGasto.appendChild(botonBorrarApi);
+
 contenedor.appendChild(divGasto);
 
 }
@@ -446,6 +454,31 @@ async function cargarGastosApi() {
 }
 document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
 
+function BorrarApiHandle(gasto) {
+    this.gasto = gasto;
+
+    this.handleEvent = async function(event) {
+        let nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+        let idGasto = this.gasto.id || this.gasto.gastoId;
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`;
+        
+        try {
+            let respuesta = await fetch(url, {
+                method: 'DELETE'
+            });
+            if (respuesta.ok){
+                console.log("Se ha borrado el gasto");
+                await cargarGastosApi();
+            }
+            else {
+                console.log("No se ha borrado el gasto");
+            }
+        } catch (error) {
+            console.error("Error al borrar:", error);
+        }
+    };
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -462,5 +495,6 @@ export{
     filtrarGastosWeb,
     guardarGastosWeb,
     cargarGastosWeb,
-    cargarGastosApi
+    cargarGastosApi,
+    BorrarApiHandle
 };
