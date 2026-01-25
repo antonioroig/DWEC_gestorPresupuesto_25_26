@@ -221,6 +221,40 @@ function nuevoGastoWebFormulario(){
      let manejadorCancelar = new CancelarHandle(formulario, botonForm);
 
      botonCancelar.addEventListener("click", manejadorCancelar);
+
+    let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
+    botonEnviarApi.addEventListener("click", async function() {
+        let nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+        let datosGasto = {
+            descripcion: formulario.elements.descripcion.value,
+            valor: parseFloat(formulario.elements.valor.value),
+            fecha: formulario.elements.fecha.value,
+            etiquetas: formulario.elements.etiquetas.value
+        };
+
+        let url = `https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`;
+
+        try {
+            let respuesta = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosGasto)
+            });
+
+            if (respuesta.ok){
+                formulario.remove();
+                botonForm.disabled = false;
+                await cargarGastosApi();
+                console.log("Se ha enviado el gasto.");
+            }
+            else {
+                console.log("No se ha enviado el gasto.")
+            }
+        } catch (error) {
+            console.error("Error API:", error);
+            alert("No se pudo guardar en el servidor.");
+        }
+    });
     
     formulario.addEventListener("submit", function(event){
         event.preventDefault();
