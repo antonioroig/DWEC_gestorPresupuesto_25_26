@@ -1,0 +1,132 @@
+/* Estilo visual moderno para interaccionHTML.html */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+    background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: #22223b;
+    margin: 0;
+    padding: 0;
+}
+
+#aplicacion {
+    max-width: 900px;
+    margin: 2em auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(60, 60, 120, 0.15);
+    padding: 2em 2.5em;
+}
+
+#controlesprincipales {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+button {
+    background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.5em;
+    font-size: 1.1em;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+    transform: scale(1.05);
+}
+
+#presupuesto, #gastos-totales, #balance-total {
+    background: #e0e7ff;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+}
+
+[id^="listado-gastos-filtrado"], #listado-gastos-completo {
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+    box-shadow: 0 2px 8px rgba(60,60,120,0.05);
+}
+
+#agrupacion-dia, #agrupacion-mes, #agrupacion-anyo {
+    background: #e0e7ff;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+}
+
+h1, h2, h3 {
+    color: #4f46e5;
+    font-weight: 700;
+    margin-top: 0.5em;
+}
+
+/* Tarjetas para gastos */
+.gasto-card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(60,60,120,0.07);
+    padding: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.gasto-card .gasto-descripcion {
+    font-weight: 700;
+    color: #22223b;
+}
+
+.gasto-card .gasto-valor {
+    color: #4f46e5;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.gasto-card .gasto-fecha {
+    color: #6366f1;
+    font-size: 0.95em;
+}
+
+.gasto-card .gasto-etiquetas {
+    display: flex;
+    gap: 0.5em;
+}
+
+.gasto-card .gasto-etiqueta {
+    background: #6366f1;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0.2em 0.7em;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    #aplicacion {
+        padding: 1em 0.5em;
+    }
+    .gasto-card {
+        padding: 0.7em;
+    }
+    button {
+        font-size: 1em;
+        padding: 0.5em 1em;
+    }
+}
