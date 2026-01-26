@@ -125,6 +125,45 @@ function EditarHandleFormulario() {
 
         formulario.querySelector(".cancelar").addEventListener("click", cancelar);
 
+
+        let btnEnviarApi = formulario.querySelector(".gasto-enviar-api");
+
+        btnEnviarApi.addEventListener("click", async () => {
+            const usuario = document.getElementById("nombre_usuario").value.trim();
+
+            if (!usuario) {
+                alert("Introduce el usuario para usar la API.");
+                return;
+            }
+
+            const descripcion = formulario.elements["descripcion"].value.trim();
+            const valor = Number(formulario.elements["valor"].value);
+            const fecha = formulario.elements["fecha"].value; // yyyy-mm-dd
+            const etiquetasTxt = formulario.elements["etiquetas"].value || "";
+            const etiquetas = etiquetasTxt
+                ? gp.transformarListadoEtiquetas(etiquetasTxt)
+                : [];
+
+            const body = { descripcion, valor, fecha, etiquetas };
+
+            const url = `https://gestion-presupuesto-api.onrender.com/api/${usuario}/${this.gasto.id}`;
+
+            const resp = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            })
+
+            if (!resp.ok) {
+                alert("Error al actualizar el gasto en la API.");
+                return;
+            }
+
+            await cargarGastosApi();
+            formulario.remove();
+        })
+
+
         botonEditar.parentNode.appendChild(formulario);
     }
 }
