@@ -283,7 +283,12 @@ function EditarHandleformulario(){
         objCancelar.formulario = formulario;
         objCancelar.botonEditar = boton; 
 
-        btnCancelar.addEventListener("click",objCancelar);                
+        btnCancelar.addEventListener("click",objCancelar);     
+        
+        let btnEnviarApi = formulario.querySelector(".gasto-enviar-api");
+        let objEnviarApiEditar = new EnviarGastoApiEditarHandle();
+        objEnviarApiEditar.gasto = this.gasto;
+        btnEnviarApi.addEventListener("click", objEnviarApiEditar);
        
         divGasto.append(formulario);
     
@@ -389,12 +394,15 @@ btnCarGasApi.addEventListener("click",cargarGastosApi);
 
 async function cargarGastosApi(){
     let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
-    let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`
-    let respuesta = await fetch(url);
-    if (!respuesta.ok) throw new Error('Error en la petición');
-    
+    let url =`https://gestion-presupuesto-api.onrender.com/api/${nombre}`;
+    let respuesta = await fetch(url);    
     let datos = await respuesta.json();
+
+    for (const g of datos) {
+    if (g.gastoId != null && g.id == null) g.id = g.gastoId;
+  }
     gp.cargarGastos(datos);
+
     repintar();
 }
 
@@ -431,10 +439,39 @@ let datos = { descripcion, valor, fecha, etiquetas };
         },
         body: JSON.stringify(datos) // Convertir objeto a JSON string
     };
-    const response = await fetch(url, options);
+    await fetch(url, options);
 
-    cargarGastosApi();
+    await cargarGastosApi();
 }
+
+function EnviarGastoApiEditarHandle(){
+  this.handleEvent = async function(event){
+    let formulario = event.currentTarget.closest("form");
+
+    let nombre = document.getElementById("nombre_usuario").value.trim().toLowerCase();
+    let url = `https://gestion-presupuesto-api.onrender.com/api/${nombre}/${this.gasto.id}`;
+
+    let descripcion = formulario.elements["descripcion"].value.trim();
+    let valor = Number(formulario.elements["valor"].value);
+    let fecha = formulario.elements["fecha"].value;
+    let etiquetas = formulario.elements["etiquetas"].value
+      .split(/[, ]+/).map(e => e.trim()).filter(Boolean);
+
+    let datos = { descripcion, valor, fecha, etiquetas };
+    const options = {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos) // Convertir objeto a JSON string
+    };
+    await fetch(url, options);
+
+    await cargarGastosApi();
+  }
+}
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
