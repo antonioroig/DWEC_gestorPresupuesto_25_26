@@ -134,6 +134,8 @@ function repintar(){
     let listadoCompleto = document.getElementById("listado-gastos-completo");
     if(listadoCompleto)
         listadoCompleto.innerHTML= "";// no tenia innerHTML
+    // llamo a la funcion aqui o en cargar gastoa API?
+    // limpiarResultadosExtra();
     let lista = gp.listarGastos();
         for (let i = 0; i< lista.length; i++)
             mostrarGastoWeb("listado-gastos-completo", lista[i]);        
@@ -402,7 +404,7 @@ async function cargarGastosApi(){
     if (g.gastoId != null && g.id == null) g.id = g.gastoId;
   }
     gp.cargarGastos(datos);
-
+    limpiarResultadosExtra();
     repintar();
 }
 
@@ -470,8 +472,26 @@ function EnviarGastoApiEditarHandle(){
     await cargarGastosApi();
   }
 }
+// Funcion  que limpia el html para ver solo los gastos almacenados en la Api
+//Necesito usar esta funcion o debo modificar la funcion repintar?
+// preguntar
+function limpiarResultadosExtra() {
+  const ids = [
+    "listado-gastos-filtrado-1",
+    "listado-gastos-filtrado-2",
+    "listado-gastos-filtrado-3",
+    "listado-gastos-filtrado-4",
+    "agrupacion-dia",
+    "agrupacion-mes",
+    "agrupacion-anyo"
+  ];
+  ids.forEach(id => {
+    const e = document.getElementById(id);
+    if (e) e.innerHTML = "";
+  });
+}
 
-
+//Al cargar la API tiene que recalcular las agrupaciones por dia mes y año?
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
