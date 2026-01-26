@@ -38,7 +38,9 @@ function mostrarGastoWeb(idCont, gasto) {
     const botonBorrarApi = document.createElement("button");
     botonBorrarApi.className = ("gasto-borrar-api");
     botonBorrarApi.textContent = "Borrar (API)";
-    botonBorrarApi.addEventListener("click", new BorrarApiHandle(gasto));
+    let BorrarApi = new BorrarApiHandle();
+    BorrarApi.gasto = gasto;
+    botonBorrarApi.addEventListener("click", BorrarApi);
 
 
     divG.append(divDesc, divFecha, divValor, divEtiq, botonEditar, botonBorrar, botonEditarFormulario, botonBorrarApi,);
@@ -363,13 +365,10 @@ function cargarGastosWeb() {
     console.log("Gastos cargados y repintados.");
 }
 
-function cargarGastosApi() {
+//get
+async function cargarGastosApi() {
     const usuario = document.getElementById("nombre_usuario").value.trim();
 
-    // if (!usuario) {
-    //      alert("Introduce tu usuario en la casilla.");
-    //      return;
-    // }
     fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario)
         .then(response => {
             if (response.ok) return response.json();
@@ -383,19 +382,14 @@ function cargarGastosApi() {
         .catch(err => alert("Error: " + err.message));
 }
 
-function BorrarApiHandle(gasto) { 
-    this.gasto = gasto; 
-    this.handleEvent = () => { 
-        const usuario = document.getElementById("nombre_usuario").value.trim();
+//delete
+function BorrarApiHandle() { 
+    this.handleEvent = async (event) => { 
+        const usuario = document.getElementById("nombre_usuario").value;
 
-        if (!usuario) {
-            alert("Introduce tu usuario.");
-            return;
-        }
-
-        if(!confirm("¿Seguro que quieres borrar este gasto de la API?")) return;
-
-        fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + this.gasto.id, { 
+        try{
+            
+        const result = await fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + this.gasto.gastoId, { 
             method: 'DELETE' 
         })
         .then(response => {
@@ -404,12 +398,20 @@ function BorrarApiHandle(gasto) {
             } else {
                 alert("Error al borrar en la API");
             }
-        })
-        .catch(err => alert("Error: " + err));
-    } 
+        }
+        )
+        } 
+        catch(err){
+            console.error(err)
+    }
+    }
+   
 }
 
-function SubmitEditApiHandle(gasto, form, botonActivar, divGasto) {
+
+//put
+async function SubmitEditApiHandle(gasto, form, botonActivar, divGasto) {
+    debugger;
     const usuario = document.getElementById("nombre_usuario").value.trim();
 
     const desc = form.querySelector('input[name="descripcion"]').value;
@@ -424,21 +426,52 @@ function SubmitEditApiHandle(gasto, form, botonActivar, divGasto) {
         etiquetas: etiquetas
     };
 
-    fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + gasto.id, {
+    fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario + "/" + gasto.gastoId, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(gastoEditado)
     })
     .then(res => {
-        if(!res.ok) throw new Error("Error al editar");
+        if(!res.ok) throw new Error("Al editar");
         
         divGasto.querySelector('.gasto-formulario-dinamico').remove();
         botonActivar.disabled = false;
         cargarGastosApi();
     })
-    .catch(err => alert("Error: " + err));
+    .catch(err => alert(err));
 }
 
+//falta la funcion con el post
+async function SubmitAddApiHandle(e, form, botonActivar){
+    const usuario = document.getElementById("nombre_usuario").value.trim();
+    if (!usuario) { alert("Indica un usuario"); return; }
+
+    const desc = form.querySelector('input[name="descripcion"]').value;
+    const val = Number(form.querySelector('input[name="valor"]').value);
+    const fecha = form.querySelector('input[name="fecha"]').value;
+    const etiquetas = form.querySelector('input[name="etiquetas"]').value.split(",").map(e=>e.trim()).filter(e=>e);
+
+    const nuevoGasto = {
+        descripcion: desc,
+        valor: val,
+        fecha: fecha,
+        etiquetas: etiquetas
+    };
+
+    fetch("https://gestion-presupuesto-api.onrender.com/api/" + usuario, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevoGasto)
+    })
+    .then(res => {
+        if(!res.ok) throw new Error("Error al guardar");
+        
+        form.closest('div.gasto-formulario-dinamico').remove();
+        botonActivar.disabled = false;
+        cargarGastosApi(); 
+    })
+    .catch(err => alert("Error: " + err));
+}
 
 document.getElementById("actualizarpresupuesto")?.addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto")?.addEventListener("click", nuevoGastoWeb);
