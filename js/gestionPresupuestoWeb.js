@@ -54,6 +54,11 @@ function mostrarGastoWeb(idElemento, gastos) {
         let eventoBorrar = new BorrarGasto();
         eventoBorrar.gasto = gastos[j];
         bBorrar.addEventListener("click", eventoBorrar);
+        // BOTON BORRAR GASTO API
+        let bBorrarApi = document.createElement("button");
+        bBorrarApi.textContent = "Borrar (API)";
+        bBorrarApi.classList.add("gasto-borrar-api");
+        g.appendChild(bBorrarApi);
         // BOTON EDITAR FORMULARIO
         let bEditarForm = document.createElement("button");
         bEditarForm.textContent = "Editar (formulario)";
@@ -291,12 +296,32 @@ function cargarGastosWeb(){
     })
 }
 
-function cargarGastosApi{
-    let boton = document.getElementById("cargar-gastos-api");
-    boton.addEventListener("click", (event) =>{
-        
-    })
+function cargarGastosApi() {
+    const boton = document.getElementById("cargar-gastos-api");
+
+    boton.addEventListener("click", async () => {
+        try {
+            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+            if (nombreUsuario === "") {
+                alert("Debes introducir un nombre de usuario");
+                return;
+            }
+            const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
+            const respuesta = await fetch(url);
+            if (!respuesta.ok) {
+                throw new Error("Error al acceder a la API");
+            }
+            const gastosApi = await respuesta.json();
+            console.log(gastosApi);
+            Js1.cargarGastos(gastosApi);
+            repintar();
+        }
+        catch (error) {
+            alert("No se han podido cargar los gastos");
+        }
+    });
 }
+
 
 export {
     mostrarDatoEnId,
@@ -304,5 +329,6 @@ export {
     mostrarGastosAgrupadosWeb,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 }

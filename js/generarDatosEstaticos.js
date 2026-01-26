@@ -32,3 +32,4 @@ Js1.mostrarGastosAgrupadosWeb("agrupacion-anyo", Js2.agruparGastos("anyo"), "añ
 Js1.filtrarGastosWeb();
 Js1.guardarGastosWeb();
 Js1.cargarGastosWeb();
+Js1.cargarGastosApi();
