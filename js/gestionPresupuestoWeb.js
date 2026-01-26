@@ -291,6 +291,13 @@ function cargarGastosWeb(){
     })
 }
 
+function cargarGastosApi{
+    let boton = document.getElementById("cargar-gastos-api");
+    boton.addEventListener("click", (event) =>{
+        
+    })
+}
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
