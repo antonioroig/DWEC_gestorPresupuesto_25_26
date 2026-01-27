@@ -78,6 +78,7 @@ function mostrarGastoWeb(idElemento, gasto){
             let formulario = plantillaFormulario.querySelector("form");
             formulario.elements["descripcion"].value = gasto[i].descripcion;
             formulario.elements["valor"].value = gasto[i].valor;
+            formulario.elements["etiquetas"].value = gasto[i].etiquetas;
             let nuevaFecha = new Date(gasto[i].fecha);
             
             let mes = String(nuevaFecha.getMonth() + 1).padStart(2, '0'); // si no tiene 2 caracteres añade 0 al inicio
@@ -92,15 +93,16 @@ function mostrarGastoWeb(idElemento, gasto){
                 formulario.remove();
                 botonEditarFormulario.disabled = false;
             });
+
+
+            let objEditarApi = new EditarApiHandleFormulario();
+            objEditarApi.gasto = gasto[i];
+            objEditarApi.formulario = formulario;
+
+            let botonEnviarApi = formulario.getElementsByClassName("gasto-enviar-api")[0];
+            botonEnviarApi.addEventListener("click", objEditarApi);
         });
         divgasto.appendChild(botonEditarFormulario);
-
-        let btnEnviarApi = document.createElement("button");
-        btnEnviarApi.setAttribute("type", "button");
-        btnEnviarApi.innerHTML = "Enviar (API)";
-        btnEnviarApi.id = "gasto-enviar-api";
-        btnEnviarApi.addEventListener("click", function(){ añadirGasto(gasto[i]) });
-        divgasto.append(btnEnviarApi);
     }
 }
 
@@ -127,10 +129,14 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar (){
+    document.getElementById("presupuesto").innerHTML = "";
+    document.getElementById("gastos-totales").innerHTML = "";
+    document.getElementById("balance-total").innerHTML = "";
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+
     mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
     mostrarDatoEnId("balance-total", gP.calcularBalance());
-    document.getElementById("listado-gastos-completo").innerHTML = "";
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
 }
 
@@ -187,16 +193,25 @@ function BorrarHandle(){
 
 function BorrarApiHandle(){
     this.handleEvent = function(evento){
+        let idGasto = this.gasto.gastoId;
         let nombreUsuario = document.getElementById("nombre_usuario").value;
         if (nombreUsuario.length <= 0)
             throw new Error("No has cargado los gastos de un usuario.");
-        let idGasto = this.gasto.gastoId;
         let options = {
             method: "DELETE"
         };
         fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${idGasto}`, options)
+        .then(respuesta => {
+            if (!respuesta.ok)
+                throw new Error(this.gasto.descripcion + " no está en la API de " +  nombreUsuario);
+            cargarGastosApi();
+            console.log(this.gasto.descripcion + " borrado de la API");
+        })
+        .catch(error => console.error(error));
+        
+        
+        repintar();
         cargarGastosApi();
-        console.log(this.gasto.descripcion + " borrado de la API");
     }
 }
 
@@ -226,6 +241,44 @@ function EditarHandleFormulario(){
     }
 }
 
+function EditarApiHandleFormulario(){
+    this.handleEvent = function(event){ 
+        let descripcion = this.formulario.descripcion.value;
+        let valor = Number(this.formulario.valor.value);
+        let fecha = this.formulario.fecha.value;
+        let etiquetas = this.formulario.etiquetas.value.split(",");
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
+        if (nombreUsuario.length == 0)
+            throw new Error("No has escrito un nombre de usuario.");
+        let gastoModificado = {
+            descripcion: descripcion,
+            valor: valor,
+            fecha: fecha,
+            etiquetas: etiquetas
+        }
+        let options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(gastoModificado)
+        }
+        fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${this.gasto.gastoId}`, options)
+        .then(respuesta => {
+            if (respuesta.ok)
+                return respuesta.json();
+            else
+                throw new Error("Error con la API");
+        })
+        .then(gasto => {
+            console.log(gasto.descripcion + " modificado");
+            repintar();
+            cargarGastosApi();
+        })
+        .catch(error => console.error("ERROR: ", error));
+    }
+}
+
 document.getElementById("anyadirgasto-formulario").addEventListener("click", function(){
     let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     let formulario = plantillaFormulario.querySelector("form");
@@ -237,6 +290,17 @@ document.getElementById("anyadirgasto-formulario").addEventListener("click", fun
         document.getElementById("anyadirgasto-formulario").disabled = false;
         formulario.remove();
     });
+
+    formulario.getElementsByClassName("gasto-enviar-api")[0].addEventListener("click", function(){
+        let gasto = {
+            "gastoId": "x",
+            "descripcion": formulario.descripcion.value,
+            "valor": formulario.valor.value,
+            "etiquetas": formulario.etiquetas.value.split(","),
+            "fecha": formulario.fecha.value 
+        }
+        añadirGasto(gasto);
+    })
 });
 
 
@@ -329,15 +393,15 @@ function cargarGastosApi(){
     .catch(error => console.error("ERROR: ", error));
 }
 
-function añadirGasto(divgasto){
+function añadirGasto(gastos){
     let nombreUsuario = document.getElementById("nombre_usuario").value;
     let gasto = {
         usuario: nombreUsuario,
-        gastoId: divgasto.id,
-        descripcion: divgasto.descripcion,
-        valor: divgasto.valor,
-        etiquetas: divgasto.etiquetas,
-        fecha: divgasto.fecha
+        gastoId: gastos.id,
+        descripcion: gastos.descripcion,
+        valor: gastos.valor,
+        etiquetas: gastos.etiquetas,
+        fecha: gastos.fecha
     };
     if (nombreUsuario.length <= 0)
         throw new Error("No has escrito un nombre de usuario.");
