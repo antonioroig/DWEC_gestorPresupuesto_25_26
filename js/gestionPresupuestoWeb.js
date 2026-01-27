@@ -295,6 +295,18 @@ function cargarGastosWeb(){
     repintar();
 }
 
+let url = "https://gestion-presupuesto-api.onrender.com/api/";
+let usuario = document.getElementById("nombre_usuario").value;
+
+function cargarGastosApi(){
+    fetch(`${url}${usuario}`, {
+        method: "GET",
+        body: JSON.stringify()
+    });
+}
+
+document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
+
 document.getElementById("guardar-gastos").addEventListener("click", guardarGastosWeb);
 
 document.getElementById("cargar-gastos").addEventListener("click", cargarGastosWeb);
