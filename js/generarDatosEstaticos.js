@@ -33,3 +33,4 @@ Js1.filtrarGastosWeb();
 Js1.guardarGastosWeb();
 Js1.cargarGastosWeb();
 Js1.cargarGastosApi();
+Js1.inicializarCargarGastosApi();

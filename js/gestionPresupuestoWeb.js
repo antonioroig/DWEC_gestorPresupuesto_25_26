@@ -196,43 +196,9 @@ function nuevoGastoWebFormulario(event) {
 
     // BOTON ENVIAR API
     let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
-    botonEnviarApi.addEventListener("click", async () => {
-        try {
-            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
-            if (nombreUsuario === "") {
-                return;
-            }
-            const descripcion = formulario.descripcion.value;
-            const valor = Number(formulario.valor.value);
-            const fecha = formulario.fecha.value;
-            const etiquetas = formulario.etiquetas.value
-                .split(",")
-                .map(e => e.trim())
-                .filter(e => e !== "");
-            const gastoApi = {
-                descripcion: descripcion,
-                valor: valor,
-                fecha: fecha,
-                etiquetas: etiquetas
-            };
-            const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
-            const respuesta = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(gastoApi)
-            });
-            if (!respuesta.ok) {
-                throw new Error();
-            }
-            cargarGastosApi();
-            formulario.remove();
-            document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
-        } catch (error) {
-            alert("No se pudo enviar el gasto a la API");
-        }
-    });
+    let manejadorEnviarNuevoApi = new EnviarGastoApi();
+    manejadorEnviarNuevoApi.formulario = formulario;
+    botonEnviarApi.addEventListener("click", manejadorEnviarNuevoApi);
 }
 
 function EditarHandleFormulario() {
@@ -258,43 +224,10 @@ function EditarHandleFormulario() {
         contenedor.appendChild(plantillaFormulario);
         // ENVIAR API
         let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
-        botonEnviarApi.addEventListener("click", async () => {
-            try {
-                const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
-                if (nombreUsuario === ""|| !gasto.gastoId) {
-                    return;
-                }
-                const descripcion = formulario.descripcion.value;
-                const valor = Number(formulario.valor.value);
-                const fecha = formulario.fecha.value;
-                const etiquetas = formulario.etiquetas.value
-                    .split(",")
-                    .map(e => e.trim())
-                    .filter(e => e !== "");
-                const gastoApi = {
-                    descripcion: descripcion,
-                    valor: valor,
-                    fecha: fecha,
-                    etiquetas: etiquetas
-                };
-                console.log(gastoApi);
-                const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario + "/" + this.gasto.gastoId;
-                const respuesta = await fetch(url, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(gastoApi)
-                });
-                if (!respuesta.ok) {
-                    throw new Error();
-                }
-                cargarGastosApi();
-            }
-            catch (error) {
-                alert("No se pudo actualizar el gasto en la API");
-            }
-        })
+        let manejadorEnviarApi = new EnviarGastoApi();
+        manejadorEnviarApi.formulario = formulario;
+        manejadorEnviarApi.gasto = gasto;
+        botonEnviarApi.addEventListener("click", manejadorEnviarApi);
     };
 }
 
@@ -378,30 +311,29 @@ function cargarGastosWeb(){
     })
 }
 
-function cargarGastosApi() {
-    const boton = document.getElementById("cargar-gastos-api");
+async function cargarGastosApi() {
+    try {
+        const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+        if (nombreUsuario === ""){
+            return;
+        }
+        const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
+        const respuesta = await fetch(url);
+        if (!respuesta.ok){
+            throw new Error();
+        }
+        const gastosApi = await respuesta.json();
+        Js1.cargarGastos(gastosApi);
+        repintar();
+    }
+    catch (error) {
+        alert("No se han podido cargar los gastos");
+    }
+}
 
-    boton.addEventListener("click", async () => {
-        try {
-            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
-            if (nombreUsuario === "") {
-                alert("Debes introducir un nombre de usuario");
-                return;
-            }
-            const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
-            const respuesta = await fetch(url);
-            if (!respuesta.ok) {
-                throw new Error("Error al acceder a la API");
-            }
-            const gastosApi = await respuesta.json();
-            console.log(gastosApi);
-            Js1.cargarGastos(gastosApi);
-            repintar();
-        }
-        catch (error) {
-            alert("No se han podido cargar los gastos");
-        }
-    });
+function inicializarCargarGastosApi() {
+    const boton = document.getElementById("cargar-gastos-api");
+    boton.addEventListener("click", cargarGastosApi);
 }
 
 function BorrarGastoApi() {
@@ -409,24 +341,65 @@ function BorrarGastoApi() {
     this.handleEvent = async () => {
         try {
             const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
-            if (nombreUsuario === "" || !this.gasto || !this.gasto._id) {
+            if (nombreUsuario === "" || !this.gasto || !this.gasto.gastoId) {
                 return;
             }
-            const url ="https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario + "/" + this.gasto._id;
-
+            const url ="https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario + "/" + this.gasto.gastoId;
             const respuesta = await fetch(url, {
                 method: "DELETE"
             });
             if (!respuesta.ok) {
                 throw new Error();
             }
-            cargarGastosApi();
+            await cargarGastosApi();
+            repintar();
         }
         catch (error) {
             alert("No se pudo borrar el gasto en la API");
         }
     };
 }
+
+function EnviarGastoApi() {
+    this.gasto = null;
+    this.formulario = null;
+    
+    this.handleEvent = async () => {
+        try {
+            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+            if (nombreUsuario === ""){
+                return;
+            }
+            const descripcion = this.formulario.descripcion.value;
+            const valor = Number(this.formulario.valor.value);
+            const fecha = this.formulario.fecha.value;
+            const etiquetas = this.formulario.etiquetas.value
+                .split(",")
+                .map(e => e.trim())
+                .filter(e => e !== "");
+            const gastoApi = { descripcion, valor, fecha, etiquetas };
+            let url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
+            let method = "POST";
+            if (this.gasto && this.gasto.gastoId) {
+                url += "/" + this.gasto.gastoId;
+                method = "PUT";
+            }
+            const respuesta = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(gastoApi)
+            });
+            if (!respuesta.ok){
+                throw new Error();
+            }
+            cargarGastosApi();
+            repintar();
+        } catch (error) {
+            alert("No se pudo enviar el gasto a la API");
+        }
+    };
+}
+
 
 export {
     mostrarDatoEnId,
@@ -435,5 +408,6 @@ export {
     filtrarGastosWeb,
     guardarGastosWeb,
     cargarGastosWeb,
-    cargarGastosApi
+    cargarGastosApi,
+    inicializarCargarGastosApi
 }
