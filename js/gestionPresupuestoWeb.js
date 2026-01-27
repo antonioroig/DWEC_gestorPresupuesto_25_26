@@ -59,6 +59,9 @@ function mostrarGastoWeb(idElemento, gastos) {
         bBorrarApi.textContent = "Borrar (API)";
         bBorrarApi.classList.add("gasto-borrar-api");
         g.appendChild(bBorrarApi);
+        let manejadorBorrarApi = new BorrarGastoApi();
+        manejadorBorrarApi.gasto = gastos[j];
+        bBorrarApi.addEventListener("click", manejadorBorrarApi);
         // BOTON EDITAR FORMULARIO
         let bEditarForm = document.createElement("button");
         bEditarForm.textContent = "Editar (formulario)";
@@ -190,6 +193,46 @@ function nuevoGastoWebFormulario(event) {
     botonCancelar.addEventListener("click", manejadorCancelar);
     document.getElementById("anyadirgasto-formulario").setAttribute("disabled", "");
     document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+
+    // BOTON ENVIAR API
+    let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
+    botonEnviarApi.addEventListener("click", async () => {
+        try {
+            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+            if (nombreUsuario === "") {
+                return;
+            }
+            const descripcion = formulario.descripcion.value;
+            const valor = Number(formulario.valor.value);
+            const fecha = formulario.fecha.value;
+            const etiquetas = formulario.etiquetas.value
+                .split(",")
+                .map(e => e.trim())
+                .filter(e => e !== "");
+            const gastoApi = {
+                descripcion: descripcion,
+                valor: valor,
+                fecha: fecha,
+                etiquetas: etiquetas
+            };
+            const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario;
+            const respuesta = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(gastoApi)
+            });
+            if (!respuesta.ok) {
+                throw new Error();
+            }
+            cargarGastosApi();
+            formulario.remove();
+            document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+        } catch (error) {
+            alert("No se pudo enviar el gasto a la API");
+        }
+    });
 }
 
 function EditarHandleFormulario() {
@@ -320,6 +363,30 @@ function cargarGastosApi() {
             alert("No se han podido cargar los gastos");
         }
     });
+}
+
+function BorrarGastoApi() {
+    this.gasto = null;
+    this.handleEvent = async () => {
+        try {
+            const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+            if (nombreUsuario === "" || !this.gasto || !this.gasto._id) {
+                return;
+            }
+            const url ="https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario + "/" + this.gasto._id;
+
+            const respuesta = await fetch(url, {
+                method: "DELETE"
+            });
+            if (!respuesta.ok) {
+                throw new Error();
+            }
+            cargarGastosApi();
+        }
+        catch (error) {
+            alert("No se pudo borrar el gasto en la API");
+        }
+    };
 }
 
 
