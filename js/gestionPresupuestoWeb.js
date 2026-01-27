@@ -256,6 +256,45 @@ function EditarHandleFormulario() {
         cancelarHandler.boton = botonEditar;
         botonCancelar.addEventListener("click", cancelarHandler);
         contenedor.appendChild(plantillaFormulario);
+        // ENVIAR API
+        let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
+        botonEnviarApi.addEventListener("click", async () => {
+            try {
+                const nombreUsuario = document.getElementById("nombre_usuario").value.trim();
+                if (nombreUsuario === ""|| !gasto.gastoId) {
+                    return;
+                }
+                const descripcion = formulario.descripcion.value;
+                const valor = Number(formulario.valor.value);
+                const fecha = formulario.fecha.value;
+                const etiquetas = formulario.etiquetas.value
+                    .split(",")
+                    .map(e => e.trim())
+                    .filter(e => e !== "");
+                const gastoApi = {
+                    descripcion: descripcion,
+                    valor: valor,
+                    fecha: fecha,
+                    etiquetas: etiquetas
+                };
+                console.log(gastoApi);
+                const url = "https://gestion-presupuesto-api.onrender.com/api/" + nombreUsuario + "/" + this.gasto.gastoId;
+                const respuesta = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(gastoApi)
+                });
+                if (!respuesta.ok) {
+                    throw new Error();
+                }
+                cargarGastosApi();
+            }
+            catch (error) {
+                alert("No se pudo actualizar el gasto en la API");
+            }
+        })
     };
 }
 
@@ -388,7 +427,6 @@ function BorrarGastoApi() {
         }
     };
 }
-
 
 export {
     mostrarDatoEnId,
