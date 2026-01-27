@@ -313,10 +313,12 @@ async function cargarGastosApi(){
 
         const data = await response.json();
         console.log("Datos recibidos", data);
+        GP.cargarGastos(data);
+        repintar();
     } catch (error) {
         console.error(error);
     }    
-}
+};
 
 document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
 
