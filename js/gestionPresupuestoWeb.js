@@ -36,6 +36,8 @@ function mostrarGastoWeb(idElemento, gastos){
 
         if (gasto.etiquetas != undefined)
         {
+
+            console.log(gasto.etiquetas);
             let cajaEtiqueta = document.createElement("div");
             cajaEtiqueta.classList.add("gasto-etiquetas");
 
@@ -44,15 +46,14 @@ function mostrarGastoWeb(idElemento, gastos){
                 let etiqueta = gasto.etiquetas[j];
                 let span = document.createElement("span");
                 span.classList.add("gasto-etiquetas-etiqueta");
-                span.innerHTML = etiqueta;
+                span.textContent = etiqueta;
                 let manejadorSpan = new BorrarEtiquetasHandle();
                 manejadorSpan.gasto = gasto;
                 manejadorSpan.etiqueta = etiqueta;
                 span.addEventListener("click", manejadorSpan);
                 cajaEtiqueta.append(span);
-
-                cajaGrande.append(cajaEtiqueta);
             }
+            cajaGrande.append(cajaEtiqueta);
         }
 
         let botonEditar = document.createElement("button");
@@ -153,8 +154,11 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
 }
 
 function repintar(){
+    document.getElementById("presupuesto").innerHTML = "";
     mostrarDatoEnId("presupuesto", gP.mostrarPresupuesto());
+    document.getElementById("gastos-totales").innerHTML = "";
     mostrarDatoEnId("gastos-totales", gP.calcularTotalGastos());
+    document.getElementById("balance-total").innerHTML = "";
     mostrarDatoEnId("balance-total", gP.calcularBalance());
     document.getElementById("listado-gastos-completo").innerHTML = "";
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
@@ -189,7 +193,7 @@ function nuevoGastoWebFormulario(event){
 
     event.target.setAttribute("disabled", true);
 
-    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
     let formulario = plantillaFormulario.querySelector("form");
 
     divControles.append(plantillaFormulario);
@@ -204,46 +208,51 @@ function nuevoGastoWebFormulario(event){
 
     formulario.addEventListener("submit", botonEnviarFormulario);
 
-    let botonEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+    let botonEnviarApi = formulario.querySelector(".gasto-enviar-api");
 
-    let descripcion = formulario.elements["descripcion"].value;
+    botonEnviarApi.addEventListener("click", async function(event){
 
-    let valor = formulario.elements["valor"].value;
+        let desc = formulario.elements["descripcion"].value;
 
-    valor = Number(valor);
+        let valor = formulario.elements["valor"].value;
 
-    let fecha = formulario.elements["fecha"].value;
+        valor = Number(valor);
 
-    let etiquetas = formulario.elements["etiquetas"].value;
+        let fecha = formulario.elements["fecha"].value;
 
-    let arrayEtiquetas = etiquetas.split(",");
+        let etiquetas = formulario.elements["etiquetas"].value;
 
-    let gastoNuevo = new gP.CrearGasto(descripcion, valor, fecha, arrayEtiquetas);
+        let arrayEtiquetas = etiquetas.split(",").map(e => e.trim()).filter(e => e !== "");
 
-    botonEnviarApi.addEventListener("click", function(){
+        let gastoNuevo = new gP.CrearGasto(desc, valor, fecha, ...arrayEtiquetas);
 
-        let nombreUsuario = "juan"
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
 
-        let options = {
-            method: "POST",
-            headers: {
-                'Context-Type': 'application/json'
-            },
-            body: JSON.stringify(gastoNuevo)
+        let gastoJSONificado = JSON.stringify(gastoNuevo);
+
+        try{
+
+            let options = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: gastoJSONificado
+            }
+
+            let response = await fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
+
+            if (!response.ok)
+                throw new Error("Error al subir el gasto");
+
+            cargarGastosApi();
+
+            console.log("Gasto subido correctamente");
         }
-
-        fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}`, options)
-        .then(response => response.json())
-        .then(data => console.log(data));
-
-        cargarGastosApi();
+        catch(error){
+            console.log(error);
+        }
     })
-
-    let manejadorEnviarApi = new EditarHandleFormulario();
-
-    manejadorEnviarApi.form = formulario;
-
-    botonEnviarApi.addEventListener("click", manejadorEnviarApi);
 
 }
 
@@ -340,8 +349,6 @@ function cargarGastosApi(){
                 
         let gastos = await response.json();
 
-        console.log(gastos);
-
         gP.cargarGastos(gastos);
 
         repintar();
@@ -435,6 +442,7 @@ function EditarHandleFormulario(){
         this.form.elements["descripcion"].value = this.gasto.descripcion;
         this.form.elements["valor"].value = this.gasto.valor;
         this.form.elements["fecha"].value = `${year}-${month}-${day}`;
+        this.form.elements["etiquetas"].value = this.gasto.etiquetas;
 
         let manejadorEnviar = new EnviarHandle();
 
@@ -452,7 +460,7 @@ function EditarHandleFormulario(){
 
         botonCancelar.addEventListener("click", manejadorCancelar);
 
-        let botonEnviarApi = this.form.querySelector("button.gasto-enviar-api");
+        let botonEnviarApi = this.form.querySelector(".gasto-enviar-api");
 
         botonEnviarApi.addEventListener("click", () => {
 
@@ -466,14 +474,14 @@ function EditarHandleFormulario(){
 
             let etiquetas = this.form.elements["etiquetas"].value;
 
-            let arrayEtiquetas = etiquetas.split(",");
+            let arrayEtiquetas = etiquetas.split(",").map(e => e.trim()).filter(e => e !== "");
 
-            let gastoNuevo = new gP.CrearGasto(descripcion, valor, date, arrayEtiquetas);
+            let gastoNuevo = new gP.CrearGasto(descripcion, valor, date, ...arrayEtiquetas);
 
             let options = {
                 method: "PUT", 
                 headers: {
-                    'Context-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(gastoNuevo)
             }
@@ -482,8 +490,16 @@ function EditarHandleFormulario(){
 
             fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${this.gasto.gastoId}`, options)
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => {
+                console.log(data)
+                cargarGastosApi();
+        });
+
         })
+        
+        
+        
+      
     }
     
     
@@ -501,9 +517,12 @@ function BorrarApiHandle(){
 
         fetch(`https://gestion-presupuesto-api.onrender.com/api/${nombreUsuario}/${this.gasto.gastoId}`, options)
         .then(response => response.json())
-        .then(data => console.log(data));
+        .then(data => {
+            console.log(data)
+            cargarGastosApi();
+        });
 
-        cargarGastosApi();
+       
 
     }
 }
