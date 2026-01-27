@@ -295,14 +295,27 @@ function cargarGastosWeb(){
     repintar();
 }
 
-let url = "https://gestion-presupuesto-api.onrender.com/api/";
-let usuario = document.getElementById("nombre_usuario").value;
-
-function cargarGastosApi(){
-    fetch(`${url}${usuario}`, {
+async function cargarGastosApi(){
+    let usuario = document.getElementById("nombre_usuario").value;
+    const url = `https://gestion-presupuesto-api.onrender.com/api/${usuario}`;
+    
+    const options = {
         method: "GET",
-        body: JSON.stringify()
-    });
+        headers: {
+            'Accept' : 'application/json'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+
+        if (!response.ok) throw new Error("Error en la petición");
+
+        const data = await response.json();
+        console.log("Datos recibidos", data);
+    } catch (error) {
+        console.error(error);
+    }    
 }
 
 document.getElementById("cargar-gastos-api").addEventListener("click", cargarGastosApi);
