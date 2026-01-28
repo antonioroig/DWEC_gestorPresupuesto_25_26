@@ -225,6 +225,10 @@ function repintar(){
         tituloAgrupaciones.textContent = "Agrupaciones";
         contenedorListado.insertAdjacentElement("afterend", tituloAgrupaciones);
     }
+
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gestionPresupuesto.agruparGastos("dia"), "dia");
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gestionPresupuesto.agruparGastos("mes"), "mes");
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"), "anyo");
 }
 
 function actualizarPresupuestoWeb(){
