@@ -80,6 +80,7 @@ function mostrarGastoWeb (idElemento, gasto){
     btnBorrAPI.textContent = "Borrar (API)";
 
     let objBorAPI = new BorrarHandleAPI();
+    // objBorAPI.id = gasto.id;
     objBorAPI.gasto = gasto;
     btnBorrAPI.addEventListener("click", objBorAPI);
 
