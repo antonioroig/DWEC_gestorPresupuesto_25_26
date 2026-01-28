@@ -228,6 +228,12 @@ function repintar(){
     mostrarDatoEnId("balance-total", gP.calcularBalance());
     document.getElementById("listado-gastos-completo").innerHTML = "";
     mostrarGastoWeb("listado-gastos-completo", gP.listarGastos());
+    document.getElementById("agrupacion-dia").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-dia", gP.agruparGastos("dia"), "día")
+    document.getElementById("agrupacion-mes").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-mes", gP.agruparGastos("mes"), "mes")
+    document.getElementById("agrupacion-anyo").innerHTML = "";
+    mostrarGastosAgrupadosWeb("agrupacion-anyo", gP.agruparGastos("anyo"), "año")
 }
 
 function actualizarPresupuestoWeb(){
