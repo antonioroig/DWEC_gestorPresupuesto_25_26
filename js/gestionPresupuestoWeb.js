@@ -441,7 +441,7 @@ async function SubmitEditApiHandle(gasto, form, botonActivar, divGasto) {
     .catch(err => alert(err));
 }
 
-//falta la funcion con el post
+//post
 async function SubmitAddApiHandle(e, form, botonActivar){
     const usuario = document.getElementById("nombre_usuario").value.trim();
     if (!usuario) { alert("Indica un usuario"); return; }
