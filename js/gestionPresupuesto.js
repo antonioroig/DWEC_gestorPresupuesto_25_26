@@ -1,18 +1,329 @@
+"use strict"
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
 // TODO: Variable global
+let presupuesto = 0;
+let gastos = [];
+let idGasto = 0;
 
-
-function actualizarPresupuesto() {
-    // TODO
+function actualizarPresupuesto(nuevoPresupuesto) {
+    if(!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0)
+    {
+        presupuesto = nuevoPresupuesto  
+        return presupuesto.toFixed(2);
+    }
+    else
+    {
+        console.log("Error: Numero negativo")
+        return -1;
+    }
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto() {
-    // TODO
+function CrearGasto(descripcion, valor, fecha, ...listaEtiquetas) {
+    if (!isNaN(valor) && valor >= 0)
+    {
+        this.valor = valor;
+    }
+    else
+    {
+        this.valor = 0;
+    }
+
+    this.descripcion = descripcion;
+
+    let fechaNueva = Date.parse(fecha);
+    if (isNaN(fechaNueva))
+    {
+        this.fecha = Date.now();
+    }
+    else
+    {
+        this.fecha = fechaNueva;
+    }
+
+    this.etiquetas = [];
+
+    this.anyadirEtiquetas = function(...nuevasEtiquetas)
+    {
+        for (let i=0; i < nuevasEtiquetas.length; i++)
+        {
+            let etiquetaExiste = false;
+            for (let j=0; j < this.etiquetas.length && !etiquetaExiste; j++)
+            {
+                if (this.etiquetas[j] == nuevasEtiquetas[i])
+                {
+                    etiquetaExiste = true;
+                }
+            }
+            if(!etiquetaExiste)
+            {
+                this.etiquetas.push(nuevasEtiquetas[i]);
+            }
+        }
+    }
+
+    if(listaEtiquetas.length > 0)
+    {
+        this.anyadirEtiquetas(...listaEtiquetas)
+    }
+
+    this.mostrarGasto = function()
+    {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    }
+    this.actualizarDescripcion = function(nuevoDescripcion)
+    {
+        this.descripcion = nuevoDescripcion;
+    }
+    this.actualizarValor = function(nuevoValor)
+    {
+        if(!isNaN(nuevoValor) && nuevoValor >= 0)
+        {
+            this.valor = nuevoValor;
+        }
+    }
+    this.mostrarGastoCompleto = function()
+    {
+        let fechaGasto = new Date(this.fecha).toLocaleString();
+        let textoEtiquetas = ``;
+        for (let i = 0; i < this.etiquetas.length; i++)
+        {
+            textoEtiquetas += `- ${this.etiquetas[i]}\n`
+        }
+        return `${this.mostrarGasto()}.\nFecha: ${fechaGasto}\nEtiquetas:\n${textoEtiquetas}`
+    }
+    this.actualizarFecha = function(nuevaFecha)
+    {
+        let fechaAct = Date.parse(nuevaFecha);
+        if(!isNaN(fechaAct))
+        {
+            this.fecha = fechaAct;
+        }
+    }
+    this.borrarEtiquetas = function(...etiquetasBorrar)
+    {
+        for (let i = 0; i < etiquetasBorrar.length; i++)
+        {
+            let etiquetaExiste = false;
+            for (let j = 0; j < this.etiquetas.length && !etiquetaExiste; j++)
+            {
+                if (this.etiquetas[j] == etiquetasBorrar[i])
+                {
+                    etiquetaExiste = true;
+                    this.etiquetas.splice(j, 1)
+                }
+            }
+        }
+    }
+    this.obtenerPeriodoAgrupacion = function(periodo)
+    {
+        fecha = new Date(this.fecha)
+        let resultado = "";
+        if (periodo == "dia")
+        {
+            resultado = fecha.toISOString().slice(0, 10);
+        }
+        else if (periodo == "mes")
+        {
+            resultado = fecha.toISOString().slice(0, 7);
+        }
+        else if (periodo == "anyo")
+        {
+            resultado = fecha.toISOString().slice(0, 4);
+        }
+        return resultado;
+    }
+}
+
+function listarGastos()
+{
+    return gastos;
+}
+
+function anyadirGasto(gasto)
+{
+    gasto.id = idGasto;
+    idGasto++;
+    gastos.push(gasto);
+}
+
+function borrarGasto(idGastoBorrar)
+{   
+    let idInList = false;
+    for(let i = 0; i < gastos.length && !idInList; i++)
+    {
+        if(gastos[i].id == idGastoBorrar)
+        {
+            idInList = true;
+            gastos.splice(i, 1);
+        }
+    }
+}
+
+function calcularTotalGastos()
+{
+    let suma = 0;
+    for (let i = 0; i < gastos.length; i++)
+    {
+        suma += gastos[i].valor
+    }
+    return suma;
+}
+
+function calcularBalance()
+{
+    let balance = presupuesto - calcularTotalGastos();
+    return balance.toFixed(2);
+}
+
+function filtrarGastos(filtro)
+{
+    if (!filtro)
+    {
+        return gastos;
+    }
+
+    let gastosFiltrados = gastos.filter(function(gasto){
+        let cumpleCond = true;
+        if (filtro.fechaDesde)
+        {
+            let fechaDesde = Date.parse(filtro.fechaDesde)
+            if(isNaN(fechaDesde) || gasto.fecha < fechaDesde)
+            {
+                cumpleCond = false;
+            }
+        }
+        if (filtro.fechaHasta)
+        {
+            let fechaHasta = Date.parse(filtro.fechaHasta)
+            if(isNaN(fechaHasta) || gasto.fecha > fechaHasta)
+            {
+                cumpleCond = false;
+             
+            }
+        }
+        if (!isNaN(filtro.valorMinimo))
+        {
+            if(gasto.valor < filtro.valorMinimo)
+            {
+                cumpleCond = false;
+            }
+        }
+        if (!isNaN(filtro.valorMaximo))
+        {
+            if(gasto.valor > filtro.valorMaximo)
+            {
+                cumpleCond = false;
+            }
+        }
+        if (filtro.descripcionContiene)
+        {
+            let textoFiltro = filtro.descripcionContiene.toLowerCase();
+            let textoGasto = gasto.descripcion.toLowerCase();
+            if(!textoGasto.includes(textoFiltro))
+            {
+                cumpleCond = false;
+            }
+        }
+        if(filtro.etiquetasTiene && filtro.etiquetasTiene.length > 0)
+        {
+            let etiquetasFiltro = [];
+            for(let i = 0; i < filtro.etiquetasTiene.length; i++)
+            {
+                etiquetasFiltro.push(filtro.etiquetasTiene[i].toLowerCase())
+            }   
+            let etiquetasGasto = [];
+            for(let j = 0; j < gasto.etiquetas.length; j++)
+            {
+                etiquetasGasto.push(gasto.etiquetas[j].toLowerCase())
+            } 
+            let estaEnLista = false;
+            for(let k = 0; k < etiquetasFiltro.length; k++)
+            {
+                if(etiquetasGasto.includes(etiquetasFiltro[k]))
+                {
+                    estaEnLista = true;
+                }
+            }
+            if(!estaEnLista)
+            {
+                cumpleCond = false;
+            }
+        }
+        return cumpleCond;
+    })
+    return gastosFiltrados;
+}
+
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta)
+{
+    let filtro = {};
+    if (fechaDesde)
+    {
+        filtro.fechaDesde = fechaDesde;
+    }
+    if (fechaHasta)
+    {
+        filtro.fechaHasta = fechaHasta;
+    }
+    if (etiquetas && etiquetas.length > 0)
+    {
+        filtro.etiquetasTiene = etiquetas;
+    }
+    let gastosFiltrados = filtrarGastos(filtro)
+
+    let resultado = gastosFiltrados.reduce(function(acumulador, gasto)
+    {
+        let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo)
+
+        if(!acumulador[periodoGasto])
+        {
+            acumulador[periodoGasto] = 0;
+        }
+
+        acumulador[periodoGasto] += gasto.valor;
+        return acumulador;
+    }, {})
+    return resultado;
+}
+function transformarListadoEtiquetas(stringEtiquetas){
+    if (!stringEtiquetas) {
+        return [];
+    }
+    else{
+        let arrayEtiquetas = stringEtiquetas.split(/[,\.:;\s]+/);
+        return arrayEtiquetas;
+    }
+}
+
+function cargarGastos(gastosAlmacenamiento) {
+    // gastosAlmacenamiento es un array de objetos "planos"
+    // No tienen acceso a los métodos creados con "CrearGasto":
+    // "anyadirEtiquetas", "actualizarValor",...
+    // Solo tienen guardadas sus propiedades: descripcion, valor, fecha y etiquetas
+  
+    // Reseteamos la variable global "gastos"
+    gastos = [];
+    // Procesamos cada gasto del listado pasado a la función
+    for (let g of gastosAlmacenamiento) {
+        // Creamos un nuevo objeto mediante el constructor
+        // Este objeto tiene acceso a los métodos "anyadirEtiquetas", "actualizarValor",...
+        // Pero sus propiedades (descripcion, valor, fecha y etiquetas) están sin asignar
+        let gastoRehidratado = new CrearGasto();
+        // Copiamos los datos del objeto guardado en el almacenamiento
+        // al gasto rehidratado
+        // https://es.javascript.info/object-copy#cloning-and-merging-object-assign
+        Object.assign(gastoRehidratado, g);
+        // Ahora "gastoRehidratado" tiene las propiedades del gasto
+        // almacenado y además tiene acceso a los métodos de "CrearGasto"
+          
+        // Añadimos el gasto rehidratado a "gastos"
+        gastos.push(gastoRehidratado)
+    }
 }
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -21,5 +332,14 @@ function CrearGasto() {
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos,
+    transformarListadoEtiquetas,
+    cargarGastos
 }
